@@ -1,0 +1,2 @@
+This package provides syntactic sugar for common C tasks,
+and uses the function prefix, "salt_". 
