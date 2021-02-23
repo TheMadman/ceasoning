@@ -87,8 +87,9 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-TESTS = salt_resources_use$(EXEEXT)
-check_PROGRAMS = salt_resources_use$(EXEEXT)
+TESTS = salt_resources_use$(EXEEXT) salt_memory_resource$(EXEEXT)
+check_PROGRAMS = salt_resources_use$(EXEEXT) \
+	salt_memory_resource$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -102,13 +103,16 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am_salt_resources_use_OBJECTS = salt_resources_use.$(OBJEXT)
-salt_resources_use_OBJECTS = $(am_salt_resources_use_OBJECTS)
-salt_resources_use_LDADD = $(LDADD)
+am_salt_memory_resource_OBJECTS = salt_memory_resource.$(OBJEXT)
+salt_memory_resource_OBJECTS = $(am_salt_memory_resource_OBJECTS)
+salt_memory_resource_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+am_salt_resources_use_OBJECTS = salt_resources_use.$(OBJEXT)
+salt_resources_use_OBJECTS = $(am_salt_resources_use_OBJECTS)
+salt_resources_use_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -124,7 +128,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/salt_resources_use.Po
+am__depfiles_remade = ./$(DEPDIR)/salt_memory_resource.Po \
+	./$(DEPDIR)/salt_resources_use.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -144,8 +149,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(salt_resources_use_SOURCES)
-DIST_SOURCES = $(salt_resources_use_SOURCES)
+SOURCES = $(salt_memory_resource_SOURCES) \
+	$(salt_resources_use_SOURCES)
+DIST_SOURCES = $(salt_memory_resource_SOURCES) \
+	$(salt_resources_use_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -494,6 +501,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 salt_resources_use_SOURCES = salt_resources_use.c
+salt_memory_resource_SOURCES = salt_memory_resource.c
 
 # Set this or explicitely #include "../src/*.h"?
 # Doing this for now in case we move headers in
@@ -543,6 +551,10 @@ clean-checkPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
+salt_memory_resource$(EXEEXT): $(salt_memory_resource_OBJECTS) $(salt_memory_resource_DEPENDENCIES) $(EXTRA_salt_memory_resource_DEPENDENCIES) 
+	@rm -f salt_memory_resource$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(salt_memory_resource_OBJECTS) $(salt_memory_resource_LDADD) $(LIBS)
+
 salt_resources_use$(EXEEXT): $(salt_resources_use_OBJECTS) $(salt_resources_use_DEPENDENCIES) $(EXTRA_salt_resources_use_DEPENDENCIES) 
 	@rm -f salt_resources_use$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(salt_resources_use_OBJECTS) $(salt_resources_use_LDADD) $(LIBS)
@@ -553,6 +565,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/salt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/salt_resources_use.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
@@ -788,6 +801,13 @@ salt_resources_use.log: salt_resources_use$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+salt_memory_resource.log: salt_memory_resource$(EXEEXT)
+	@p='salt_memory_resource$(EXEEXT)'; \
+	b='salt_memory_resource'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -881,7 +901,8 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/salt_resources_use.Po
+		-rm -f ./$(DEPDIR)/salt_memory_resource.Po
+	-rm -f ./$(DEPDIR)/salt_resources_use.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -927,7 +948,8 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/salt_resources_use.Po
+		-rm -f ./$(DEPDIR)/salt_memory_resource.Po
+	-rm -f ./$(DEPDIR)/salt_resources_use.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
