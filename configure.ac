@@ -24,6 +24,9 @@ AC_TYPE_SIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 
+#AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_FILES([Makefile
-                 src/Makefile])
+                 src/Makefile
+		 tests/Makefile])
+#AM_MISSING_PROG([AUTOM4TE], [autom4te])
 AC_OUTPUT

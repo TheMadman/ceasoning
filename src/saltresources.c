@@ -4,6 +4,11 @@
 
 // Virtual function calls
 
+void salt_resource_init(salt_resource *resource)
+{
+	return (*resource)->init(resource);
+}
+
 void *salt_resource_pointer(salt_resource *resource)
 {
 	return (*resource)->get_pointer(resource);
@@ -21,6 +26,7 @@ void salt_resource_deinit(salt_resource *resource)
 
 void *salt_use(salt_resource *resource, salt_resource_block *code_block)
 {
+	salt_resource_init(resource);
 	if (!salt_resource_valid(resource))
 		return NULL;
 	void *result = code_block(salt_resource_pointer(resource));
@@ -29,6 +35,13 @@ void *salt_use(salt_resource *resource, salt_resource_block *code_block)
 }
 
 // Memory resource functions
+
+void salt_memory_init(salt_resource *resource)
+{
+	salt_memory *memory = (salt_memory *)resource;
+	if (!salt_resource_valid(resource))
+		memory->resource_pointer = malloc(memory->size);
+}
 
 void *salt_memory_pointer(salt_resource *resource)
 {
@@ -47,16 +60,18 @@ void salt_memory_deinit(void *pointer)
 }
 
 const struct salt_resource_interface memory_interface = {
+	salt_memory_init,
 	salt_memory_pointer,
 	salt_memory_valid,
 	salt_memory_deinit,
 };
 
-salt_memory salt_memory_init(size_t size)
+salt_memory salt_memory_make(size_t size)
 {
 	salt_memory result = {
 		&memory_interface,
-		malloc(size),
+		size,
+		0,
 	};
 	return result;
 }

@@ -32,6 +32,12 @@ struct salt_resource_interface;
 typedef struct salt_resource_interface *salt_resource;
 
 /**
+ * Function type for initializing the test on first use,
+ * allows lazy evaluation of resources
+ */
+typedef void salt_resource_init_fn(salt_resource *resource);
+
+/**
  * function type for fetching a pointer to the resulting
  * resource.
  */
@@ -59,10 +65,16 @@ typedef void salt_deinit_fn(void *);
  * itself set up with a function.
  */
 struct salt_resource_interface {
+	salt_resource_init_fn *init;
 	salt_resource_pointer_fn *get_pointer;
 	salt_resource_valid_fn *valid;
 	salt_deinit_fn *deinit;
 };
+
+/**
+ * Initializes a resource
+ */
+void salt_resource_init(salt_resource *);
 
 /**
  * Returns the resource pointer from a given resource.
@@ -156,6 +168,7 @@ void *salt_use(salt_resource *resource, salt_resource_block *code_block);
  */
 typedef struct {
 	const struct salt_resource_interface * const vtable;
+	size_t size;
 	void *resource_pointer;
 } salt_memory;
 
@@ -163,7 +176,7 @@ typedef struct {
  * Initializes a salt_memory resource. Uses malloc internally -
  * memory is allocated but not initialized.
  */
-salt_memory salt_memory_init(size_t size);
+salt_memory salt_memory_make(size_t size);
 
 #ifdef __cplusplus
 } // extern "C"
