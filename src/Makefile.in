@@ -132,9 +132,9 @@ am__uninstall_files_from_dir = { \
   }
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-libsaltresources_la_LIBADD =
-am_libsaltresources_la_OBJECTS = saltresources.lo
-libsaltresources_la_OBJECTS = $(am_libsaltresources_la_OBJECTS)
+libcsaltresources_la_LIBADD =
+am_libcsaltresources_la_OBJECTS = csaltresources.lo
+libcsaltresources_la_OBJECTS = $(am_libcsaltresources_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -154,7 +154,7 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/saltresources.Plo
+am__depfiles_remade = ./$(DEPDIR)/csaltresources.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -174,8 +174,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libsaltresources_la_SOURCES)
-DIST_SOURCES = $(libsaltresources_la_SOURCES)
+SOURCES = $(libcsaltresources_la_SOURCES)
+DIST_SOURCES = $(libcsaltresources_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -319,9 +319,9 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = libsaltresources.la
-libsaltresources_la_SOURCES = saltresources.c saltresources.h
-include_HEADERS = saltresources.h
+lib_LTLIBRARIES = libcsaltresources.la
+libcsaltresources_la_SOURCES = csaltresources.c csaltresources.h
+include_HEADERS = csaltresources.h
 all: all-am
 
 .SUFFIXES:
@@ -391,8 +391,8 @@ clean-libLTLIBRARIES:
 	  rm -f $${locs}; \
 	}
 
-libsaltresources.la: $(libsaltresources_la_OBJECTS) $(libsaltresources_la_DEPENDENCIES) $(EXTRA_libsaltresources_la_DEPENDENCIES) 
-	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libsaltresources_la_OBJECTS) $(libsaltresources_la_LIBADD) $(LIBS)
+libcsaltresources.la: $(libcsaltresources_la_OBJECTS) $(libcsaltresources_la_DEPENDENCIES) $(EXTRA_libcsaltresources_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcsaltresources_la_OBJECTS) $(libcsaltresources_la_LIBADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -400,7 +400,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/saltresources.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csaltresources.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -584,7 +584,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 	mostlyclean-am
 
 distclean: distclean-am
-		-rm -f ./$(DEPDIR)/saltresources.Plo
+		-rm -f ./$(DEPDIR)/csaltresources.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -630,7 +630,7 @@ install-ps-am:
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-		-rm -f ./$(DEPDIR)/saltresources.Plo
+		-rm -f ./$(DEPDIR)/csaltresources.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

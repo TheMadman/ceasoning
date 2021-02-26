@@ -1,3 +1,3 @@
-lib_LTLIBRARIES = libsaltresources.la
-libsaltresources_la_SOURCES = saltresources.c saltresources.h
-include_HEADERS = saltresources.h
+lib_LTLIBRARIES = libcsaltresources.la
+libcsaltresources_la_SOURCES = csaltresources.c csaltresources.h
+include_HEADERS = csaltresources.h

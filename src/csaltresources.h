@@ -17,42 +17,42 @@
 extern "C" {
 #endif
 
-struct salt_resource_interface;
+struct csalt_resource_interface;
 
 /**
  * To create custom structs which can manage resources,
- * use a struct salt_resource_interface* as the first
+ * use a struct csalt_resource_interface* as the first
  * member.
  *
- * Functions operating on resources take a salt_resource
+ * Functions operating on resources take a csalt_resource
  * pointer; casting a pointer to your custom struct to
- * a (salt_resource *) will allow you to use it in those
+ * a (csalt_resource *) will allow you to use it in those
  * functions.
  */
-typedef struct salt_resource_interface *salt_resource;
+typedef struct csalt_resource_interface *csalt_resource;
 
 /**
  * Function type for initializing the test on first use,
  * allows lazy evaluation of resources
  */
-typedef void salt_resource_init_fn(salt_resource *resource);
+typedef void csalt_resource_init_fn(csalt_resource *resource);
 
 /**
  * function type for fetching a pointer to the resulting
  * resource.
  */
-typedef void *salt_resource_pointer_fn(salt_resource *resource);
+typedef void *csalt_resource_pointer_fn(csalt_resource *resource);
 
 /**
  * Function type for checking if resource allocation
  * was successful
  */
-typedef char salt_resource_valid_fn(void *);
+typedef char csalt_resource_valid_fn(void *);
 
 /**
  * Function type for cleaning up a resource.
  */
-typedef void salt_deinit_fn(void *);
+typedef void csalt_deinit_fn(void *);
 
 /**
  * Interface definition for managed resources.
@@ -64,41 +64,41 @@ typedef void salt_deinit_fn(void *);
  * but instead be a member of a struct which is
  * itself set up with a function.
  */
-struct salt_resource_interface {
-	salt_resource_init_fn *init;
-	salt_resource_pointer_fn *get_pointer;
-	salt_resource_valid_fn *valid;
-	salt_deinit_fn *deinit;
+struct csalt_resource_interface {
+	csalt_resource_init_fn *init;
+	csalt_resource_pointer_fn *get_pointer;
+	csalt_resource_valid_fn *valid;
+	csalt_deinit_fn *deinit;
 };
 
 /**
  * Initializes a resource
  */
-void salt_resource_init(salt_resource *);
+void csalt_resource_init(csalt_resource *);
 
 /**
  * Returns the resource pointer from a given resource.
  */
-void *salt_resource_pointer(salt_resource *);
+void *csalt_resource_pointer(csalt_resource *);
 
 /**
  * Returns whether resource creation was successful.
  */
-char salt_resource_valid(salt_resource *);
+char csalt_resource_valid(csalt_resource *);
 
 /**
  * Cleans up the resource. The resource should
  * be considered invalid after run.
  */
-void salt_resource_deinit(salt_resource *);
+void csalt_resource_deinit(csalt_resource *);
 
 /**
- * Function signature for blocks to pass to salt_use.
+ * Function signature for blocks to pass to csalt_use.
  * The function should expect a pointer-to-resource as the
  * only argument, and return any result you wish to pass on,
  * or a null pointer.
  */
-typedef void *salt_resource_block(void *);
+typedef void *csalt_resource_block(void *);
 
 /**
  * Takes a pointer to resource struct and a code block,
@@ -107,7 +107,7 @@ typedef void *salt_resource_block(void *);
  *
  * This function also checks if resource allocation was
  * successful and exits immediately when it failed.
- * Checking validity with salt_resource_valid can be skipped
+ * Checking validity with csalt_resource_valid can be skipped
  * if the function passed in code_block returns an error value
  * on failure.
  *
@@ -116,7 +116,7 @@ typedef void *salt_resource_block(void *);
  * and prints it. Since we don't use a resource for the heap
  * memory, we have to manually free it where-ever an error can
  * occur, and finally after successfully using it. However,
- * the salt_use function manages the file descriptor, which
+ * the csalt_use function manages the file descriptor, which
  * is checked before use and closed after read_content is
  * done.
  * \code
@@ -143,8 +143,8 @@ typedef void *salt_resource_block(void *);
  *
  * int main(int argc, char **argv)
  * {
- * 	salt_file file = salt_file_init("test.txt", "rw");
- *	char *content = salt_use((salt_resource *)&file, read_content);
+ * 	csalt_file file = csalt_file_init("test.txt", "rw");
+ *	char *content = csalt_use((csalt_resource *)&file, read_content);
  *	if (content) {
  *		puts(content);
  *		free(content);
@@ -157,26 +157,26 @@ typedef void *salt_resource_block(void *);
  *
  * \endcode
  */
-void *salt_use(salt_resource *resource, salt_resource_block *code_block);
+void *csalt_use(csalt_resource *resource, csalt_resource_block *code_block);
 
 /**
  * Represents a heap memory resource.
  *
  * Avoid using or modifying the members directly - simple code should
- * create this struct with salt_memory_init and pass it to salt_use,
+ * create this struct with csalt_memory_init and pass it to csalt_use,
  * or use it as a member for another resource.
  */
 typedef struct {
-	const struct salt_resource_interface * const vtable;
+	const struct csalt_resource_interface * const vtable;
 	size_t size;
 	void *resource_pointer;
-} salt_memory;
+} csalt_memory;
 
 /**
- * Initializes a salt_memory resource. Uses malloc internally -
+ * Initializes a csalt_memory resource. Uses malloc internally -
  * memory is allocated but not initialized.
  */
-salt_memory salt_memory_make(size_t size);
+csalt_memory csalt_memory_make(size_t size);
 
 #ifdef __cplusplus
 } // extern "C"

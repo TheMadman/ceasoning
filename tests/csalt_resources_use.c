@@ -1,4 +1,4 @@
-#include "saltresources.h"
+#include "csaltresources.h"
 
 #define EXIT_SUCCESS 0
 #define EXIT_TEST_FAILURE 99
@@ -10,12 +10,12 @@ int valid_called = 0;
 int block_called = 0;
 int deinit_called = 0;
 
-void init(salt_resource *_)
+void init(csalt_resource *_)
 {
 	init_called++;
 }
 
-void *pointer(salt_resource *_)
+void *pointer(csalt_resource *_)
 {
 	pointer_called++;
 	return 0;
@@ -38,7 +38,7 @@ void deinit(void *_)
 	deinit_called++;
 }
 
-struct salt_resource_interface test_interface = {
+struct csalt_resource_interface test_interface = {
 	init,
 	pointer,
 	valid,
@@ -47,8 +47,8 @@ struct salt_resource_interface test_interface = {
 
 int main()
 {
-	salt_resource test = &test_interface;
-	salt_use(&test, block);
+	csalt_resource test = &test_interface;
+	csalt_use(&test, block);
 	int result = (
 		init_called &&
 		pointer_called &&
