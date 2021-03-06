@@ -1,4 +1,2 @@
-lib_LTLIBRARIES = libcsaltresources.la libcsaltstores.la
-libcsaltresources_la_SOURCES = csaltresources.c csaltresources.h
-libcsaltstores_la_SOURCES = csaltstores.c csaltstores.h
-include_HEADERS = csaltresources.h csaltstores.h
+SUBDIRS = resources stores
+include_HEADERS = csalt/util.h csalt/resources.h csalt/stores.h

@@ -1,4 +1,4 @@
-#include "csaltstores.h"
+#include "csalt/stores.h"
 #include <stdio.h>
 
 #include "test_macros.h"

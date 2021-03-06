@@ -1,16 +1,10 @@
-#include "csaltresources.h"
+#include "csalt/resources.h"
 
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
 
-#include "csaltutil.h"
-
-const struct csalt_store_interface csalt_store_memory_implementation = {
-	csalt_memory_read,
-	csalt_memory_write,
-	csalt_memory_split,
-};
+#include "csalt/util.h"
 
 // Memory resource functions
 
@@ -34,7 +28,11 @@ void csalt_memory_deinit(csalt_resource *resource)
 }
 
 struct csalt_resource_interface memory_interface = {
-	csalt_store_memory_implementation,
+	{
+		csalt_memory_read,
+		csalt_memory_write,
+		csalt_memory_split,
+	},
 	csalt_memory_init,
 	csalt_memory_valid,
 	csalt_memory_deinit,

@@ -27,6 +27,8 @@ AC_FUNC_MALLOC
 #AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_FILES([Makefile
                  src/Makefile
+		 src/resources/Makefile
+		 src/stores/Makefile
 		 tests/Makefile])
 #AM_MISSING_PROG([AUTOM4TE], [autom4te])
 AC_OUTPUT

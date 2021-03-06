@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include <unistd.h>
 
-#include "csaltstores.h"
+#include <csalt/stores.h>
 
 /**
  * \file

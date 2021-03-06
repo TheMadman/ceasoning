@@ -13013,7 +13013,7 @@ fi
 
 
 #AC_CONFIG_TESTDIR([tests])
-ac_config_files="$ac_config_files Makefile src/Makefile tests/Makefile"
+ac_config_files="$ac_config_files Makefile src/Makefile src/resources/Makefile src/stores/Makefile tests/Makefile"
 
 #AM_MISSING_PROG([AUTOM4TE], [autom4te])
 cat >confcache <<\_ACEOF
@@ -14033,6 +14033,8 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "src/resources/Makefile") CONFIG_FILES="$CONFIG_FILES src/resources/Makefile" ;;
+    "src/stores/Makefile") CONFIG_FILES="$CONFIG_FILES src/stores/Makefile" ;;
     "tests/Makefile") CONFIG_FILES="$CONFIG_FILES tests/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
