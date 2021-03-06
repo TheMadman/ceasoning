@@ -1,8 +1,6 @@
 #include "csaltresources.h"
 
-#define EXIT_SUCCESS 0
-#define EXIT_TEST_FAILURE 99
-#define EXIT_TEST_SKIPPED 77
+#include "test_macros.h"
 
 int init_called = 0;
 int read_called = 0;

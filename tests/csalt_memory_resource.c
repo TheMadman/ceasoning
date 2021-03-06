@@ -2,9 +2,7 @@
 
 #include <stdio.h>
 
-#define EXIT_SUCCESS 0
-#define EXIT_TEST_FAILURE 99
-#define EXIT_TEST_SKIPPED 77
+#include "test_macros.h"
 
 int block_called = 0;
 
@@ -22,6 +20,7 @@ int main()
 	csalt_use((csalt_resource *)&failure, block);
 
 	if (block_called) {
+		print_error("Block wasn't called");
 		return EXIT_TEST_FAILURE;
 	}
 
