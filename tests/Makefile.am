@@ -16,6 +16,6 @@ csalt_store_split_SOURCES = csalt_store_split.c
 # Doing this for now in case we move headers in
 # the future
 AM_CFLAGS = -I$(top_srcdir)/src
-LDADD = $(top_srcdir)/src/resources/libcsaltresources.la \
-	$(top_srcdir)/src/stores/libcsaltstores.la
+LDADD = $(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 

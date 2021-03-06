@@ -108,8 +108,8 @@ am_csalt_memory_resource_OBJECTS = csalt_memory_resource.$(OBJEXT)
 csalt_memory_resource_OBJECTS = $(am_csalt_memory_resource_OBJECTS)
 csalt_memory_resource_LDADD = $(LDADD)
 csalt_memory_resource_DEPENDENCIES =  \
-	$(top_srcdir)/src/resources/libcsaltresources.la \
-	$(top_srcdir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
@@ -118,14 +118,14 @@ am_csalt_resources_use_OBJECTS = csalt_resources_use.$(OBJEXT)
 csalt_resources_use_OBJECTS = $(am_csalt_resources_use_OBJECTS)
 csalt_resources_use_LDADD = $(LDADD)
 csalt_resources_use_DEPENDENCIES =  \
-	$(top_srcdir)/src/resources/libcsaltresources.la \
-	$(top_srcdir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 am_csalt_store_split_OBJECTS = csalt_store_split.$(OBJEXT)
 csalt_store_split_OBJECTS = $(am_csalt_store_split_OBJECTS)
 csalt_store_split_LDADD = $(LDADD)
 csalt_store_split_DEPENDENCIES =  \
-	$(top_srcdir)/src/resources/libcsaltresources.la \
-	$(top_srcdir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -522,8 +522,8 @@ csalt_store_split_SOURCES = csalt_store_split.c
 # Doing this for now in case we move headers in
 # the future
 AM_CFLAGS = -I$(top_srcdir)/src
-LDADD = $(top_srcdir)/src/resources/libcsaltresources.la \
-	$(top_srcdir)/src/stores/libcsaltstores.la
+LDADD = $(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 
 all: all-am
 
