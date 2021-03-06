@@ -1,25 +1,21 @@
-TESTS = csalt_resources_use\
-	csalt_memory_resource\
-	csalt_store_split\
-	csalt_store_transfer
+TESTS = %reldir%/csalt_resources_use\
+	%reldir%/csalt_memory_resource\
+	%reldir%/csalt_store_split\
+	%reldir%/csalt_store_transfer
 
-check_PROGRAMS = csalt_resources_use\
-		 csalt_memory_resource\
-		 csalt_store_split\
-		 csalt_store_transfer
+check_PROGRAMS = %reldir%/csalt_resources_use\
+		 %reldir%/csalt_memory_resource\
+		 %reldir%/csalt_store_split\
+		 %reldir%/csalt_store_transfer
 
-csalt_resources_use_SOURCES = csalt_resources_use.c
-
-csalt_memory_resource_SOURCES = csalt_memory_resource.c
-
-csalt_store_split_SOURCES = csalt_store_split.c
-
-csalt_store_transfer_SOURCES = csalt_store_transfer.c
-
-# Set this or explicitely #include "../src/*.h"?
-# Doing this for now in case we move headers in
-# the future
-AM_CFLAGS = -I$(top_srcdir)/src
+#%canon_reldir%_csalt_resources_use_SOURCES = %reldir%/csalt_resources_use.c
+#
+#%canon_reldir%_csalt_memory_resource_SOURCES = %reldir%/csalt_memory_resource.c
+#
+#%canon_reldir%_csalt_store_split_SOURCES = %reldir%/csalt_store_split.c
+#
+#%canon_reldir%_csalt_store_transfer_SOURCES = %reldir%/csalt_store_transfer.c
+#
 LDADD = $(top_builddir)/src/resources/libcsaltresources.la \
 	$(top_builddir)/src/stores/libcsaltstores.la
 
