@@ -11,24 +11,31 @@ AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIRS([m4])
 
 # Checks for programs.
+AC_PROG_CXX
+AC_PROG_AWK
 AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
+AC_PROG_RANLIB
 
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([stddef.h])
+AC_CHECK_HEADERS([limits.h stddef.h stdlib.h string.h unistd.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_TYPE_SIZE_T
+AC_TYPE_SSIZE_T
 
 # Checks for library functions.
 AC_FUNC_MALLOC
+AC_CHECK_FUNCS([memset])
 
-#AC_CONFIG_TESTDIR([tests])
 AC_CONFIG_FILES([Makefile
                  src/Makefile
-		 src/resources/Makefile
-		 src/stores/Makefile
-		 tests/Makefile])
-#AM_MISSING_PROG([AUTOM4TE], [autom4te])
+                 src/resources/Makefile
+                 src/stores/Makefile
+                 tests/Makefile])
 AC_OUTPUT
