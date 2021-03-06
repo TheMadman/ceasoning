@@ -17,7 +17,7 @@ void *block(void *_)
 int main()
 {
 	// size -1 should cause failure
-	csalt_memory failure = csalt_memory_make(-1);
+	struct csalt_heap failure = csalt_heap(-1);
 
 	csalt_use((csalt_resource *)&failure, block);
 
@@ -25,7 +25,7 @@ int main()
 		return EXIT_TEST_FAILURE;
 	}
 
-	csalt_memory success = csalt_memory_make(1);
+	struct csalt_heap success = csalt_heap(1);
 
 	csalt_use((csalt_resource *)&success, block);
 

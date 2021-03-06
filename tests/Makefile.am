@@ -12,5 +12,5 @@ csalt_memory_resource_SOURCES = csalt_memory_resource.c
 # Doing this for now in case we move headers in
 # the future
 AM_CFLAGS = -I$(top_srcdir)/src
-AM_LDFLAGS = $(top_srcdir)/src/csaltresources.o
+AM_LDFLAGS = $(top_srcdir)/src/csaltresources.o $(top_srcdir)/src/csaltstores.o
 

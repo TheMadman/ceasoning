@@ -139,6 +139,9 @@ AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+libcsaltstores_la_LIBADD =
+am_libcsaltstores_la_OBJECTS = csaltstores.lo
+libcsaltstores_la_OBJECTS = $(am_libcsaltstores_la_OBJECTS)
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -154,7 +157,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/csaltresources.Plo
+am__depfiles_remade = ./$(DEPDIR)/csaltresources.Plo \
+	./$(DEPDIR)/csaltstores.Plo
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -174,8 +178,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libcsaltresources_la_SOURCES)
-DIST_SOURCES = $(libcsaltresources_la_SOURCES)
+SOURCES = $(libcsaltresources_la_SOURCES) $(libcsaltstores_la_SOURCES)
+DIST_SOURCES = $(libcsaltresources_la_SOURCES) \
+	$(libcsaltstores_la_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -319,9 +324,10 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-lib_LTLIBRARIES = libcsaltresources.la
+lib_LTLIBRARIES = libcsaltresources.la libcsaltstores.la
 libcsaltresources_la_SOURCES = csaltresources.c csaltresources.h
-include_HEADERS = csaltresources.h
+libcsaltstores_la_SOURCES = csaltstores.c csaltstores.h
+include_HEADERS = csaltresources.h csaltstores.h
 all: all-am
 
 .SUFFIXES:
@@ -394,6 +400,9 @@ clean-libLTLIBRARIES:
 libcsaltresources.la: $(libcsaltresources_la_OBJECTS) $(libcsaltresources_la_DEPENDENCIES) $(EXTRA_libcsaltresources_la_DEPENDENCIES) 
 	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcsaltresources_la_OBJECTS) $(libcsaltresources_la_LIBADD) $(LIBS)
 
+libcsaltstores.la: $(libcsaltstores_la_OBJECTS) $(libcsaltstores_la_DEPENDENCIES) $(EXTRA_libcsaltstores_la_DEPENDENCIES) 
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(libcsaltstores_la_OBJECTS) $(libcsaltstores_la_LIBADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -401,6 +410,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csaltresources.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csaltstores.Plo@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -585,6 +595,7 @@ clean-am: clean-generic clean-libLTLIBRARIES clean-libtool \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/csaltresources.Plo
+	-rm -f ./$(DEPDIR)/csaltstores.Plo
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -631,6 +642,7 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/csaltresources.Plo
+	-rm -f ./$(DEPDIR)/csaltstores.Plo
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

@@ -2,6 +2,9 @@
 #define SALTRESOURCES_H
 
 #include <stddef.h>
+#include <unistd.h>
+
+#include "csaltstores.h"
 
 /**
  * \file
@@ -18,6 +21,7 @@ extern "C" {
 #endif
 
 struct csalt_resource_interface;
+struct csalt_memory;
 
 /**
  * To create custom structs which can manage resources,
@@ -38,21 +42,43 @@ typedef struct csalt_resource_interface *csalt_resource;
 typedef void csalt_resource_init_fn(csalt_resource *resource);
 
 /**
- * function type for fetching a pointer to the resulting
+ * Function type for fetching a pointer to the resulting
  * resource.
  */
 typedef void *csalt_resource_pointer_fn(csalt_resource *resource);
 
 /**
+ * Function type for writing data into a resource.
+ *
+ * Primarily used for csalt_transfer.
+ */
+typedef ssize_t csalt_resource_write_fn(
+	csalt_resource *output,
+	const void *input,
+	size_t amount
+);
+
+/**
+ * Function type for reading data out of a resource.
+ *
+ * Primarily used for csalt_transfer.
+ */
+typedef ssize_t csalt_resource_read_fn(
+	const csalt_resource *input,
+	void *output,
+	size_t amount
+);
+
+/**
  * Function type for checking if resource allocation
  * was successful
  */
-typedef char csalt_resource_valid_fn(void *);
+typedef char csalt_resource_valid_fn(const csalt_resource *);
 
 /**
  * Function type for cleaning up a resource.
  */
-typedef void csalt_deinit_fn(void *);
+typedef void csalt_deinit_fn(csalt_resource *);
 
 /**
  * Interface definition for managed resources.
@@ -65,8 +91,8 @@ typedef void csalt_deinit_fn(void *);
  * itself set up with a function.
  */
 struct csalt_resource_interface {
+	struct csalt_store_interface parent;
 	csalt_resource_init_fn *init;
-	csalt_resource_pointer_fn *get_pointer;
 	csalt_resource_valid_fn *valid;
 	csalt_deinit_fn *deinit;
 };
@@ -77,14 +103,9 @@ struct csalt_resource_interface {
 void csalt_resource_init(csalt_resource *);
 
 /**
- * Returns the resource pointer from a given resource.
- */
-void *csalt_resource_pointer(csalt_resource *);
-
-/**
  * Returns whether resource creation was successful.
  */
-char csalt_resource_valid(csalt_resource *);
+char csalt_resource_valid(const csalt_resource *);
 
 /**
  * Cleans up the resource. The resource should
@@ -93,12 +114,48 @@ char csalt_resource_valid(csalt_resource *);
 void csalt_resource_deinit(csalt_resource *);
 
 /**
+ * A noop for init
+ */
+void csalt_noop_init(csalt_resource *_);
+
+/**
+ * A noop which always returns invalid
+ */
+char csalt_noop_valid(const csalt_resource *_);
+
+/**
+ * A noop for deinit
+ */
+void csalt_noop_deinit(csalt_resource *_);
+
+/**
+ * Represents a heap memory resource.
+ *
+ * Avoid using or modifying the members directly - simple code should
+ * create this struct with csalt_memory_make and pass it to csalt_use,
+ * or use it as a member for another resource.
+ */
+struct csalt_heap {
+	const struct csalt_resource_interface * const vtable;
+	size_t size;
+	void *resource_pointer;
+};
+
+extern const struct csalt_heap csalt_null_heap;
+
+/**
+ * Initializes a csalt_memory resource. Uses malloc internally -
+ * memory is allocated but not initialized.
+ */
+struct csalt_heap csalt_heap(size_t size);
+
+/**
  * Function signature for blocks to pass to csalt_use.
  * The function should expect a pointer-to-resource as the
  * only argument, and return any result you wish to pass on,
  * or a null pointer.
  */
-typedef void *csalt_resource_block(void *);
+typedef struct csalt_heap csalt_resource_block(void *);
 
 /**
  * Takes a pointer to resource struct and a code block,
@@ -111,72 +168,8 @@ typedef void *csalt_resource_block(void *);
  * if the function passed in code_block returns an error value
  * on failure.
  *
- * In the following example, we create a function which reads
- * a file's contents from a file descriptor into heap memory
- * and prints it. Since we don't use a resource for the heap
- * memory, we have to manually free it where-ever an error can
- * occur, and finally after successfully using it. However,
- * the csalt_use function manages the file descriptor, which
- * is checked before use and closed after read_content is
- * done.
- * \code
- * #include <sys/types.h>
- * #include <unistd.h>
- * #include <stdio.h>
- *
- * void *read_content(void *fd_pointer)
- * {
- * 	int fd = *fd_pointer;
- * 	off_t size = lseek(fd, 0, SEEK_END);
- * 	lseek(fd, 0, SEEK_SET);
- * 	void *result = malloc(size);
- * 	if (!result)
- * 		return 0;
- *
- * 	ssize_t amount_read = read(fd, result, size);
- * 	if (amount_read < 0) {
- * 		free(result);
- * 		return 0;
- * 	}
- * 	return result;
- * }
- *
- * int main(int argc, char **argv)
- * {
- * 	csalt_file file = csalt_file_init("test.txt", "rw");
- *	char *content = csalt_use((csalt_resource *)&file, read_content);
- *	if (content) {
- *		puts(content);
- *		free(content);
- *		return 0;
- *	} else {
- *		fputs(stderr, "Error reading file");
- *		return 1;
- *	}
- * }
- *
- * \endcode
  */
-void *csalt_use(csalt_resource *resource, csalt_resource_block *code_block);
-
-/**
- * Represents a heap memory resource.
- *
- * Avoid using or modifying the members directly - simple code should
- * create this struct with csalt_memory_init and pass it to csalt_use,
- * or use it as a member for another resource.
- */
-typedef struct {
-	const struct csalt_resource_interface * const vtable;
-	size_t size;
-	void *resource_pointer;
-} csalt_memory;
-
-/**
- * Initializes a csalt_memory resource. Uses malloc internally -
- * memory is allocated but not initialized.
- */
-csalt_memory csalt_memory_make(size_t size);
+struct csalt_heap csalt_use(csalt_resource *resource, csalt_resource_block *code_block);
 
 #ifdef __cplusplus
 } // extern "C"

@@ -8,6 +8,7 @@
 *.Po
 *.trs
 *.log
+*.sw*
 autom4te.cache/
 Makefile
 *.tar.gz
