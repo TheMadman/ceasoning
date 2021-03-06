@@ -1,2 +1,33 @@
-This package provides syntactic sugar for common C tasks,
-and uses the function prefix, "salt_". 
+The Ceasoning (pronounced, "seasoning") project provides syntactic sugar for
+common C tasks. It uses the "csalt" prefix (pronounced "seasalt") and uses
+the csalt directory for include files.
+
+This project currently only provides interfaces around data stores - which
+do not necessarily require initialization or clean-up, such as application-
+global memory or stack memory - and resources, which require initialization,
+checks for validity, and deinitliazation.
+
+For concrete types, which are possible to initialize on the stack, the
+struct keyword is preserved, e.g. `struct csalt_memory` and `struct
+csalt_heap`. Typedefs are used for types which are not expected to be directly
+initialized - such as pointers-to-interfaces like `csalt_resource` and
+`csalt_store`.
+
+Code is written for humans, not computers. Code which is difficult to
+understand is considered a bug - please report it!
+
+While there is no rigid definition of what makes documentation and
+comments good, a good rule-of-thumb is it shouldn't explain the code
+itself. The code should be simple to understand; the documentation should
+explain what can't be contained in the code, such as domain-specific knowledge,
+used design patterns and the like. In short, documentation should put the
+reader in the right frame-of-mind to makme the code simple to understand.
+
+I did not choose the GPL v3 to spite you, personally. I chose this license
+because it's the license I want to use for this project. I understand there
+are businesses that cannot operate with GPL code - I work at one personally
+- but I'm in no way against people making profit from this library. The
+GPL and FSF are quite explicit in supporting businesses selling software and
+support around Libre software; I want to re-iterate that point.
+
+I just love good code more than I like money. Happy hacking!
