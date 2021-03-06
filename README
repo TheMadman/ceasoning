@@ -21,7 +21,7 @@ comments good, a good rule-of-thumb is it shouldn't explain the code
 itself. The code should be simple to understand; the documentation should
 explain what can't be contained in the code, such as domain-specific knowledge,
 used design patterns and the like. In short, documentation should put the
-reader in the right frame-of-mind to makme the code simple to understand.
+reader in the right frame-of-mind to make the code simple to understand.
 
 I did not choose the GPL v3 to spite you, personally. I chose this license
 because it's the license I want to use for this project. I understand there
