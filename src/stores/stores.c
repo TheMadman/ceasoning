@@ -227,14 +227,17 @@ static ssize_t csalt_store_transfer_real(struct transfer_data *data)
 	data->new_begin_offset = write_size;
 	data->written += write_size;
 
-	if (should_continue)
-		return csalt_store_split(
+	if (should_continue) {
+		if (csalt_store_split(
 			from,
 			write_size,
 			csalt_store_size(from),
 			receive_split_from,
 			data
-		);
+		) == -1) {
+			return -1;
+		}
+	}
 
 	return data->written;
 }
