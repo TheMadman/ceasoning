@@ -197,7 +197,6 @@ static int receive_split_to(csalt_store *to, void *data_pointer)
 	return csalt_store_transfer_real(&new_data);
 }
 
-// Just mangles the types for store_split
 static int receive_split_from(csalt_store *from, void *data_pointer)
 {
 	struct transfer_data *data = data_pointer;

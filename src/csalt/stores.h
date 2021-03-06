@@ -138,6 +138,12 @@ int csalt_store_split(
 /**
  * this function provides a convenient means to write data
  * from one store into another.
+ *
+ * If the transfer partially completes - for example, on
+ * a non-blocking socket resource or similar - it returns
+ * early, returning the actual amount of data transferred.
+ *
+ * Returns -1 on error.
  */
 ssize_t csalt_store_transfer(csalt_store *to, csalt_store *from, size_t size);
 
@@ -170,7 +176,7 @@ int csalt_store_null_split(
  * errors.
  *
  * Reads and writes immediately return error values.
- * and splits do nothing, and csalt_stores which
+ * splits do nothing, and csalt_stores which
  * contain a pointer-to-null implementation can be considered
  * invalid or error return values.
  */
