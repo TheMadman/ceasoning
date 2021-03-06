@@ -8,10 +8,10 @@
 
 int block_called = 0;
 
-void *block(void *_)
+struct csalt_heap block(void *_)
 {
 	block_called++;
-	return 0;
+	return csalt_null_heap;
 }
 
 int main()
