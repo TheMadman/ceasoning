@@ -1,6 +1,7 @@
 #ifndef TEST_MACROS_H
 #define TEST_MACROS_H
 
+#include <stdio.h>
 #define EXIT_SUCCESS 0
 #define EXIT_TEST_FAILURE 99
 #define EXIT_TEST_SKIPPED 77

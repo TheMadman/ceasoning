@@ -88,9 +88,10 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 TESTS = csalt_resources_use$(EXEEXT) csalt_memory_resource$(EXEEXT) \
-	csalt_store_split$(EXEEXT)
+	csalt_store_split$(EXEEXT) csalt_store_transfer$(EXEEXT)
 check_PROGRAMS = csalt_resources_use$(EXEEXT) \
-	csalt_memory_resource$(EXEEXT) csalt_store_split$(EXEEXT)
+	csalt_memory_resource$(EXEEXT) csalt_store_split$(EXEEXT) \
+	csalt_store_transfer$(EXEEXT)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -126,6 +127,12 @@ csalt_store_split_LDADD = $(LDADD)
 csalt_store_split_DEPENDENCIES =  \
 	$(top_builddir)/src/resources/libcsaltresources.la \
 	$(top_builddir)/src/stores/libcsaltstores.la
+am_csalt_store_transfer_OBJECTS = csalt_store_transfer.$(OBJEXT)
+csalt_store_transfer_OBJECTS = $(am_csalt_store_transfer_OBJECTS)
+csalt_store_transfer_LDADD = $(LDADD)
+csalt_store_transfer_DEPENDENCIES =  \
+	$(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -143,7 +150,8 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/csalt_memory_resource.Po \
 	./$(DEPDIR)/csalt_resources_use.Po \
-	./$(DEPDIR)/csalt_store_split.Po
+	./$(DEPDIR)/csalt_store_split.Po \
+	./$(DEPDIR)/csalt_store_transfer.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -164,9 +172,11 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(csalt_memory_resource_SOURCES) \
-	$(csalt_resources_use_SOURCES) $(csalt_store_split_SOURCES)
+	$(csalt_resources_use_SOURCES) $(csalt_store_split_SOURCES) \
+	$(csalt_store_transfer_SOURCES)
 DIST_SOURCES = $(csalt_memory_resource_SOURCES) \
-	$(csalt_resources_use_SOURCES) $(csalt_store_split_SOURCES)
+	$(csalt_resources_use_SOURCES) $(csalt_store_split_SOURCES) \
+	$(csalt_store_transfer_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -517,6 +527,7 @@ top_srcdir = @top_srcdir@
 csalt_resources_use_SOURCES = csalt_resources_use.c
 csalt_memory_resource_SOURCES = csalt_memory_resource.c
 csalt_store_split_SOURCES = csalt_store_split.c
+csalt_store_transfer_SOURCES = csalt_store_transfer.c
 
 # Set this or explicitely #include "../src/*.h"?
 # Doing this for now in case we move headers in
@@ -580,6 +591,10 @@ csalt_store_split$(EXEEXT): $(csalt_store_split_OBJECTS) $(csalt_store_split_DEP
 	@rm -f csalt_store_split$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(csalt_store_split_OBJECTS) $(csalt_store_split_LDADD) $(LIBS)
 
+csalt_store_transfer$(EXEEXT): $(csalt_store_transfer_OBJECTS) $(csalt_store_transfer_DEPENDENCIES) $(EXTRA_csalt_store_transfer_DEPENDENCIES) 
+	@rm -f csalt_store_transfer$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(csalt_store_transfer_OBJECTS) $(csalt_store_transfer_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -589,6 +604,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csalt_resources_use.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csalt_store_split.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csalt_store_transfer.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -837,6 +853,13 @@ csalt_store_split.log: csalt_store_split$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+csalt_store_transfer.log: csalt_store_transfer$(EXEEXT)
+	@p='csalt_store_transfer$(EXEEXT)'; \
+	b='csalt_store_transfer'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -933,6 +956,7 @@ distclean: distclean-am
 		-rm -f ./$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f ./$(DEPDIR)/csalt_resources_use.Po
 	-rm -f ./$(DEPDIR)/csalt_store_split.Po
+	-rm -f ./$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -981,6 +1005,7 @@ maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f ./$(DEPDIR)/csalt_resources_use.Po
 	-rm -f ./$(DEPDIR)/csalt_store_split.Po
+	-rm -f ./$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 

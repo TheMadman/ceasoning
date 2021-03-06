@@ -3,6 +3,8 @@
 
 #include <sys/types.h>
 
+#include "csalt/util.h"
+
 /**
  * \file This file defines interfaces for anything
  * which data can be written to or read from.
@@ -66,9 +68,19 @@ typedef int csalt_store_split_fn(
 	void *data
 );
 
+/**
+ * Returns the size of the store, if applicable, or 0
+ * if not applicable to this store.
+ *
+ * Note that any store of size 0 can't be read to or
+ * written from.
+ */
+typedef size_t csalt_store_size_fn(const csalt_store *store);
+
 struct csalt_store_interface {
 	csalt_store_read_fn *read;
 	csalt_store_write_fn *write;
+	csalt_store_size_fn *size;
 	csalt_store_split_fn *split;
 };
 
@@ -85,6 +97,8 @@ ssize_t csalt_store_read(const csalt_store *store, void *buffer, size_t size);
  * Returns the amount of bytes actually written, or -1 on failure.
  */
 ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
+
+size_t csalt_store_size(const csalt_store *store);
 
 /**
  * Provides the means to divide a store into a
@@ -125,7 +139,7 @@ int csalt_store_split(
  * this function provides a convenient means to write data
  * from one store into another.
  */
-ssize_t csalt_transfer(csalt_store *to, csalt_store *from, size_t size);
+ssize_t csalt_store_transfer(csalt_store *to, csalt_store *from, size_t size);
 
 // null/noop interface
 ssize_t csalt_store_null_read(
@@ -140,6 +154,8 @@ ssize_t csalt_store_null_write(
 	const void *from,
 	size_t size
 );
+
+size_t csalt_store_null_size(const csalt_store *store);
 
 int csalt_store_null_split(
 	csalt_store *store,
@@ -175,6 +191,8 @@ ssize_t csalt_memory_write(
 	size_t size
 );
 
+size_t csalt_memory_size(const csalt_store *store);
+
 int csalt_memory_split(
 	csalt_store *store,
 	size_t begin,
@@ -201,17 +219,17 @@ struct csalt_memory {
  * The end parameter should be the address immediately after
  * the last address containing the pointed-to data.
  */
-struct csalt_memory csalt_memory_bounds(void *begin, void *end);
+struct csalt_memory csalt_store_memory_bounds(void *begin, void *end);
 
 /**
  * Convenience macro for setting up a pointer-to-type
  */
-#define csalt_store_memory(pointer) (csalt_store_memory_bounds((pointer), &((pointer) + 1)))
+#define csalt_store_memory_pointer(pointer) (csalt_store_memory_bounds((pointer), ((pointer) + 1)))
 
 /**
  * Convenience macro for setting up an array-of-type
  */
-#define csalt_store_memory_array(array) (csalt_store_memory_bounds(&(array), &((array)[arrlength(array)])))
+#define csalt_store_memory_array(array) (csalt_store_memory_bounds((array), (&array[arrlength(array)])))
 
 
 #endif // CSALTSTORES_H

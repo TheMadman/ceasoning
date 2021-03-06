@@ -34,6 +34,12 @@ ssize_t test_write(csalt_store *store, const void *buffer, size_t size)
 	return 0;
 }
 
+size_t test_size(const csalt_store *store)
+{
+	const struct test_struct *data = (struct test_struct *)store;
+	return data->end - data->begin;
+}
+
 int test_split(
 	csalt_store *store,
 	size_t begin,
@@ -54,6 +60,7 @@ int test_split(
 struct csalt_store_interface test_implementation = {
 	test_read,
 	test_write,
+	test_size,
 	test_split,
 };
 

@@ -25,6 +25,11 @@ ssize_t csalt_store_write(
 	return (*to)->write(to, from, bytes);
 }
 
+size_t csalt_store_size(const csalt_store *store)
+{
+	return (*store)->size(store);
+}
+
 int csalt_store_split(
 	csalt_store *store,
 	size_t start,
@@ -70,6 +75,12 @@ ssize_t csalt_store_null_write(
 	return -1;
 }
 
+size_t csalt_store_null_size(const csalt_store *store)
+{
+	(void)store;
+	return 0;
+}
+
 int csalt_store_null_split(
 	csalt_store *store,
 	size_t begin,
@@ -90,6 +101,7 @@ int csalt_store_null_split(
 const struct csalt_store_interface csalt_store_null_interface = {
 	csalt_store_null_read,
 	csalt_store_null_write,
+	csalt_store_null_size,
 	csalt_store_null_split,
 };
 
@@ -125,6 +137,12 @@ ssize_t csalt_memory_write(
 	return size;
 }
 
+size_t csalt_memory_size(const csalt_store *store)
+{
+	const struct csalt_memory *memory = (struct csalt_memory *)store;
+	return memory->end - memory->begin;
+}
+
 int csalt_memory_split(
 	csalt_store *store,
 	size_t begin,
@@ -134,7 +152,7 @@ int csalt_memory_split(
 )
 {
 	struct csalt_memory *param = (struct csalt_memory *)store;
-	struct csalt_memory result = csalt_memory_bounds(
+	struct csalt_memory result = csalt_store_memory_bounds(
 		param->begin + begin,
 		param->begin + end
 	);
@@ -144,10 +162,11 @@ int csalt_memory_split(
 const struct csalt_store_interface csalt_store_memory_implementation = {
 	csalt_memory_read,
 	csalt_memory_write,
+	csalt_memory_size,
 	csalt_memory_split,
 };
 
-struct csalt_memory csalt_memory_bounds(void *begin, void *end)
+struct csalt_memory csalt_store_memory_bounds(void *begin, void *end)
 {
 	struct csalt_memory result = {
 		&csalt_store_memory_implementation,
@@ -155,5 +174,53 @@ struct csalt_memory csalt_memory_bounds(void *begin, void *end)
 		end
 	};
 	return result;
+}
+
+// Transfer algorithmm
+
+struct transfer_data {
+	csalt_store *to;
+	char *buffer;
+	size_t size;
+};
+
+ssize_t csalt_transfer_real(csalt_store *, struct transfer_data *);
+
+// Just mangles the types for store_split
+static int continue_transfer(csalt_store *from, void *data)
+{
+	return csalt_transfer_real(from, data);
+}
+
+ssize_t csalt_transfer_real(csalt_store *from, struct transfer_data *data)
+{
+	csalt_store *to = data->to;
+	char *buffer = data->buffer;
+	size_t size = data->size;
+
+	size_t transfer_size = min(size, DEFAULT_PAGESIZE);
+	size_t should_continue = size > DEFAULT_PAGESIZE;
+
+	size_t read_size = csalt_store_read(from, buffer, transfer_size);
+	size_t write_size = csalt_store_write(to, buffer, read_size);
+	should_continue = should_continue && write_size == transfer_size;
+
+	if (should_continue)
+		return write_size + csalt_store_split(
+			from,
+			transfer_size,
+			csalt_store_size(from),
+			continue_transfer,
+			data
+		);
+
+	return write_size;
+}
+
+ssize_t csalt_store_transfer(csalt_store *to, csalt_store *from, size_t size)
+{
+	char buffer[DEFAULT_PAGESIZE] = { 0 };
+	struct transfer_data data = { to, buffer, size };
+	return csalt_transfer_real(from, &data);
 }
 

@@ -20,7 +20,7 @@ int main()
 	csalt_use((csalt_resource *)&failure, block);
 
 	if (block_called) {
-		print_error("Block wasn't called");
+		print_error("Block was called on error");
 		return EXIT_TEST_FAILURE;
 	}
 
@@ -28,5 +28,10 @@ int main()
 
 	csalt_use((csalt_resource *)&success, block);
 
-	return block_called ? EXIT_SUCCESS : EXIT_TEST_FAILURE;
+	if (!block_called) {
+		print_error("Block wasn't called when it should have been");
+		return EXIT_TEST_FAILURE;
+	}
+
+	return EXIT_SUCCESS;
 }

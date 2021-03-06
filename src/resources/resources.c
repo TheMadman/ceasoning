@@ -31,6 +31,7 @@ struct csalt_resource_interface memory_interface = {
 	{
 		csalt_memory_read,
 		csalt_memory_write,
+		csalt_memory_size,
 		csalt_memory_split,
 	},
 	csalt_memory_init,
@@ -53,7 +54,7 @@ struct csalt_heap csalt_heap(size_t size)
 void csalt_noop_init(csalt_resource *_)
 {
 	// prevents unused parameter warnings - deliberate
-	(void*)_;
+	(void)_;
 }
 
 char csalt_noop_valid(const csalt_resource *_)
@@ -63,13 +64,14 @@ char csalt_noop_valid(const csalt_resource *_)
 
 void csalt_noop_deinit(csalt_resource *_)
 {
-	(void*)_;
+	(void)_;
 }
 
 struct csalt_resource_interface csalt_null_heap_implementation = {
 	{
 		csalt_store_null_read,
 		csalt_store_null_write,
+		csalt_store_null_size,
 		csalt_store_null_split,
 	},
 	csalt_noop_init,
@@ -86,7 +88,7 @@ const struct csalt_heap csalt_null_heap = {
 
 void csalt_resource_init(csalt_resource *resource)
 {
-	return (*resource)->init(resource);
+	(*resource)->init(resource);
 }
 
 char csalt_resource_valid(const csalt_resource *resource)
@@ -96,7 +98,7 @@ char csalt_resource_valid(const csalt_resource *resource)
 
 void csalt_resource_deinit(csalt_resource *resource)
 {
-	return (*resource)->deinit(resource);
+	(*resource)->deinit(resource);
 }
 
 struct csalt_heap csalt_use(csalt_resource *resource, csalt_resource_block *code_block)
