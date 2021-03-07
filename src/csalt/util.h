@@ -36,4 +36,11 @@
 #define DEFAULT_PAGESIZE 4096
 #endif // PAGESIZE
 
+/**
+ * castto is a macro allowing you to pass either the type
+ * to cast the source to, or a destination variable whose
+ * type the source should be cast to.
+ */
+#define castto(dest, source) ((typeof(dest)) source)
+
 #endif // CSALTUTIL_H

@@ -10,7 +10,7 @@
 
 void csalt_memory_init(csalt_resource *resource)
 {
-	struct csalt_heap *memory = (struct csalt_heap *)resource;
+	struct csalt_heap *memory = castto(memory, resource);
 	if (!csalt_resource_valid(resource))
 		memory->resource_pointer = malloc(memory->size);
 }
