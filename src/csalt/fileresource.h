@@ -20,8 +20,9 @@ extern "C" {
 struct csalt_resource_file {
 	const struct csalt_resource_interface *vtable;
 	const char *filename;
-	int flags;
 	int fd;
+	int flags;
+	int mode;
 	size_t begin;
 	size_t end;
 };
@@ -57,7 +58,17 @@ void csalt_resource_file_deinit(csalt_resource *resource);
  * causing csalt_resource_file_write to error. The file resource will
  * still be usable with the features it does support.
  */
-struct csalt_resource_file cslt_resource_file(const char *path, int flags);
+struct csalt_resource_file csalt_resource_file(const char *path, int flags);
+
+/**
+ * Sets up a file resource for creation and opening.
+ *
+ * Notes:
+ * - creating the file is only attempted once the resource is initialized by
+ *   being passed to csalt_resource_init() or csalt_use().
+ * - The O_CREAT flag is implied and needs not be passed into the flags parameter.
+ */
+struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode);
 
 #ifdef __cplusplus
 } // extern "C"

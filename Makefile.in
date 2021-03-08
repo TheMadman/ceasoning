@@ -93,11 +93,13 @@ host_triplet = @host@
 TESTS = tests/csalt_resources_use$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
-	tests/csalt_store_transfer$(EXEEXT)
+	tests/csalt_store_transfer$(EXEEXT) \
+	tests/csalt_file_resource$(EXEEXT)
 check_PROGRAMS = tests/csalt_resources_use$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
-	tests/csalt_store_transfer$(EXEEXT)
+	tests/csalt_store_transfer$(EXEEXT) \
+	tests/csalt_file_resource$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/libtool.m4 \
@@ -172,33 +174,45 @@ src_stores_libcsaltstores_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(AM_CFLAGS) $(CFLAGS) $(src_stores_libcsaltstores_la_LDFLAGS) \
 	$(LDFLAGS) -o $@
+tests_csalt_file_resource_SOURCES = tests/csalt_file_resource.c
+tests_csalt_file_resource_OBJECTS =  \
+	tests/csalt_file_resource.$(OBJEXT)
+tests_csalt_file_resource_LDADD = $(LDADD)
+tests_csalt_file_resource_DEPENDENCIES =  \
+	$(top_builddir)/src/resources/libcsaltresources.la \
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 tests_csalt_memory_resource_SOURCES = tests/csalt_memory_resource.c
 tests_csalt_memory_resource_OBJECTS =  \
 	tests/csalt_memory_resource.$(OBJEXT)
 tests_csalt_memory_resource_LDADD = $(LDADD)
 tests_csalt_memory_resource_DEPENDENCIES =  \
 	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 tests_csalt_resources_use_SOURCES = tests/csalt_resources_use.c
 tests_csalt_resources_use_OBJECTS =  \
 	tests/csalt_resources_use.$(OBJEXT)
 tests_csalt_resources_use_LDADD = $(LDADD)
 tests_csalt_resources_use_DEPENDENCIES =  \
 	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 tests_csalt_store_split_SOURCES = tests/csalt_store_split.c
 tests_csalt_store_split_OBJECTS = tests/csalt_store_split.$(OBJEXT)
 tests_csalt_store_split_LDADD = $(LDADD)
 tests_csalt_store_split_DEPENDENCIES =  \
 	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 tests_csalt_store_transfer_SOURCES = tests/csalt_store_transfer.c
 tests_csalt_store_transfer_OBJECTS =  \
 	tests/csalt_store_transfer.$(OBJEXT)
 tests_csalt_store_transfer_LDADD = $(LDADD)
 tests_csalt_store_transfer_DEPENDENCIES =  \
 	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -217,6 +231,7 @@ am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/resources/$(DEPDIR)/file.Plo \
 	src/resources/$(DEPDIR)/resources.Plo \
 	src/stores/$(DEPDIR)/stores.Plo \
+	tests/$(DEPDIR)/csalt_file_resource.Po \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
 	tests/$(DEPDIR)/csalt_resources_use.Po \
 	tests/$(DEPDIR)/csalt_store_split.Po \
@@ -243,13 +258,15 @@ am__v_CCLD_1 =
 SOURCES = $(src_resources_libcsaltfileresource_la_SOURCES) \
 	$(src_resources_libcsaltresources_la_SOURCES) \
 	$(src_stores_libcsaltstores_la_SOURCES) \
-	tests/csalt_memory_resource.c tests/csalt_resources_use.c \
-	tests/csalt_store_split.c tests/csalt_store_transfer.c
+	tests/csalt_file_resource.c tests/csalt_memory_resource.c \
+	tests/csalt_resources_use.c tests/csalt_store_split.c \
+	tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_resources_libcsaltfileresource_la_SOURCES) \
 	$(src_resources_libcsaltresources_la_SOURCES) \
 	$(src_stores_libcsaltstores_la_SOURCES) \
-	tests/csalt_memory_resource.c tests/csalt_resources_use.c \
-	tests/csalt_store_split.c tests/csalt_store_transfer.c
+	tests/csalt_file_resource.c tests/csalt_memory_resource.c \
+	tests/csalt_resources_use.c tests/csalt_store_split.c \
+	tests/csalt_store_transfer.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -631,7 +648,8 @@ src_resources_libcsaltfileresource_la_SOURCES = src/resources/file.c\
 #tests_csalt_store_transfer_SOURCES = tests/csalt_store_transfer.c
 #
 LDADD = $(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la
+	$(top_builddir)/src/stores/libcsaltstores.la \
+	$(top_builddir)/src/resources/libcsaltfileresource.la
 
 #SUBDIRS = src tests
 dist_doc_DATA = README
@@ -766,6 +784,12 @@ tests/$(am__dirstamp):
 tests/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) tests/$(DEPDIR)
 	@: > tests/$(DEPDIR)/$(am__dirstamp)
+tests/csalt_file_resource.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_file_resource$(EXEEXT): $(tests_csalt_file_resource_OBJECTS) $(tests_csalt_file_resource_DEPENDENCIES) $(EXTRA_tests_csalt_file_resource_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_file_resource$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_file_resource_OBJECTS) $(tests_csalt_file_resource_LDADD) $(LIBS)
 tests/csalt_memory_resource.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -805,6 +829,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/resources.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/stores.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_file_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resources_use.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_split.Po@am__quote@ # am--include-marker
@@ -1122,6 +1147,13 @@ tests/csalt_store_transfer.log: tests/csalt_store_transfer$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_file_resource.log: tests/csalt_file_resource$(EXEEXT)
+	@p='tests/csalt_file_resource$(EXEEXT)'; \
+	b='tests/csalt_file_resource'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1361,6 +1393,7 @@ distclean: distclean-am
 		-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
+	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resources_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
@@ -1415,6 +1448,7 @@ maintainer-clean: maintainer-clean-am
 		-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
+	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resources_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po

@@ -56,8 +56,9 @@ void csalt_resource_file_init(csalt_resource *resource)
 	struct csalt_resource_file *file = castto(file, resource);
 
 	// Some open flags break the API for reading/writing
-	int banned_flags = O_APPEND;
-	file->fd = open(file->filename, file->flags & ~banned_flags);
+	// int banned_flags = O_APPEND;
+	int banned_flags = 0;
+	file->fd = open(file->filename, file->flags & ~banned_flags, file->mode);
 	if (csalt_resource_file_valid(resource)) {
 		file->end = lseek(file->fd, 0, SEEK_END);
 		file->begin = lseek(file->fd, 0, SEEK_SET);
@@ -77,15 +78,22 @@ void csalt_resource_file_deinit(csalt_resource *resource)
 	file->fd = -1;
 }
 
-struct csalt_resource_file cslt_resource_file(const char *path, int flags)
+struct csalt_resource_file csalt_resource_file(const char *path, int flags)
 {
 	struct csalt_resource_file file = {
 		&csalt_resource_file_interface,
 		path,
-		flags,
 		-1,
+		flags,
 		0
 	};
 	return file;
+}
+
+struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode)
+{
+	struct csalt_resource_file result = csalt_resource_file(path, flags | O_CREAT);
+	result.mode = mode;
+	return result;
 }
 
