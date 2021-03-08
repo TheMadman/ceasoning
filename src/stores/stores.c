@@ -130,7 +130,7 @@ ssize_t csalt_memory_write(
 )
 {
 	struct csalt_memory *memory = (struct csalt_memory *)to;
-	if (memory->end - memory->begin < size)
+	if (csalt_store_size(to) < size)
 		return -1;
 
 	memcpy(memory->begin, from, size);
