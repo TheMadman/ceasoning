@@ -132,7 +132,7 @@ void csalt_noop_deinit(csalt_resource *_);
  * Represents a heap memory resource.
  *
  * Avoid using or modifying the members directly - simple code should
- * create this struct with csalt_memory_make and pass it to csalt_use,
+ * create this struct with csalt_memory_make and pass it to csalt_resource_use,
  * or use it as a member for another resource.
  */
 struct csalt_heap {
@@ -150,12 +150,12 @@ extern const struct csalt_heap csalt_null_heap;
 struct csalt_heap csalt_heap(size_t size);
 
 /**
- * Function signature for blocks to pass to csalt_use.
+ * Function signature for blocks to pass to csalt_resource_use.
  * The function should expect a pointer-to-resource as the
  * only argument, and return any result you wish to pass on,
  * or a null pointer.
  */
-typedef struct csalt_heap csalt_resource_block(void *);
+typedef struct csalt_heap csalt_resource_block(csalt_resource *);
 
 /**
  * Takes a pointer to resource struct and a code block,
@@ -169,7 +169,7 @@ typedef struct csalt_heap csalt_resource_block(void *);
  * on failure.
  *
  */
-struct csalt_heap csalt_use(csalt_resource *resource, csalt_resource_block *code_block);
+struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block);
 
 #ifdef __cplusplus
 } // extern "C"

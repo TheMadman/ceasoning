@@ -101,7 +101,7 @@ void csalt_resource_deinit(csalt_resource *resource)
 	(*resource)->deinit(resource);
 }
 
-struct csalt_heap csalt_use(csalt_resource *resource, csalt_resource_block *code_block)
+struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block)
 {
 	csalt_resource_init(resource);
 	if (!csalt_resource_valid(resource))
