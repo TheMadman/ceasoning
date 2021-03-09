@@ -56,21 +56,25 @@ int main()
 		castto(csalt_store *, &D),
 		castto(csalt_store *, &C),
 		transfer_complete_big
-	))) {
+	)) < ARRSIZE) {
 		switch (transfer_amount) {
+			case -1:
+				print_error("Error code returned");
+				return EXIT_TEST_FAILURE;
 			case 0:
 				print_error("Zero bytes transfered");
 				return EXIT_TEST_FAILURE;
 			case ARRSIZE:
-				if (!transfer_complete_big_called) {
-					print_error(
-						"Transfer completed, but "
-						"callback wasn't called"
-					);
-					return EXIT_TEST_FAILURE;
-				}
 				break;
 		}
+	}
+
+	if (!transfer_complete_big_called) {
+		print_error(
+			"Transfer completed, but "
+			"callback wasn't called"
+		);
+		return EXIT_TEST_FAILURE;
 	}
 
 	for (char *test = d; test < &d[ARRSIZE]; test++) {

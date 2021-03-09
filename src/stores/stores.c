@@ -216,9 +216,8 @@ static int receive_split_to(csalt_store *to, void *data_pointer)
 	if (read_size < 0)
 		return -1;
 	size_t write_size = csalt_store_write(to, buffer, read_size);
-	data->progress->amount_completed += write_size;
 
-	return data->progress->amount_completed;
+	return write_size;
 }
 
 static int receive_split_from(csalt_store *from, void *data_pointer)
@@ -255,6 +254,9 @@ static size_t progress_remaining(struct csalt_transfer *progress)
 	return progress->total - progress->amount_completed;
 }
 
+#include <unistd.h>
+#include <stdio.h>
+
 ssize_t csalt_store_transfer(
 	struct csalt_transfer *progress,
 	csalt_store *to,
@@ -265,10 +267,21 @@ ssize_t csalt_store_transfer(
 	char buffer[DEFAULT_PAGESIZE] = { 0 };
 	struct transfer_data data = { to, from, buffer, progress };
 
-	ssize_t transfer_amount = csalt_store_transfer_real(&data);
+	size_t remaining;
+	while ((remaining = progress_remaining(progress))) {
+		ssize_t this_write = csalt_store_transfer_real(&data);
+		if (this_write < 0)
+			break;
+
+		progress->amount_completed += this_write;
+		if (this_write < sizeof(buffer))
+			break;
+	}
+
 	if (!progress_remaining(progress)) {
 		callback(to);
 	}
-	return transfer_amount;
+
+	return progress->amount_completed;
 }
 
