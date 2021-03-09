@@ -12,8 +12,13 @@
  *
  * This file provides both a common interface for resources which
  * require clean-up; a function to manage a resource automatically;
- * and some resource structs for common program resources like
- * heap memory and file descriptors.
+ * and a resource for managing heap memory.
+ *
+ * Note that resources do not _necessarily_ do bounds checking - 
+ * for some resources, writing beyond the end of them is a valid
+ * operation for appending data. The heap resource does a primitive
+ * test that the size attribute is smaller than the current heap
+ * block.
  */
 
 #ifdef __cplusplus
@@ -108,8 +113,8 @@ void csalt_resource_init(csalt_resource *);
 char csalt_resource_valid(const csalt_resource *);
 
 /**
- * Cleans up the resource. The resource should
- * be considered invalid after run.
+ * Cleans up the resource. The resource is set
+ * to an invalid value after run.
  */
 void csalt_resource_deinit(csalt_resource *);
 

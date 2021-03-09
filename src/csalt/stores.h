@@ -6,7 +6,8 @@
 #include "csalt/util.h"
 
 /**
- * \file This file defines interfaces for anything
+ * \file
+ * \brief This file defines interfaces for anything
  * which data can be written to or read from.
  *
  * These interfaces are intended to also represent
@@ -98,6 +99,9 @@ ssize_t csalt_store_read(const csalt_store *store, void *buffer, size_t size);
  */
 ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 
+/**
+ * Returns the current size of the given store.
+ */
 size_t csalt_store_size(const csalt_store *store);
 
 /**

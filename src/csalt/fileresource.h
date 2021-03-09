@@ -6,6 +6,18 @@
 #include "stores.h"
 #include "baseresources.h"
 
+/**
+ * \file
+ * \brief Provides a wrapper around on-disk files for use
+ * with csalt_resource algorithms.
+ *
+ * This file provides a concrete file type, based on file
+ * descriptors, to on-disk files specified by a string pathname.
+ *
+ * Allows the creation of new files and opening of existing
+ * files.
+ */
+
 #ifdef __cplusplus
 extern "C" {
 #endif
