@@ -25,12 +25,27 @@ void csalt_memory_deinit(csalt_resource *resource)
 {
 	struct csalt_heap *memory = (struct csalt_heap *)resource;
 	free(memory->resource_pointer);
+	memory->resource_pointer = 0;
+}
+
+// overload - attempts to initialize before writing
+// do we just allow the program to segfault if init
+// failed?
+//
+// Otherwise API users are just going to have to do the same
+// init->valid->error stepss as usual, with an extra
+// construct step at the beginning
+ssize_t csalt_heap_write(csalt_store *resource, const void *buffer, size_t size)
+{
+	struct csalt_heap *memory = castto(memory, resource);
+	csalt_resource_init(castto(csalt_resource *, resource));
+	return csalt_memory_write(resource, buffer, size);
 }
 
 struct csalt_resource_interface memory_interface = {
 	{
 		csalt_memory_read,
-		csalt_memory_write,
+		csalt_heap_write,
 		csalt_memory_size,
 		csalt_memory_split,
 	},
@@ -39,13 +54,20 @@ struct csalt_resource_interface memory_interface = {
 	csalt_memory_deinit,
 };
 
-struct csalt_heap csalt_heap(size_t size)
+struct csalt_heap csalt_heap_lazy(size_t size)
 {
 	struct csalt_heap result = {
 		&memory_interface,
 		size,
 		0,
 	};
+	return result;
+}
+
+struct csalt_heap csalt_heap(size_t size)
+{
+	struct csalt_heap result = csalt_heap_lazy(size);
+	csalt_resource_init(castto(csalt_resource *, &result));
 	return result;
 }
 

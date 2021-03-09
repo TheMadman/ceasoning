@@ -139,6 +139,9 @@ void csalt_noop_deinit(csalt_resource *_);
  * Avoid using or modifying the members directly - simple code should
  * create this struct with csalt_memory_make and pass it to csalt_resource_use,
  * or use it as a member for another resource.
+ *
+ * \see csalt_heap
+ * \see csalt_heap_lazy
  */
 struct csalt_heap {
 	const struct csalt_resource_interface * const vtable;
@@ -151,8 +154,31 @@ extern const struct csalt_heap csalt_null_heap;
 /**
  * Initializes a csalt_memory resource. Uses malloc internally -
  * memory is allocated but not initialized.
+ *
+ * This function immediately allocates the heap, allowing you
+ * to manually check with csalt_resource_valid() immediately
+ * after that the allocation was successful.
+ *
+ * For lazy-loading - for example, to use inside an abstract
+ * resource - use csalt_heap_lazy().
+ *
+ * \see csalt_heap_lazy()
  */
 struct csalt_heap csalt_heap(size_t size);
+
+/**
+ * This function creates a heap resource for later initialization.
+ * This is useful behaviour for abstract data-types which automatically
+ * perform initialization on their members.
+ *
+ * This does not immediately attempt to allocate memory on the heap.
+ * If you need the pointer for immediate use, as with the typical
+ * malloc -> check -> use -> free workflow, use the csalt_heap()
+ * function instead.
+ *
+ * \see csalt_heap()
+ */
+struct csalt_heap csalt_heap_lazy(size_t size);
 
 /**
  * Function signature for blocks to pass to csalt_resource_use.
