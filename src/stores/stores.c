@@ -176,15 +176,27 @@ struct csalt_memory csalt_store_memory_bounds(void *begin, void *end)
 	return result;
 }
 
+void *csalt_store_memory_raw(struct csalt_memory *memory)
+{
+	return memory->begin;
+}
+
 // Transfer algorithmm
+
+struct csalt_transfer csalt_transfer(size_t size)
+{
+	struct csalt_transfer result = {
+		size,
+		0
+	};
+	return result;
+}
 
 struct transfer_data {
 	csalt_store *to;
 	csalt_store *from;
 	char *buffer;
-	size_t new_begin_offset;
-	size_t written;
-	size_t remaining;
+	struct csalt_transfer *progress;
 };
 
 static ssize_t csalt_store_transfer_real(struct transfer_data *);
@@ -192,9 +204,21 @@ static ssize_t csalt_store_transfer_real(struct transfer_data *);
 static int receive_split_to(csalt_store *to, void *data_pointer)
 {
 	struct transfer_data *data = data_pointer;
-	struct transfer_data new_data = *data;
-	new_data.to = to;
-	return csalt_store_transfer_real(&new_data);
+	char *buffer = data->buffer;
+	csalt_store *from = data->from;
+	size_t size = data->progress->total - data->progress->amount_completed;
+	if (size == 0)
+		return 0;
+
+	size_t transfer_size = min(size, DEFAULT_PAGESIZE);
+
+	size_t read_size = csalt_store_read(from, buffer, transfer_size);
+	if (read_size < 0)
+		return -1;
+	size_t write_size = csalt_store_write(to, buffer, read_size);
+	data->progress->amount_completed += write_size;
+
+	return data->progress->amount_completed;
 }
 
 static int receive_split_from(csalt_store *from, void *data_pointer)
@@ -202,10 +226,11 @@ static int receive_split_from(csalt_store *from, void *data_pointer)
 	struct transfer_data *data = data_pointer;
 	struct transfer_data new_data = *data;
 	new_data.from = from;
+
 	return csalt_store_split(
 		data->to,
-		data->new_begin_offset,
-		csalt_store_size(data->to),
+		data->progress->amount_completed,
+		data->progress->total,
 		receive_split_to,
 		&new_data
 	);
@@ -215,37 +240,35 @@ static ssize_t csalt_store_transfer_real(struct transfer_data *data)
 {
 	csalt_store *from = data->from;
 	csalt_store *to = data->to;
-	char *buffer = data->buffer;
-	size_t size = data->remaining;
 
-	size_t transfer_size = min(size, DEFAULT_PAGESIZE);
-	size_t should_continue = size > DEFAULT_PAGESIZE;
-
-	size_t read_size = csalt_store_read(from, buffer, transfer_size);
-	size_t write_size = csalt_store_write(to, buffer, read_size);
-	should_continue = should_continue && write_size == transfer_size;
-	data->new_begin_offset = write_size;
-	data->written += write_size;
-
-	if (should_continue) {
-		if (csalt_store_split(
-			from,
-			write_size,
-			csalt_store_size(from),
-			receive_split_from,
-			data
-		) == -1) {
-			return -1;
-		}
-	}
-
-	return data->written;
+	return csalt_store_split(
+		from,
+		data->progress->amount_completed,
+		data->progress->total,
+		receive_split_from,
+		data
+	);
 }
 
-ssize_t csalt_store_transfer(csalt_store *to, csalt_store *from, size_t size)
+static size_t progress_remaining(struct csalt_transfer *progress)
+{
+	return progress->total - progress->amount_completed;
+}
+
+ssize_t csalt_store_transfer(
+	struct csalt_transfer *progress,
+	csalt_store *to,
+	csalt_store *from,
+	csalt_transfer_complete_fn *callback
+)
 {
 	char buffer[DEFAULT_PAGESIZE] = { 0 };
-	struct transfer_data data = { to, from, buffer, 0, 0, size };
-	return csalt_store_transfer_real(&data);
+	struct transfer_data data = { to, from, buffer, progress };
+
+	ssize_t transfer_amount = csalt_store_transfer_real(&data);
+	if (!progress_remaining(progress)) {
+		callback(to);
+	}
+	return transfer_amount;
 }
 

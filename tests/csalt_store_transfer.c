@@ -1,11 +1,31 @@
 #include "csalt/stores.h"
 
 #include "test_macros.h"
+#include "csalt/util.h"
 
 #include <string.h>
+#include <stdlib.h>
 
 #define ARRSIZE 1 << 20
 char c[ARRSIZE], d[ARRSIZE];
+int transfer_complete_big_called = 0;
+
+void transfer_complete_small(csalt_store *destination)
+{
+	struct csalt_memory *memory = castto(memory, destination);
+	int *b = csalt_store_memory_raw(memory);
+
+	if (*b) {
+		print_error("b still contained non-zero value: %d\n", *b);
+		exit(EXIT_TEST_FAILURE);
+	}
+}
+
+void transfer_complete_big(csalt_store *destination)
+{
+	(void)destination;
+	transfer_complete_big_called++;
+}
 
 int main()
 {
@@ -14,12 +34,13 @@ int main()
 	struct csalt_memory A = csalt_store_memory_pointer(&a),
 			    B = csalt_store_memory_pointer(&b);
 
-	csalt_store_transfer((csalt_store *)&B, (csalt_store *)&A, sizeof(a));
-
-	if (b) {
-		print_error("int b still had non-zero value: %d", b);
-		return EXIT_TEST_FAILURE;
-	}
+	struct csalt_transfer transfer = csalt_transfer(sizeof(a));
+	csalt_store_transfer(
+		&transfer,
+		castto(csalt_store *, &B),
+		castto(csalt_store *, &A),
+		transfer_complete_small
+	);
 
 	// test larger-than-page values
 	memset(c, 1, ARRSIZE);
@@ -28,7 +49,29 @@ int main()
 	struct csalt_memory C = csalt_store_memory_array(c),
 			    D = csalt_store_memory_array(d);
 
-	csalt_store_transfer((csalt_store *)&D, (csalt_store *)&C, ARRSIZE);
+	transfer = csalt_transfer(ARRSIZE);
+	ssize_t transfer_amount = 0;
+	while ((transfer_amount = csalt_store_transfer(
+		&transfer,
+		castto(csalt_store *, &D),
+		castto(csalt_store *, &C),
+		transfer_complete_big
+	))) {
+		switch (transfer_amount) {
+			case 0:
+				print_error("Zero bytes transfered");
+				return EXIT_TEST_FAILURE;
+			case ARRSIZE:
+				if (!transfer_complete_big_called) {
+					print_error(
+						"Transfer completed, but "
+						"callback wasn't called"
+					);
+					return EXIT_TEST_FAILURE;
+				}
+				break;
+		}
+	}
 
 	for (char *test = d; test < &d[ARRSIZE]; test++) {
 		if (*test != 1) {

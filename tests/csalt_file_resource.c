@@ -12,6 +12,11 @@
 int test_write_called = 0;
 int test_read_called = 0;
 
+void noop(csalt_store *dest)
+{
+	(void)dest;
+}
+
 struct csalt_heap test_write(csalt_resource *resource)
 {
 	test_write_called = 1;
@@ -19,10 +24,12 @@ struct csalt_heap test_write(csalt_resource *resource)
 	int a = 1;
 	struct csalt_memory A = csalt_store_memory_pointer(&a);
 
+	struct csalt_transfer transfer = csalt_transfer(sizeof(a));
 	ssize_t amount_written = csalt_store_transfer(
+		&transfer,
 		castto(csalt_store *, resource),
 		castto(csalt_store *, &A),
-		sizeof(a)
+		noop
 	);
 	if (amount_written != sizeof(a)) {
 		print_error(
@@ -47,10 +54,12 @@ struct csalt_heap test_read(csalt_resource *resource)
 	int a = 0;
 	struct csalt_memory A = csalt_store_memory_pointer(&a);
 
+	struct csalt_transfer transfer = csalt_transfer(sizeof(a));
 	ssize_t amount_read = csalt_store_transfer(
+		&transfer,
 		castto(csalt_store *, &A),
 		castto(csalt_store *, resource),
-	       	sizeof(a)
+		noop
 	);
 	if (amount_read != sizeof(a)) {
 		print_error(

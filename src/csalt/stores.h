@@ -140,6 +140,30 @@ int csalt_store_split(
 );
 
 /**
+ * This structure allows the transfer algorithm to run in
+ * a non-blocking fashion. When the remaining is equal to
+ * the total, the passed call-back is called, allowing you to
+ * perform the same call in a loop (e.g. a render loop or
+ * a spin-lock in case you want blocking behaviour).
+ */
+struct csalt_transfer {
+	size_t total;
+	size_t amount_completed;
+};
+
+/**
+ * Creates a new struct csalt_transfer with the total
+ * set to amount and the remaining set to 0.
+ */
+struct csalt_transfer csalt_transfer(size_t amount);
+
+/**
+ * Represents a function passed to csalt_store_transfer
+ * to perform once the transfer has completed.
+ */
+typedef void csalt_transfer_complete_fn(csalt_store *dest);
+
+/**
  * this function provides a convenient means to write data
  * from one store into another.
  *
@@ -149,7 +173,12 @@ int csalt_store_split(
  *
  * Returns -1 on error.
  */
-ssize_t csalt_store_transfer(csalt_store *to, csalt_store *from, size_t size);
+ssize_t csalt_store_transfer(
+	struct csalt_transfer *data,
+	csalt_store *to,
+	csalt_store *from,
+	csalt_transfer_complete_fn *callback
+);
 
 // null/noop interface
 ssize_t csalt_store_null_read(
@@ -230,6 +259,13 @@ struct csalt_memory {
  * the last address containing the pointed-to data.
  */
 struct csalt_memory csalt_store_memory_bounds(void *begin, void *end);
+
+/**
+ * Retrieves the pointer for direct access.
+ * Should primarily be used for reading the data; simple,
+ * safe writing is provided by data_store_transfer().
+ */
+void *csalt_store_memory_raw(struct csalt_memory *memory);
 
 /**
  * Convenience macro for setting up a pointer-to-type
