@@ -1,4 +1,4 @@
-\mainpage Ceasoning: Syntactic sugar for Common C Tasks
+\mainpage Syntactic sugar for Common C Tasks
 
 \section start Where to Start
 

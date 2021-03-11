@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 
-#include "csalt/util.h"
+#include <csalt/util.h>
 
 /**
  * \file
@@ -171,7 +171,7 @@ typedef void csalt_transfer_complete_fn(csalt_store *dest);
  *
  * If the transfer partially completes - for example, on
  * a non-blocking socket resource or similar - it returns
- * early, returning the actual amount of data transferred.
+ * early, returning the total data transferred so far.
  *
  * Returns -1 on error.
  */
