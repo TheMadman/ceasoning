@@ -147,72 +147,44 @@ am__uninstall_files_from_dir = { \
 am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)" \
 	"$(DESTDIR)$(csaltincludedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
-src_resources_libcsaltfileresource_la_LIBADD =
+src_libcsalt_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_src_resources_libcsaltfileresource_la_OBJECTS =  \
-	src/resources/file.lo
-src_resources_libcsaltfileresource_la_OBJECTS =  \
-	$(am_src_resources_libcsaltfileresource_la_OBJECTS)
+am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
+	src/stores/stores.lo src/resources/file.lo
+src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-src_resources_libcsaltresources_la_LIBADD =
-am_src_resources_libcsaltresources_la_OBJECTS =  \
-	src/resources/resources.lo
-src_resources_libcsaltresources_la_OBJECTS =  \
-	$(am_src_resources_libcsaltresources_la_OBJECTS)
-src_resources_libcsaltresources_la_LINK = $(LIBTOOL) $(AM_V_lt) \
-	--tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
-	$(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(src_resources_libcsaltresources_la_LDFLAGS) $(LDFLAGS) -o $@
-src_stores_libcsaltstores_la_LIBADD =
-am_src_stores_libcsaltstores_la_OBJECTS = src/stores/stores.lo
-src_stores_libcsaltstores_la_OBJECTS =  \
-	$(am_src_stores_libcsaltstores_la_OBJECTS)
-src_stores_libcsaltstores_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(AM_CFLAGS) $(CFLAGS) $(src_stores_libcsaltstores_la_LDFLAGS) \
-	$(LDFLAGS) -o $@
 tests_csalt_file_resource_SOURCES = tests/csalt_file_resource.c
 tests_csalt_file_resource_OBJECTS =  \
 	tests/csalt_file_resource.$(OBJEXT)
 tests_csalt_file_resource_LDADD = $(LDADD)
 tests_csalt_file_resource_DEPENDENCIES =  \
-	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_memory_resource_SOURCES = tests/csalt_memory_resource.c
 tests_csalt_memory_resource_OBJECTS =  \
 	tests/csalt_memory_resource.$(OBJEXT)
 tests_csalt_memory_resource_LDADD = $(LDADD)
 tests_csalt_memory_resource_DEPENDENCIES =  \
-	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_resources_use_SOURCES = tests/csalt_resources_use.c
 tests_csalt_resources_use_OBJECTS =  \
 	tests/csalt_resources_use.$(OBJEXT)
 tests_csalt_resources_use_LDADD = $(LDADD)
 tests_csalt_resources_use_DEPENDENCIES =  \
-	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_store_split_SOURCES = tests/csalt_store_split.c
 tests_csalt_store_split_OBJECTS = tests/csalt_store_split.$(OBJEXT)
 tests_csalt_store_split_LDADD = $(LDADD)
 tests_csalt_store_split_DEPENDENCIES =  \
-	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_store_transfer_SOURCES = tests/csalt_store_transfer.c
 tests_csalt_store_transfer_OBJECTS =  \
 	tests/csalt_store_transfer.$(OBJEXT)
 tests_csalt_store_transfer_LDADD = $(LDADD)
 tests_csalt_store_transfer_DEPENDENCIES =  \
-	$(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
+	$(top_builddir)/src/libcsalt.la
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -255,18 +227,12 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(src_resources_libcsaltfileresource_la_SOURCES) \
-	$(src_resources_libcsaltresources_la_SOURCES) \
-	$(src_stores_libcsaltstores_la_SOURCES) \
-	tests/csalt_file_resource.c tests/csalt_memory_resource.c \
-	tests/csalt_resources_use.c tests/csalt_store_split.c \
-	tests/csalt_store_transfer.c
-DIST_SOURCES = $(src_resources_libcsaltfileresource_la_SOURCES) \
-	$(src_resources_libcsaltresources_la_SOURCES) \
-	$(src_stores_libcsaltstores_la_SOURCES) \
-	tests/csalt_file_resource.c tests/csalt_memory_resource.c \
-	tests/csalt_resources_use.c tests/csalt_store_split.c \
-	tests/csalt_store_transfer.c
+SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
+	tests/csalt_memory_resource.c tests/csalt_resources_use.c \
+	tests/csalt_store_split.c tests/csalt_store_transfer.c
+DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
+	tests/csalt_memory_resource.c tests/csalt_resources_use.c \
+	tests/csalt_store_split.c tests/csalt_store_transfer.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -623,34 +589,15 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/baseresources.h\
 		       src/csalt/fileresource.h
 
-lib_LTLIBRARIES = src/resources/libcsaltresources.la\
-		  src/stores/libcsaltstores.la\
-		  src/resources/libcsaltfileresource.la
-
-src_resources_libcsaltresources_la_SOURCES = src/resources/resources.c\
-	src/csalt/resources.h
-
-src_resources_libcsaltresources_la_LDFLAGS = -version-info 0
-src_stores_libcsaltstores_la_SOURCES = src/stores/stores.c\
-	src/csalt/stores.h
-
-src_stores_libcsaltstores_la_LDFLAGS = -version-info 0
-src_resources_libcsaltfileresource_la_SOURCES = src/resources/file.c\
+lib_LTLIBRARIES = src/libcsalt.la
+src_libcsalt_la_SOURCES = src/resources/resources.c\
+	src/csalt/resources.h\
+	src/stores/stores.c\
+	src/csalt/stores.h\
+	src/resources/file.c\
 	src/csalt/fileresource.h
 
-
-#tests_csalt_resources_use_SOURCES = tests/csalt_resources_use.c
-#
-#tests_csalt_memory_resource_SOURCES = tests/csalt_memory_resource.c
-#
-#tests_csalt_store_split_SOURCES = tests/csalt_store_split.c
-#
-#tests_csalt_store_transfer_SOURCES = tests/csalt_store_transfer.c
-#
-LDADD = $(top_builddir)/src/resources/libcsaltresources.la \
-	$(top_builddir)/src/stores/libcsaltstores.la \
-	$(top_builddir)/src/resources/libcsaltfileresource.la
-
+LDADD = $(top_builddir)/src/libcsalt.la
 #SUBDIRS = src tests
 dist_doc_DATA = README
 all: config.h
@@ -757,16 +704,8 @@ src/resources/$(am__dirstamp):
 src/resources/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/resources/$(DEPDIR)
 	@: > src/resources/$(DEPDIR)/$(am__dirstamp)
-src/resources/file.lo: src/resources/$(am__dirstamp) \
-	src/resources/$(DEPDIR)/$(am__dirstamp)
-
-src/resources/libcsaltfileresource.la: $(src_resources_libcsaltfileresource_la_OBJECTS) $(src_resources_libcsaltfileresource_la_DEPENDENCIES) $(EXTRA_src_resources_libcsaltfileresource_la_DEPENDENCIES) src/resources/$(am__dirstamp)
-	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(src_resources_libcsaltfileresource_la_OBJECTS) $(src_resources_libcsaltfileresource_la_LIBADD) $(LIBS)
 src/resources/resources.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
-
-src/resources/libcsaltresources.la: $(src_resources_libcsaltresources_la_OBJECTS) $(src_resources_libcsaltresources_la_DEPENDENCIES) $(EXTRA_src_resources_libcsaltresources_la_DEPENDENCIES) src/resources/$(am__dirstamp)
-	$(AM_V_CCLD)$(src_resources_libcsaltresources_la_LINK) -rpath $(libdir) $(src_resources_libcsaltresources_la_OBJECTS) $(src_resources_libcsaltresources_la_LIBADD) $(LIBS)
 src/stores/$(am__dirstamp):
 	@$(MKDIR_P) src/stores
 	@: > src/stores/$(am__dirstamp)
@@ -775,9 +714,14 @@ src/stores/$(DEPDIR)/$(am__dirstamp):
 	@: > src/stores/$(DEPDIR)/$(am__dirstamp)
 src/stores/stores.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
+src/resources/file.lo: src/resources/$(am__dirstamp) \
+	src/resources/$(DEPDIR)/$(am__dirstamp)
+src/$(am__dirstamp):
+	@$(MKDIR_P) src
+	@: > src/$(am__dirstamp)
 
-src/stores/libcsaltstores.la: $(src_stores_libcsaltstores_la_OBJECTS) $(src_stores_libcsaltstores_la_DEPENDENCIES) $(EXTRA_src_stores_libcsaltstores_la_DEPENDENCIES) src/stores/$(am__dirstamp)
-	$(AM_V_CCLD)$(src_stores_libcsaltstores_la_LINK) -rpath $(libdir) $(src_stores_libcsaltstores_la_OBJECTS) $(src_stores_libcsaltstores_la_LIBADD) $(LIBS)
+src/libcsalt.la: $(src_libcsalt_la_OBJECTS) $(src_libcsalt_la_DEPENDENCIES) $(EXTRA_src_libcsalt_la_DEPENDENCIES) src/$(am__dirstamp)
+	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(src_libcsalt_la_OBJECTS) $(src_libcsalt_la_LIBADD) $(LIBS)
 tests/$(am__dirstamp):
 	@$(MKDIR_P) tests
 	@: > tests/$(am__dirstamp)
@@ -870,6 +814,7 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
+	-rm -rf src/.libs src/_libs
 	-rm -rf src/resources/.libs src/resources/_libs
 	-rm -rf src/stores/.libs src/stores/_libs
 	-rm -rf tests/.libs tests/_libs
@@ -1373,6 +1318,7 @@ clean-generic:
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
+	-rm -f src/$(am__dirstamp)
 	-rm -f src/resources/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/resources/$(am__dirstamp)
 	-rm -f src/stores/$(DEPDIR)/$(am__dirstamp)
@@ -1497,7 +1443,6 @@ uninstall-am: uninstall-csaltincludeHEADERS uninstall-dist_docDATA \
 
 .PRECIOUS: Makefile
 
-#src_resources_libcsaltfileresources_la_LDADD = $(top_builddir)/src/libcsaltresources.la
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

@@ -4,19 +4,12 @@ csaltinclude_HEADERS = %reldir%/csalt/util.h\
 		       %reldir%/csalt/baseresources.h\
 		       %reldir%/csalt/fileresource.h
 
-lib_LTLIBRARIES = %reldir%/resources/libcsaltresources.la\
-		  %reldir%/stores/libcsaltstores.la\
-		  %reldir%/resources/libcsaltfileresource.la
+lib_LTLIBRARIES = %reldir%/libcsalt.la
 
-%canon_reldir%_resources_libcsaltresources_la_SOURCES = %reldir%/resources/resources.c\
-	%reldir%/csalt/resources.h
-%canon_reldir%_resources_libcsaltresources_la_LDFLAGS = -version-info 0
-
-%canon_reldir%_stores_libcsaltstores_la_SOURCES = %reldir%/stores/stores.c\
-	%reldir%/csalt/stores.h
-%canon_reldir%_stores_libcsaltstores_la_LDFLAGS = -version-info 0
-
-%canon_reldir%_resources_libcsaltfileresource_la_SOURCES = %reldir%/resources/file.c\
+%canon_reldir%_libcsalt_la_SOURCES = %reldir%/resources/resources.c\
+	%reldir%/csalt/resources.h\
+	%reldir%/stores/stores.c\
+	%reldir%/csalt/stores.h\
+	%reldir%/resources/file.c\
 	%reldir%/csalt/fileresource.h
-#%canon_reldir%_resources_libcsaltfileresources_la_LDADD = $(top_builddir)/src/libcsaltresources.la
 
