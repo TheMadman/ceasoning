@@ -145,6 +145,8 @@ int csalt_store_split(
  * the total, the passed call-back is called, allowing you to
  * perform the same call in a loop (e.g. a render loop or
  * a spin-lock in case you want blocking behaviour).
+ *
+ * \see csalt_transfer()
  */
 struct csalt_transfer {
 	size_t total;
@@ -244,6 +246,8 @@ extern const struct csalt_store_interface csalt_store_memory_implementation;
 
 /**
  * A type representing a continuous block of memory.
+ *
+ * \see csalt_store_memory_bounds()
  */
 struct csalt_memory {
 	const struct csalt_store_interface *vtable;

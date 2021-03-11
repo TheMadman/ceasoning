@@ -1,6 +1,6 @@
 \mainpage Ceasoning: Syntactic sugar for Common C Tasks
 
-\section Where to Start
+\section start Where to Start
 
 This project starts at generalized algorithms, then implements concrete types to use within
 those algorithms. Two examples are:
@@ -11,7 +11,7 @@ those algorithms. Two examples are:
 With the implementation of abstract data types alongside the concrete data types,
 this library will allow for simple expression of complex data transfers and resource lifecycles.
 
-\section General Concepts
+\section concepts Core Concepts
 
 Interfaces are struct definitions including the types of functions they support.  
 Implementations are defined as global variables of the Interface struct types.  

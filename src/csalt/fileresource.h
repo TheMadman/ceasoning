@@ -27,7 +27,7 @@ extern "C" {
  * Do not attempt to initialize directly; instead, use the
  * csalt_resource_file function.
  *
- * \see csalt_resource_file
+ * \see csalt_resource_file()
  */
 struct csalt_resource_file {
 	const struct csalt_resource_interface *vtable;

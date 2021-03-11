@@ -134,14 +134,15 @@ char csalt_noop_valid(const csalt_resource *_);
 void csalt_noop_deinit(csalt_resource *_);
 
 /**
+ * \class csalt_heap baseresources.h csalt/baseresources.h
  * Represents a heap memory resource.
  *
  * Avoid using or modifying the members directly - simple code should
  * create this struct with csalt_memory_make and pass it to csalt_resource_use,
  * or use it as a member for another resource.
  *
- * \see csalt_heap
- * \see csalt_heap_lazy
+ * \see csalt_heap()
+ * \see csalt_heap_lazy()
  */
 struct csalt_heap {
 	const struct csalt_resource_interface * const vtable;
@@ -152,12 +153,12 @@ struct csalt_heap {
 extern const struct csalt_heap csalt_null_heap;
 
 /**
- * Initializes a csalt_memory resource. Uses malloc internally -
+ * Initializes a csalt_heap resource. Uses malloc internally -
  * memory is allocated but not initialized.
  *
  * This function immediately allocates the heap, allowing you
- * to manually check with csalt_resource_valid() immediately
- * after that the allocation was successful.
+ * to manually check with csalt_resource_valid() that the allocation
+ * was successful.
  *
  * For lazy-loading - for example, to use inside an abstract
  * resource - use csalt_heap_lazy().
