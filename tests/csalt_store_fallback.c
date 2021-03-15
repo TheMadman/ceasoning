@@ -117,5 +117,19 @@ int main()
 		return EXIT_TEST_FAILURE;
 	}
 
+	char read_buffer[sizeof(data)] = { 0 };
+
+	csalt_store_read(csalt_store(&fallback), read_buffer, sizeof(data));
+
+	if (strcmp(read_buffer, data)) {
+		print_error("Expected \"%s\", got \"%s\"", data, read_buffer);
+		return EXIT_TEST_FAILURE;
+	}
+
+	if (strcmp((char *)memory, data)) {
+		print_error("Expected \"%s\", got \"%s\"", data, read_buffer);
+		return EXIT_TEST_FAILURE;
+	}
+
 	return EXIT_SUCCESS;
 }

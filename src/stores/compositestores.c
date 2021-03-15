@@ -56,7 +56,7 @@ ssize_t csalt_store_fallback_read(
 		return result;
 
 	result = csalt_store_read(*fallback->list.begin, buffer, size);
-	if (result < size) {
+	if (result < (ssize_t)size) {
 		struct csalt_store_fallback subcalls = *fallback;
 		subcalls.list.begin++;
 		result = csalt_store_fallback_read(csalt_store(&subcalls), buffer, size);
@@ -67,7 +67,7 @@ ssize_t csalt_store_fallback_read(
 			// the whole fallback should gracefully... fall... back
 			// Acts as a blocking transfer deliberately
 			for (size_t transferred = 0; transferred < size;) {
-				csalt_store_transfer(
+				transferred = csalt_store_transfer(
 					&progress,
 					*fallback->list.begin,
 					csalt_store(&subcalls),
@@ -134,7 +134,7 @@ static void manage_splitting(struct split_data *split_data)
 		return;
 	}
 
-	split_data->heap_data->error = csalt_store_split(
+	csalt_store_split(
 		*split_data->current_source,
 		split_data->heap_data->begin,
 		split_data->heap_data->end,

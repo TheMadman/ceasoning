@@ -46,7 +46,7 @@ ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
 ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
 {
 	struct csalt_heap *heap = castto(heap, store);
-	if (size < heap->amount_written)
+	if (heap->amount_written < size)
 		return -1;
 
 	return csalt_memory_read(store, buffer, size);
