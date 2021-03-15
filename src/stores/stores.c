@@ -176,7 +176,7 @@ struct csalt_memory csalt_store_memory_bounds(void *begin, void *end)
 	return result;
 }
 
-void *csalt_store_memory_raw(struct csalt_memory *memory)
+void *csalt_store_memory_raw(const struct csalt_memory *memory)
 {
 	return memory->begin;
 }
@@ -270,15 +270,17 @@ ssize_t csalt_store_transfer(
 	size_t remaining;
 	while ((remaining = progress_remaining(progress))) {
 		ssize_t this_write = csalt_store_transfer_real(&data);
-		if (this_write < 0)
+		if (this_write < 0) {
+			progress->amount_completed = this_write;
 			break;
+		}
 
 		progress->amount_completed += this_write;
 		if (this_write < sizeof(buffer))
 			break;
 	}
 
-	if (!progress_remaining(progress)) {
+	if (callback && !progress_remaining(progress)) {
 		callback(to);
 	}
 

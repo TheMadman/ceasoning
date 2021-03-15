@@ -585,9 +585,10 @@ AM_CFLAGS = -I$(top_srcdir)/src
 csaltincludedir = $(includedir)/csalt/
 csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/resources.h\
-		       src/csalt/stores.h\
 		       src/csalt/baseresources.h\
-		       src/csalt/fileresource.h
+		       src/csalt/fileresource.h\
+		       src/csalt/stores.h\
+		       src/csalt/basestores.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\

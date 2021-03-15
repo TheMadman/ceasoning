@@ -1,8 +1,9 @@
 csaltinclude_HEADERS = %reldir%/csalt/util.h\
 		       %reldir%/csalt/resources.h\
-		       %reldir%/csalt/stores.h\
 		       %reldir%/csalt/baseresources.h\
-		       %reldir%/csalt/fileresource.h
+		       %reldir%/csalt/fileresource.h\
+		       %reldir%/csalt/stores.h\
+		       %reldir%/csalt/basestores.h
 
 lib_LTLIBRARIES = %reldir%/libcsalt.la
 

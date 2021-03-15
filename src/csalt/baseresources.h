@@ -134,8 +134,7 @@ char csalt_noop_valid(const csalt_resource *_);
 void csalt_noop_deinit(csalt_resource *_);
 
 /**
- * \class csalt_heap baseresources.h csalt/baseresources.h
- * Represents a heap memory resource.
+ * \brief Represents a heap memory resource.
  *
  * Avoid using or modifying the members directly - simple code should
  * create this struct with csalt_memory_make and pass it to csalt_resource_use,
@@ -145,9 +144,9 @@ void csalt_noop_deinit(csalt_resource *_);
  * \see csalt_heap_lazy()
  */
 struct csalt_heap {
-	const struct csalt_resource_interface * const vtable;
+	struct csalt_memory parent;
 	size_t size;
-	void *resource_pointer;
+	size_t amount_written;
 };
 
 extern const struct csalt_heap csalt_null_heap;
@@ -182,6 +181,16 @@ struct csalt_heap csalt_heap(size_t size);
 struct csalt_heap csalt_heap_lazy(size_t size);
 
 /**
+ * \brief Gives immediate access to the raw pointer.
+ * 
+ * This function should only really be used for reading data from
+ * the resulting pointer. Safe transfer with other stores
+ * can be done with csalt_store_transfer(), and safe copying
+ * can be done with csalt_store_read().
+ */
+void *csalt_resource_heap_raw(const struct csalt_heap *heap);
+
+/**
  * Function signature for blocks to pass to csalt_resource_use.
  * The function should expect a pointer-to-resource as the
  * only argument, and return any result you wish to pass on,
@@ -202,6 +211,8 @@ typedef struct csalt_heap csalt_resource_block(csalt_resource *);
  *
  */
 struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block);
+
+#define csalt_resource(param) castto(csalt_resource *, (param))
 
 #ifdef __cplusplus
 } // extern "C"
