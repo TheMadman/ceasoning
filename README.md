@@ -15,19 +15,3 @@ initialized - such as pointers-to-interfaces like `csalt_resource` and
 
 Code is written for humans, not computers. Code which is difficult to
 understand is considered a bug - please report it!
-
-While there is no rigid definition of what makes documentation and
-comments good, a good rule-of-thumb is it shouldn't explain the code
-itself. The code should be simple to understand; the documentation should
-explain what can't be contained in the code, such as domain-specific knowledge,
-used design patterns and the like. In short, documentation should put the
-reader in the right frame-of-mind to make the code simple to understand.
-
-I chose the GPL v3 because that's the license I want to use for this project.
-I understand there are businesses that cannot operate with GPL code - I work
-at one personally - but I'm in no way against people making a profit from
-this library. The GPL and FSF are quite explicit in supporting businesses
-selling software and support around Libre software; I want to re-iterate
-that point.
-
-I just love good code more than I like money. Happy hacking!
