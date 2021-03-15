@@ -131,5 +131,8 @@ int main()
 		return EXIT_TEST_FAILURE;
 	}
 
+	csalt_resource_deinit(csalt_resource(&csalt_memory_one));
+	csalt_resource_deinit(csalt_resource(&csalt_memory_two));
+
 	return EXIT_SUCCESS;
 }
