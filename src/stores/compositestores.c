@@ -87,7 +87,11 @@ ssize_t csalt_store_fallback_write(
 )
 {
 	struct csalt_store_fallback *fallback = castto(fallback, store);
-	return csalt_store_write(*fallback->list.begin, buffer, size);
+	fallback->amount_written = max(
+		fallback->amount_written,
+		csalt_store_write(*fallback->list.begin, buffer, size)
+	);
+	return fallback->amount_written;
 }
 
 struct split_data {
@@ -169,6 +173,11 @@ static struct csalt_heap use_heap_memory(csalt_resource *resource)
 
 	manage_splitting(&split_data);
 
+	data->fallback->amount_written = max(
+		data->fallback->amount_written,
+		data->begin + result.amount_written
+	);
+
 	return csalt_null_heap;
 }
 
@@ -222,5 +231,29 @@ size_t csalt_store_fallback_size(const csalt_store *store)
 	return result;
 }
 
+struct csalt_transfer csalt_store_fallback_flush(
+	struct csalt_store_fallback *fallback,
+	struct csalt_transfer *transfers
+)
+{
+	struct csalt_transfer result = { 0 };
+	if (!fallback->amount_written)
+		return result;
 
+	csalt_store **first = fallback->list.begin;
+	csalt_store **current = first + 1;
+	result.total = fallback->amount_written * (fallback->list.end - first);
+	for (; current < fallback->list.end; current++, transfers++) {
+		transfers->total = fallback->amount_written;
+		transfers->amount_completed = csalt_store_transfer(
+			transfers,
+			*current,
+			*first,
+			0
+		);
+		result.amount_completed += transfers->amount_completed;
+	}
+
+	return result;
+}
 

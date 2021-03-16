@@ -17,7 +17,7 @@ extern "C" {
 #endif
 
 /**
- * \brief Most stores are implemented as csalt_store_lists, with different
+ * \brief Most abstract stores are implemented as csalt_store_lists, with different
  * algorithms for iterating over the elements in the list.
  *
  * Take care that the stores placed in lists are of similar size, or capable
@@ -28,6 +28,11 @@ struct csalt_store_list {
 	csalt_store **begin;
 	csalt_store **end;
 };
+
+/**
+ * Convenience macro for casting to a csalt_store_list *
+ */
+#define csalt_store_list(param) castto(struct csalt_store_list *, (param))
 
 /**
  * \brief Returns the store at the given index.
@@ -82,6 +87,7 @@ size_t csalt_store_list_length(const struct csalt_store_list *store);
  */
 struct csalt_store_fallback {
 	struct csalt_store_list list;
+	size_t amount_written;
 };
 
 /**
@@ -121,7 +127,34 @@ int csalt_store_fallback_split(
 
 size_t csalt_store_fallback_size(const csalt_store *store);
 
-ssize_t csalt_store_fallback_flush(struct csalt_store_fallback *store);
+/**
+ * \brief Writes out data from the first store into all stores
+ * after it.
+ *
+ * Takes an array of csalt_transfers, one for each store
+ * in the fallback, which can safely be initialized to zero:
+ *
+ * \code
+ * 	// Outside your main loop
+ * 	// Assume number_stores is a const and you know the list's length
+ * 	// otherwise, this becomes a heap allocation
+ * 	// size_t number_stores = csalt_store_list_length(&fallback_ptr->list);
+ * 	struct csalt_transfer transfers[number_stores] = { 0 };
+ *
+ * 	// inside your main loop, or in a while loop for blocking behaviour
+ * 	struct csalt_transfer total_progress;
+ * 	total_progress = csalt_store_fallback_flush(fallback_ptr, transfers);
+ * \endcode
+ *
+ * As an academic note, you can actually safely use `number_stores - 1`
+ * csalt_transfers, since you're not transferring from the first store
+ * to the rest - but this is easier to remember.
+ *
+ */
+struct csalt_transfer csalt_store_fallback_flush(
+	struct csalt_store_fallback *store,
+	struct csalt_transfer *transfers
+);
 
 #ifdef __cplusplus
 }
