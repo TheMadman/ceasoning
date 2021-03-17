@@ -2,7 +2,8 @@
 #define CSALTUTIL_H
 
 /**
- * \file This file provides macros for common tasks
+ * \file
+ * This file provides macros for common tasks
  */
 
 /**
@@ -41,6 +42,6 @@
  * to cast the source to, or a destination variable whose
  * type the source should be cast to.
  */
-#define castto(dest, source) ((typeof(dest)) source)
+#define castto(dest, source) ((typeof(dest)) (source))
 
 #endif // CSALTUTIL_H

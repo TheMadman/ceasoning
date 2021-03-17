@@ -245,17 +245,16 @@ int csalt_memory_split(
 extern const struct csalt_store_interface csalt_store_memory_implementation;
 
 /**
- * A type representing a continuous block of memory.
+ * \brief A type representing a continuous block of memory.
  *
- * This store only allows reading back as many bytes as
- * have been written to it. If a write request would
- * overflow, it returns -1.
+ * Use this store to represent an already-managed block of memory,
+ * such as function stack or application-global memory.
  *
- * If a read request is for more byte than have been
- * written, or for more bytes than the total capacity
- * of the store, the read request returns -1.
+ * For heap memory, csalt_heap provides a resource which can
+ * be managed for you by passing it to csalt_resource_use().
  *
  * \see csalt_store_memory_bounds()
+ * \see csalt_heap
  */
 struct csalt_memory {
 	const struct csalt_store_interface *vtable;

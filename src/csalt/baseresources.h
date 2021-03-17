@@ -37,6 +37,8 @@ struct csalt_memory;
  * pointer; casting a pointer to your custom struct to
  * a (csalt_resource *) will allow you to use it in those
  * functions.
+ *
+ * \see csalt_resource()
  */
 typedef struct csalt_resource_interface *csalt_resource;
 
@@ -140,6 +142,11 @@ void csalt_noop_deinit(csalt_resource *_);
  * create this struct with csalt_memory_make and pass it to csalt_resource_use,
  * or use it as a member for another resource.
  *
+ * This struct does not allow reading back more data than has been written to
+ * it with csalt_store_write() or csalt_store_transfer(). This helps to
+ * prevent uninitialized memory. It also allows using a heap as a caching
+ * element in csalt_store_fallback with ease.
+ *
  * \see csalt_heap()
  * \see csalt_heap_lazy()
  */
@@ -212,6 +219,9 @@ typedef struct csalt_heap csalt_resource_block(csalt_resource *);
  */
 struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block);
 
+/**
+ * Provides a shorthand for castto(csalt_resource *, (param))
+ */
 #define csalt_resource(param) castto(csalt_resource *, (param))
 
 #ifdef __cplusplus
