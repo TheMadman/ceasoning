@@ -1,0 +1,8 @@
+<map id="resource_heap_data" name="resource_heap_data">
+<area shape="rect" id="node1" title=" " alt="" coords="54,303,207,329"/>
+<area shape="rect" id="node2" href="$structcsalt__heap.html" title="Represents a heap memory resource." alt="" coords="13,213,105,240"/>
+<area shape="rect" id="node3" href="$structcsalt__memory.html" title="A type representing a continuous block of memory." alt="" coords="5,124,120,151"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="53,5,211,32"/>
+<area shape="rect" id="node6" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="144,124,264,151"/>
+<area shape="rect" id="node5" href="$structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="129,213,281,240"/>
+</map>
