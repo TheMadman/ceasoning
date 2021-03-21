@@ -16,6 +16,28 @@
 extern "C" {
 #endif
 
+struct csalt_store_list;
+
+/**
+ * This function type is the kind of function called by the generic csalt_store_list
+ * interface when csalt_store_split() is called on it. It allows the logic of
+ * splitting the list to be contained in csalt_store_list, while different kinds
+ * of list only have to initialize a stack variable using the result.
+ */
+typedef int csalt_store_list_receive_split_fn(
+	struct csalt_store_list *origina,
+	struct csalt_store_list *list,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
+);
+
+struct csalt_store_list_interface {
+	struct csalt_store_interface parent;
+	csalt_store_list_receive_split_fn *receive_split_list;
+};
+
 /**
  * \brief Most abstract stores are implemented as csalt_store_lists, with different
  * algorithms for iterating over the elements in the list.
@@ -24,7 +46,7 @@ extern "C" {
  * of reading/writing a similar amount of data by some other means.
  */
 struct csalt_store_list {
-	struct csalt_store_interface *vtable;
+	struct csalt_store_list_interface *vtable;
 	csalt_store **begin;
 	csalt_store **end;
 };
@@ -49,6 +71,25 @@ csalt_store *csalt_store_list_get(
  * \brief Returns the number of stores in this list store.
  */
 size_t csalt_store_list_length(const struct csalt_store_list *store);
+
+ssize_t csalt_store_list_read(const csalt_store *store, void *buffer, size_t amount);
+ssize_t csalt_store_list_write(csalt_store *store, const void *buffer, size_t amount);
+int csalt_store_list_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
+);
+size_t csalt_store_list_size(const csalt_store *store);
+int csalt_store_list_receive_split(
+	struct csalt_store_list *original,
+	struct csalt_store_list *list,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
+);
 
 /**
  * \brief The csalt_store_fallback_store is a csalt_store_list providing
@@ -117,8 +158,9 @@ ssize_t csalt_store_fallback_write(
 	size_t size
 );
 
-int csalt_store_fallback_split(
-	csalt_store *store,
+int csalt_store_fallback_receive_split(
+	struct csalt_store_list *original,
+	struct csalt_store_list *list,
 	size_t begin,
 	size_t end,
 	csalt_store_block_fn *block,
