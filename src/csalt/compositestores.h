@@ -56,6 +56,13 @@ struct csalt_store_list {
  */
 #define csalt_store_list(param) castto(struct csalt_store_list *, (param))
 
+struct csalt_store_list csalt_store_list_bounds(
+	csalt_store **begin,
+	csalt_store **end
+);
+
+#define csalt_store_list_array(array) (csalt_store_list_bounds(array, (&array[arrlength(array)])))
+
 /**
  * \brief Returns the store at the given index.
  *

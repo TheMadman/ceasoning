@@ -4,6 +4,7 @@
 #include <csalt/util.h>
 
 #include <stdint.h>
+#include <limits.h>
 
 struct csalt_store_list_interface csalt_store_list_implementation = {
 	{
@@ -14,6 +15,19 @@ struct csalt_store_list_interface csalt_store_list_implementation = {
 	},
 	csalt_store_list_receive_split,
 };
+
+struct csalt_store_list csalt_store_list_bounds(
+	csalt_store **begin,
+	csalt_store **end
+)
+{
+	struct csalt_store_list result = {
+		&csalt_store_list_implementation,
+		begin,
+		end,
+	};
+	return result;
+}
 
 csalt_store *csalt_store_list_get(
 	const struct csalt_store_list *store,
@@ -47,7 +61,7 @@ ssize_t csalt_store_list_read(const csalt_store *store, void *buffer, size_t amo
 ssize_t csalt_store_list_write(csalt_store *store, const void *buffer, size_t amount)
 {
 	struct csalt_store_list *list = castto(list, store);
-	ssize_t result = UINTMAX_MAX;
+	ssize_t result = SSIZE_MAX;
 
 	for (csalt_store **current = list->begin; current < list->end; current++) {
 		result = min(result, csalt_store_write(*current, buffer, amount));
@@ -61,7 +75,7 @@ ssize_t csalt_store_list_write(csalt_store *store, const void *buffer, size_t am
 size_t csalt_store_list_size(const csalt_store *store)
 {
 	struct csalt_store_list *list = castto(list, store);
-	size_t result = UINTMAX_MAX;
+	size_t result = SIZE_MAX;
 	for(
 		csalt_store **current = list->begin;
 		current < list->end;
@@ -298,7 +312,7 @@ ssize_t csalt_store_fallback_write(
 size_t csalt_store_fallback_size(const csalt_store *store)
 {
 	struct csalt_store_fallback *fallback = castto(fallback, store);
-	size_t result = UINTMAX_MAX;
+	size_t result = SIZE_MAX;
 	for(
 		csalt_store **current = fallback->list.begin;
 		current < fallback->list.end;
