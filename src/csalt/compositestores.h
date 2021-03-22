@@ -42,8 +42,30 @@ struct csalt_store_list_interface {
  * \brief Most abstract stores are implemented as csalt_store_lists, with different
  * algorithms for iterating over the elements in the list.
  *
- * Take care that the stores placed in lists are of similar size, or capable
- * of reading/writing a similar amount of data by some other means.
+ * Care must be taken when using a bare csalt_store_list. Attempting to write to
+ * the list will return the smallest amount written; re-writing or
+ * csalt_store_transfer()ing multiple times should not result in data loss, but
+ * may result in the same data being (over-)written multiple times in some
+ * stores. If an error occurs in any store, this store returns an error value,
+ * with no way to test which store caused the failure.
+ *
+ * Writes are attempted in every store, including stores that come after a
+ * store which fails with an error value.
+ *
+ * Reads attempt to read from each store in order, until a store returns
+ * the requested number of bytes.
+ *
+ * It is best to use this store only for stores which have similar availability
+ * or error rates, such as stores of the same kind. For stores which may read or
+ * write different amounts of bytes in a single read/write, other list stores
+ * provide different algorithms for handling different cases: for example,
+ * a csalt_store_fallback provides a cache-esque algorithm for handling multiple
+ * stores, with a csalt_store_fallback_flush() method for reliably
+ * updating data in slower stores.
+ *
+ * \see csalt_store_list_array()
+ * \see csalt_store_list_bounds()
+ * \see csalt_store_list()
  */
 struct csalt_store_list {
 	struct csalt_store_list_interface *vtable;
@@ -52,15 +74,27 @@ struct csalt_store_list {
 };
 
 /**
- * Convenience macro for casting to a csalt_store_list *
+ * \brief Convenience macro for casting to a csalt_store_list *
+ *
+ * \see csalt_store_list
  */
 #define csalt_store_list(param) castto(struct csalt_store_list *, (param))
 
+/**
+ * \brief Constructor for a csalt_store_list.
+ *
+ * \see csalt_store_list
+ */
 struct csalt_store_list csalt_store_list_bounds(
 	csalt_store **begin,
 	csalt_store **end
 );
 
+/**
+ * \brief Convenience macro for constructing a csalt_store_list from an array.
+ *
+ * \see csalt_store_list
+ */
 #define csalt_store_list_array(array) (csalt_store_list_bounds(array, (&array[arrlength(array)])))
 
 /**
@@ -132,6 +166,9 @@ int csalt_store_list_receive_split(
  * Calling csalt_store_split() on a fallback store provides a fallback
  * store in which every store it contains is split by the given amount.
  * This requires at least one dynamic memory allocation.
+ *
+ * \see csalt_store_fallback_array()
+ * \see csalt_store_fallback_bounds()
  */
 struct csalt_store_fallback {
 	struct csalt_store_list list;
@@ -141,6 +178,8 @@ struct csalt_store_fallback {
 /**
  * \brief Constructor for csalt_store_fallback taking a range of
  * pointers.
+ *
+ * \see csalt_store_fallback
  */
 struct csalt_store_fallback csalt_store_fallback_bounds(
 	csalt_store **begin,
@@ -150,6 +189,8 @@ struct csalt_store_fallback csalt_store_fallback_bounds(
 /**
  * \brief Convenience macro for initializing a fallback store from an
  * array.
+ *
+ * \see csalt_store_fallback
  */
 #define csalt_store_fallback_array(array) csalt_store_fallback_bounds((array), (&array[arrlength(array)]))
 
@@ -197,8 +238,7 @@ size_t csalt_store_fallback_size(const csalt_store *store);
  *
  * As an academic note, you can actually safely use `number_stores - 1`
  * csalt_transfers, since you're not transferring from the first store
- * to the rest - but this is easier to remember.
- *
+ * to the rest - but this code is simpler to read and remember.
  */
 struct csalt_transfer csalt_store_fallback_flush(
 	struct csalt_store_fallback *store,

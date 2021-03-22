@@ -8,8 +8,23 @@ those algorithms. Two examples are:
 - csalt_store_transfer() - Non-blocking transfer of data between any two points
 - csalt_resource_use() - Initialize, test, use and free a system resource
 
-With the implementation of abstract data types alongside the concrete data types,
-this library will allow for simple expression of complex data transfers and resource lifecycles.
+Concrete stores and resources represent real resources, such as memory and disk space:
+
+- csalt_memory - represents a block of unmanaged memory, such as a stack member
+  or a global variable
+- csalt_heap - represents a heap memory allocation request, which can be managed automatically
+  with csalt_resource_use()
+- csalt_resource_file - represents a file, opened by a path
+
+Composite stores provide simple means to operate on multiple stores:
+
+- csalt_store_list - treats multiple stores as if they are a single store
+- csalt_store_fallback - uses stores as a priority list, where later stores are only
+  checked if earlier stores don't contain the requested data
+
+Concrete and composite stores may be combined in any way, allowing simple expression of
+complex relationships - for example, a csalt_store_fallback may contain a csalt_heap and a
+csalt_store_list of csalt_resource_file%s.
 
 \section concepts Core Concepts
 

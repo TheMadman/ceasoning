@@ -38,7 +38,7 @@ csalt_store *csalt_store_list_get(
 		return 0;
 	}
 
-	return csalt_store(store->begin[index]);
+	return store->begin[index];
 }
 
 ssize_t csalt_store_list_read(const csalt_store *store, void *buffer, size_t amount)
@@ -65,8 +65,6 @@ ssize_t csalt_store_list_write(csalt_store *store, const void *buffer, size_t am
 
 	for (csalt_store **current = list->begin; current < list->end; current++) {
 		result = min(result, csalt_store_write(*current, buffer, amount));
-		if (result < 0)
-			return -1;
 	}
 
 	return result;

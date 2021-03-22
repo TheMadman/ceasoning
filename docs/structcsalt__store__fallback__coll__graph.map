@@ -1,5 +1,6 @@
 <map id="csalt_store_fallback" name="csalt_store_fallback">
-<area shape="rect" id="node1" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="9,213,161,240"/>
-<area shape="rect" id="node2" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="25,124,145,151"/>
+<area shape="rect" id="node1" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="9,276,161,303"/>
+<area shape="rect" id="node2" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="25,187,145,213"/>
 <area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
+<area shape="rect" id="node4" href="$structcsalt__store__list__interface.html" title=" " alt="" coords="129,96,315,123"/>
 </map>

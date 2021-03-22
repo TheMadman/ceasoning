@@ -72,7 +72,18 @@ Where to Start</h1>
 <li><a class="el" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
 <li><a class="el" href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822" title="Takes a pointer to resource struct and a code block, passes the resource to the code block,...">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
 </ul>
-<p>With the implementation of abstract data types alongside the concrete data types, this library will allow for simple expression of complex data transfers and resource lifecycles.</p>
+<p>Concrete stores and resources represent real resources, such as memory and disk space:</p>
+<ul>
+<li><a class="el" href="structcsalt__memory.html" title="A type representing a continuous block of memory.">csalt_memory</a> - represents a block of unmanaged memory, such as a stack member or a global variable</li>
+<li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822" title="Takes a pointer to resource struct and a code block, passes the resource to the code block,...">csalt_resource_use()</a></li>
+<li><a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> - represents a file, opened by a path</li>
+</ul>
+<p>Composite stores provide simple means to operate on multiple stores:</p>
+<ul>
+<li><a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> - treats multiple stores as if they are a single store</li>
+<li><a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> - uses stores as a priority list, where later stores are only checked if earlier stores don't contain the requested data</li>
+</ul>
+<p>Concrete and composite stores may be combined in any way, allowing simple expression of complex relationships - for example, a <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> may contain a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> and a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> of <a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a>s.</p>
 <h1><a class="anchor" id="concepts"></a>
 Core Concepts</h1>
 <p>Interfaces are struct definitions including the types of functions they support. <br  />
