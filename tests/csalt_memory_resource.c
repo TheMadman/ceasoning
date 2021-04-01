@@ -6,10 +6,12 @@
 
 int block_called = 0;
 
-struct csalt_heap block(csalt_resource *_)
+int block(csalt_resource *_, csalt_store *__)
 {
+	(void)_;
+	(void)__;
 	block_called++;
-	return csalt_null_heap;
+	return 0;
 }
 
 int main()
@@ -17,7 +19,7 @@ int main()
 	// size -1 should cause failure
 	struct csalt_heap failure = csalt_heap_lazy(-1);
 
-	csalt_resource_use((csalt_resource *)&failure, block);
+	csalt_resource_use((csalt_resource *)&failure, block, 0);
 
 	if (block_called) {
 		print_error("Block was called on error");
@@ -26,7 +28,7 @@ int main()
 
 	struct csalt_heap success = csalt_heap_lazy(1);
 
-	csalt_resource_use((csalt_resource *)&success, block);
+	csalt_resource_use((csalt_resource *)&success, block, 0);
 
 	if (!block_called) {
 		print_error("Block wasn't called when it should have been");

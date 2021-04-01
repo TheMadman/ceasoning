@@ -17,8 +17,9 @@ void noop(csalt_store *dest)
 	(void)dest;
 }
 
-struct csalt_heap test_write(csalt_resource *resource)
+int test_write(csalt_resource *resource, csalt_store *_)
 {
+	(void)_;
 	test_write_called = 1;
 	struct csalt_resource_file *file = castto(file, resource);
 	int a = 1;
@@ -44,10 +45,10 @@ struct csalt_heap test_write(csalt_resource *resource)
 		exit(EXIT_TEST_FAILURE);
 	}
 
-	return csalt_null_heap;
+	return 0;
 }
 
-struct csalt_heap test_read(csalt_resource *resource)
+int test_read(csalt_resource *resource, csalt_store *_)
 {
 	test_read_called = 1;
 	struct csalt_resource_file *file = castto(file, resource);
@@ -81,14 +82,14 @@ struct csalt_heap test_read(csalt_resource *resource)
 		unlink(file->filename);
 		exit(EXIT_TEST_FAILURE);
 	}
-	return csalt_null_heap;
+	return 0;
 }
 
 int main()
 {
 	// first constructor -- creates file if not exists
 	struct csalt_resource_file file = csalt_resource_create_file("./" FILENAME, O_RDWR, 0600);
-	csalt_resource_use(castto(csalt_resource *, &file), test_write);
+	csalt_resource_use(csalt_resource(&file), test_write, 0);
 	if (!test_write_called) {
 		print_error("Write wasn't called when it should have been");
 		unlink("./" FILENAME);
@@ -97,7 +98,7 @@ int main()
 
 	// second constructor -- file must exist before init
 	struct csalt_resource_file file2 = csalt_resource_file("./" FILENAME, O_RDONLY);
-	csalt_resource_use(castto(csalt_resource *, &file2), test_read);
+	csalt_resource_use(csalt_resource(&file2), test_read, 0);
 	if (!test_read_called) {
 		print_error("Read wasn't called when it should have been");
 		unlink("./" FILENAME);

@@ -198,26 +198,41 @@ struct csalt_heap csalt_heap_lazy(size_t size);
 void *csalt_resource_heap_raw(const struct csalt_heap *heap);
 
 /**
- * Function signature for blocks to pass to csalt_resource_use.
- * The function should expect a pointer-to-resource as the
- * only argument, and return any result you wish to pass on,
- * or a null pointer.
+ * \brief Function signature for blocks to pass to csalt_resource_use.
+ *
+ * The function should expect a pointer-to-resource and a
+ * pointer-to-store as arguments, with the store acting as an
+ * out parameter, and return a value useful for error checking
+ * in your code.
+ *
+ * Note that csalt_resource_use returns -1 if there was an error
+ * initializing the resource.
+ *
+ * \see csalt_resource_use()
  */
-typedef struct csalt_heap csalt_resource_block(csalt_resource *);
+typedef int csalt_resource_block(csalt_resource *, csalt_store *);
 
 /**
- * Takes a pointer to resource struct and a code block,
- * passes the resource to the code block, cleans up the
- * resource and finally, returns the result of code_block.
+ * \brief Manages a resource lifecycle and executes the given
+ * function.
+ *
+ * Takes a pointer to resource struct, a code block and
+ * an out parameter implementing the csalt_store interface,
+ * passes the resource and out parameter to the code block,
+ * cleans up the resource and finally, returns the result of
+ * code_block.
  *
  * This function also checks if resource allocation was
- * successful and exits immediately when it failed.
+ * successful and returns -1 if it failed.
  * Checking validity with csalt_resource_valid can be skipped
  * if the function passed in code_block returns an error value
  * on failure.
- *
  */
-struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block);
+int csalt_resource_use(
+	csalt_resource *resource,
+	csalt_resource_block *code_block,
+	csalt_store *out
+);
 
 /**
  * Provides a shorthand for castto(csalt_resource *, (param))

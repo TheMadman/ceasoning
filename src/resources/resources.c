@@ -7,32 +7,24 @@
 #include "csalt/util.h"
 
 // Memory resource functions
+static struct csalt_resource_interface uninitialized_heap_implementation;
+static struct csalt_resource_interface initialized_heap_implementation;
 
-void csalt_heap_init(csalt_resource *resource)
+void csalt_heap_initialized_init(csalt_resource *resource)
 {
-	struct csalt_heap *memory = castto(memory, resource);
-	if (!csalt_resource_valid(resource)) {
-		char *result = malloc(memory->size);
-		memory->parent.begin = result;
-		memory->parent.end = result + memory->size;
-	}
+	(void)resource;
 }
 
-char csalt_heap_valid(const csalt_resource *resource)
-{
-	struct csalt_heap *memory = (struct csalt_heap *)resource;
-	return !!memory->parent.begin;
-}
-
-void csalt_heap_deinit(csalt_resource *resource)
+void csalt_heap_initialized_deinit(csalt_resource *resource)
 {
 	struct csalt_heap *memory = (struct csalt_heap *)resource;
 	free(memory->parent.begin);
 	memory->parent.begin = 0;
 	memory->parent.end = 0;
+	memory->parent.vtable = (struct csalt_store_interface *)&uninitialized_heap_implementation;
 }
 
-ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
+ssize_t csalt_heap_initialized_write(csalt_store *store, const void *buffer, size_t size)
 {
 	ssize_t written = csalt_memory_write(store, buffer, size);
 	if (written < 0)
@@ -43,7 +35,7 @@ ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
 	return written;
 }
 
-ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
+ssize_t csalt_heap_initialized_read(const csalt_store *store, void *buffer, size_t size)
 {
 	struct csalt_heap *heap = castto(heap, store);
 	size = min(size, heap->amount_written);
@@ -51,7 +43,7 @@ ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
 	return csalt_memory_read(store, buffer, size);
 }
 
-int csalt_heap_split(
+int csalt_heap_initialized_split(
 	csalt_store *store,
 	size_t begin,
 	size_t end,
@@ -84,7 +76,64 @@ int csalt_heap_split(
 	return result;
 }
 
-struct csalt_resource_interface heap_interface = {
+void csalt_heap_init(csalt_resource *resource)
+{
+	struct csalt_heap *memory = castto(memory, resource);
+	char *result = malloc(memory->size);
+	if (result) {
+		memory->parent.vtable = (struct csalt_store_interface *)&initialized_heap_implementation;
+		memory->parent.begin = result;
+		memory->parent.end = result + memory->size;
+	}
+}
+
+char csalt_heap_valid(const csalt_resource *resource)
+{
+	struct csalt_heap *memory = (struct csalt_heap *)resource;
+	return !!memory->parent.begin;
+}
+
+void csalt_heap_deinit(csalt_resource *resource)
+{
+	// uninitialized deinit does nothing
+	// replaced by initialize to initialized_deinit
+	(void)resource;
+}
+
+ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
+{
+	// unititialized write just errors
+	(void)store;
+	(void)buffer;
+	(void)size;
+	return -1;
+}
+
+ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
+{
+	(void)store;
+	(void)buffer;
+	(void)size;
+	return -1;
+}
+
+int csalt_heap_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
+)
+{
+	(void)store;
+	(void)begin;
+	(void)end;
+	(void)block;
+	(void)data;
+	return -1;
+}
+
+static struct csalt_resource_interface uninitialized_heap_implementation = {
 	{
 		csalt_heap_read,
 		csalt_heap_write,
@@ -96,11 +145,23 @@ struct csalt_resource_interface heap_interface = {
 	csalt_heap_deinit,
 };
 
+static struct csalt_resource_interface initialized_heap_implementation = {
+	{
+		csalt_heap_initialized_read,
+		csalt_heap_initialized_write,
+		csalt_memory_size,
+		csalt_heap_initialized_split,
+	},
+	csalt_heap_initialized_init,
+	csalt_heap_valid,
+	csalt_heap_initialized_deinit,
+};
+
 struct csalt_heap csalt_heap_lazy(size_t size)
 {
 	struct csalt_heap result = {
 		{
-			&heap_interface.parent,
+			&uninitialized_heap_implementation.parent,
 			0,
 		},
 		size,
@@ -176,12 +237,16 @@ void csalt_resource_deinit(csalt_resource *resource)
 	(*resource)->deinit(resource);
 }
 
-struct csalt_heap csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block)
+int csalt_resource_use(
+	csalt_resource *resource,
+	csalt_resource_block *code_block,
+	csalt_store *out
+)
 {
 	csalt_resource_init(resource);
 	if (!csalt_resource_valid(resource))
-		return csalt_null_heap;
-	struct csalt_heap result = code_block(resource);
+		return -1;
+	int result = code_block(resource, out);
 	csalt_resource_deinit(resource);
 	return result;
 }

@@ -39,11 +39,12 @@ char valid(const csalt_resource *_)
 	return 1;
 }
 
-struct csalt_heap block(csalt_resource *_)
+int block(csalt_resource *_, csalt_store *__)
 {
 	(void)_;
+	(void)__;
 	block_called++;
-	return csalt_null_heap;
+	return 0;
 }
 
 void deinit(csalt_resource *_)
@@ -67,7 +68,7 @@ struct csalt_resource_interface test_interface = {
 int main()
 {
 	csalt_resource test = &test_interface;
-	csalt_resource_use(&test, block);
+	csalt_resource_use(&test, block, 0);
 	int result = (
 		init_called &&
 		valid_called &&

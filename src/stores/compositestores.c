@@ -161,7 +161,7 @@ static void manage_splitting(struct split_data *split_data)
 	);
 }
 
-static struct csalt_heap use_heap_memory(csalt_resource *resource)
+static int use_heap_memory(csalt_resource *resource, csalt_store *out)
 {
 	struct resource_heap_data *data = castto(data, resource);
 	
@@ -187,7 +187,7 @@ static struct csalt_heap use_heap_memory(csalt_resource *resource)
 
 	manage_splitting(&split_data);
 
-	return csalt_null_heap;
+	return 0;
 }
 
 /*
@@ -220,7 +220,8 @@ int csalt_store_list_split(
 	};
 	csalt_resource_use(
 		csalt_resource(&heap_data),
-		use_heap_memory
+		use_heap_memory,
+		0
 	);
 	return heap_data.error;
 }
