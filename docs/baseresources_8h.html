@@ -152,6 +152,9 @@ typedef char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a82caa9fd32d3047a64d6b0f86507b42d">csalt_deinit_fn</a>(<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
 <tr class="memdesc:a82caa9fd32d3047a64d6b0f86507b42d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type for cleaning up a resource. <br /></td></tr>
 <tr class="separator:a82caa9fd32d3047a64d6b0f86507b42d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff6ea10aeea8484821e9c3364620df3d"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#aff6ea10aeea8484821e9c3364620df3d">csalt_resource_block</a>(<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *)</td></tr>
+<tr class="memdesc:aff6ea10aeea8484821e9c3364620df3d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function signature for blocks to pass to csalt_resource_use.  <a href="baseresources_8h.html#aff6ea10aeea8484821e9c3364620df3d">More...</a><br /></td></tr>
+<tr class="separator:aff6ea10aeea8484821e9c3364620df3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -187,12 +190,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 <tr class="memitem:a3344f164d4e87a46b6aff0b5238fc922"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a3344f164d4e87a46b6aff0b5238fc922">csalt_resource_heap_raw</a> (const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a> *heap)</td></tr>
 <tr class="memdesc:a3344f164d4e87a46b6aff0b5238fc922"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives immediate access to the raw pointer.  <a href="baseresources_8h.html#a3344f164d4e87a46b6aff0b5238fc922">More...</a><br /></td></tr>
 <tr class="separator:a3344f164d4e87a46b6aff0b5238fc922"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1f6c469baa1787f75c13d8060e0dbe2a"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a1f6c469baa1787f75c13d8060e0dbe2a">csalt_resource_block</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
-<tr class="memdesc:a1f6c469baa1787f75c13d8060e0dbe2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function signature for blocks to pass to csalt_resource_use.  <a href="baseresources_8h.html#a1f6c469baa1787f75c13d8060e0dbe2a">More...</a><br /></td></tr>
-<tr class="separator:a1f6c469baa1787f75c13d8060e0dbe2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b3c328f6708c66afc2fa5e3212fd822"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="baseresources_8h.html#a1f6c469baa1787f75c13d8060e0dbe2a">csalt_resource_block</a> *code_block)</td></tr>
-<tr class="memdesc:a8b3c328f6708c66afc2fa5e3212fd822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes a pointer to resource struct and a code block, passes the resource to the code block, cleans up the resource and finally, returns the result of code_block.  <a href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822">More...</a><br /></td></tr>
-<tr class="separator:a8b3c328f6708c66afc2fa5e3212fd822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad899570f6f3799ff5a028cb0ac44af45"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="baseresources_8h.html#aff6ea10aeea8484821e9c3364620df3d">csalt_resource_block</a> *code_block, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *out)</td></tr>
+<tr class="memdesc:ad899570f6f3799ff5a028cb0ac44af45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a resource lifecycle and executes the given function.  <a href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45">More...</a><br /></td></tr>
+<tr class="separator:ad899570f6f3799ff5a028cb0ac44af45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -220,6 +220,25 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
 <p>To create custom structs which can manage resources, use a struct csalt_resource_interface* as the first member. </p>
 <p>Functions operating on resources take a csalt_resource pointer; casting a pointer to your custom struct to a (csalt_resource *) will allow you to use it in those functions.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="baseresources_8h.html#a646c92cbee29b7f4bbb6d7564df00c8a" title="Provides a shorthand for castto(csalt_resource *, (param))">csalt_resource()</a> </dd></dl>
+
+</div>
+</div>
+<a id="aff6ea10aeea8484821e9c3364620df3d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aff6ea10aeea8484821e9c3364620df3d">&#9670;&nbsp;</a></span>csalt_resource_block</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef int csalt_resource_block(<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Function signature for blocks to pass to csalt_resource_use. </p>
+<p>The function should expect a pointer-to-resource and a pointer-to-store as arguments, with the store acting as an out parameter, and return a value useful for error checking in your code.</p>
+<p>Note that csalt_resource_use returns -1 if there was an error initializing the resource.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> </dd></dl>
 
 </div>
 </div>
@@ -305,27 +324,6 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
 
 </div>
 </div>
-<a id="a1f6c469baa1787f75c13d8060e0dbe2a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1f6c469baa1787f75c13d8060e0dbe2a">&#9670;&nbsp;</a></span>csalt_resource_block()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a> csalt_resource_block </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function signature for blocks to pass to csalt_resource_use. </p>
-<p>The function should expect a pointer-to-resource as the only argument, and return any result you wish to pass on, or a null pointer. </p>
-
-</div>
-</div>
 <a id="a71a312967761bd2e08c48c9ccd5d9a57"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a71a312967761bd2e08c48c9ccd5d9a57">&#9670;&nbsp;</a></span>csalt_resource_deinit()</h2>
 
@@ -368,14 +366,14 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
 
 </div>
 </div>
-<a id="a8b3c328f6708c66afc2fa5e3212fd822"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8b3c328f6708c66afc2fa5e3212fd822">&#9670;&nbsp;</a></span>csalt_resource_use()</h2>
+<a id="ad899570f6f3799ff5a028cb0ac44af45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad899570f6f3799ff5a028cb0ac44af45">&#9670;&nbsp;</a></span>csalt_resource_use()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a> csalt_resource_use </td>
+          <td class="memname">int csalt_resource_use </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td>
           <td class="paramname"><em>resource</em>, </td>
@@ -383,8 +381,14 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="baseresources_8h.html#a1f6c469baa1787f75c13d8060e0dbe2a">csalt_resource_block</a> *&#160;</td>
-          <td class="paramname"><em>code_block</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#aff6ea10aeea8484821e9c3364620df3d">csalt_resource_block</a> *&#160;</td>
+          <td class="paramname"><em>code_block</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td>
+          <td class="paramname"><em>out</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -394,8 +398,9 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
       </table>
 </div><div class="memdoc">
 
-<p>Takes a pointer to resource struct and a code block, passes the resource to the code block, cleans up the resource and finally, returns the result of code_block. </p>
-<p>This function also checks if resource allocation was successful and exits immediately when it failed. Checking validity with csalt_resource_valid can be skipped if the function passed in code_block returns an error value on failure. </p>
+<p>Manages a resource lifecycle and executes the given function. </p>
+<p>Takes a pointer to resource struct, a code block and an out parameter implementing the csalt_store interface, passes the resource and out parameter to the code block, cleans up the resource and finally, returns the result of code_block.</p>
+<p>This function also checks if resource allocation was successful and returns -1 if it failed. Checking validity with csalt_resource_valid can be skipped if the function passed in code_block returns an error value on failure. </p>
 
 </div>
 </div>

@@ -70,12 +70,12 @@ Where to Start</h1>
 <p>This project starts at generalized algorithms, then implements concrete types to use within those algorithms. Two examples are:</p>
 <ul>
 <li><a class="el" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
-<li><a class="el" href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822" title="Takes a pointer to resource struct and a code block, passes the resource to the code block,...">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
+<li><a class="el" href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
 </ul>
 <p>Concrete stores and resources represent real resources, such as memory and disk space:</p>
 <ul>
 <li><a class="el" href="structcsalt__memory.html" title="A type representing a continuous block of memory.">csalt_memory</a> - represents a block of unmanaged memory, such as a stack member or a global variable</li>
-<li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#a8b3c328f6708c66afc2fa5e3212fd822" title="Takes a pointer to resource struct and a code block, passes the resource to the code block,...">csalt_resource_use()</a></li>
+<li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a></li>
 <li><a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> - represents a file, opened by a path</li>
 </ul>
 <p>Composite stores provide simple means to operate on multiple stores:</p>
