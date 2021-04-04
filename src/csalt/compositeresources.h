@@ -30,18 +30,35 @@ extern "C" {
  * When this resource is passed to csalt_resource_use,
  * individual resources can be retrieved with
  * csalt_resource_list_get().
+ *
+ * \see csalt_resource_list_array()
+ * \see csalt_resource_list_bounds()
  */
 struct csalt_resource_list {
 	struct csalt_store_list parent;
 };
 
+/**
+ * \brief Creates a new csalt_resource_list.
+ *
+ * This function initializes the list with the given
+ * boundaries, and initializes its vtable.
+ */
 struct csalt_resource_list csalt_resource_list_bounds(
 	csalt_resource **begin,
 	csalt_resource **end
 );
 
+/**
+ * \brief Convenience macro for initializing a csalt_resource_list
+ * from an array.
+ */
 #define csalt_resource_list_array(array) (csalt_resource_list_bounds((array), &((array)[arrlength(array)])))
 
+/**
+ * \brief Retrieves the resource from the given list at the
+ * corresponding index.
+ */
 csalt_resource *csalt_resource_list_get(
 	struct csalt_resource_list *list,
 	size_t index

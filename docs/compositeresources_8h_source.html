@@ -79,35 +79,37 @@ $(function() {
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="structcsalt__resource__list.html">   34</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__store__list.html">csalt_store_list</a> parent;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> csalt_resource_list_bounds(</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **begin,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **end</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define csalt_resource_list_array(array) (csalt_resource_list_bounds((array), &amp;((array)[arrlength(array)])))</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *csalt_resource_list_get(</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">struct</span> <a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> *list,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">size_t</span> index</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> csalt_resource_list_init(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">char</span> csalt_resource_list_valid(<span class="keyword">const</span> <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keywordtype">void</span> csalt_resource_list_deinit(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;} <span class="comment">// extern &quot;C&quot;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="structcsalt__resource__list.html">   37</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__store__list.html">csalt_store_list</a> parent;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> <a class="code" href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">csalt_resource_list_bounds</a>(</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **begin,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **end</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="compositeresources_8h.html#a9d5a3101cbefbdf48463f8e1a098b5db">   56</a></span>&#160;<span class="preprocessor">#define csalt_resource_list_array(array) (csalt_resource_list_bounds((array), &amp;((array)[arrlength(array)])))</span></div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor">#endif // CSALT_COMPOSITERESOURCES_H</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *<a class="code" href="compositeresources_8h.html#a8986780495f8880d31aa3841d6bc932a">csalt_resource_list_get</a>(</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">struct</span> <a class="code" href="structcsalt__resource__list.html">csalt_resource_list</a> *list,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">size_t</span> index</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordtype">void</span> csalt_resource_list_init(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">char</span> csalt_resource_list_valid(<span class="keyword">const</span> <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> csalt_resource_list_deinit(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;} <span class="comment">// extern &quot;C&quot;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif // CSALT_COMPOSITERESOURCES_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="acompositeresources_8h_html_a8986780495f8880d31aa3841d6bc932a"><div class="ttname"><a href="compositeresources_8h.html#a8986780495f8880d31aa3841d6bc932a">csalt_resource_list_get</a></div><div class="ttdeci">csalt_resource * csalt_resource_list_get(struct csalt_resource_list *list, size_t index)</div><div class="ttdoc">Retrieves the resource from the given list at the corresponding index.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:45</div></div>
 <div class="ttc" id="abaseresources_8h_html"><div class="ttname"><a href="baseresources_8h.html">baseresources.h</a></div><div class="ttdoc">Provides an interface for resources with lifetimes.</div></div>
 <div class="ttc" id="astructcsalt__store__list_html"><div class="ttname"><a href="structcsalt__store__list.html">csalt_store_list</a></div><div class="ttdoc">Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...</div><div class="ttdef"><b>Definition:</b> compositestores.h:70</div></div>
-<div class="ttc" id="astructcsalt__resource__list_html"><div class="ttname"><a href="structcsalt__resource__list.html">csalt_resource_list</a></div><div class="ttdoc">This resource allows operations on groups of resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:34</div></div>
+<div class="ttc" id="acompositeresources_8h_html_a8d2f4b76c188339c83c4d5fa3fc85ddc"><div class="ttname"><a href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">csalt_resource_list_bounds</a></div><div class="ttdeci">struct csalt_resource_list csalt_resource_list_bounds(csalt_resource **begin, csalt_resource **end)</div><div class="ttdoc">Creates a new csalt_resource_list.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:16</div></div>
+<div class="ttc" id="astructcsalt__resource__list_html"><div class="ttname"><a href="structcsalt__resource__list.html">csalt_resource_list</a></div><div class="ttdoc">This resource allows operations on groups of resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:37</div></div>
 <div class="ttc" id="acompositestores_8h_html"><div class="ttname"><a href="compositestores_8h.html">compositestores.h</a></div><div class="ttdoc">This file provides stores which define relationships between stores. Examples include csalt_store_fal...</div></div>
 <div class="ttc" id="astructcsalt__resource__interface_html"><div class="ttname"><a href="structcsalt__resource__interface.html">csalt_resource_interface</a></div><div class="ttdoc">Interface definition for managed resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:94</div></div>
 <!-- start footer part -->

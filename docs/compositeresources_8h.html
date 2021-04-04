@@ -115,16 +115,18 @@ Data Structures</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a9d5a3101cbefbdf48463f8e1a098b5db"><td class="memItemLeft" align="right" valign="top"><a id="a9d5a3101cbefbdf48463f8e1a098b5db"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_array</b>(array)&#160;&#160;&#160;(csalt_resource_list_bounds((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a9d5a3101cbefbdf48463f8e1a098b5db">csalt_resource_list_array</a>(array)&#160;&#160;&#160;(<a class="el" href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">csalt_resource_list_bounds</a>((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
+<tr class="memdesc:a9d5a3101cbefbdf48463f8e1a098b5db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for initializing a <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> from an array. <br /></td></tr>
 <tr class="separator:a9d5a3101cbefbdf48463f8e1a098b5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a8d2f4b76c188339c83c4d5fa3fc85ddc"><td class="memItemLeft" align="right" valign="top"><a id="a8d2f4b76c188339c83c4d5fa3fc85ddc"></a>
-struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a>&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_bounds</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
+<tr class="memitem:a8d2f4b76c188339c83c4d5fa3fc85ddc"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">csalt_resource_list_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
+<tr class="memdesc:a8d2f4b76c188339c83c4d5fa3fc85ddc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a>.  <a href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">More...</a><br /></td></tr>
 <tr class="separator:a8d2f4b76c188339c83c4d5fa3fc85ddc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8986780495f8880d31aa3841d6bc932a"><td class="memItemLeft" align="right" valign="top"><a id="a8986780495f8880d31aa3841d6bc932a"></a>
-<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_get</b> (struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a> *list, size_t index)</td></tr>
+<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a8986780495f8880d31aa3841d6bc932a">csalt_resource_list_get</a> (struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a> *list, size_t index)</td></tr>
+<tr class="memdesc:a8986780495f8880d31aa3841d6bc932a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the resource from the given list at the corresponding index. <br /></td></tr>
 <tr class="separator:a8986780495f8880d31aa3841d6bc932a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a846ac160963b340ea8267c2a9c7191fe"><td class="memItemLeft" align="right" valign="top"><a id="a846ac160963b340ea8267c2a9c7191fe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
@@ -139,7 +141,39 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_d
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file defines abstract resources, which allow you to define relationships between resources. </p>
 <p>This includes the <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> resource, which allows you to treat any number of resources as a single resource safely </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a8d2f4b76c188339c83c4d5fa3fc85ddc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8d2f4b76c188339c83c4d5fa3fc85ddc">&#9670;&nbsp;</a></span>csalt_resource_list_bounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a> csalt_resource_list_bounds </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td>
+          <td class="paramname"><em>end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a new <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a>. </p>
+<p>This function initializes the list with the given boundaries, and initializes its vtable. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
