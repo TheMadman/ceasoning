@@ -218,7 +218,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_d
 <p>Some flags interfere with normal operation of the API, specifically:</p><ul>
 <li>O_APPEND</li>
 </ul>
-<p>Others will cause some functions to error, such as opening a file read-only causing csalt_resource_file_write to error. The file resource will still be usable with the features it does support. </p>
+<p>Others will cause some functions to error, such as opening a file read-only causing csalt_resource_file_write to error. The file resource will still be usable with the features it does support.</p>
+<p>Some flags are implicit with the expected functionality of the library, specifically:</p><ul>
+<li>O_NONBLOCK</li>
+</ul>
+<p>These need not be specified and are set automatically.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> </dd></dl>
 
 </div>
 </div>

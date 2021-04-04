@@ -110,6 +110,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Struct representing a file resource supporting lazy-loading. </p>
 <p>Do not attempt to initialize directly; instead, use the <a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> function.</p>
+<p>Files opened with this library are automatically set to non-blocking, and if a read/write operation would block, the csalt read/write functions simply return 0 bytes read/written. This allows the generic read/write functions to separate zero bytes transferred from an error arising from the resource itself.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4" title="Creates a file resource with the given path and flags.">csalt_resource_file()</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="fileresource_8h_source.html">fileresource.h</a></li>

@@ -23,9 +23,16 @@ extern "C" {
 #endif
 
 /**
- * Struct representing a file resource supporting lazy-loading.
+ * \brief Struct representing a file resource supporting lazy-loading.
+ *
  * Do not attempt to initialize directly; instead, use the
  * csalt_resource_file function.
+ *
+ * Files opened with this library are automatically set to non-blocking,
+ * and if a read/write operation would block, the csalt read/write functions
+ * simply return 0 bytes read/written. This allows the generic
+ * read/write functions to separate zero bytes transferred from an
+ * error arising from the resource itself.
  *
  * \see csalt_resource_file()
  */
@@ -69,6 +76,14 @@ void csalt_resource_file_deinit(csalt_resource *resource);
  * Others will cause some functions to error, such as opening a file read-only
  * causing csalt_resource_file_write to error. The file resource will
  * still be usable with the features it does support.
+ *
+ * Some flags are implicit with the expected functionality of the library,
+ * specifically:
+ * - O_NONBLOCK
+ *
+ * These need not be specified and are set automatically.
+ *
+ * \see csalt_resource_file
  */
 struct csalt_resource_file csalt_resource_file(const char *path, int flags);
 

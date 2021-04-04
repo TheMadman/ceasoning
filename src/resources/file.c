@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <csalt/util.h>
+#include <errno.h>
 
 struct csalt_resource_interface csalt_resource_file_interface = {
 	{
@@ -20,14 +21,20 @@ ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t 
 {
 	struct csalt_resource_file *file = castto(file, store);
 	lseek(file->fd, file->begin, SEEK_SET);
-	return read(file->fd, buffer, size);
+	ssize_t result = read(file->fd, buffer, size);
+	if (result < 0 && (errno & EWOULDBLOCK | EAGAIN))
+		result = 0;
+	return result;
 }
 
 ssize_t csalt_resource_file_write(csalt_store *store, const void *buffer, size_t size)
 {
 	struct csalt_resource_file *file = castto(file, store);
 	lseek(file->fd, file->begin, SEEK_SET);
-	return write(file->fd, buffer, size);
+	ssize_t result = write(file->fd, buffer, size);
+	if (result < 0 && (errno & EWOULDBLOCK | EAGAIN))
+		result = 0;
+	return result;
 }
 
 size_t csalt_resource_file_size(const csalt_store *store)
