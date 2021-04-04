@@ -26,6 +26,29 @@ Concrete and composite stores may be combined in any way, allowing simple expres
 complex relationships - for example, a csalt_store_fallback may contain a csalt_heap and a
 csalt_store_list of csalt_resource_file%s.
 
+\section example_1 An Example: Bytewise Copy Program
+
+The following example program shows a program which takes, as command line arguments,
+the file names of a file to copy from and a file to copy to.
+
+A few points to take away from this:
+
+- We never have to explicitely open, check, and clean up the files - 
+this is done for us by the csalt_resource_use() function;
+- We have written the function which does bytewise copying to use generic
+types - if the stores were, instead, heap memory, or network sockets, we
+could pass a csalt_resource_list of those instead, making reusing or refactoring
+this code very simple.
+- There are still error cases that this program does not concern itself with
+checking or correcting: what should happen if the transfer only partially completes,
+then throws an error? Should the behaviour be different if the output file is an
+existing file vs. a file created by this program? What if the output "file" isn't
+a file at all, but a virtual file in e.g. `/dev/tcp`, `/proc` etc.?
+Since this issue can easily become very complicated, and the caller has much better
+knowledge of the arguments than the program, we just omit those considerations.
+
+\include bytewise_copy.c
+
 \section concepts Core Concepts
 
 Interfaces are struct definitions including the types of functions they support.  

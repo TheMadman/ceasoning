@@ -1,0 +1,11 @@
+<map id="csalt/compositeresources.h" name="csalt/compositeresources.h">
+<area shape="rect" id="node1" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="145,5,345,32"/>
+<area shape="rect" id="node2" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="105,80,268,107"/>
+<area shape="rect" id="node9" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_fal..." alt="" coords="278,229,421,256"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,80,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="104,155,179,181"/>
+<area shape="rect" id="node5" href="$stores_8h_source.html" title=" " alt="" coords="203,155,312,181"/>
+<area shape="rect" id="node6" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="197,304,302,331"/>
+<area shape="rect" id="node7" title=" " alt="" coords="336,379,432,405"/>
+<area shape="rect" id="node8" href="$util_8h.html" title=" " alt="" coords="216,379,307,405"/>
+</map>

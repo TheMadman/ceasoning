@@ -149,8 +149,8 @@ int csalt_store_split(
  * \see csalt_transfer()
  */
 struct csalt_transfer {
-	size_t total;
-	size_t amount_completed;
+	ssize_t total;
+	ssize_t amount_completed;
 };
 
 /**
@@ -253,6 +253,8 @@ extern const struct csalt_store_interface csalt_store_memory_implementation;
  * For heap memory, csalt_heap provides a resource which can
  * be managed for you by passing it to csalt_resource_use().
  *
+ * \see csalt_store_memory_pointer()
+ * \see csalt_store_memory_array()
  * \see csalt_store_memory_bounds()
  * \see csalt_heap
  */

@@ -49,12 +49,6 @@ typedef struct csalt_resource_interface *csalt_resource;
 typedef void csalt_resource_init_fn(csalt_resource *resource);
 
 /**
- * Function type for fetching a pointer to the resulting
- * resource.
- */
-typedef void *csalt_resource_pointer_fn(csalt_resource *resource);
-
-/**
  * Function type for writing data into a resource.
  *
  * Primarily used for csalt_transfer.

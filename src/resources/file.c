@@ -57,8 +57,12 @@ void csalt_resource_file_init(csalt_resource *resource)
 
 	// Some open flags break the API for reading/writing
 	// int banned_flags = O_APPEND;
-	int banned_flags = 0;
-	file->fd = open(file->filename, file->flags & ~banned_flags, file->mode);
+	int banned_flags = O_APPEND;
+
+	// on the other hand, some flags are implied by the
+	// operation of this library, primarily O_NONBLOCK
+	int implied_flags = O_NONBLOCK;
+	file->fd = open(file->filename, (implied_flags | file->flags) & ~banned_flags, file->mode);
 	if (csalt_resource_file_valid(resource)) {
 		file->end = lseek(file->fd, 0, SEEK_END);
 		file->begin = lseek(file->fd, 0, SEEK_SET);
