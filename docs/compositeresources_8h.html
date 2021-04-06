@@ -108,8 +108,16 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__list__interface.html">csalt_resource_list_interface</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This resource allows operations on groups of resources.  <a href="structcsalt__resource__list.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements the <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> algorithms with <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> resource management.  <a href="structcsalt__resource__fallback.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct uses the first working resource.  <a href="structcsalt__resource__first.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -118,6 +126,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a9d5a3101cbefbdf48463f8e1a098b5db">csalt_resource_list_array</a>(array)&#160;&#160;&#160;(<a class="el" href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc">csalt_resource_list_bounds</a>((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
 <tr class="memdesc:a9d5a3101cbefbdf48463f8e1a098b5db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for initializing a <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> from an array. <br /></td></tr>
 <tr class="separator:a9d5a3101cbefbdf48463f8e1a098b5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="memItemLeft" align="right" valign="top"><a id="a11a2ca062f63dbd7ca3b8e4b251047d3"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a11a2ca062f63dbd7ca3b8e4b251047d3">csalt_resource_first_array</a>(array)&#160;&#160;&#160;(<a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a>((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
+<tr class="memdesc:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for constructing a resource_first_bounds from an array. <br /></td></tr>
+<tr class="separator:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -128,6 +140,13 @@ Functions</h2></td></tr>
 <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a8986780495f8880d31aa3841d6bc932a">csalt_resource_list_get</a> (struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a> *list, size_t index)</td></tr>
 <tr class="memdesc:a8986780495f8880d31aa3841d6bc932a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the resource from the given list at the corresponding index. <br /></td></tr>
 <tr class="separator:a8986780495f8880d31aa3841d6bc932a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c7e888975d89b785178fddfbf6aab4e"><td class="memItemLeft" align="right" valign="top"><a id="a0c7e888975d89b785178fddfbf6aab4e"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a0c7e888975d89b785178fddfbf6aab4e">csalt_resource_list_length</a> (struct <a class="el" href="structcsalt__resource__list.html">csalt_resource_list</a> *list)</td></tr>
+<tr class="memdesc:a0c7e888975d89b785178fddfbf6aab4e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the number of resources in this resource list. <br /></td></tr>
+<tr class="separator:a0c7e888975d89b785178fddfbf6aab4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf6c398bf7776b9109c86a66f1837819"><td class="memItemLeft" align="right" valign="top"><a id="aaf6c398bf7776b9109c86a66f1837819"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_split</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
+<tr class="separator:aaf6c398bf7776b9109c86a66f1837819"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a846ac160963b340ea8267c2a9c7191fe"><td class="memItemLeft" align="right" valign="top"><a id="a846ac160963b340ea8267c2a9c7191fe"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="separator:a846ac160963b340ea8267c2a9c7191fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -137,6 +156,41 @@ char&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_v
 <tr class="memitem:ad38f3f6c6e72caa9252e04514b65b706"><td class="memItemLeft" align="right" valign="top"><a id="ad38f3f6c6e72caa9252e04514b65b706"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="separator:ad38f3f6c6e72caa9252e04514b65b706"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adb0c9fd3d6c55a2e58681c9b1d405b0b"><td class="memItemLeft" align="right" valign="top"><a id="adb0c9fd3d6c55a2e58681c9b1d405b0b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_list_receive_split</b> (struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a> *original, struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a> *list, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
+<tr class="separator:adb0c9fd3d6c55a2e58681c9b1d405b0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7e7b29a8056b598b87aa185136a2aa1"><td class="memItemLeft" align="right" valign="top"><a id="ab7e7b29a8056b598b87aa185136a2aa1"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_fallback_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
+<tr class="separator:ab7e7b29a8056b598b87aa185136a2aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6ea523c004d5bbb58b16ac94597db8a"><td class="memItemLeft" align="right" valign="top"><a id="ad6ea523c004d5bbb58b16ac94597db8a"></a>
+struct <a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#ad6ea523c004d5bbb58b16ac94597db8a">csalt_resource_fallback_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
+<tr class="memdesc:ad6ea523c004d5bbb58b16ac94597db8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets up and returns a <a class="el" href="structcsalt__resource__fallback.html" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management.">csalt_resource_fallback</a>. <br /></td></tr>
+<tr class="separator:ad6ea523c004d5bbb58b16ac94597db8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e30a6f4593605115ad538816b2ec182"><td class="memItemLeft" align="right" valign="top"><a id="a5e30a6f4593605115ad538816b2ec182"></a>
+struct <a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
+<tr class="memdesc:a5e30a6f4593605115ad538816b2ec182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a csalt_resource_first_bounds. <br /></td></tr>
+<tr class="separator:a5e30a6f4593605115ad538816b2ec182"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7753d17c1f98efafc01511861f914382"><td class="memItemLeft" align="right" valign="top"><a id="a7753d17c1f98efafc01511861f914382"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_read</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, void *buffer, size_t amount)</td></tr>
+<tr class="separator:a7753d17c1f98efafc01511861f914382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89451c1b1d0244a4477c9c0221af53e0"><td class="memItemLeft" align="right" valign="top"><a id="a89451c1b1d0244a4477c9c0221af53e0"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_write</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, const void *buffer, size_t amount)</td></tr>
+<tr class="separator:a89451c1b1d0244a4477c9c0221af53e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac0b5e0a1d5c37495a65c509da370e45"><td class="memItemLeft" align="right" valign="top"><a id="aac0b5e0a1d5c37495a65c509da370e45"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_size</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store)</td></tr>
+<tr class="separator:aac0b5e0a1d5c37495a65c509da370e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aadb1f0f16cbb01f8dc8e75c0a561b4b4"><td class="memItemLeft" align="right" valign="top"><a id="aadb1f0f16cbb01f8dc8e75c0a561b4b4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_split</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
+<tr class="separator:aadb1f0f16cbb01f8dc8e75c0a561b4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a910b6f7157bf187439beff6bd3ca7c33"><td class="memItemLeft" align="right" valign="top"><a id="a910b6f7157bf187439beff6bd3ca7c33"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a910b6f7157bf187439beff6bd3ca7c33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13eb8e24e9602bf7dc7f8c716e82430c"><td class="memItemLeft" align="right" valign="top"><a id="a13eb8e24e9602bf7dc7f8c716e82430c"></a>
+char&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_valid</b> (const <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a13eb8e24e9602bf7dc7f8c716e82430c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7a002ebe91b9f8309fb8e4532975cd3"><td class="memItemLeft" align="right" valign="top"><a id="ae7a002ebe91b9f8309fb8e4532975cd3"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:ae7a002ebe91b9f8309fb8e4532975cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file defines abstract resources, which allow you to define relationships between resources. </p>

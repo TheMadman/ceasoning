@@ -1,0 +1,9 @@
+<map id="csalt_resource_first" name="csalt_resource_first">
+<area shape="rect" id="node1" title="This struct uses the first working resource." alt="" coords="252,395,400,421"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__list.html" title="This resource allows operations on groups of resources." alt="" coords="200,305,343,332"/>
+<area shape="rect" id="node3" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="55,194,175,221"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="79,5,237,32"/>
+<area shape="rect" id="node5" href="$structcsalt__store__list__interface.html" title=" " alt="" coords="65,96,251,123"/>
+<area shape="rect" id="node7" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="275,96,457,123"/>
+<area shape="rect" id="node6" href="$structcsalt__resource__list__interface.html" title=" " alt="" coords="200,187,343,228"/>
+</map>

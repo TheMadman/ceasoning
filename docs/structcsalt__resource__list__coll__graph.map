@@ -1,6 +1,8 @@
 <map id="csalt_resource_list" name="csalt_resource_list">
-<area shape="rect" id="node1" title="This resource allows operations on groups of resources." alt="" coords="13,276,156,303"/>
-<area shape="rect" id="node2" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="25,187,145,213"/>
-<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-<area shape="rect" id="node4" href="$structcsalt__store__list__interface.html" title=" " alt="" coords="129,96,315,123"/>
+<area shape="rect" id="node1" title="This resource allows operations on groups of resources." alt="" coords="165,291,307,317"/>
+<area shape="rect" id="node2" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="99,194,219,221"/>
+<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="79,5,238,32"/>
+<area shape="rect" id="node4" href="$structcsalt__store__list__interface.html" title=" " alt="" coords="66,96,251,123"/>
+<area shape="rect" id="node6" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="276,96,457,123"/>
+<area shape="rect" id="node5" href="$structcsalt__resource__list__interface.html" title=" " alt="" coords="269,187,411,228"/>
 </map>

@@ -153,22 +153,25 @@ struct csalt_heap {
 extern const struct csalt_heap csalt_null_heap;
 
 /**
- * Initializes a csalt_heap resource. Uses malloc internally -
+ * \brief Initializes a csalt_heap resource. Uses malloc internally -
  * memory is allocated but not initialized.
  *
  * This function immediately allocates the heap, allowing you
  * to manually check with csalt_resource_valid() that the allocation
- * was successful.
+ * was successful. It must be freed with csalt_resource_deinit()
+ * once finished.
  *
- * For lazy-loading - for example, to use inside an abstract
- * resource - use csalt_heap_lazy().
+ * Primarily useful for the store functions. Consider
+ * using csalt_heap_lazy() and having the heap managed for you
+ * automatically by csalt_resource_use().
  *
  * \see csalt_heap_lazy()
  */
 struct csalt_heap csalt_heap(size_t size);
 
 /**
- * This function creates a heap resource for later initialization.
+ * \brief This function creates a heap resource for later initialization.
+ *
  * This is useful behaviour for abstract data-types which automatically
  * perform initialization on their members.
  *

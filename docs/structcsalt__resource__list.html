@@ -77,18 +77,27 @@ Collaboration diagram for csalt_resource_list:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__resource__list__coll__graph.png" border="0" usemap="#csalt__resource__list_coll__map" alt="Collaboration graph"/></div>
 <map name="csalt__resource__list_coll__map" id="csalt__resource__list_coll__map">
-<area shape="rect" title="This resource allows operations on groups of resources." alt="" coords="13,276,156,303"/>
-<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="25,187,145,213"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-<area shape="rect" href="structcsalt__store__list__interface.html" title=" " alt="" coords="129,96,315,123"/>
+<area shape="rect" title="This resource allows operations on groups of resources." alt="" coords="165,291,307,317"/>
+<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="99,194,219,221"/>
+<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="79,5,238,32"/>
+<area shape="rect" href="structcsalt__store__list__interface.html" title=" " alt="" coords="66,96,251,123"/>
+<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="276,96,457,123"/>
+<area shape="rect" href="structcsalt__resource__list__interface.html" title=" " alt="" coords="269,187,411,228"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a7d77ae838d6a75a4c4d0391bc4276426"><td class="memItemLeft" align="right" valign="top"><a id="a7d77ae838d6a75a4c4d0391bc4276426"></a>
-struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a>&#160;</td><td class="memItemRight" valign="bottom"><b>parent</b></td></tr>
-<tr class="separator:a7d77ae838d6a75a4c4d0391bc4276426"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb66fa0d2f68b770a4b50256486cf316"><td class="memItemLeft" ><a id="afb66fa0d2f68b770a4b50256486cf316"></a>
+union {</td></tr>
+<tr class="memitem:ad08153c303bf317c9058ae953312cab7"><td class="memItemLeft" >
+&#160;&#160;&#160;struct <a class="el" href="structcsalt__resource__list__interface.html">csalt_resource_list_interface</a> *&#160;&#160;&#160;<b>vtable</b></td></tr>
+<tr class="separator:ad08153c303bf317c9058ae953312cab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae29a1dd80fd59de908c786f3bbbb62ec"><td class="memItemLeft" >
+&#160;&#160;&#160;struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a>&#160;&#160;&#160;<b>parent</b></td></tr>
+<tr class="separator:ae29a1dd80fd59de908c786f3bbbb62ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb66fa0d2f68b770a4b50256486cf316"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
+<tr class="separator:afb66fa0d2f68b770a4b50256486cf316"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This resource allows operations on groups of resources. </p>

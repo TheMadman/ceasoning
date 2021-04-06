@@ -5,7 +5,8 @@ TESTS = %reldir%/csalt_resources_use\
 	%reldir%/csalt_file_resource\
 	%reldir%/csalt_store_list\
 	%reldir%/csalt_store_fallback\
-	%reldir%/csalt_resource_list
+	%reldir%/csalt_resource_list\
+	%reldir%/csalt_resource_first
 
 check_PROGRAMS = $(TESTS)
 LDADD = $(top_builddir)/src/libcsalt.la

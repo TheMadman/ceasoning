@@ -6,6 +6,8 @@
 #include <stdint.h>
 #include <limits.h>
 
+#include "csalt/impl/list_impl.h"
+
 struct csalt_store_list_interface csalt_store_list_implementation = {
 	{
 		csalt_store_list_read,
@@ -107,16 +109,6 @@ struct split_data {
 	struct resource_heap_data *heap_data;
 };
 
-struct resource_heap_data {
-	struct csalt_heap heap;
-	struct csalt_store_list *list;
-	size_t begin;
-	size_t end;
-	csalt_store_block_fn *block;
-	void *data_param;
-	int error;
-};
-
 static void manage_splitting(struct split_data *split_data);
 
 static int receive_single_split_store(csalt_store *store, void *data)
@@ -141,7 +133,7 @@ static void manage_splitting(struct split_data *split_data)
 
 	if (current >= list_end) {
 		struct csalt_store_list *list = split_data->result;
-		*error_out = split_data->result->vtable->receive_split_list(
+		*error_out = split_data->heap_data->receive_split_list(
 			split_data->heap_data->list,
 			split_data->result,
 			split_data->heap_data->begin,
@@ -161,7 +153,7 @@ static void manage_splitting(struct split_data *split_data)
 	);
 }
 
-static int use_heap_memory(csalt_resource *resource, csalt_store *out)
+int use_heap_memory(csalt_resource *resource, csalt_store *out)
 {
 	struct resource_heap_data *data = castto(data, resource);
 	
@@ -190,6 +182,16 @@ static int use_heap_memory(csalt_resource *resource, csalt_store *out)
 	return 0;
 }
 
+int manage_heap_data(struct resource_heap_data *heap_data)
+{
+	csalt_resource_use(
+		csalt_resource(heap_data),
+		use_heap_memory,
+		0
+	);
+	return heap_data->error;
+}
+
 /*
  * High-level view of this algorithm:
  * - Allocate heap memory for split sub-store pointers
@@ -216,14 +218,10 @@ int csalt_store_list_split(
 		end,
 		block,
 		data,
-		-1
+		-1,
+		list->vtable->receive_split_list,
 	};
-	csalt_resource_use(
-		csalt_resource(&heap_data),
-		use_heap_memory,
-		0
-	);
-	return heap_data.error;
+	return manage_heap_data(&heap_data);
 }
 
 

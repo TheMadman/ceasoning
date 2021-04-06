@@ -292,8 +292,8 @@ const struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</t
 
 <p>Initializes a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> resource. </p>
 <p>Uses malloc internally - memory is allocated but not initialized.</p>
-<p>This function immediately allocates the heap, allowing you to manually check with <a class="el" href="baseresources_8h.html#a5a60c29c6a35102e375a4b33dfd5b833" title="Returns whether resource creation was successful.">csalt_resource_valid()</a> that the allocation was successful.</p>
-<p>For lazy-loading - for example, to use inside an abstract resource - use <a class="el" href="baseresources_8h.html#a40ccc673dbd88e59a2d7c1dcbfa633d1" title="This function creates a heap resource for later initialization.">csalt_heap_lazy()</a>.</p>
+<p>This function immediately allocates the heap, allowing you to manually check with <a class="el" href="baseresources_8h.html#a5a60c29c6a35102e375a4b33dfd5b833" title="Returns whether resource creation was successful.">csalt_resource_valid()</a> that the allocation was successful. It must be freed with <a class="el" href="baseresources_8h.html#a71a312967761bd2e08c48c9ccd5d9a57" title="Cleans up the resource.">csalt_resource_deinit()</a> once finished.</p>
+<p>Primarily useful for the store functions. Consider using <a class="el" href="baseresources_8h.html#a40ccc673dbd88e59a2d7c1dcbfa633d1" title="This function creates a heap resource for later initialization.">csalt_heap_lazy()</a> and having the heap managed for you automatically by <a class="el" href="baseresources_8h.html#ad899570f6f3799ff5a028cb0ac44af45" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a>.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="baseresources_8h.html#a40ccc673dbd88e59a2d7c1dcbfa633d1" title="This function creates a heap resource for later initialization.">csalt_heap_lazy()</a> </dd></dl>
 
 </div>
