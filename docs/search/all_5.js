@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['resource_5fheap_5fdata_71',['resource_heap_data',['../structresource__heap__data.html',1,'']]]
+  ['syntactic_20sugar_20for_20common_20c_20tasks_71',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]],
+  ['split_5fdata_72',['split_data',['../structsplit__data.html',1,'']]]
 ];
