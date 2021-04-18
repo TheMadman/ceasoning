@@ -1,5 +1,5 @@
 ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
 csaltincludedir = $(includedir)/csalt/
 include $(srcdir)/src/Makefile.am
 include $(srcdir)/tests/Makefile.am

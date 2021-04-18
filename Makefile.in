@@ -161,7 +161,7 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
 	src/stores/stores.lo src/resources/file.lo \
 	src/stores/compositestores.lo \
-	src/resources/compositeresources.lo
+	src/resources/compositeresources.lo src/resources/network.lo
 src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -235,6 +235,7 @@ depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	src/resources/$(DEPDIR)/file.Plo \
+	src/resources/$(DEPDIR)/network.Plo \
 	src/resources/$(DEPDIR)/resources.Plo \
 	src/stores/$(DEPDIR)/compositestores.Plo \
 	src/stores/$(DEPDIR)/stores.Plo \
@@ -624,7 +625,7 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = -I$(top_srcdir)/src
+AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
 csaltincludedir = $(includedir)/csalt/
 csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/resources.h\
@@ -633,7 +634,9 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/stores.h\
 		       src/csalt/basestores.h\
 		       src/csalt/compositestores.h\
-		       src/csalt/compositeresources.h
+		       src/csalt/compositeresources.h\
+		       src/platforms/posix/csalt/platform/socket.h\
+		       src/csalt/networkresources.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\
@@ -646,7 +649,10 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/csalt/compositestores.h\
 	src/resources/compositeresources.c\
 	src/csalt/compositeresources.h\
-	src/csalt/impl/list_impl.h
+	src/csalt/impl/list_impl.h\
+	src/platforms/posix/csalt/platform/socket.h\
+	src/resources/network.c\
+	src/csalt/networkresources.h
 
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
@@ -770,6 +776,8 @@ src/stores/compositestores.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
 src/resources/compositeresources.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
+src/resources/network.lo: src/resources/$(am__dirstamp) \
+	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -850,6 +858,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/compositeresources.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/file.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/network.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/resources.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/compositestores.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/stores.Plo@am__quote@ # am--include-marker
@@ -1450,6 +1459,7 @@ distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
+	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
@@ -1511,6 +1521,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -rf $(top_srcdir)/autom4te.cache
 		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
+	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
