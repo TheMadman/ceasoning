@@ -26,9 +26,18 @@ extern "C" {
 #endif
 
 struct csalt_resource_interface;
+struct csalt_resource_initialized_interface;
 struct csalt_memory;
 
 /**
+ * \brief Represents a "wish to fulfill" a request for a resource.
+ *
+ * The csalt_resource interface only includes a single
+ * function - csalt_resource_initialize() - which attempts
+ * to initialize the resource, and returns either a
+ * pointer to csalt_resource_initialized on success or
+ * a NULL pointer on failure.
+ *
  * To create custom structs which can manage resources,
  * use a struct csalt_resource_interface* as the first
  * member.
@@ -38,51 +47,33 @@ struct csalt_memory;
  * a (csalt_resource *) will allow you to use it in those
  * functions.
  *
- * \see csalt_resource()
+ * \see csalt_resource_initialized
  */
 typedef struct csalt_resource_interface *csalt_resource;
+
+/**
+ * \brief Represents a successfully initialized resource, which
+ * 	implements the csalt_store interface and the
+ * 	csalt_resource_deinit() function.
+ *
+ * To create custom structs which can operate on initialized
+ * resources, use a struct csalt_resource_initialized_interface*
+ * as the first member.
+ *
+ */
+typedef struct csalt_resource_initialized_interface *csalt_resource_initialized;
 
 /**
  * Function type for initializing the test on first use,
  * allows lazy evaluation of resources
  */
-typedef void csalt_resource_init_fn(csalt_resource *resource);
+typedef csalt_resource_initialized *csalt_resource_init_fn(csalt_resource *resource);
+
+typedef void csalt_resource_deinit_fn(csalt_resource_initialized *resource);
 
 /**
- * Function type for writing data into a resource.
+ * \brief Interface definition for managed resources.
  *
- * Primarily used for csalt_transfer.
- */
-typedef ssize_t csalt_resource_write_fn(
-	csalt_resource *output,
-	const void *input,
-	size_t amount
-);
-
-/**
- * Function type for reading data out of a resource.
- *
- * Primarily used for csalt_transfer.
- */
-typedef ssize_t csalt_resource_read_fn(
-	const csalt_resource *input,
-	void *output,
-	size_t amount
-);
-
-/**
- * Function type for checking if resource allocation
- * was successful
- */
-typedef char csalt_resource_valid_fn(const csalt_resource *);
-
-/**
- * Function type for cleaning up a resource.
- */
-typedef void csalt_deinit_fn(csalt_resource *);
-
-/**
- * Interface definition for managed resources.
  * Structs with a pointer-to-resource-interface
  * as their first member can be passed to resource
  * functions with a simple cast.
@@ -92,37 +83,40 @@ typedef void csalt_deinit_fn(csalt_resource *);
  * itself set up with a function.
  */
 struct csalt_resource_interface {
-	struct csalt_store_interface parent;
 	csalt_resource_init_fn *init;
-	csalt_resource_valid_fn *valid;
-	csalt_deinit_fn *deinit;
 };
 
 /**
- * Initializes a resource
+ * \brief Interface definition for initialized resources.
+ *
+ * Structs with a pointer-to-initialized-resource-interface
+ * as their first member can be passed to initialized resource
+ * functions with a simple cast.
+ *
+ * Structs implementing this interface should only ever
+ * be returned as a consiquence of passing a csalt_resource
+ * to csalt_resource_init().
  */
-void csalt_resource_init(csalt_resource *);
+struct csalt_resource_initialized_interface {
+	struct csalt_store_interface parent;
+	csalt_resource_deinit_fn *deinit;
+};
 
 /**
- * Returns whether resource creation was successful.
+ * \brief Initializes a resource
  */
-char csalt_resource_valid(const csalt_resource *);
+csalt_resource_initialized *csalt_resource_init(csalt_resource *);
 
 /**
- * Cleans up the resource. The resource is set
+ * \brief Cleans up the resource. The resource is set
  * to an invalid value after run.
  */
-void csalt_resource_deinit(csalt_resource *);
+void csalt_resource_deinit(csalt_resource_initialized *);
 
 /**
  * A noop for init
  */
 void csalt_noop_init(csalt_resource *_);
-
-/**
- * A noop which always returns invalid
- */
-char csalt_noop_valid(const csalt_resource *_);
 
 /**
  * A noop for deinit
@@ -132,57 +126,46 @@ void csalt_noop_deinit(csalt_resource *_);
 /**
  * \brief Represents a heap memory resource.
  *
- * Avoid using or modifying the members directly - simple code should
- * create this struct with csalt_memory_make and pass it to csalt_resource_use,
- * or use it as a member for another resource.
+ * A pointer to this is returned when csalt_resource_init() is called
+ * on a csalt_heap. Use csalt_resource_heap_raw() to retrieve a raw
+ * pointer.
  *
  * This struct does not allow reading back more data than has been written to
  * it with csalt_store_write() or csalt_store_transfer(). This helps to
- * prevent uninitialized memory. It also allows using a heap as a caching
+ * prevent reading uninitialized memory. It also allows using a heap as a caching
  * element in csalt_store_fallback with ease.
- *
- * \see csalt_heap()
- * \see csalt_heap_lazy()
  */
-struct csalt_heap {
-	struct csalt_memory parent;
-	size_t size;
-	size_t amount_written;
+struct csalt_heap_initialized {
+	union {
+		struct csalt_resource_initialized_interface *vtable;
+		struct {
+			struct csalt_memory parent;
+			size_t size;
+			size_t amount_written;
+		};
+	};
 };
 
-extern const struct csalt_heap csalt_null_heap;
+/**
+ * \brief Represents a heap memory resource.
+ *
+ * Avoid using or modifying the members directly - simple code should
+ * create this struct with csalt_heap() and pass it to csalt_resource_use,
+ * or use it as a member for another resource.
+ *
+ * \see csalt_heap()
+ */
+struct csalt_heap {
+	struct csalt_resource_interface *vtable;
+	struct csalt_heap_initialized heap;
+};
 
 /**
  * \brief Initializes a csalt_heap resource. Uses malloc internally -
  * memory is allocated but not initialized.
  *
- * This function immediately allocates the heap, allowing you
- * to manually check with csalt_resource_valid() that the allocation
- * was successful. It must be freed with csalt_resource_deinit()
- * once finished.
- *
- * Primarily useful for the store functions. Consider
- * using csalt_heap_lazy() and having the heap managed for you
- * automatically by csalt_resource_use().
- *
- * \see csalt_heap_lazy()
  */
 struct csalt_heap csalt_heap(size_t size);
-
-/**
- * \brief This function creates a heap resource for later initialization.
- *
- * This is useful behaviour for abstract data-types which automatically
- * perform initialization on their members.
- *
- * This does not immediately attempt to allocate memory on the heap.
- * If you need the pointer for immediate use, as with the typical
- * malloc -> check -> use -> free workflow, use the csalt_heap()
- * function instead.
- *
- * \see csalt_heap()
- */
-struct csalt_heap csalt_heap_lazy(size_t size);
 
 /**
  * \brief Gives immediate access to the raw pointer.
@@ -192,7 +175,7 @@ struct csalt_heap csalt_heap_lazy(size_t size);
  * can be done with csalt_store_transfer(), and safe copying
  * can be done with csalt_store_read().
  */
-void *csalt_resource_heap_raw(const struct csalt_heap *heap);
+void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
 
 /**
  * \brief Function signature for blocks to pass to csalt_resource_use.
@@ -207,7 +190,7 @@ void *csalt_resource_heap_raw(const struct csalt_heap *heap);
  *
  * \see csalt_resource_use()
  */
-typedef int csalt_resource_block(csalt_resource *, csalt_store *);
+typedef int csalt_resource_block(csalt_resource_initialized *, csalt_store *);
 
 /**
  * \brief Manages a resource lifecycle and executes the given
