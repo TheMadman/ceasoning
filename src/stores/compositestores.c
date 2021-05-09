@@ -6,17 +6,14 @@
 #include <stdint.h>
 #include <limits.h>
 
-#include "csalt/impl/list_impl.h"
-
-struct csalt_store_list_interface csalt_store_list_implementation = {
-	{
-		csalt_store_list_read,
-		csalt_store_list_write,
-		csalt_store_list_size,
-		csalt_store_list_split,
-	},
-	csalt_store_list_receive_split,
+struct csalt_store_interface csalt_store_list_implementation = {
+	csalt_store_list_read,
+	csalt_store_list_write,
+	csalt_store_list_size,
+	csalt_store_list_split,
 };
+
+typedef csalt_store_list_receive_split_fn receive_split_fn;
 
 struct csalt_store_list csalt_store_list_bounds(
 	csalt_store **begin,
@@ -102,103 +99,91 @@ int csalt_store_list_receive_split(
 	return block(csalt_store(list), data);
 }
 
-struct split_data {
-	csalt_store **current_source;
-	csalt_store **current_destination;
-	struct csalt_store_list *result;
-	struct resource_heap_data *heap_data;
+struct csalt_store_list_split_params {
+	struct csalt_store_list *original;
+	size_t begin;
+	size_t end;
+	csalt_store_block_fn *block;
+	void *data;
+
+	int error;
 };
 
-static void manage_splitting(struct split_data *split_data);
+struct store_single_split_params {
+	csalt_store
+		**in_current,
+		**in_end,
+		**out_begin,
+		**out_current;
+	struct csalt_store_list_split_params *list_params;
+};
 
-static int receive_single_split_store(csalt_store *store, void *data)
+int manage_splitting(struct store_single_split_params *params);
+int receive_single_split(csalt_store *store, void *param)
 {
-	struct split_data *split_data = data;
+	struct store_single_split_params *params = param;
 
-	*split_data->current_destination = store;
-	split_data->current_destination++;
-	split_data->current_source++;
+	*params->out_current = store;
+	
+	params->in_current++;
+	params->out_current++;
 
-	manage_splitting(split_data);
-	return 0;
+	return manage_splitting(params);
 }
 
-static void manage_splitting(struct split_data *split_data)
+int manage_splitting(struct store_single_split_params *params)
 {
-	csalt_store **current = split_data->current_source;
-	csalt_store **list_end = split_data->heap_data->list->end;
-	csalt_store_block_fn *block = split_data->heap_data->block;
-	void *data_param = split_data->heap_data->data_param;
-	int *error_out = &split_data->heap_data->error;
+	csalt_store
+		**current = params->in_current,
+		**end = params->in_end;
 
-	if (current >= list_end) {
-		struct csalt_store_list *list = split_data->result;
-		*error_out = split_data->heap_data->receive_split_list(
-			split_data->heap_data->list,
-			split_data->result,
-			split_data->heap_data->begin,
-			split_data->heap_data->end,
-			block,
-			data_param
+	size_t
+		split_begin = params->list_params->begin,
+		split_end = params->list_params->end;
+
+	if (current == end) {
+		struct csalt_store_list list = csalt_store_list_bounds(
+			params->out_begin,
+			params->out_current
 		);
-		return;
+		params->list_params->error = params->list_params->block(
+			(csalt_store *)&list,
+			params->list_params->data
+		);
+		return 0;
 	}
 
-	csalt_store_split(
-		*split_data->current_source,
-		split_data->heap_data->begin,
-		split_data->heap_data->end,
-		receive_single_split_store,
-		split_data
+	return csalt_store_split(
+		*current,
+		split_begin,
+		split_end,
+		receive_single_split,
+		params
 	);
 }
 
-int use_heap_memory(csalt_resource *resource, csalt_store *out)
+int store_list_split_use_heap(csalt_store *resource, void *params)
 {
-	struct resource_heap_data *data = castto(data, resource);
-	
-	csalt_store **begin = data->list->begin;
-	csalt_store **end = data->list->end;
+	struct csalt_store_list_split_params *list_params = params;
+	struct csalt_heap_initialized *heap = (struct csalt_heap_initialized *)resource;
 
-	csalt_store **raw_pointer = csalt_store_memory_raw(
-		castto(struct csalt_memory *, &data->heap)
-	);
+	csalt_store
+		**begin = list_params->original->begin,
+		**end = list_params->original->end,
+		**out_begin = csalt_resource_heap_raw(heap),
+		**out_current = out_begin;
 
-	struct csalt_store_list result = {
-		data->list->vtable,
-		raw_pointer,
-		raw_pointer + csalt_store_list_length(data->list),
-	};
-
-	struct split_data split_data = {
+	struct store_single_split_params single_params = {
 		begin,
-		result.begin,
-		&result,
-		data,
+		end,
+		out_begin,
+		out_current,
+		list_params,
 	};
 
-	manage_splitting(&split_data);
-
-	return 0;
+	return manage_splitting(&single_params);
 }
 
-int manage_heap_data(struct resource_heap_data *heap_data)
-{
-	csalt_resource_use(
-		csalt_resource(heap_data),
-		use_heap_memory,
-		0
-	);
-	return heap_data->error;
-}
-
-/*
- * High-level view of this algorithm:
- * - Allocate heap memory for split sub-store pointers
- * - For each store, split it, save the pointer in the heap
- * - Set that heap as the list for another fallback store
- * - Finally, pass that store and *data to block()
- */
 int csalt_store_list_split(
 	csalt_store *store,
 	size_t begin,
@@ -207,38 +192,35 @@ int csalt_store_list_split(
 	void *data
 )
 {
-	struct csalt_store_list *list = castto(list, store);
-	struct resource_heap_data heap_data = {
-		csalt_heap_lazy(
-			sizeof(csalt_store *) *
-			csalt_store_list_length(list)
-		),
+	struct csalt_store_list *list = (struct csalt_store_list *)store;
+	size_t list_length = csalt_store_list_length(list);
+	struct csalt_heap heap = csalt_heap(sizeof(csalt_store *) * list_length);
+
+	struct csalt_store_list_split_params params = {
 		list,
 		begin,
 		end,
 		block,
 		data,
+
 		-1,
-		list->vtable->receive_split_list,
 	};
-	return manage_heap_data(&heap_data);
+
+	csalt_resource_use((csalt_resource *)&heap, store_list_split_use_heap, &params);
+
+	return params.error;
 }
-
-
 
 size_t csalt_store_list_length(const struct csalt_store_list *store)
 {
 	return store->end - store->begin;
 }
 
-struct csalt_store_list_interface csalt_store_fallback_implementation = {
-	{
-		csalt_store_fallback_read,
-		csalt_store_fallback_write,
-		csalt_store_fallback_size,
-		csalt_store_list_split,
-	},
-	csalt_store_fallback_receive_split,
+struct csalt_store_interface csalt_store_fallback_implementation = {
+	csalt_store_fallback_read,
+	csalt_store_fallback_write,
+	csalt_store_fallback_size,
+	csalt_store_fallback_split,
 };
 
 struct csalt_store_fallback csalt_store_fallback_bounds(
@@ -247,9 +229,12 @@ struct csalt_store_fallback csalt_store_fallback_bounds(
 )
 {
 	struct csalt_store_fallback result = {
-		&csalt_store_fallback_implementation,
-		begin,
-		end,
+		{
+			&csalt_store_fallback_implementation,
+			begin,
+			end,
+		},
+		0,
 	};
 
 	return result;
@@ -321,28 +306,62 @@ size_t csalt_store_fallback_size(const csalt_store *store)
 	return result;
 }
 
-int csalt_store_fallback_receive_split(
-	struct csalt_store_list *original,
-	struct csalt_store_list *list,
+struct fallback_split_list_params {
+	struct csalt_store_fallback *original;
+	size_t begin;
+	size_t end;
+	csalt_store_block_fn *block;
+	void *data;
+};
+
+static int fallback_receive_split_list(
+	csalt_store *new_store,
+	void *data
+)
+{
+	struct fallback_split_list_params *params = data;
+	struct csalt_store_list *new_list = (struct csalt_store_list *)new_store;
+	struct csalt_store_fallback *old_fallback = params->original;
+	struct csalt_store_fallback new_fallback = csalt_store_fallback_bounds(
+		new_list->begin,
+		new_list->end
+	);
+	ssize_t written_end = min(old_fallback->amount_written, params->end);
+	ssize_t amount_written_deducted = written_end - params->begin;
+	ssize_t new_amount_written = max(0, amount_written_deducted);
+	new_fallback.amount_written = new_amount_written;
+	int result = params->block((csalt_store *)&new_fallback, params->data);
+
+	old_fallback->amount_written = max(
+		old_fallback->amount_written,
+		params->begin + new_fallback.amount_written
+	);
+	return result;
+}
+
+int csalt_store_fallback_split(
+	csalt_store *list,
 	size_t begin,
 	size_t end,
 	csalt_store_block_fn *block,
 	void *data
 )
 {
-	struct csalt_store_fallback *fallback = castto(fallback, original);
-	struct csalt_store_fallback new_fallback = csalt_store_fallback_bounds(
-		list->begin,
-		list->end
+	struct fallback_split_list_params params = {
+		(struct csalt_store_fallback *)list,
+		begin,
+		end,
+		block,
+		data
+	};
+
+	return csalt_store_list_split(
+		list,
+		begin,
+		end,
+		fallback_receive_split_list,
+		&params
 	);
-	ssize_t amount_written_deducted = min(fallback->amount_written, end) - begin;
-	new_fallback.amount_written = max(0, amount_written_deducted);
-	int result = block(csalt_store(&new_fallback), data);
-
-	// if block() wrote more data after previous amount_written, preserve the new write
-	fallback->amount_written = max(fallback->amount_written, begin + new_fallback.amount_written);
-
-	return result;
 }
 
 struct csalt_transfer csalt_store_fallback_flush(
