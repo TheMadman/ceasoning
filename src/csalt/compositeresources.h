@@ -18,9 +18,26 @@
 extern "C" {
 #endif
 
-struct csalt_resource_list_interface {
-	struct csalt_resource_interface parent;
-	csalt_store_list_receive_split_fn *receive_split_list;
+struct csalt_resource_list;
+struct csalt_resource_list_initialized;
+struct csalt_resource_fallback;
+struct csalt_resource_fallback_initialized;
+struct csalt_resource_first;
+struct csalt_resource_first_initialized;
+
+/**
+ * \brief This resource allows operations on groups of resources.
+ *
+ * When this resource is passed to csalt_resource_use,
+ * individual resources can be retrieved with
+ * csalt_resource_list_get().
+ *
+ */
+struct csalt_resource_list_initialized {
+	union {
+		struct csalt_resource_initialized_interface *vtable;
+		struct csalt_store_list parent;
+	};
 };
 
 /**
@@ -32,50 +49,80 @@ struct csalt_resource_list_interface {
  * If any of them fail, the initialized resources are
  * deinitialized and the list returns a -1 error code.
  *
- * When this resource is passed to csalt_resource_use,
- * individual resources can be retrieved with
- * csalt_resource_list_get().
- *
  * \see csalt_resource_list_array()
  * \see csalt_resource_list_bounds()
  */
 struct csalt_resource_list {
-	union {
-		struct csalt_resource_list_interface *vtable;
-		struct csalt_store_list parent;
-	};
+	struct csalt_resource_interface *vtable;
+	csalt_resource **begin;
+	csalt_resource **end;
+	struct csalt_resource_list_initialized list;
 };
 
 /**
  * \brief Creates a new csalt_resource_list.
  *
- * This function initializes the list with the given
- * boundaries, and initializes its vtable.
+ * This function takes two arrays' boundaries: the first
+ * should be an array containing resources to initialize;
+ * the second should be an array to write initialized resources
+ * into. Both arrays should be the same length.
+ *
+ * For example:
+ * \code
+ *
+ * 	struct csalt_heap first = csalt_heap(4);
+ * 	struct csalt_heap second = csalt_heap(8);
+ *
+ * 	csalt_resource *resources[] = {
+ * 		csalt_resource(&first),
+ * 		csalt_resource(&second),
+ * 	};
+ *
+ * 	csalt_resource_initialized *initialized[arrlength(resources)] = { 0 };
+ *	struct csalt_resource_list list = csalt_resource_list_bounds(
+ *		resources,
+ *		&resources[arrlength(resources)],
+ *		initialized,
+ *		&initialized[arrlength(resources)]
+ *	);
+ *
+ * \endcode
  */
 struct csalt_resource_list csalt_resource_list_bounds(
 	csalt_resource **begin,
-	csalt_resource **end
+	csalt_resource **end,
+	csalt_resource_initialized **buffer_begin,
+	csalt_resource_initialized **buffer_end
 );
 
 /**
  * \brief Convenience macro for initializing a csalt_resource_list
- * from an array.
+ * from two arrays: one containing the resources to initialize,
+ * and one containing a buffer to store the initialized resource
+ * pointers.
  */
-#define csalt_resource_list_array(array) (csalt_resource_list_bounds((array), &((array)[arrlength(array)])))
+#define csalt_resource_list_array(array, buffer) (	\
+	csalt_resource_list_bounds(	\
+		(array),	\
+		&((array)[arrlength(array)]),	\
+		(buffer),	\
+		&((buffer)[arrlength(array)])	\
+	)	\
+)
 
 /**
  * \brief Retrieves the resource from the given list at the
  * corresponding index.
  */
 csalt_resource *csalt_resource_list_get(
-	struct csalt_resource_list *list,
+	struct csalt_resource_list_initialized *list,
 	size_t index
 );
 
 /**
  * \brief Returns the number of resources in this resource list.
  */
-size_t csalt_resource_list_length(struct csalt_resource_list *list);
+size_t csalt_resource_list_length(struct csalt_resource_list_initialized *list);
 
 int csalt_resource_list_split(
 	csalt_store *store,
@@ -85,9 +132,8 @@ int csalt_resource_list_split(
 	void *data
 );
 
-void csalt_resource_list_init(csalt_resource *resource);
-char csalt_resource_list_valid(const csalt_resource *resource);
-void csalt_resource_list_deinit(csalt_resource *resource);
+csalt_resource_initialized *csalt_resource_list_init(csalt_resource *resource);
+void csalt_resource_list_deinit(csalt_resource_initialized *resource);
 
 int csalt_resource_list_receive_split(
 	struct csalt_store_list *original,
@@ -97,6 +143,13 @@ int csalt_resource_list_receive_split(
 	csalt_store_block_fn *block,
 	void *data
 );
+
+struct csalt_resource_fallback_initialized {
+	union {
+		struct csalt_resource_initialized_interface *vtable;
+		struct csalt_store_fallback parent;
+	};
+};
 
 /**
  * \brief Implements the csalt_store_fallback algorithms with
@@ -112,13 +165,13 @@ int csalt_resource_list_receive_split(
  * and validation itself, use the csalt_resource_first resource.
  */
 struct csalt_resource_fallback {
-	union {
-		struct csalt_resource_list_interface *vtable;
-		struct csalt_store_fallback parent;
-	};
+	struct csalt_resource_interface *vtable;
+	csalt_resource **begin;
+	csalt_resource **end;
+	struct csalt_resource_fallback_initialized fallback;
 };
 
-void csalt_resource_fallback_init(csalt_resource *);
+csalt_resource_initialized *csalt_resource_fallback_init(csalt_resource *);
 
 /**
  * \brief Sets up and returns a csalt_resource_fallback.
@@ -127,6 +180,11 @@ struct csalt_resource_fallback csalt_resource_fallback_bounds(
 	csalt_resource **begin,
 	csalt_resource **end
 );
+
+struct csalt_resource_first_initialized {
+	struct csalt_resource_initialized_interface *vtable;
+	csalt_resource_initialized *initialized;
+};
 
 /**
  * \brief This struct uses the first working resource.
@@ -142,19 +200,19 @@ struct csalt_resource_fallback csalt_resource_fallback_bounds(
  * \see csalt_resource_first_bounds()
  */
 struct csalt_resource_first {
-	union {
-		struct csalt_resource_interface *vtable;
-		struct {
-			struct csalt_resource_list parent;
-			csalt_resource *initialized;
-		};
-	};
+	struct csalt_resource_interface *vtable;
+	csalt_resource **begin;
+	csalt_resource **end;
+	struct csalt_resource_first_initialized first;
 };
 
 /**
  * \brief Constructor for a csalt_resource_first_bounds.
  */
-struct csalt_resource_first csalt_resource_first_bounds(csalt_resource **begin, csalt_resource **end);
+struct csalt_resource_first csalt_resource_first_bounds(
+	csalt_resource **begin,
+	csalt_resource **end
+);
 
 /**
  * \brief Convenience macro for constructing a resource_first_bounds
@@ -181,9 +239,8 @@ int csalt_resource_first_split(
 	void *data
 );
 
-void csalt_resource_first_init(csalt_resource *resource);
-char csalt_resource_first_valid(const csalt_resource *resource);
-void csalt_resource_first_deinit(csalt_resource *resource);
+csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource);
+void csalt_resource_first_deinit(csalt_resource_initialized *resource);
 
 #ifdef __cplusplus
 } // extern "C"

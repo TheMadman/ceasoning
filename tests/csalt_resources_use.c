@@ -5,13 +5,16 @@
 int init_called = 0;
 int read_called = 0;
 int write_called = 0;
-int valid_called = 0;
 int block_called = 0;
 int deinit_called = 0;
 
-void init(csalt_resource *_)
+struct csalt_resource_initialized_interface test_init_interface;
+csalt_resource_initialized test_init_ptr = &test_init_interface;
+
+csalt_resource_initialized *init(csalt_resource *_)
 {
 	init_called++;
+	return &test_init_ptr;
 }
 
 ssize_t test_read(const csalt_store *_, void *__, size_t size)
@@ -32,14 +35,7 @@ ssize_t test_write(csalt_store *_, const void *__, size_t size)
 	return 0;
 }
 
-char valid(const csalt_resource *_)
-{
-	(void)_;
-	valid_called++;
-	return 1;
-}
-
-int block(csalt_resource *_, csalt_store *__)
+int block(csalt_store *_, void *__)
 {
 	(void)_;
 	(void)__;
@@ -47,7 +43,7 @@ int block(csalt_resource *_, csalt_store *__)
 	return 0;
 }
 
-void deinit(csalt_resource *_)
+void deinit(csalt_resource_initialized *_)
 {
 	(void)_;
 	deinit_called++;
@@ -59,26 +55,46 @@ const struct csalt_store_interface store_interface = {
 };
 
 struct csalt_resource_interface test_interface = {
-	store_interface,
 	init,
-	valid,
+};
+
+struct csalt_resource_initialized_interface test_init_interface = {
+	store_interface,
 	deinit,
 };
+
+#define testvar(name) { name, #name }
 
 int main()
 {
 	csalt_resource test = &test_interface;
 	csalt_resource_use(&test, block, 0);
-	int result = (
-		init_called &&
-		valid_called &&
-		block_called &&
-		deinit_called &&
+
+	struct test_var {
+		int var;
+		char *name;
+	} variables_to_test[] = {
+		testvar(init_called),
+		testvar(block_called),
+		testvar(deinit_called),
 
 		// the following shouldn't have been called
-		!read_called &&
-		!write_called
-	);
+		{ !read_called, "read_var" },
+		{ !write_called, "write_called" },
+	};
 
-	return result ? 0 : EXIT_TEST_FAILURE;
+	for (
+		struct test_var
+			*current = variables_to_test,
+			*end = &variables_to_test[arrlength(variables_to_test)];
+		current < end;
+		current++
+	) {
+		if (!current->var) {
+			print_error("Unexpected value for %s", current->name);
+			return EXIT_TEST_FAILURE;
+		}
+	}
+	
+	return 0;
 }

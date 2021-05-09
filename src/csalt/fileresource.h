@@ -22,6 +22,13 @@
 extern "C" {
 #endif
 
+struct csalt_resource_file_initialized {
+	const struct csalt_resource_initialized_interface *vtable;
+	int fd;
+	size_t begin;
+	size_t end;
+};
+
 /**
  * \brief Struct representing a file resource supporting lazy-loading.
  *
@@ -39,11 +46,9 @@ extern "C" {
 struct csalt_resource_file {
 	const struct csalt_resource_interface *vtable;
 	const char *filename;
-	int fd;
 	int flags;
 	int mode;
-	size_t begin;
-	size_t end;
+	struct csalt_resource_file_initialized file;
 };
 
 ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t size);
@@ -60,11 +65,9 @@ int csalt_resource_file_split(
 	void *data
 );
 
-void csalt_resource_file_init(csalt_resource *resource);
+csalt_resource_initialized *csalt_resource_file_init(csalt_resource *resource);
 
-char csalt_resource_file_valid(const csalt_resource *resource);
-
-void csalt_resource_file_deinit(csalt_resource *resource);
+void csalt_resource_file_deinit(csalt_resource_initialized *resource);
 
 /**
  * Creates a file resource with the given path and flags. The flags

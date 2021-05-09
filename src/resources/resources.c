@@ -69,8 +69,9 @@ csalt_resource_initialized *csalt_heap_init(csalt_resource *resource)
 	if (result) {
 		memory->heap.parent.begin = result;
 		memory->heap.parent.end = result + memory->heap.size;
+		return (csalt_resource_initialized *)&memory->heap;
 	}
-	return (csalt_resource_initialized *)&memory->heap;
+	return 0;
 }
 
 void csalt_heap_deinit(csalt_resource_initialized *resource)
@@ -142,13 +143,13 @@ void csalt_resource_deinit(csalt_resource_initialized *resource)
 int csalt_resource_use(
 	csalt_resource *resource,
 	csalt_resource_block *code_block,
-	csalt_store *out
+	void *data
 )
 {
 	csalt_resource_initialized *initialized = csalt_resource_init(resource);
 	if (!initialized)
 		return -1;
-	int result = code_block(initialized, out);
+	int result = code_block((csalt_store *)initialized, data);
 	csalt_resource_deinit(initialized);
 	return result;
 }

@@ -17,7 +17,7 @@ void noop(csalt_store *dest)
 	(void)dest;
 }
 
-int test_write(csalt_resource *resource, csalt_store *_)
+int test_write(csalt_store *resource, void *_)
 {
 	(void)_;
 	test_write_called = 1;
@@ -48,7 +48,7 @@ int test_write(csalt_resource *resource, csalt_store *_)
 	return 0;
 }
 
-int test_read(csalt_resource *resource, csalt_store *_)
+int test_read(csalt_store *resource, void *_)
 {
 	test_read_called = 1;
 	struct csalt_resource_file *file = castto(file, resource);

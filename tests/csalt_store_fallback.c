@@ -2,181 +2,125 @@
 #include <csalt/resources.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
 #include "test_macros.h"
 
-#define SPLIT_BEGIN_OFFSET 10
+#define PART_ONE "Hello"
+#define PART_TWO " World"
+#define SPLIT_BEGIN_OFFSET (sizeof(PART_ONE) - 1)
+#define SPLIT_END_OFFSET (SPLIT_BEGIN_OFFSET + sizeof(PART_TWO))
 
-int *memory = 0;
-char *memory_two = 0;
+char memory[20] = { 0 };
 
-int split_called = 0;
-
-char data[] = "Hello, world!";
-char moredata[] = " How are you?";
-
-int split(csalt_store *store, void *data)
+int split(csalt_store *fallback_store, void *_)
 {
-	struct csalt_store_fallback *fallback = castto(fallback, store);
-	(void)data;
-	split_called = 1;
-	void *csalt_start = csalt_store_list_get(castto(struct csalt_store_list *, fallback), 0);
-	void *start = csalt_store_memory_raw(csalt_start);
-
-	void *first_start = &(((char *)memory)[SPLIT_BEGIN_OFFSET]);
-	if (start != first_start) {
-		print_error("Unexpected pointer after split");
-		exit(EXIT_TEST_FAILURE);
-	}
-
-	csalt_start = csalt_store_list_get(castto(struct csalt_store_list *, fallback), 1);
-	start = csalt_store_memory_raw(csalt_start);
-	void *second_start = &memory_two[SPLIT_BEGIN_OFFSET];
-	if (start != second_start) {
-		print_error("Unexpected pointer after split");
-		exit(EXIT_TEST_FAILURE);
-	}
-	return 0;
+	return csalt_store_write(fallback_store, PART_TWO, sizeof(PART_TWO));
 }
 
-int split_for_moredata(csalt_store *store, void *data)
+int use_heap(csalt_store *heap, void *_)
 {
-	struct csalt_store_fallback *fallback = castto(fallback, store);
-	size_t written = csalt_store_write(csalt_store(fallback), moredata, sizeof(moredata));
+	struct csalt_memory global = csalt_store_memory_array(memory);
 
-	if (written != sizeof(moredata)) {
-		print_error("Unexpected write amount, expected: %ld actual: %ld",
-			sizeof(moredata),
-			written
+	ssize_t write_result = csalt_store_write((csalt_store *)&global, PART_ONE, sizeof(PART_ONE));
+	if (write_result < sizeof(PART_ONE)) {
+		print_error(
+			"Failed to set up global memory for test\n"
+				"write was: %ld\n"
+				"strerror: %s",
+			write_result,
+			strerror(errno)
 		);
-		exit(EXIT_TEST_FAILURE);
+		return EXIT_TEST_FAILURE;
 	}
-	return 0;
-}
 
-int main()
-{
-	struct csalt_heap csalt_memory_one = csalt_heap(20 * sizeof(int));
-	struct csalt_heap csalt_memory_two = csalt_heap(30);
-
-	memory = csalt_store_memory_raw(&csalt_memory_one.parent);
-	memory_two = csalt_store_memory_raw(&csalt_memory_two.parent);
 
 	csalt_store *stores[] = {
-		csalt_store(&csalt_memory_one),
-		csalt_store(&csalt_memory_two),
+		heap,
+		(csalt_store *)&global,
 	};
 
 	struct csalt_store_fallback fallback = csalt_store_fallback_array(stores);
+	csalt_store *fallback_store = (csalt_store *)&fallback;
 
-	size_t length = csalt_store_list_length(castto(struct csalt_store_list *,&fallback));
+	char buffer[20] = { 0 };
+	ssize_t heap_read_result = csalt_store_read(heap, buffer, sizeof(buffer));
 
-	if (length != 2) {
-		print_error("Actual length does not match expected length, actual value: %ld", length);
+	if (heap_read_result) {
+		print_error("Heap should not have been readable yet");
 		return EXIT_TEST_FAILURE;
 	}
 
-	size_t size = csalt_store_size(castto(csalt_store *, &fallback));
+	ssize_t fallback_read_result = csalt_store_read(fallback_store, buffer, sizeof(PART_ONE));
 
-	if (size != 30) {
-		print_error("Actual size does not match expected size, actual value: %ld", size);
+	if (fallback_read_result != sizeof(PART_ONE)) {
+		print_error("Unexpected read result from fallback: %ld", fallback_read_result);
 		return EXIT_TEST_FAILURE;
 	}
 
-	csalt_store *first = csalt_store_list_get(castto(struct csalt_store_list *, &fallback), 0);
-	if (first != castto(first, &csalt_memory_one)) {
-		print_error("First element pointer is unexpected value, first element: %p"
-				" expected value: %p", first, &csalt_memory_one);
+	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
+		print_error("Unexpected buffer contents after read: %s", buffer);
 		return EXIT_TEST_FAILURE;
 	}
 
-	csalt_store *second = csalt_store_list_get(castto(struct csalt_store_list *, &fallback), 1);
-	if (second != castto(second, &csalt_memory_two)) {
-		print_error("Second element pointer is unexpected value, second element: %p"
-				" expected value: %p", second, &csalt_memory_two);
+	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE));
+	if (heap_read_result != sizeof(PART_ONE)) {
+		print_error(
+			"Unexpected read result from (expected-written-to) heap: %ld",
+			heap_read_result
+		);
 		return EXIT_TEST_FAILURE;
 	}
 
-	csalt_store_split(
-		castto(csalt_store *, &fallback),
+	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
+		print_error("Unexpected buffer contents after read: %s", buffer);
+		return EXIT_TEST_FAILURE;
+	}
+
+	ssize_t fallback_write_result = csalt_store_split(
+		fallback_store,
 		SPLIT_BEGIN_OFFSET,
-		csalt_store_size(castto(csalt_store *, &fallback)),
+		SPLIT_END_OFFSET,
 		split,
 		0
 	);
 
-	if (!split_called) {
-		print_error("Split not called");
+	if (fallback_write_result != sizeof(PART_TWO)) {
+		print_error("Unexpected write result to fallback: %ld", fallback_write_result);
 		return EXIT_TEST_FAILURE;
 	}
 
-	size_t data_size = sizeof(data);
-	struct csalt_memory csalt_string = csalt_store_memory_array(data);
-	struct csalt_transfer progress = csalt_transfer(data_size);
+	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE PART_TWO));
 
-	for (size_t write_size = 0; write_size < data_size;) {
-		write_size = csalt_store_transfer(
-			&progress,
-			csalt_store_list_get(castto(struct csalt_store_list *, &fallback), 1),
-			csalt_store(&csalt_string),
-			0
-		);
-		if (write_size < 0) {
-			print_error("Error during attempted transfer");
-			return EXIT_TEST_FAILURE;
-		}
-	}
-
-	if (strcmp(memory_two, data)) {
-		print_error("Expected \"%s\", got \"%s\"", data, memory_two);
+	if (heap_read_result != sizeof(PART_ONE PART_TWO)) {
+		print_error("Unexpected read result from heap: %ld", heap_read_result);
 		return EXIT_TEST_FAILURE;
 	}
 
-	char read_buffer[sizeof(data)] = { 0 };
-
-	csalt_store_read(csalt_store(&fallback), read_buffer, sizeof(data));
-
-	if (strcmp(read_buffer, data)) {
-		print_error("Expected \"%s\", got \"%s\"", data, read_buffer);
+	if (strncmp(buffer, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
+		print_error("Unexpected buffer contents: %s", buffer);
 		return EXIT_TEST_FAILURE;
 	}
 
-	if (strcmp((char *)memory, data)) {
-		print_error("Expected \"%s\", got \"%s\"", data, read_buffer);
+	if (strncmp(memory, PART_ONE, sizeof(PART_ONE))) {
+		print_error("memory string changed when it shouldn't have: %s", memory);
 		return EXIT_TEST_FAILURE;
 	}
 
-	// we want to overwrite the null terminator
-	csalt_store_split(
-		csalt_store(&fallback),
-		data_size - 1,
-		data_size + sizeof(moredata) - 1,
-		split_for_moredata,
-		moredata
-	);
-	const char *expected = "Hello, world! How are you?";
-	if (strcmp((char *)memory, expected)) {
-		print_error("Unexpected string contents, expected: %s actual: %s",
-			expected,
-			(char *)memory
-		);
+	struct csalt_transfer transfers[2] = { 0 };
+	csalt_store_fallback_flush(&fallback, transfers);
+
+	if (strncmp(memory, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
+		print_error("memory string wasn't updated: %s", memory);
 		return EXIT_TEST_FAILURE;
 	}
-
-	if (!strcmp(memory_two, expected)) {
-		print_error("Data was written to second store sooner than expected");
-		return EXIT_TEST_FAILURE;
-	}
-
-	struct csalt_transfer transfers[arrlength(stores)] = { 0 };
-	struct csalt_transfer total_progress = csalt_store_fallback_flush(&fallback, transfers);
-	if (strcmp(memory_two, expected)) {
-		print_error("Flush didn't write the data out to the second store");
-		return EXIT_TEST_FAILURE;
-	}
-
-	csalt_resource_deinit(csalt_resource(&csalt_memory_one));
-	csalt_resource_deinit(csalt_resource(&csalt_memory_two));
 
 	return EXIT_SUCCESS;
+}
+
+int main()
+{
+	struct csalt_heap heap = csalt_heap(20);
+
+	return csalt_resource_use((csalt_resource *)&heap, use_heap, 0);
 }

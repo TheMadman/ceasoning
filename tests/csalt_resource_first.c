@@ -4,67 +4,45 @@
 
 #include "test_macros.h"
 
-int use(csalt_resource *resource, csalt_store *output)
+int use(csalt_store *resource, void *param)
 {
-	struct csalt_resource_first *first = castto(first, resource);
-	struct csalt_resource_list *list = castto(list, resource);
-
-	csalt_resource
-		*heap1 = csalt_resource_list_get(list, 0),
-		*heap2 = csalt_resource_list_get(list, 1),
-		*heap3 = csalt_resource_list_get(list, 2);
-
-	if (csalt_resource_valid(heap1)) {
-		print_error("heap1 was initialized when it shouldn't have been");
-		exit(EXIT_TEST_FAILURE);
-	}
-
-	if (!csalt_resource_valid(heap2)) {
-		print_error("heap2 wasn't initialized when it should have been");
-		exit(EXIT_TEST_FAILURE);
-	}
-
-	if (csalt_resource_valid(heap3)) {
-		print_error("heap3 was initialized when it shouldn't have been");
-		exit(EXIT_TEST_FAILURE);
-	}
+	struct csalt_resource_first_initialized *first = castto(first, resource);
 
 	csalt_store_write(csalt_store(first), "a", 1);
 
-	char buffer;
-	int amount_read = csalt_store_read(csalt_store(heap1), &buffer, 1);
-	if (amount_read >= 0) {
-		print_error("Shouldn't have been able to read a value from heap1");
-		exit(EXIT_TEST_FAILURE);
+	char buffer = 0;
+
+	struct csalt_heap **array = param;
+	void
+		*heap1 = array[0]->heap.parent.begin,
+		*heap2 = array[1]->heap.parent.begin,
+		*heap3 = array[2]->heap.parent.begin;
+
+	if (heap1) {
+		print_error("heap1 was initialized when it shouldn't have been");
+		return EXIT_TEST_FAILURE;
 	}
 
-	amount_read = csalt_store_read(csalt_store(heap2), &buffer, 1);
-	if (amount_read != 1) {
-		print_error("Should have been able to read a single byte from heap2");
-		exit(EXIT_TEST_FAILURE);
+	if (!heap2) {
+		print_error("heap2 should have been initialized but wasn't");
+		return EXIT_TEST_FAILURE;
 	}
 
-	if (buffer != 'a') {
-		print_error("Unexpected value in buffer");
-		exit(EXIT_TEST_FAILURE);
+	if (heap3) {
+		print_error("heap3 was initialized when it shouldn't have been");
+		return EXIT_TEST_FAILURE;
 	}
 
-	amount_read = csalt_store_read(csalt_store(heap3), &buffer, 1);
-	if (amount_read >= 0) {
-		print_error("Shouldn't have been able to read a value from heap3");
-		exit(EXIT_TEST_FAILURE);
-	}
-
-	return 0;
+	return EXIT_SUCCESS;
 }
 
 int main()
 {
 	struct csalt_heap
 		// heap with size -1 should fail
-		heap1 = csalt_heap_lazy(-1),
-		heap2 = csalt_heap_lazy(1),
-		heap3 = csalt_heap_lazy(3);
+		heap1 = csalt_heap(-1),
+		heap2 = csalt_heap(1),
+		heap3 = csalt_heap(3);
 
 	csalt_resource *array[] = {
 		csalt_resource(&heap1),
@@ -74,6 +52,5 @@ int main()
 
 	struct csalt_resource_first first = csalt_resource_first_array(array);
 
-	csalt_resource_use(csalt_resource(&first), use, 0);
-	return EXIT_SUCCESS;
+	return csalt_resource_use(csalt_resource(&first), use, array);
 }

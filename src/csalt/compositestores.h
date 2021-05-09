@@ -25,7 +25,7 @@ struct csalt_store_list;
  * of list only have to initialize a stack variable using the result.
  */
 typedef int csalt_store_list_receive_split_fn(
-	struct csalt_store_list *origina,
+	struct csalt_store_list *original,
 	struct csalt_store_list *list,
 	size_t begin,
 	size_t end,
@@ -68,7 +68,7 @@ struct csalt_store_list_interface {
  * \see csalt_store_list()
  */
 struct csalt_store_list {
-	struct csalt_store_list_interface *vtable;
+	struct csalt_store_interface *vtable;
 	csalt_store **begin;
 	csalt_store **end;
 };
@@ -204,6 +204,14 @@ ssize_t csalt_store_fallback_write(
 	csalt_store *store,
 	const void *buffer,
 	size_t size
+);
+
+int csalt_store_fallback_split(
+	csalt_store *list,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
 );
 
 int csalt_store_fallback_receive_split(

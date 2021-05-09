@@ -180,38 +180,43 @@ void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
 /**
  * \brief Function signature for blocks to pass to csalt_resource_use.
  *
- * The function should expect a pointer-to-resource and a
- * pointer-to-store as arguments, with the store acting as an
- * out parameter, and return a value useful for error checking
- * in your code.
+ * An initialized resource is passed as a pointer-to-store for use.
+ * your function should not deinitialize an initialized resource:
+ * that is managed by csalt_resource_use.
  *
- * Note that csalt_resource_use returns -1 if there was an error
- * initializing the resource.
+ * Your function can also take an arbitrary pointer, to use as both
+ * an in- and out-parameter.
+ *
+ * You should return a return code which is useful for error checking
+ * in your code: csalt_resource_use will return it.
+ *
+ * Note that csalt_resource_use itself returns -1 if there was an error
+ * initializing the resource, and doesn't run your code. If you want
+ * to differentiate between an error initializing the resource and
+ * an error arising from your code, you should use a different return
+ * code.
  *
  * \see csalt_resource_use()
  */
-typedef int csalt_resource_block(csalt_resource_initialized *, csalt_store *);
+typedef int csalt_resource_block(csalt_store *, void *);
 
 /**
  * \brief Manages a resource lifecycle and executes the given
  * function.
  *
  * Takes a pointer to resource struct, a code block and
- * an out parameter implementing the csalt_store interface,
- * passes the resource and out parameter to the code block,
- * cleans up the resource and finally, returns the result of
- * code_block.
+ * an optional parameter, passes the resource and parameter
+ * to the code block, cleans up the resource and finally,
+ * returns the result of code_block.
  *
- * This function also checks if resource allocation was
- * successful and returns -1 if it failed.
- * Checking validity with csalt_resource_valid can be skipped
- * if the function passed in code_block returns an error value
- * on failure.
+ * csalt_resource_use itself will return -1 if the resource
+ * allocation failed. Otherwise, it will return the return value
+ * of the passed block.
  */
 int csalt_resource_use(
 	csalt_resource *resource,
 	csalt_resource_block *code_block,
-	csalt_store *out
+	void *out
 );
 
 /**

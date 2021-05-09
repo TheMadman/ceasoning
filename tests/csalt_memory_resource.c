@@ -6,7 +6,7 @@
 
 int block_called = 0;
 
-int block(csalt_resource_initialized *_, csalt_store *__)
+int block(csalt_store *_, void *__)
 {
 	(void)_;
 	(void)__;
