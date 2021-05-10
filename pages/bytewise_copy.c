@@ -74,11 +74,6 @@ int bytewise_copy(csalt_store *resource, void *_)
 	 * argument here.
 	 */
 
-	/*
-	 * The castto() macro is a simple compile-time type cast. As its first argument,
-	 * it can take the type to cast to, or as in this case, the variable to
-	 * cast to.
-	 */
 	struct csalt_store_list *list = (struct csalt_store_list *)resource;
 
 	/*
@@ -91,8 +86,8 @@ int bytewise_copy(csalt_store *resource, void *_)
 	 * to boot.
 	 */
 	csalt_store
-		*input = castto(input, csalt_store_list_get(list, 0)),
-		*output = castto(output, csalt_store_list_get(list, 1));
+		*input = (csalt_store *)csalt_store_list_get(list, 0),
+		*output = (csalt_store *)csalt_store_list_get(list, 1);
 
 	ssize_t input_size = csalt_store_size(input);
 	struct csalt_transfer progress = csalt_transfer(input_size);
