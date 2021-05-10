@@ -3,15 +3,19 @@
 #include <unistd.h>
 
 static struct csalt_resource_interface csalt_addrinfo_implementation;
-static struct csalt_resource_interface csalt_addrinfo_init_implementation;
+static struct csalt_resource_initialized_interface csalt_addrinfo_init_implementation;
 
-struct csalt_addrinfo {
-	struct csalt_resource_interface *vtable;
+struct csalt_addrinfo_initialized {
+	struct csalt_resource_initialized_interface *vtable;
 	const char *node;
 	const char *service;
 	const struct addrinfo *hints;
 	struct addrinfo *result;
-	int error;
+};
+
+struct csalt_addrinfo {
+	struct csalt_resource_interface *vtable;
+	struct csalt_addrinfo_initialized addrinfo;
 };
 
 struct csalt_addrinfo csalt_addrinfo(
@@ -21,65 +25,60 @@ struct csalt_addrinfo csalt_addrinfo(
 )
 {
 	struct csalt_addrinfo result = {
-		.node = node,
-		.service = service,
-		.hints = hints,
+		&csalt_addrinfo_implementation,
+		{
+			.vtable = &csalt_addrinfo_init_implementation,
+			.node = node,
+			.service = service,
+			.hints = hints,
+		},
 	};
 	return result;
 }
 
-void csalt_addrinfo_init(csalt_resource *resource)
+csalt_resource_initialized *csalt_addrinfo_init(csalt_resource *resource)
 {
 	// naming things is hard
 	struct csalt_addrinfo *infoinfo = castto(infoinfo, resource);
 
 	// looks like this call blocks on DNS lookups?
 	// TODO: non-blocking DNS lookup support... somehow
-	infoinfo->error = getaddrinfo(
-		infoinfo->node,
-		infoinfo->service,
-		infoinfo->hints,
-		&infoinfo->result
+	int error = getaddrinfo(
+		infoinfo->addrinfo.node,
+		infoinfo->addrinfo.service,
+		infoinfo->addrinfo.hints,
+		&infoinfo->addrinfo.result
 	);
 
-	if (!infoinfo->error)
-		infoinfo->vtable = &csalt_addrinfo_init_implementation;
+	if (!error)
+		return (csalt_resource_initialized *)&infoinfo->addrinfo;
+	return 0;
 }
 
-char csalt_addrinfo_valid(const csalt_resource *resource)
+void csalt_addrinfo_deinit(csalt_resource_initialized *resource)
 {
-	struct csalt_addrinfo *infoinfo = castto(infoinfo, resource);
-	return !infoinfo->error;
-}
-
-void csalt_addrinfo_deinit(csalt_resource *resource)
-{
-	struct csalt_addrinfo *infoinfo = castto(infoinfo, resource);
+	struct csalt_addrinfo_initialized *infoinfo = castto(infoinfo, resource);
 	freeaddrinfo(infoinfo->result);
-	infoinfo->vtable = &csalt_addrinfo_implementation;
+	infoinfo->result = 0;
 }
 
 static struct csalt_resource_interface csalt_addrinfo_implementation = {
-	{
-		csalt_store_null_read,
-		csalt_store_null_write,
-		csalt_store_null_size,
-		csalt_store_null_split,
-	},
 	csalt_addrinfo_init,
-	csalt_noop_valid,
-	csalt_noop_deinit,
 };
 
-static struct csalt_resource_interface csalt_addrinfo_init_implementation = {
+/*
+ * doesn't implement store_read/write/... because addrinfo is a
+ * linked list
+ *
+ * seriously, who still uses linked lists...?
+ */
+static struct csalt_resource_initialized_interface csalt_addrinfo_init_implementation = {
 	{
 		csalt_store_null_read,
 		csalt_store_null_write,
 		csalt_store_null_size,
 		csalt_store_null_split,
 	},
-	csalt_noop_init,
-	csalt_addrinfo_valid,
 	csalt_addrinfo_deinit,
 };
 
@@ -181,8 +180,8 @@ ssize_t csalt_resource_socket_recvfrom(
 	);
 }
 
-struct csalt_resource_network_interface csalt_resource_network_udp_connected_implementation;
-struct csalt_resource_network_interface csalt_resource_network_udp_init_connected_implementation;
+struct csalt_resource_interface csalt_resource_network_udp_connected_implementation;
+struct csalt_resource_network_initialized_interface csalt_resource_network_udp_init_connected_implementation;
 
 // Are those names too long for you? Yeah, me too
 #define udp_connected_implementation csalt_resource_network_udp_connected_implementation
@@ -194,26 +193,29 @@ struct csalt_resource_network_udp csalt_resource_network_udp_connected(
 )
 {
 	struct csalt_resource_network_udp result = {
-		.parent = {
-			// Using the names here because this struct has
-			// a lot of members, should be easier to track this
-			// way
-			.vtable = &udp_connected_implementation,
-			.fd = -1,
-			.domain = 0,
-			.type = 0,
-			.protocol = 0,
-			.node = node,
-			.service = service,
+		.vtable = &udp_connected_implementation,
+		.udp = {
+			.parent = {
+				// Using the names here because this struct has
+				// a lot of members, should be easier to track this
+				// way
+				.vtable = &udp_init_connected_implementation,
+				.fd = -1,
+				.domain = 0,
+				.type = 0,
+				.protocol = 0,
+			},
 		},
+		.node = node,
+		.service = service,
 	};
 
 	return result;
 }
 
-int use_csalt_addrinfo(csalt_resource *resource, csalt_store *store)
+int use_csalt_addrinfo(csalt_store *resource, void *store)
 {
-	struct csalt_addrinfo *addrinfo = castto(addrinfo, resource);
+	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
 	struct csalt_resource_network_udp *udp = castto(udp, store);
 
 	struct addrinfo *current;
@@ -236,7 +238,7 @@ int use_csalt_addrinfo(csalt_resource *resource, csalt_store *store)
 			current->ai_addrlen
 		);
 		if (connect_return != -1) {
-			udp->parent.fd = sock;
+			udp->udp.parent.fd = sock;
 			break;
 		}
 
@@ -244,7 +246,7 @@ int use_csalt_addrinfo(csalt_resource *resource, csalt_store *store)
 	}
 }
 
-void csalt_resource_network_udp_connected_init(csalt_resource *resource)
+csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_resource *resource)
 {
 	struct csalt_resource_network_udp *udp = castto(udp, resource);
 
@@ -254,8 +256,8 @@ void csalt_resource_network_udp_connected_init(csalt_resource *resource)
 		.ai_protocol = 0,
 	};
 	struct csalt_addrinfo info = csalt_addrinfo(
-		udp->parent.node,
-		udp->parent.service,
+		udp->node,
+		udp->service,
 		&hints
 	);
 
@@ -266,8 +268,10 @@ void csalt_resource_network_udp_connected_init(csalt_resource *resource)
 			csalt_store(udp)
 		) != -1
 	) {
-		udp->vtable = &udp_init_connected_implementation;
+		return (csalt_resource_initialized *)&udp->udp;
 	}
+
+	return 0;
 }
 
 char csalt_resource_network_socket_valid(const csalt_resource *resource)
@@ -277,20 +281,12 @@ char csalt_resource_network_socket_valid(const csalt_resource *resource)
 	return sock->fd >= 0;
 }
 
-void csalt_resource_network_socket_deinit(csalt_resource *resource)
+void csalt_resource_network_socket_deinit(csalt_resource_initialized *resource)
 {
 	struct csalt_resource_network_socket *sock = castto(sock, resource);
 
 	close(sock->fd);
 	sock->fd = -1;
-}
-
-void csalt_resource_network_udp_connected_deinit(csalt_resource *resource)
-{
-	csalt_resource_network_socket_deinit(resource);
-
-	struct csalt_resource_network_udp *udp = castto(udp, resource);
-	udp->vtable = &udp_connected_implementation;
 }
 
 // these functions should really be shared with csalt_resource_file...
@@ -312,23 +308,11 @@ ssize_t csalt_resource_network_socket_write(
 	return write(sock->fd, buffer, amount);
 }
 
-struct csalt_resource_network_interface csalt_resource_network_udp_connected_implementation = {
-	{
-		{
-			csalt_store_null_read,
-			csalt_store_null_write,
-			csalt_store_null_size,
-			csalt_store_null_split,
-		},
-		csalt_resource_network_udp_connected_init,
-		csalt_noop_valid,
-		csalt_noop_deinit,
-	},
-	csalt_resource_noop_sendto,
-	csalt_resource_noop_recvfrom,
+struct csalt_resource_interface csalt_resource_network_udp_connected_implementation = {
+	csalt_resource_network_udp_connected_init,
 };
 
-struct csalt_resource_network_interface csalt_resource_network_udp_init_connected_implementation = {
+struct csalt_resource_network_initialized_interface csalt_resource_network_udp_init_connected_implementation = {
 	{
 		{
 			csalt_resource_network_socket_read,
@@ -336,9 +320,7 @@ struct csalt_resource_network_interface csalt_resource_network_udp_init_connecte
 			csalt_store_null_size,
 			csalt_store_null_split,
 		},
-		csalt_noop_init,
-		csalt_resource_network_socket_valid,
-		csalt_resource_network_udp_connected_deinit,
+		csalt_resource_network_socket_deinit,
 	},
 	csalt_resource_socket_sendto,
 	csalt_resource_socket_recvfrom,

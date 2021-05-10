@@ -11,7 +11,7 @@ extern "C" {
 #endif
 
 struct csalt_resource_network_interface;
-typedef struct csalt_resource_network_interface *csalt_resource_network;
+typedef struct csalt_resource_network_initialized_interface *csalt_resource_network;
 
 typedef ssize_t csalt_resource_sendto_fn(
 	csalt_resource_network *network,
@@ -73,8 +73,8 @@ ssize_t csalt_resource_recvfrom(
 	socklen_t *addrlen
 );
 
-struct csalt_resource_network_interface {
-	struct csalt_resource_interface parent;
+struct csalt_resource_network_initialized_interface {
+	struct csalt_resource_initialized_interface parent;
 	csalt_resource_sendto_fn *sendto;
 	csalt_resource_recvfrom_fn *recvfrom;
 };
@@ -83,13 +83,11 @@ struct csalt_resource_network_interface {
  * \brief Represents the common features of each kind of network socket.
  */
 struct csalt_resource_network_socket {
-	struct csalt_resource_network_interface *vtable;
+	struct csalt_resource_network_initialized_interface *vtable;
 	int fd;
 	int domain;
 	int type;
 	int protocol;
-	const char *node;
-	const char *service;
 };
 
 /**
@@ -117,11 +115,18 @@ struct csalt_resource_network_socket {
  * \see csalt_resource_network_udp_bound()
  * \see csalt_resource_network_udp_stateless()
  */
-struct csalt_resource_network_udp {
+struct csalt_resource_network_udp_initialized {
 	union {
-		struct csalt_resource_network_interface *vtable;
+		struct csalt_resource_network_initialized_interface *vtable;
 		struct csalt_resource_network_socket parent;
 	};
+};
+
+struct csalt_resource_network_udp {
+	struct csalt_resource_interface *vtable;
+	const char *node;
+	const char *service;
+	struct csalt_resource_network_udp_initialized udp;
 };
 
 /**
