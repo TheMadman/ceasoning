@@ -181,16 +181,11 @@ struct csalt_resource_fallback csalt_resource_fallback_bounds(
 	csalt_resource **end
 );
 
-struct csalt_resource_first_initialized {
-	struct csalt_resource_initialized_interface *vtable;
-	csalt_resource_initialized *initialized;
-};
-
 /**
  * \brief This struct uses the first working resource.
  *
  * When initialized, it attempts to initialize the first resource;
- * if that succeeds, it wraps that resource. If it fails, this resource
+ * if that succeeds, it returns that resource. If it fails, this resource
  * moves onto the next and attempts to initialize that.
  *
  * This resource only fails if all resources within it fail
@@ -203,7 +198,6 @@ struct csalt_resource_first {
 	struct csalt_resource_interface *vtable;
 	csalt_resource **begin;
 	csalt_resource **end;
-	struct csalt_resource_first_initialized first;
 };
 
 /**
@@ -220,27 +214,7 @@ struct csalt_resource_first csalt_resource_first_bounds(
  */
 #define csalt_resource_first_array(array) (csalt_resource_first_bounds((array), &((array)[arrlength(array)])))
 
-ssize_t csalt_resource_first_read(
-	const csalt_store *store,
-	void *buffer,
-	size_t amount
-);
-ssize_t csalt_resource_first_write(
-	csalt_store *store,
-	const void *buffer,
-	size_t amount
-);
-size_t csalt_resource_first_size(const csalt_store *store);
-int csalt_resource_first_split(
-	csalt_store *store,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
 csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource);
-void csalt_resource_first_deinit(csalt_resource_initialized *resource);
 
 #ifdef __cplusplus
 } // extern "C"

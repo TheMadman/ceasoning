@@ -160,16 +160,6 @@ static struct csalt_resource_interface csalt_resource_first_implementation = {
 	csalt_resource_first_init,
 };
 
-static struct csalt_resource_initialized_interface csalt_resource_first_init_implementation = {
-	{
-		csalt_resource_first_read,
-		csalt_resource_first_write,
-		csalt_resource_first_size,
-		csalt_resource_first_split,
-	},
-	csalt_resource_first_deinit,
-};
-
 struct csalt_resource_first csalt_resource_first_bounds(
 	csalt_resource **begin,
 	csalt_resource **end
@@ -180,8 +170,6 @@ struct csalt_resource_first csalt_resource_first_bounds(
 	result.begin = begin;
 	result.end = end;
 
-	result.first.initialized = 0;
-	result.first.vtable = &csalt_resource_first_init_implementation;
 	return result;
 }
 
@@ -198,48 +186,10 @@ csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource)
 	) {
 		csalt_resource_initialized *result = csalt_resource_init(*current);
 		if (result) {
-			first->first.initialized = result;
-			return &first->first.vtable;
+			return result;
 		}
 	}
 
 	return 0;
-}
-
-void csalt_resource_first_deinit(csalt_resource_initialized *resource)
-{
-	struct csalt_resource_first_initialized *first = (void*)resource;
-	csalt_resource_deinit(first->initialized);
-	first->initialized = 0;
-}
-
-ssize_t csalt_resource_first_read(const csalt_store *store, void *buffer, size_t size)
-{
-	struct csalt_resource_first_initialized *first = (void*)store;
-	return csalt_store_read(csalt_store(first->initialized), buffer, size);
-}
-
-ssize_t csalt_resource_first_write(csalt_store *store, const void *buffer, size_t size)
-{
-	struct csalt_resource_first_initialized *first = (void*)store;
-	return csalt_store_write(csalt_store(first->initialized), buffer, size);
-}
-
-size_t csalt_resource_first_size(const csalt_store *store)
-{
-	struct csalt_resource_first_initialized *first = (void*)store;
-	return csalt_store_size(csalt_store(first->initialized));
-}
-
-int csalt_resource_first_split(
-	csalt_store *store,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-)
-{
-	struct csalt_resource_first_initialized *first = (void*)store;
-	return csalt_store_split(csalt_store(first->initialized), begin, end, block, data);
 }
 
