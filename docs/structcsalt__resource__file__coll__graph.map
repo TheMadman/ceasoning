@@ -1,5 +1,7 @@
 <map id="csalt_resource_file" name="csalt_resource_file">
-<area shape="rect" id="node1" title="Struct representing a file resource supporting lazy&#45;loading." alt="" coords="25,184,167,211"/>
-<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,95,187,121"/>
-<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="17,5,175,32"/>
+<area shape="rect" id="node1" title="Struct representing a file resource supporting lazy&#45;loading." alt="" coords="121,303,263,329"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__file__initialized.html" title=" " alt="" coords="27,199,170,240"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="5,95,192,136"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="19,5,178,32"/>
+<area shape="rect" id="node5" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="195,206,376,233"/>
 </map>

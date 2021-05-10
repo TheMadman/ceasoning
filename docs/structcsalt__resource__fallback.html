@@ -77,28 +77,30 @@ Collaboration diagram for csalt_resource_fallback:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__resource__fallback__coll__graph.png" border="0" usemap="#csalt__resource__fallback_coll__map" alt="Collaboration graph"/></div>
 <map name="csalt__resource__fallback_coll__map" id="csalt__resource__fallback_coll__map">
-<area shape="rect" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="30,392,205,419"/>
-<area shape="rect" href="structcsalt__resource__list__interface.html" title=" " alt="" coords="25,237,167,279"/>
-<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,96,187,123"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="155,5,314,32"/>
-<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="181,187,301,213"/>
-<area shape="rect" href="structcsalt__store__list__interface.html" title=" " alt="" coords="301,96,486,123"/>
-<area shape="rect" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="165,303,317,329"/>
+<area shape="rect" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="45,463,219,489"/>
+<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,337,187,363"/>
+<area shape="rect" href="structcsalt__resource__fallback__initialized.html" title=" " alt="" coords="211,329,386,371"/>
+<area shape="rect" href="structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="168,175,355,216"/>
+<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="234,5,393,32"/>
+<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="321,124,441,151"/>
+<area shape="rect" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="320,240,472,267"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a63545870242a3cbfdf2ec1c2e36110b9"><td class="memItemLeft" ><a id="a63545870242a3cbfdf2ec1c2e36110b9"></a>
-union {</td></tr>
-<tr class="memitem:abb1aff606f161c14e4282ee94e1fa7f5"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structcsalt__resource__list__interface.html">csalt_resource_list_interface</a> *&#160;&#160;&#160;<b>vtable</b></td></tr>
-<tr class="separator:abb1aff606f161c14e4282ee94e1fa7f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b12ee7d95e5448891c45ae5ee432576"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a>&#160;&#160;&#160;<b>parent</b></td></tr>
-<tr class="separator:a3b12ee7d95e5448891c45ae5ee432576"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a63545870242a3cbfdf2ec1c2e36110b9"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:a63545870242a3cbfdf2ec1c2e36110b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab56e90b88a74b5df108f5206ee40d3a2"><td class="memItemLeft" align="right" valign="top"><a id="ab56e90b88a74b5df108f5206ee40d3a2"></a>
+struct <a class="el" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
+<tr class="separator:ab56e90b88a74b5df108f5206ee40d3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a663c176fdad4292b371798ae045171bb"><td class="memItemLeft" align="right" valign="top"><a id="a663c176fdad4292b371798ae045171bb"></a>
+<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b></td></tr>
+<tr class="separator:a663c176fdad4292b371798ae045171bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ed58524c6449a68ffa2e046901e02b8"><td class="memItemLeft" align="right" valign="top"><a id="a8ed58524c6449a68ffa2e046901e02b8"></a>
+<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
+<tr class="separator:a8ed58524c6449a68ffa2e046901e02b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdf47999f2f44d7364c655c1d31a448b"><td class="memItemLeft" align="right" valign="top"><a id="afdf47999f2f44d7364c655c1d31a448b"></a>
+struct <a class="el" href="structcsalt__resource__fallback__initialized.html">csalt_resource_fallback_initialized</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fallback</b></td></tr>
+<tr class="separator:afdf47999f2f44d7364c655c1d31a448b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implements the <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> algorithms with <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> resource management. </p>

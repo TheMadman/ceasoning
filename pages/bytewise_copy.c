@@ -6,7 +6,7 @@
 #include <errno.h>
 #include <string.h>
 
-int bytewise_copy(csalt_resource *, csalt_store *);
+int bytewise_copy(csalt_store *, void *);
 
 char usage_format[] = "Usage: %s file-from file-to";
 
@@ -35,11 +35,13 @@ int main(int argc, char **argv)
 		csalt_resource(&output),
 	};
 
+	csalt_resource_initialized *buffer[2] = { 0 };
+
 	/*
 	 * The csalt_resource_list allows us to treat multiple resources
 	 * as a single resource.
 	 */
-	struct csalt_resource_list list = csalt_resource_list_array(resource_array);
+	struct csalt_resource_list list = csalt_resource_list_array(resource_array, buffer);
 
 	/*
 	 * When `list` is initialized by csalt_resource_use, it attempts to
@@ -62,7 +64,7 @@ int main(int argc, char **argv)
 	return result;
 }
 
-int bytewise_copy(csalt_resource *resource, csalt_store *_)
+int bytewise_copy(csalt_store *resource, void *_)
 {
 	/*
 	 * The second argument, the csalt_store*, is for data we want to preserve
@@ -77,7 +79,7 @@ int bytewise_copy(csalt_resource *resource, csalt_store *_)
 	 * it can take the type to cast to, or as in this case, the variable to
 	 * cast to.
 	 */
-	struct csalt_resource_list *list = castto(list, resource);
+	struct csalt_store_list *list = (struct csalt_store_list *)resource;
 
 	/*
 	 * Resources implement the store interface, and can be safely cast from
@@ -89,8 +91,8 @@ int bytewise_copy(csalt_resource *resource, csalt_store *_)
 	 * to boot.
 	 */
 	csalt_store
-		*input = castto(input, csalt_resource_list_get(list, 0)),
-		*output = castto(output, csalt_resource_list_get(list, 1));
+		*input = castto(input, csalt_store_list_get(list, 0)),
+		*output = castto(output, csalt_store_list_get(list, 1));
 
 	ssize_t input_size = csalt_store_size(input);
 	struct csalt_transfer progress = csalt_transfer(input_size);

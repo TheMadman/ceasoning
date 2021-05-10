@@ -1,0 +1,7 @@
+<map id="csalt_resource_fallback_initialized" name="csalt_resource_fallback_initialized">
+<area shape="rect" id="node1" title=" " alt="" coords="22,329,197,371"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="5,175,192,216"/>
+<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="71,5,230,32"/>
+<area shape="rect" id="node5" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="156,124,276,151"/>
+<area shape="rect" id="node4" href="$structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="157,240,309,267"/>
+</map>

@@ -77,35 +77,36 @@ Collaboration diagram for csalt_resource_list:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__resource__list__coll__graph.png" border="0" usemap="#csalt__resource__list_coll__map" alt="Collaboration graph"/></div>
 <map name="csalt__resource__list_coll__map" id="csalt__resource__list_coll__map">
-<area shape="rect" title="This resource allows operations on groups of resources." alt="" coords="165,291,307,317"/>
-<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="99,194,219,221"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="79,5,238,32"/>
-<area shape="rect" href="structcsalt__store__list__interface.html" title=" " alt="" coords="66,96,251,123"/>
-<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="276,96,457,123"/>
-<area shape="rect" href="structcsalt__resource__list__interface.html" title=" " alt="" coords="269,187,411,228"/>
+<area shape="rect" title="This resource allows operations on groups of resources." alt="" coords="61,361,203,388"/>
+<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,235,187,262"/>
+<area shape="rect" href="structcsalt__resource__list__initialized.html" title="This resource allows operations on groups of resources." alt="" coords="211,228,354,269"/>
+<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="121,131,241,158"/>
+<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="190,5,349,32"/>
+<area shape="rect" href="structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="265,124,452,165"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:afb66fa0d2f68b770a4b50256486cf316"><td class="memItemLeft" ><a id="afb66fa0d2f68b770a4b50256486cf316"></a>
-union {</td></tr>
-<tr class="memitem:ad08153c303bf317c9058ae953312cab7"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structcsalt__resource__list__interface.html">csalt_resource_list_interface</a> *&#160;&#160;&#160;<b>vtable</b></td></tr>
-<tr class="separator:ad08153c303bf317c9058ae953312cab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae29a1dd80fd59de908c786f3bbbb62ec"><td class="memItemLeft" >
-&#160;&#160;&#160;struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a>&#160;&#160;&#160;<b>parent</b></td></tr>
-<tr class="separator:ae29a1dd80fd59de908c786f3bbbb62ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb66fa0d2f68b770a4b50256486cf316"><td class="memItemLeft" valign="top">};&#160;</td><td class="memItemRight" valign="bottom"></td></tr>
-<tr class="separator:afb66fa0d2f68b770a4b50256486cf316"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79ee10ee8a44608bc999607099bbf3a9"><td class="memItemLeft" align="right" valign="top"><a id="a79ee10ee8a44608bc999607099bbf3a9"></a>
+struct <a class="el" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
+<tr class="separator:a79ee10ee8a44608bc999607099bbf3a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a176acab5bab55760d3323e9067b3258c"><td class="memItemLeft" align="right" valign="top"><a id="a176acab5bab55760d3323e9067b3258c"></a>
+<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b></td></tr>
+<tr class="separator:a176acab5bab55760d3323e9067b3258c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bbf5417b97b91acd4abb846d5d220b3"><td class="memItemLeft" align="right" valign="top"><a id="a4bbf5417b97b91acd4abb846d5d220b3"></a>
+<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
+<tr class="separator:a4bbf5417b97b91acd4abb846d5d220b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48a4aa91d395d651beb7884e108dcf9f"><td class="memItemLeft" align="right" valign="top"><a id="a48a4aa91d395d651beb7884e108dcf9f"></a>
+struct <a class="el" href="structcsalt__resource__list__initialized.html">csalt_resource_list_initialized</a>&#160;</td><td class="memItemRight" valign="bottom"><b>list</b></td></tr>
+<tr class="separator:a48a4aa91d395d651beb7884e108dcf9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This resource allows operations on groups of resources. </p>
 <p>When this resource is passed to csalt_resource_init, it attempts to initialize all resources in the order given. If any of them fail, the initialized resources are deinitialized and the list returns a -1 error code.</p>
-<p>When this resource is passed to csalt_resource_use, individual resources can be retrieved with <a class="el" href="compositeresources_8h.html#a8986780495f8880d31aa3841d6bc932a" title="Retrieves the resource from the given list at the corresponding index.">csalt_resource_list_get()</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositeresources_8h.html#a9d5a3101cbefbdf48463f8e1a098b5db" title="Convenience macro for initializing a csalt_resource_list from an array.">csalt_resource_list_array()</a> </dd>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositeresources_8h.html#a6e674d80c658215149459368c385c7b0" title="Convenience macro for initializing a csalt_resource_list from two arrays: one containing the resource...">csalt_resource_list_array()</a> </dd>
 <dd>
-<a class="el" href="compositeresources_8h.html#a8d2f4b76c188339c83c4d5fa3fc85ddc" title="Creates a new csalt_resource_list.">csalt_resource_list_bounds()</a> </dd></dl>
+<a class="el" href="compositeresources_8h.html#aef6cf7ffa0ece8139de06862ff57adfe" title="Creates a new csalt_resource_list.">csalt_resource_list_bounds()</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="compositeresources_8h_source.html">compositeresources.h</a></li>
 </ul>

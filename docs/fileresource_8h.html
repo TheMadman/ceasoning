@@ -108,6 +108,8 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__file__initialized.html">csalt_resource_file_initialized</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__file.html">csalt_resource_file</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Struct representing a file resource supporting lazy-loading.  <a href="structcsalt__resource__file.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,15 +128,12 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file
 <tr class="memitem:a942397b98b3b33c25cbe52f2437ce78c"><td class="memItemLeft" align="right" valign="top"><a id="a942397b98b3b33c25cbe52f2437ce78c"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_split</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
 <tr class="separator:a942397b98b3b33c25cbe52f2437ce78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ec3a0c4f44269b8732e0516d23b59cf"><td class="memItemLeft" align="right" valign="top"><a id="a2ec3a0c4f44269b8732e0516d23b59cf"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
-<tr class="separator:a2ec3a0c4f44269b8732e0516d23b59cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5bdea88d3568a34efb91eee4e83b2fdc"><td class="memItemLeft" align="right" valign="top"><a id="a5bdea88d3568a34efb91eee4e83b2fdc"></a>
-char&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_valid</b> (const <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
-<tr class="separator:a5bdea88d3568a34efb91eee4e83b2fdc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1947c6113b9af83fdf99b8062777572d"><td class="memItemLeft" align="right" valign="top"><a id="a1947c6113b9af83fdf99b8062777572d"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
-<tr class="separator:a1947c6113b9af83fdf99b8062777572d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3cafbfa030febfefc95490ac44419349"><td class="memItemLeft" align="right" valign="top"><a id="a3cafbfa030febfefc95490ac44419349"></a>
+<a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa">csalt_resource_initialized</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a3cafbfa030febfefc95490ac44419349"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae58e5f4829c6856781d457038d23fdc7"><td class="memItemLeft" align="right" valign="top"><a id="ae58e5f4829c6856781d457038d23fdc7"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_deinit</b> (<a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa">csalt_resource_initialized</a> *resource)</td></tr>
+<tr class="separator:ae58e5f4829c6856781d457038d23fdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__file.html">csalt_resource_file</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">csalt_resource_file</a> (const char *path, int flags)</td></tr>
 <tr class="memdesc:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a file resource with the given path and flags.  <a href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">More...</a><br /></td></tr>
 <tr class="separator:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -181,7 +180,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_d
 
 <p>Sets up a file resource for creation and opening. </p>
 <p>Notes:</p><ul>
-<li>creating the file is only attempted once the resource is initialized by being passed to <a class="el" href="baseresources_8h.html#a3b9feeb5c9185d5bc60eae2ce2299573" title="Initializes a resource.">csalt_resource_init()</a> or csalt_use().</li>
+<li>creating the file is only attempted once the resource is initialized by being passed to <a class="el" href="baseresources_8h.html#ad5e51c457bf6c96245261d6637804d33" title="Initializes a resource.">csalt_resource_init()</a> or csalt_use().</li>
 <li>The O_CREAT flag is implied and needs not be passed into the flags parameter. </li>
 </ul>
 

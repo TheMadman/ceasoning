@@ -1,0 +1,7 @@
+<map id="csalt_addrinfo" name="csalt_addrinfo">
+<area shape="rect" id="node1" title=" " alt="" coords="145,288,260,315"/>
+<area shape="rect" id="node2" href="$structcsalt__addrinfo__initialized.html" title=" " alt="" coords="6,199,191,225"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="5,95,192,136"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="19,5,178,32"/>
+<area shape="rect" id="node5" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="216,199,397,225"/>
+</map>

@@ -1,6 +1,7 @@
 <map id="csalt/baseresources.h" name="csalt/baseresources.h">
-<area shape="rect" id="node1" title="Provides an interface for resources with lifetimes." alt="" coords="161,5,324,32"/>
+<area shape="rect" id="node1" title="Provides an interface for resources with lifetimes." alt="" coords="216,5,379,32"/>
 <area shape="rect" id="node2" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,80,205,107"/>
 <area shape="rect" id="node3" href="$resources_8h_source.html" title=" " alt="" coords="177,155,309,181"/>
 <area shape="rect" id="node4" href="$fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="281,80,426,107"/>
+<area shape="rect" id="node5" href="$networkresources_8h_source.html" title=" " alt="" coords="450,80,635,107"/>
 </map>
