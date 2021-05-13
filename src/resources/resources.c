@@ -142,7 +142,7 @@ void csalt_resource_deinit(csalt_resource_initialized *resource)
 
 int csalt_resource_use(
 	csalt_resource *resource,
-	csalt_resource_block *code_block,
+	csalt_store_block_fn *code_block,
 	void *data
 )
 {

@@ -178,29 +178,6 @@ struct csalt_heap csalt_heap(size_t size);
 void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
 
 /**
- * \brief Function signature for blocks to pass to csalt_resource_use.
- *
- * An initialized resource is passed as a pointer-to-store for use.
- * your function should not deinitialize an initialized resource:
- * that is managed by csalt_resource_use.
- *
- * Your function can also take an arbitrary pointer, to use as both
- * an in- and out-parameter.
- *
- * You should return a return code which is useful for error checking
- * in your code: csalt_resource_use will return it.
- *
- * Note that csalt_resource_use itself returns -1 if there was an error
- * initializing the resource, and doesn't run your code. If you want
- * to differentiate between an error initializing the resource and
- * an error arising from your code, you should use a different return
- * code.
- *
- * \see csalt_resource_use()
- */
-typedef int csalt_resource_block(csalt_store *, void *);
-
-/**
  * \brief Manages a resource lifecycle and executes the given
  * function.
  *
@@ -215,7 +192,7 @@ typedef int csalt_resource_block(csalt_store *, void *);
  */
 int csalt_resource_use(
 	csalt_resource *resource,
-	csalt_resource_block *code_block,
+	csalt_store_block_fn *code_block,
 	void *out
 );
 
