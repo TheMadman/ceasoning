@@ -23,7 +23,7 @@ int main()
 
 	if (block_called) {
 		print_error("Block was called on error");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	struct csalt_heap success = csalt_heap(1);
@@ -32,7 +32,7 @@ int main()
 
 	if (!block_called) {
 		print_error("Block wasn't called when it should have been");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

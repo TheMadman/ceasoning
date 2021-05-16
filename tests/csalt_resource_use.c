@@ -92,7 +92,7 @@ int main()
 	) {
 		if (!current->var) {
 			print_error("Unexpected value for %s", current->name);
-			return EXIT_TEST_FAILURE;
+			return EXIT_FAILURE;
 		}
 	}
 	

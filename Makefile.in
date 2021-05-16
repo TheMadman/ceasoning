@@ -90,7 +90,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-TESTS = tests/csalt_resources_use$(EXEEXT) \
+TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
 	tests/csalt_store_transfer$(EXEEXT) \
@@ -118,7 +118,7 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = tests/csalt_resources_use$(EXEEXT) \
+am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
 	tests/csalt_store_transfer$(EXEEXT) \
@@ -200,11 +200,10 @@ tests_csalt_resource_network_udp_OBJECTS =  \
 tests_csalt_resource_network_udp_LDADD = $(LDADD)
 tests_csalt_resource_network_udp_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
-tests_csalt_resources_use_SOURCES = tests/csalt_resources_use.c
-tests_csalt_resources_use_OBJECTS =  \
-	tests/csalt_resources_use.$(OBJEXT)
-tests_csalt_resources_use_LDADD = $(LDADD)
-tests_csalt_resources_use_DEPENDENCIES =  \
+tests_csalt_resource_use_SOURCES = tests/csalt_resource_use.c
+tests_csalt_resource_use_OBJECTS = tests/csalt_resource_use.$(OBJEXT)
+tests_csalt_resource_use_LDADD = $(LDADD)
+tests_csalt_resource_use_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_store_fallback_SOURCES = tests/csalt_store_fallback.c
 tests_csalt_store_fallback_OBJECTS =  \
@@ -253,7 +252,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
 	tests/$(DEPDIR)/csalt_resource_list.Po \
 	tests/$(DEPDIR)/csalt_resource_network_udp.Po \
-	tests/$(DEPDIR)/csalt_resources_use.Po \
+	tests/$(DEPDIR)/csalt_resource_use.Po \
 	tests/$(DEPDIR)/csalt_store_fallback.Po \
 	tests/$(DEPDIR)/csalt_store_list.Po \
 	tests/$(DEPDIR)/csalt_store_split.Po \
@@ -280,13 +279,13 @@ am__v_CCLD_1 =
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
 	tests/csalt_resource_list.c tests/csalt_resource_network_udp.c \
-	tests/csalt_resources_use.c tests/csalt_store_fallback.c \
+	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
 	tests/csalt_store_list.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
 	tests/csalt_resource_list.c tests/csalt_resource_network_udp.c \
-	tests/csalt_resources_use.c tests/csalt_store_fallback.c \
+	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
 	tests/csalt_store_list.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
 am__can_run_installinfo = \
@@ -832,12 +831,12 @@ tests/csalt_resource_network_udp.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_resource_network_udp$(EXEEXT): $(tests_csalt_resource_network_udp_OBJECTS) $(tests_csalt_resource_network_udp_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_network_udp$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_OBJECTS) $(tests_csalt_resource_network_udp_LDADD) $(LIBS)
-tests/csalt_resources_use.$(OBJEXT): tests/$(am__dirstamp) \
+tests/csalt_resource_use.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
-tests/csalt_resources_use$(EXEEXT): $(tests_csalt_resources_use_OBJECTS) $(tests_csalt_resources_use_DEPENDENCIES) $(EXTRA_tests_csalt_resources_use_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resources_use$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resources_use_OBJECTS) $(tests_csalt_resources_use_LDADD) $(LIBS)
+tests/csalt_resource_use$(EXEEXT): $(tests_csalt_resource_use_OBJECTS) $(tests_csalt_resource_use_DEPENDENCIES) $(EXTRA_tests_csalt_resource_use_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_use$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_use_OBJECTS) $(tests_csalt_resource_use_LDADD) $(LIBS)
 tests/csalt_store_fallback.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -885,7 +884,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_list.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resources_use.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_use.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_fallback.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_list.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_split.Po@am__quote@ # am--include-marker
@@ -1176,9 +1175,9 @@ recheck: all $(check_PROGRAMS)
 	        am__force_recheck=am--force-recheck \
 	        TEST_LOGS="$$log_list"; \
 	exit $$?
-tests/csalt_resources_use.log: tests/csalt_resources_use$(EXEEXT)
-	@p='tests/csalt_resources_use$(EXEEXT)'; \
-	b='tests/csalt_resources_use'; \
+tests/csalt_resource_use.log: tests/csalt_resource_use$(EXEEXT)
+	@p='tests/csalt_resource_use$(EXEEXT)'; \
+	b='tests/csalt_resource_use'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1494,7 +1493,7 @@ distclean: distclean-am
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp.Po
-	-rm -f tests/$(DEPDIR)/csalt_resources_use.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
@@ -1557,7 +1556,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp.Po
-	-rm -f tests/$(DEPDIR)/csalt_resources_use.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po

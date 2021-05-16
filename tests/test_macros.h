@@ -3,7 +3,8 @@
 
 #include <stdio.h>
 #define EXIT_SUCCESS 0
-#define EXIT_TEST_FAILURE 99
+#define EXIT_FAILURE 1
+#define EXIT_TEST_ERROR 99
 #define EXIT_TEST_SKIPPED 77
 #define print_error(...) do {	\
 	fprintf(stderr, "%s:%d: ", __FILE__, __LINE__);	\

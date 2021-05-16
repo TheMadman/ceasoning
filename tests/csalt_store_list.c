@@ -24,7 +24,7 @@ int split(csalt_store *store, void *data)
 			1,
 			buffer
 		);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	csalt_store_read(first, &buffer, sizeof(buffer));
@@ -33,7 +33,7 @@ int split(csalt_store *store, void *data)
 			2,
 			buffer
 		);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -59,7 +59,7 @@ int main()
 
 	if (!split_called) {
 		print_error("Split wasn't called");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	const char write_value[] = "Hello, world!";
@@ -71,7 +71,7 @@ int main()
 			write_value,
 			a
 		);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 	
 	if (strcmp(write_value, b)) {
@@ -79,7 +79,7 @@ int main()
 			write_value,
 			b
 		);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

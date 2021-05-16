@@ -1,4 +1,4 @@
-TESTS = %reldir%/csalt_resources_use\
+TESTS = %reldir%/csalt_resource_use\
 	%reldir%/csalt_memory_resource\
 	%reldir%/csalt_store_split\
 	%reldir%/csalt_store_transfer\

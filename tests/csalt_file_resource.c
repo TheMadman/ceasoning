@@ -42,7 +42,7 @@ int test_write(csalt_store *resource, void *_)
 
 		// this whole function is skipped if the fd is invalid
 		unlink(file->filename);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 
 	return 0;
@@ -70,7 +70,7 @@ int test_read(csalt_store *resource, void *_)
 			amount_read
 		);
 		unlink(file->filename);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	if (!a) {
 		print_error(
@@ -80,7 +80,7 @@ int test_read(csalt_store *resource, void *_)
 			a
 		);
 		unlink(file->filename);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	return 0;
 }
@@ -93,7 +93,7 @@ int main()
 	if (!test_write_called) {
 		print_error("Write wasn't called when it should have been");
 		unlink("./" FILENAME);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	// second constructor -- file must exist before init
@@ -102,7 +102,7 @@ int main()
 	if (!test_read_called) {
 		print_error("Read wasn't called when it should have been");
 		unlink("./" FILENAME);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	unlink("./" FILENAME);

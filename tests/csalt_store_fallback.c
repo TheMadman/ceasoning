@@ -31,7 +31,7 @@ int use_heap(csalt_store *heap, void *_)
 			write_result,
 			strerror(errno)
 		);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 
@@ -48,19 +48,19 @@ int use_heap(csalt_store *heap, void *_)
 
 	if (heap_read_result) {
 		print_error("Heap should not have been readable yet");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	ssize_t fallback_read_result = csalt_store_read(fallback_store, buffer, sizeof(PART_ONE));
 
 	if (fallback_read_result != sizeof(PART_ONE)) {
 		print_error("Unexpected read result from fallback: %ld", fallback_read_result);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
 		print_error("Unexpected buffer contents after read: %s", buffer);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE));
@@ -69,12 +69,12 @@ int use_heap(csalt_store *heap, void *_)
 			"Unexpected read result from (expected-written-to) heap: %ld",
 			heap_read_result
 		);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
 		print_error("Unexpected buffer contents after read: %s", buffer);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	ssize_t fallback_write_result = csalt_store_split(
@@ -87,24 +87,24 @@ int use_heap(csalt_store *heap, void *_)
 
 	if (fallback_write_result != sizeof(PART_TWO)) {
 		print_error("Unexpected write result to fallback: %ld", fallback_write_result);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE PART_TWO));
 
 	if (heap_read_result != sizeof(PART_ONE PART_TWO)) {
 		print_error("Unexpected read result from heap: %ld", heap_read_result);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (strncmp(buffer, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
 		print_error("Unexpected buffer contents: %s", buffer);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (strncmp(memory, PART_ONE, sizeof(PART_ONE))) {
 		print_error("memory string changed when it shouldn't have: %s", memory);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	struct csalt_progress transfers[2] = { 0 };
@@ -112,7 +112,7 @@ int use_heap(csalt_store *heap, void *_)
 
 	if (strncmp(memory, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
 		print_error("memory string wasn't updated: %s", memory);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

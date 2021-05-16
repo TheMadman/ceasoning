@@ -17,7 +17,7 @@ void transfer_complete_small(csalt_store *destination)
 
 	if (*b) {
 		print_error("b still contained non-zero value: %d\n", *b);
-		exit(EXIT_TEST_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 
@@ -60,10 +60,10 @@ int main()
 		switch (transfer_amount) {
 			case -1:
 				print_error("Error code returned");
-				return EXIT_TEST_FAILURE;
+				return EXIT_FAILURE;
 			case 0:
 				print_error("Zero bytes transfered");
-				return EXIT_TEST_FAILURE;
+				return EXIT_FAILURE;
 			case ARRSIZE:
 				break;
 		}
@@ -74,13 +74,13 @@ int main()
 			"Transfer completed, but "
 			"callback wasn't called"
 		);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	for (char *test = d; test < &d[ARRSIZE]; test++) {
 		if (*test != 1) {
 			print_error("Byte %ld doesn't match expected value: %c", test - d, *test);
-			return EXIT_TEST_FAILURE;
+			return EXIT_FAILURE;
 		}
 	}
 

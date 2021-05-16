@@ -20,7 +20,7 @@ int use_udp(csalt_store *store, void *_)
 	ssize_t write_amount = csalt_store_write(store, send_string, sizeof(send_string));
 	if (write_amount < 0) {
 		print_error("error with csalt_store_write(): %s", strerror(errno));
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	ssize_t read_amount = 0;
@@ -31,7 +31,7 @@ int use_udp(csalt_store *store, void *_)
 	) {
 		if (read_amount < 0) {
 			print_error("error reading: %s", strerror(errno));
-			return EXIT_TEST_FAILURE;
+			return EXIT_FAILURE;
 		}
 	}
 
@@ -39,7 +39,7 @@ int use_udp(csalt_store *store, void *_)
 
 	if (strncmp(send_string, receive_buffer, sizeof(receive_buffer))) {
 		print_error("strings differ: \"%s\":\"%s\"", send_string, receive_buffer);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 }
 
@@ -64,13 +64,13 @@ int server(int fd)
 
 	if (received_length < 0) {
 		print_error("server failed to receive message: %s", strerror(errno));
-		return EXIT_TEST_SKIPPED;
+		return EXIT_TEST_ERROR;
 	} else {
 		printf("server received: \"%s\"", buffer);
 	}
 	if (sendto(fd, buffer, received_length, 0, (struct sockaddr *)&addr, addr_len) < 0) {
 		print_error("server failed to send message: %s", strerror(errno));
-		return EXIT_TEST_SKIPPED;
+		return EXIT_TEST_ERROR;
 	}
 
 	close(fd);
@@ -82,7 +82,7 @@ int server_manager(int sock, pid_t client_pid)
 	pid_t server_pid;
 	if ((server_pid = fork())) {
 		if (server_pid < 0) {
-			return EXIT_TEST_SKIPPED;
+			return EXIT_TEST_ERROR;
 		}
 		int wstatus;
 		waitpid(client_pid, &wstatus, 0);
@@ -102,7 +102,7 @@ int main()
 	int sock = socket(AF_INET6, SOCK_DGRAM, 0);
 	if (socket < 0) {
 		print_error("socket initialization failed: %s", strerror(errno));
-		return EXIT_TEST_SKIPPED;
+		return EXIT_TEST_ERROR;
 	}
 
 	struct sockaddr_in6 addr = {
@@ -116,19 +116,19 @@ int main()
 
 	if (bind(sock, (struct sockaddr*)&addr, addr_size)) {
 		print_error("failed to bind socket: %s", strerror(errno));
-		return EXIT_TEST_SKIPPED;
+		return EXIT_TEST_ERROR;
 	}
 
 	if (getsockname(sock, (struct sockaddr*)&addr, &addr_size)) {
 		print_error("failed to get socket name: %s", strerror(errno));
-		return EXIT_TEST_SKIPPED;
+		return EXIT_TEST_ERROR;
 	}
 
 	pid_t client_pid;
 	if ((client_pid = fork())) {
 		if (client_pid < 0) {
 			perror("main fork()");
-			return EXIT_TEST_SKIPPED;
+			return EXIT_TEST_ERROR;
 		}
 		return server_manager(sock, client_pid);
 	} else {
@@ -142,7 +142,7 @@ int main()
 		);
 		if (write_attempt < 0) {
 			print_error("error converting port to string");
-			return EXIT_TEST_SKIPPED;
+			return EXIT_TEST_ERROR;
 		}
 		return client(port_as_string);
 	}

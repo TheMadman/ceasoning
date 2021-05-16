@@ -20,17 +20,17 @@ int use(csalt_store *resource, void *param)
 
 	if (heap1) {
 		print_error("heap1 was initialized when it shouldn't have been");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (!heap2) {
 		print_error("heap2 should have been initialized but wasn't");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	if (heap3) {
 		print_error("heap3 was initialized when it shouldn't have been");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

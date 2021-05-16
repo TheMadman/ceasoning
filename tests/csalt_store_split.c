@@ -84,13 +84,13 @@ int main()
 	csalt_store_read((csalt_store *)&data, 0, 0);
 	if (!read_called) {
 		print_error("Read call failed");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	csalt_store_write((csalt_store *)&data, 0, 0);
 	if (!write_called) {
 		print_error("Write call failed");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	csalt_store_split(
@@ -103,7 +103,7 @@ int main()
 
 	if (split_begin != 0 || split_end != 50) {
 		print_error("Split failed, split_begin: %d split_end: %d", split_begin, split_end);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	csalt_store_split(
@@ -116,7 +116,7 @@ int main()
 
 	if (split_begin != 10 || split_end != 20) {
 		print_error("Split failed, split_begin: %d split_end: %d", split_begin, split_end);
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;

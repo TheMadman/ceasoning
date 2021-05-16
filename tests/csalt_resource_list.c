@@ -27,7 +27,7 @@ int main()
 	csalt_resource_use(csalt_resource(&list), use, 0);
 	if (use_called) {
 		print_error("use() was called when it shouldn't have been");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	struct csalt_heap
@@ -42,7 +42,7 @@ int main()
 	csalt_resource_use(csalt_resource(&list), use, 0);
 	if (!use_called) {
 		print_error("use() was not called when it should have been");
-		return EXIT_TEST_FAILURE;
+		return EXIT_FAILURE;
 	}
 
 	return EXIT_SUCCESS;
