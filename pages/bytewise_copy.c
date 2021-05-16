@@ -67,8 +67,8 @@ int main(int argc, char **argv)
 int bytewise_copy(csalt_store *resource, void *_)
 {
 	/*
-	 * The second argument, the csalt_store*, is for data we want to preserve
-	 * after the running of this function for later use in our application.
+	 * The second argument, the void*, can act as an in/out parameter for this
+	 * function.
 	 * In this case, we just want to copy the contents of one file into another,
 	 * then exit, so we pass 0 to csalt_resource_use and just don't use the second
 	 * argument here.
