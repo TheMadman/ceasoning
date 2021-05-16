@@ -34,7 +34,7 @@ int main()
 	struct csalt_memory A = csalt_store_memory_pointer(&a),
 			    B = csalt_store_memory_pointer(&b);
 
-	struct csalt_transfer transfer = csalt_transfer(sizeof(a));
+	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	csalt_store_transfer(
 		&transfer,
 		castto(csalt_store *, &B),
@@ -49,7 +49,7 @@ int main()
 	struct csalt_memory C = csalt_store_memory_array(c),
 			    D = csalt_store_memory_array(d);
 
-	transfer = csalt_transfer(ARRSIZE);
+	transfer = csalt_progress(ARRSIZE);
 	ssize_t transfer_amount = 0;
 	while ((transfer_amount = csalt_store_transfer(
 		&transfer,

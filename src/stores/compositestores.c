@@ -258,7 +258,7 @@ ssize_t csalt_store_fallback_read(
 		subcalls.list.begin++;
 		result = csalt_store_fallback_read(csalt_store(&subcalls), buffer, size);
 		if (result == size) {
-			struct csalt_transfer progress = csalt_transfer(size);
+			struct csalt_progress progress = csalt_progress(size);
 
 			// Don't really error-check - if this write fails,
 			// the whole fallback should gracefully... fall... back
@@ -364,12 +364,12 @@ int csalt_store_fallback_split(
 	);
 }
 
-struct csalt_transfer csalt_store_fallback_flush(
+struct csalt_progress csalt_store_fallback_flush(
 	struct csalt_store_fallback *fallback,
-	struct csalt_transfer *transfers
+	struct csalt_progress *transfers
 )
 {
-	struct csalt_transfer result = { 0 };
+	struct csalt_progress result = { 0 };
 	if (!fallback->amount_written)
 		return result;
 

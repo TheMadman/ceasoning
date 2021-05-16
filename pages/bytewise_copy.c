@@ -90,7 +90,7 @@ int bytewise_copy(csalt_store *resource, void *_)
 		*output = (csalt_store *)csalt_store_list_get(list, 1);
 
 	ssize_t input_size = csalt_store_size(input);
-	struct csalt_transfer progress = csalt_transfer(input_size);
+	struct csalt_progress progress = csalt_progress(input_size);
 
 	/*
 	 * The ceasoning library is implemented as a non-blocking library by

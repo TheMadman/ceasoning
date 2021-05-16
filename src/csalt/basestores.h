@@ -146,18 +146,18 @@ int csalt_store_split(
  * perform the same call in a loop (e.g. a render loop or
  * a spin-lock in case you want blocking behaviour).
  *
- * \see csalt_transfer()
+ * \see csalt_progress()
  */
-struct csalt_transfer {
+struct csalt_progress {
 	ssize_t total;
 	ssize_t amount_completed;
 };
 
 /**
- * Creates a new struct csalt_transfer with the total
+ * Creates a new struct csalt_progress with the total
  * set to amount and the remaining set to 0.
  */
-struct csalt_transfer csalt_transfer(size_t amount);
+struct csalt_progress csalt_progress(size_t amount);
 
 /**
  * Represents a function passed to csalt_store_transfer
@@ -176,7 +176,7 @@ typedef void csalt_transfer_complete_fn(csalt_store *dest);
  * Returns -1 on error.
  */
 ssize_t csalt_store_transfer(
-	struct csalt_transfer *data,
+	struct csalt_progress *data,
 	csalt_store *to,
 	csalt_store *from,
 	csalt_transfer_complete_fn *callback

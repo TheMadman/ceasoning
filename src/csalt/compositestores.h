@@ -229,7 +229,7 @@ size_t csalt_store_fallback_size(const csalt_store *store);
  * \brief Writes out data from the first store into all stores
  * after it.
  *
- * Takes an array of csalt_transfers, one for each store
+ * Takes an array of csalt_progresss, one for each store
  * in the fallback, which can safely be initialized to zero:
  *
  * \code
@@ -237,20 +237,20 @@ size_t csalt_store_fallback_size(const csalt_store *store);
  * 	// Assume number_stores is a const and you know the list's length
  * 	// otherwise, this becomes a heap allocation
  * 	// size_t number_stores = csalt_store_list_length(&fallback_ptr->list);
- * 	struct csalt_transfer transfers[number_stores] = { 0 };
+ * 	struct csalt_progress transfers[number_stores] = { 0 };
  *
  * 	// inside your main loop, or in a while loop for blocking behaviour
- * 	struct csalt_transfer total_progress;
+ * 	struct csalt_progress total_progress;
  * 	total_progress = csalt_store_fallback_flush(fallback_ptr, transfers);
  * \endcode
  *
  * As an academic note, you can actually safely use `number_stores - 1`
- * csalt_transfers, since you're not transferring from the first store
+ * csalt_progresss, since you're not transferring from the first store
  * to the rest - but this code is simpler to read and remember.
  */
-struct csalt_transfer csalt_store_fallback_flush(
+struct csalt_progress csalt_store_fallback_flush(
 	struct csalt_store_fallback *store,
-	struct csalt_transfer *transfers
+	struct csalt_progress *transfers
 );
 
 #ifdef __cplusplus

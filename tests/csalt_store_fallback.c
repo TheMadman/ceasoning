@@ -107,7 +107,7 @@ int use_heap(csalt_store *heap, void *_)
 		return EXIT_TEST_FAILURE;
 	}
 
-	struct csalt_transfer transfers[2] = { 0 };
+	struct csalt_progress transfers[2] = { 0 };
 	csalt_store_fallback_flush(&fallback, transfers);
 
 	if (strncmp(memory, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {

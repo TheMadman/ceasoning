@@ -183,9 +183,9 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory)
 
 // Transfer algorithmm
 
-struct csalt_transfer csalt_transfer(size_t size)
+struct csalt_progress csalt_progress(size_t size)
 {
-	struct csalt_transfer result = {
+	struct csalt_progress result = {
 		size,
 		0
 	};
@@ -196,7 +196,7 @@ struct transfer_data {
 	csalt_store *to;
 	csalt_store *from;
 	char *buffer;
-	struct csalt_transfer *progress;
+	struct csalt_progress *progress;
 };
 
 static ssize_t csalt_store_transfer_real(struct transfer_data *);
@@ -249,13 +249,13 @@ static ssize_t csalt_store_transfer_real(struct transfer_data *data)
 	);
 }
 
-static size_t progress_remaining(struct csalt_transfer *progress)
+static size_t progress_remaining(struct csalt_progress *progress)
 {
 	return progress->total - progress->amount_completed;
 }
 
 ssize_t csalt_store_transfer(
-	struct csalt_transfer *progress,
+	struct csalt_progress *progress,
 	csalt_store *to,
 	csalt_store *from,
 	csalt_transfer_complete_fn *callback
