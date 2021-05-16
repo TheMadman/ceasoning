@@ -90,8 +90,19 @@ struct csalt_resource_network_socket {
 	int protocol;
 };
 
+struct csalt_resource_network_udp_initialized {
+	union {
+		struct csalt_resource_network_initialized_interface *vtable;
+		struct csalt_resource_network_socket parent;
+	};
+};
+
 /**
  * \brief This structure represents an IPv6 UDP socket.
+ *
+ * Network sockets do not support csalt_store_split() - calling
+ * csalt_store_split() on a network socket will pass the original
+ * store to the callback.
  * 
  * Creating a connected socket with csalt_resource_network_udp_connected()
  * enables csalt_store_read() and csalt_store_write() functionality,
@@ -115,13 +126,6 @@ struct csalt_resource_network_socket {
  * \see csalt_resource_network_udp_bound()
  * \see csalt_resource_network_udp_stateless()
  */
-struct csalt_resource_network_udp_initialized {
-	union {
-		struct csalt_resource_network_initialized_interface *vtable;
-		struct csalt_resource_network_socket parent;
-	};
-};
-
 struct csalt_resource_network_udp {
 	struct csalt_resource_interface *vtable;
 	const char *node;

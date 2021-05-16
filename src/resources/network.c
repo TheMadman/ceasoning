@@ -216,7 +216,7 @@ struct csalt_resource_network_udp csalt_resource_network_udp_connected(
 int use_csalt_addrinfo(csalt_store *resource, void *store)
 {
 	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
-	struct csalt_resource_network_udp *udp = castto(udp, store);
+	struct csalt_resource_network_udp_initialized *udp = castto(udp, store);
 
 	struct addrinfo *current;
 	for (
@@ -238,12 +238,13 @@ int use_csalt_addrinfo(csalt_store *resource, void *store)
 			current->ai_addrlen
 		);
 		if (connect_return != -1) {
-			udp->udp.parent.fd = sock;
-			break;
+			udp->parent.fd = sock;
+			return 0;
 		}
 
 		close(sock);
 	}
+	return -1;
 }
 
 csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_resource *resource)
@@ -265,20 +266,13 @@ csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_reso
 		csalt_resource_use(
 			csalt_resource(&info),
 			use_csalt_addrinfo,
-			csalt_store(udp)
+			csalt_store(&udp->udp)
 		) != -1
 	) {
 		return (csalt_resource_initialized *)&udp->udp;
 	}
 
 	return 0;
-}
-
-char csalt_resource_network_socket_valid(const csalt_resource *resource)
-{
-	struct csalt_resource_network_socket *sock = castto(sock, resource);
-
-	return sock->fd >= 0;
 }
 
 void csalt_resource_network_socket_deinit(csalt_resource_initialized *resource)
@@ -308,6 +302,20 @@ ssize_t csalt_resource_network_socket_write(
 	return write(sock->fd, buffer, amount);
 }
 
+// maybe THIS should be the null_split operation...
+int csalt_resource_network_socket_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
+)
+{
+	(void)begin;
+	(void)end;
+	return block(store, data);
+}
+
 struct csalt_resource_interface csalt_resource_network_udp_connected_implementation = {
 	csalt_resource_network_udp_connected_init,
 };
@@ -318,7 +326,7 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_i
 			csalt_resource_network_socket_read,
 			csalt_resource_network_socket_write,
 			csalt_store_null_size,
-			csalt_store_null_split,
+			csalt_resource_network_socket_split,
 		},
 		csalt_resource_network_socket_deinit,
 	},
