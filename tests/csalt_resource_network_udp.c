@@ -2,24 +2,26 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <arpa/inet.h>
 #include <netinet/in.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include "test_macros.h"
 
 int use_udp(csalt_store *store, void *_)
 {
-	printf("begin client\n");
+	puts("client begin");
 	char
 		send_string[] = "Hello, world!",
 		receive_buffer[sizeof(send_string)] = { 0 };
 
-	printf("begin write\n");
+	puts("client begin write");
 	ssize_t write_amount = csalt_store_write(store, send_string, sizeof(send_string));
 	if (write_amount < 0) {
-		print_error("error with csalt_store_write(): %s", strerror(errno));
+		perror("client error writing");
 		return EXIT_FAILURE;
 	}
 
@@ -30,23 +32,25 @@ int use_udp(csalt_store *store, void *_)
 		read_amount = csalt_store_read(store, receive_buffer, sizeof(send_string))
 	) {
 		if (read_amount < 0) {
-			print_error("error reading: %s", strerror(errno));
+			perror("client error reading");
 			return EXIT_FAILURE;
 		}
 	}
 
-	printf("received amount: %ld\n", read_amount);
+	printf("client received amount: %ld\n", read_amount);
 
 	if (strncmp(send_string, receive_buffer, sizeof(receive_buffer))) {
 		print_error("strings differ: \"%s\":\"%s\"", send_string, receive_buffer);
 		return EXIT_FAILURE;
 	}
+
+	return EXIT_SUCCESS;
 }
 
-int client(const char *service)
+int client(const char *node, const char *service)
 {
 	struct csalt_resource_network_udp udp = csalt_resource_network_udp_connected(
-		"::1",
+		node,
 		service
 	);
 	return csalt_resource_use((csalt_resource *)&udp, use_udp, 0);
@@ -54,22 +58,21 @@ int client(const char *service)
 
 int server(int fd)
 {
-	printf("begin server\n");
+	puts("server begin");
 	char buffer[1024] = { 0 };
 	struct sockaddr_in6 addr = { 0 };
 	socklen_t addr_len = sizeof(addr);
-	printf("begin recv\n");
+	puts("server begin recvfrom");
 	ssize_t received_length = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr *)&addr, &addr_len);
-	printf("%s", buffer);
 
 	if (received_length < 0) {
-		print_error("server failed to receive message: %s", strerror(errno));
+		perror("server failed to receive message");
 		return EXIT_TEST_ERROR;
 	} else {
-		printf("server received: \"%s\"", buffer);
+		printf("server received: \"%s\"\n", buffer);
 	}
 	if (sendto(fd, buffer, received_length, 0, (struct sockaddr *)&addr, addr_len) < 0) {
-		print_error("server failed to send message: %s", strerror(errno));
+		perror("server failed to send message");
 		return EXIT_TEST_ERROR;
 	}
 
@@ -134,16 +137,34 @@ int main()
 	} else {
 		close(sock);
 		char port_as_string[6] = { 0 };
+		char addr_as_string[INET6_ADDRSTRLEN] = { 0 };
+
+		const char *addr_write_attempt = inet_ntop(
+			AF_INET6,
+			&addr.sin6_addr,
+			addr_as_string,
+			INET6_ADDRSTRLEN
+		);
+		if (!addr_write_attempt) {
+			print_error("error converting address to string");
+			return EXIT_TEST_ERROR;
+		} else {
+			printf("addr: %s\n", addr_as_string);
+		}
+
 		int write_attempt = snprintf(
 			port_as_string,
-			sizeof(port_as_string) - 1,
+			sizeof(port_as_string),
 			"%hu",
-			addr.sin6_port
+			ntohs(addr.sin6_port)
 		);
 		if (write_attempt < 0) {
 			print_error("error converting port to string");
 			return EXIT_TEST_ERROR;
+		} else {
+			printf("port: %s\n", port_as_string);
 		}
-		return client(port_as_string);
+
+		return client(addr_as_string, port_as_string);
 	}
 }
