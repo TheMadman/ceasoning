@@ -252,7 +252,7 @@ csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_reso
 	struct csalt_resource_network_udp *udp = castto(udp, resource);
 
 	struct addrinfo hints = {
-		.ai_family = AF_INET6,
+		.ai_family = AF_UNSPEC,
 		.ai_socktype = SOCK_DGRAM,
 		.ai_protocol = 0,
 	};

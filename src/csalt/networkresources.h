@@ -98,7 +98,7 @@ struct csalt_resource_network_udp_initialized {
 };
 
 /**
- * \brief This structure represents an IPv6 UDP socket.
+ * \brief This structure represents a UDP socket.
  *
  * Network sockets do not support csalt_store_split() - calling
  * csalt_store_split() on a network socket will pass the original
