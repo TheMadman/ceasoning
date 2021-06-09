@@ -112,8 +112,8 @@ This graph shows which files directly or indirectly include this file:</div>
 Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__interface.html">csalt_store_interface</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__transfer.html">csalt_transfer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This structure allows the transfer algorithm to run in a non-blocking fashion.  <a href="structcsalt__transfer.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__progress.html">csalt_progress</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This structure allows the transfer algorithm to run in a non-blocking fashion.  <a href="structcsalt__progress.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__memory.html">csalt_memory</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A type representing a continuous block of memory.  <a href="structcsalt__memory.html#details">More...</a><br /></td></tr>
@@ -178,13 +178,13 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ba
 <tr class="memitem:a10f600145423c05afe3bc2c1d44bd101"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101">csalt_store_split</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
 <tr class="memdesc:a10f600145423c05afe3bc2c1d44bd101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the means to divide a store into a sub-section and perform an operation on the result.  <a href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101">More...</a><br /></td></tr>
 <tr class="separator:a10f600145423c05afe3bc2c1d44bd101"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeddee25f693cc4bf53ec7556dbef74eb"><td class="memItemLeft" align="right" valign="top"><a id="aeddee25f693cc4bf53ec7556dbef74eb"></a>
-struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#aeddee25f693cc4bf53ec7556dbef74eb">csalt_transfer</a> (size_t amount)</td></tr>
-<tr class="memdesc:aeddee25f693cc4bf53ec7556dbef74eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new struct <a class="el" href="structcsalt__transfer.html" title="This structure allows the transfer algorithm to run in a non-blocking fashion.">csalt_transfer</a> with the total set to amount and the remaining set to 0. <br /></td></tr>
-<tr class="separator:aeddee25f693cc4bf53ec7556dbef74eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a985f7badc237622829ca9a7273420a7a"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a">csalt_store_transfer</a> (struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a> *data, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *to, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *from, <a class="el" href="basestores_8h.html#af080e4946bb33036310f9d5caf399b01">csalt_transfer_complete_fn</a> *callback)</td></tr>
-<tr class="memdesc:a985f7badc237622829ca9a7273420a7a"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function provides a convenient means to write data from one store into another.  <a href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a">More...</a><br /></td></tr>
-<tr class="separator:a985f7badc237622829ca9a7273420a7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60dfe3654f1c3f549d064e84af2b201e"><td class="memItemLeft" align="right" valign="top"><a id="a60dfe3654f1c3f549d064e84af2b201e"></a>
+struct <a class="el" href="structcsalt__progress.html">csalt_progress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a> (size_t amount)</td></tr>
+<tr class="memdesc:a60dfe3654f1c3f549d064e84af2b201e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new struct <a class="el" href="structcsalt__progress.html" title="This structure allows the transfer algorithm to run in a non-blocking fashion.">csalt_progress</a> with the total set to amount and the remaining set to 0. <br /></td></tr>
+<tr class="separator:a60dfe3654f1c3f549d064e84af2b201e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad71ed28e391833e5796f315b9935cd2d"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">csalt_store_transfer</a> (struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *data, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *to, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *from, <a class="el" href="basestores_8h.html#af080e4946bb33036310f9d5caf399b01">csalt_transfer_complete_fn</a> *callback)</td></tr>
+<tr class="memdesc:ad71ed28e391833e5796f315b9935cd2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function provides a convenient means to write data from one store into another.  <a href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">More...</a><br /></td></tr>
+<tr class="separator:ad71ed28e391833e5796f315b9935cd2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a245541e4f135934a422a3568b18340cc"><td class="memItemLeft" align="right" valign="top"><a id="a245541e4f135934a422a3568b18340cc"></a>
 ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_null_read</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *from, void *to, size_t size)</td></tr>
 <tr class="separator:a245541e4f135934a422a3568b18340cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -405,8 +405,8 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 
 </div>
 </div>
-<a id="a985f7badc237622829ca9a7273420a7a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a985f7badc237622829ca9a7273420a7a">&#9670;&nbsp;</a></span>csalt_store_transfer()</h2>
+<a id="ad71ed28e391833e5796f315b9935cd2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad71ed28e391833e5796f315b9935cd2d">&#9670;&nbsp;</a></span>csalt_store_transfer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -414,7 +414,7 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
         <tr>
           <td class="memname">ssize_t csalt_store_transfer </td>
           <td>(</td>
-          <td class="paramtype">struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *&#160;</td>
           <td class="paramname"><em>data</em>, </td>
         </tr>
         <tr>

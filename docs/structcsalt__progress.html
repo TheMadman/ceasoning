@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Ceasoning: csalt_memory Struct Reference</title>
+<title>Ceasoning: csalt_progress Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,47 +64,28 @@ $(function() {
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">csalt_memory Struct Reference</div>  </div>
+<div class="title">csalt_progress Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>A type representing a continuous block of memory.  
- <a href="structcsalt__memory.html#details">More...</a></p>
+<p>This structure allows the transfer algorithm to run in a non-blocking fashion.  
+ <a href="structcsalt__progress.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="basestores_8h_source.html">csalt/basestores.h</a>&gt;</code></p>
-<div class="dynheader">
-Collaboration diagram for csalt_memory:</div>
-<div class="dyncontent">
-<div class="center"><img src="structcsalt__memory__coll__graph.png" border="0" usemap="#csalt__memory_coll__map" alt="Collaboration graph"/></div>
-<map name="csalt__memory_coll__map" id="csalt__memory_coll__map">
-<area shape="rect" title="A type representing a continuous block of memory." alt="" coords="27,95,142,121"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a35065ac511470ddf0ecd3a9c1ea6340a"><td class="memItemLeft" align="right" valign="top"><a id="a35065ac511470ddf0ecd3a9c1ea6340a"></a>
-const struct <a class="el" href="structcsalt__store__interface.html">csalt_store_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
-<tr class="separator:a35065ac511470ddf0ecd3a9c1ea6340a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3c9d47cd7b6c7f23873ae22918c928cd"><td class="memItemLeft" align="right" valign="top"><a id="a3c9d47cd7b6c7f23873ae22918c928cd"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b></td></tr>
-<tr class="separator:a3c9d47cd7b6c7f23873ae22918c928cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3a07d6438e0014126e008636186d217d"><td class="memItemLeft" align="right" valign="top"><a id="a3a07d6438e0014126e008636186d217d"></a>
-char *&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
-<tr class="separator:a3a07d6438e0014126e008636186d217d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa91f87badc5769da7fe754130e66f550"><td class="memItemLeft" align="right" valign="top"><a id="aa91f87badc5769da7fe754130e66f550"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>total</b></td></tr>
+<tr class="separator:aa91f87badc5769da7fe754130e66f550"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae875690c4116167d86cccb27a360034a"><td class="memItemLeft" align="right" valign="top"><a id="ae875690c4116167d86cccb27a360034a"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>amount_completed</b></td></tr>
+<tr class="separator:ae875690c4116167d86cccb27a360034a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A type representing a continuous block of memory. </p>
-<p>Use this store to represent an already-managed block of memory, such as function stack or application-global memory.</p>
-<p>For heap memory, <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> provides a resource which can be managed for you by passing it to <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="basestores_8h.html#ae3963b044b093bfd5993a2effbf213ee" title="Convenience macro for setting up a pointer-to-type.">csalt_store_memory_pointer()</a> </dd>
-<dd>
-<a class="el" href="basestores_8h.html#a91e84246aef7b460f4dddc47704b7257" title="Convenience macro for setting up an array-of-type.">csalt_store_memory_array()</a> </dd>
-<dd>
-<a class="el" href="basestores_8h.html#af825a25160b9613d9d88c6f979a6c956" title="Creates a csalt_store_memory struct and sets up its virtual call table.">csalt_store_memory_bounds()</a> </dd>
-<dd>
-<a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> </dd></dl>
+<div class="textblock"><p>This structure allows the transfer algorithm to run in a non-blocking fashion. </p>
+<p>When the remaining is equal to the total, the passed call-back is called, allowing you to perform the same call in a loop (e.g. a render loop or a spin-lock in case you want blocking behaviour).</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e" title="Creates a new struct csalt_progress with the total set to amount and the remaining set to 0.">csalt_progress()</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="basestores_8h_source.html">basestores.h</a></li>
 </ul>

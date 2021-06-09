@@ -67,14 +67,19 @@ $(function() {
 <div class="title">csalt_resource_network_udp Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>This structure represents a UDP socket.  
+ <a href="structcsalt__resource__network__udp.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="networkresources_8h_source.html">csalt/networkresources.h</a>&gt;</code></p>
 <div class="dynheader">
 Collaboration diagram for csalt_resource_network_udp:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__resource__network__udp__coll__graph.png" border="0" usemap="#csalt__resource__network__udp_coll__map" alt="Collaboration graph"/></div>
 <map name="csalt__resource__network__udp_coll__map" id="csalt__resource__network__udp_coll__map">
-<area shape="rect" title=" " alt="" coords="62,511,269,537"/>
+<area shape="rect" title="This structure represents a UDP socket." alt="" coords="62,511,269,537"/>
 <area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,414,187,441"/>
-<area shape="rect" href="structcsalt__resource__network__udp__initialized.html" title="This structure represents an IPv6 UDP socket." alt="" coords="211,407,387,448"/>
+<area shape="rect" href="structcsalt__resource__network__udp__initialized.html" title=" " alt="" coords="211,407,387,448"/>
 <area shape="rect" href="structcsalt__resource__network__initialized__interface.html" title=" " alt="" coords="181,199,357,240"/>
 <area shape="rect" href="structcsalt__resource__network__socket.html" title="Represents the common features of each kind of network socket." alt="" coords="317,303,493,344"/>
 <area shape="rect" href="structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="176,95,363,136"/>
@@ -97,7 +102,18 @@ const char *&#160;</td><td class="memItemRight" valign="bottom"><b>service</b></
 struct <a class="el" href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a>&#160;</td><td class="memItemRight" valign="bottom"><b>udp</b></td></tr>
 <tr class="separator:ac993a00ed5760d2496475b79d2119adf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<hr/>The documentation for this struct was generated from the following file:<ul>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>This structure represents a UDP socket. </p>
+<p>Network sockets do not support <a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101" title="Provides the means to divide a store into a sub-section and perform an operation on the result.">csalt_store_split()</a> - calling <a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101" title="Provides the means to divide a store into a sub-section and perform an operation on the result.">csalt_store_split()</a> on a network socket will pass the original store to the callback.</p>
+<p>Creating a connected socket with csalt_resource_network_udp_connected() enables <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> and <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> functionality, and such a socket can be used in abstract data types without issue. As is the case with the rest of the library, nonblocking sockets are implied. <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> will return 0 bytes in the case of the socket having no data to read.</p>
+<p>Creating a bound socket with csalt_resource_network_udp_bound() enables only <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a>. The generic store interface isn't very useful for this kind of socket, however, as it loses information about who sent the packet. The primary benefit of this interface in this context, then, is the resource interface and <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a>. csalt_resource_sendto() and csalt_resource_recvfrom() are provided as wrappers around those functions.</p>
+<p>Creating an unconnected, unbound socket with csalt_network_udp_stateless() does not enable <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> or <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd>csalt_resource_network_udp_connected() </dd>
+<dd>
+csalt_resource_network_udp_bound() </dd>
+<dd>
+csalt_resource_network_udp_stateless() </dd></dl>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="networkresources_8h_source.html">networkresources.h</a></li>
 </ul>
 </div><!-- contents -->

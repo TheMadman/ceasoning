@@ -182,9 +182,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_r
 <tr class="memitem:a9c8bd68f722b48751fdcca8ebf08e445"><td class="memItemLeft" align="right" valign="top"><a id="a9c8bd68f722b48751fdcca8ebf08e445"></a>
 size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_size</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store)</td></tr>
 <tr class="separator:a9c8bd68f722b48751fdcca8ebf08e445"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafaaddf442c03aa12d964e90b4785a75"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#aafaaddf442c03aa12d964e90b4785a75">csalt_store_fallback_flush</a> (struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *store, struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a> *transfers)</td></tr>
-<tr class="memdesc:aafaaddf442c03aa12d964e90b4785a75"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes out data from the first store into all stores after it.  <a href="compositestores_8h.html#aafaaddf442c03aa12d964e90b4785a75">More...</a><br /></td></tr>
-<tr class="separator:aafaaddf442c03aa12d964e90b4785a75"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56680efacc9fcc05860704ae7b6516a9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__progress.html">csalt_progress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">csalt_store_fallback_flush</a> (struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *store, struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *transfers)</td></tr>
+<tr class="memdesc:a56680efacc9fcc05860704ae7b6516a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes out data from the first store into all stores after it.  <a href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">More...</a><br /></td></tr>
+<tr class="separator:a56680efacc9fcc05860704ae7b6516a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file provides stores which define relationships between stores. Examples include <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a>, which allows you to define stores as a priority list where each is tried in order. </p>
@@ -302,14 +302,14 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
 
 </div>
 </div>
-<a id="aafaaddf442c03aa12d964e90b4785a75"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aafaaddf442c03aa12d964e90b4785a75">&#9670;&nbsp;</a></span>csalt_store_fallback_flush()</h2>
+<a id="a56680efacc9fcc05860704ae7b6516a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56680efacc9fcc05860704ae7b6516a9">&#9670;&nbsp;</a></span>csalt_store_fallback_flush()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a> csalt_store_fallback_flush </td>
+          <td class="memname">struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> csalt_store_fallback_flush </td>
           <td>(</td>
           <td class="paramtype">struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *&#160;</td>
           <td class="paramname"><em>store</em>, </td>
@@ -317,7 +317,7 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">struct <a class="el" href="structcsalt__transfer.html">csalt_transfer</a> *&#160;</td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *&#160;</td>
           <td class="paramname"><em>transfers</em>&#160;</td>
         </tr>
         <tr>
@@ -329,17 +329,17 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
 </div><div class="memdoc">
 
 <p>Writes out data from the first store into all stores after it. </p>
-<p>Takes an array of csalt_transfers, one for each store in the fallback, which can safely be initialized to zero:</p>
+<p>Takes an array of csalt_progresss, one for each store in the fallback, which can safely be initialized to zero:</p>
 <div class="fragment"><div class="line"><span class="comment">// Outside your main loop</span></div>
 <div class="line"><span class="comment">// Assume number_stores is a const and you know the list&#39;s length</span></div>
 <div class="line"><span class="comment">// otherwise, this becomes a heap allocation</span></div>
 <div class="line"><span class="comment">// size_t number_stores = csalt_store_list_length(&amp;fallback_ptr-&gt;list);</span></div>
-<div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__transfer.html">csalt_transfer</a> transfers[number_stores] = { 0 };</div>
+<div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__progress.html">csalt_progress</a> transfers[number_stores] = { 0 };</div>
 <div class="line"> </div>
 <div class="line"><span class="comment">// inside your main loop, or in a while loop for blocking behaviour</span></div>
-<div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__transfer.html">csalt_transfer</a> total_progress;</div>
-<div class="line">total_progress = <a class="code" href="compositestores_8h.html#aafaaddf442c03aa12d964e90b4785a75">csalt_store_fallback_flush</a>(fallback_ptr, transfers);</div>
-</div><!-- fragment --><p>As an academic note, you can actually safely use <code>number_stores - 1</code> csalt_transfers, since you're not transferring from the first store to the rest - but this code is simpler to read and remember. </p>
+<div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__progress.html">csalt_progress</a> total_progress;</div>
+<div class="line">total_progress = <a class="code" href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">csalt_store_fallback_flush</a>(fallback_ptr, transfers);</div>
+</div><!-- fragment --><p>As an academic note, you can actually safely use <code>number_stores - 1</code> csalt_progresss, since you're not transferring from the first store to the rest - but this code is simpler to read and remember. </p>
 
 </div>
 </div>
@@ -406,8 +406,8 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="astructcsalt__transfer_html"><div class="ttname"><a href="structcsalt__transfer.html">csalt_transfer</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:151</div></div>
-<div class="ttc" id="acompositestores_8h_html_aafaaddf442c03aa12d964e90b4785a75"><div class="ttname"><a href="compositestores_8h.html#aafaaddf442c03aa12d964e90b4785a75">csalt_store_fallback_flush</a></div><div class="ttdeci">struct csalt_transfer csalt_store_fallback_flush(struct csalt_store_fallback *store, struct csalt_transfer *transfers)</div><div class="ttdoc">Writes out data from the first store into all stores after it.</div><div class="ttdef"><b>Definition:</b> compositestores.c:367</div></div>
+<div class="ttc" id="astructcsalt__progress_html"><div class="ttname"><a href="structcsalt__progress.html">csalt_progress</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:151</div></div>
+<div class="ttc" id="acompositestores_8h_html_a56680efacc9fcc05860704ae7b6516a9"><div class="ttname"><a href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">csalt_store_fallback_flush</a></div><div class="ttdeci">struct csalt_progress csalt_store_fallback_flush(struct csalt_store_fallback *store, struct csalt_progress *transfers)</div><div class="ttdoc">Writes out data from the first store into all stores after it.</div><div class="ttdef"><b>Definition:</b> compositestores.c:367</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

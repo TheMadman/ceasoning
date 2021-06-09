@@ -1,7 +1,7 @@
 <map id="csalt_resource_network_udp" name="csalt_resource_network_udp">
-<area shape="rect" id="node1" title=" " alt="" coords="62,511,269,537"/>
+<area shape="rect" id="node1" title="This structure represents a UDP socket." alt="" coords="62,511,269,537"/>
 <area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,414,187,441"/>
-<area shape="rect" id="node3" href="$structcsalt__resource__network__udp__initialized.html" title="This structure represents an IPv6 UDP socket." alt="" coords="211,407,387,448"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__network__udp__initialized.html" title=" " alt="" coords="211,407,387,448"/>
 <area shape="rect" id="node4" href="$structcsalt__resource__network__initialized__interface.html" title=" " alt="" coords="181,199,357,240"/>
 <area shape="rect" id="node7" href="$structcsalt__resource__network__socket.html" title="Represents the common features of each kind of network socket." alt="" coords="317,303,493,344"/>
 <area shape="rect" id="node5" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="176,95,363,136"/>

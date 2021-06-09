@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['csalt_5faddrinfo_81',['csalt_addrinfo',['../structcsalt__addrinfo.html',1,'']]],
-  ['csalt_5faddrinfo_5finitialized_82',['csalt_addrinfo_initialized',['../structcsalt__addrinfo__initialized.html',1,'']]],
-  ['csalt_5fheap_83',['csalt_heap',['../structcsalt__heap.html',1,'']]],
-  ['csalt_5fheap_5finitialized_84',['csalt_heap_initialized',['../structcsalt__heap__initialized.html',1,'']]],
-  ['csalt_5fmemory_85',['csalt_memory',['../structcsalt__memory.html',1,'']]],
+  ['csalt_5faddrinfo_80',['csalt_addrinfo',['../structcsalt__addrinfo.html',1,'']]],
+  ['csalt_5faddrinfo_5finitialized_81',['csalt_addrinfo_initialized',['../structcsalt__addrinfo__initialized.html',1,'']]],
+  ['csalt_5fheap_82',['csalt_heap',['../structcsalt__heap.html',1,'']]],
+  ['csalt_5fheap_5finitialized_83',['csalt_heap_initialized',['../structcsalt__heap__initialized.html',1,'']]],
+  ['csalt_5fmemory_84',['csalt_memory',['../structcsalt__memory.html',1,'']]],
+  ['csalt_5fprogress_85',['csalt_progress',['../structcsalt__progress.html',1,'']]],
   ['csalt_5fresource_5ffallback_86',['csalt_resource_fallback',['../structcsalt__resource__fallback.html',1,'']]],
   ['csalt_5fresource_5ffallback_5finitialized_87',['csalt_resource_fallback_initialized',['../structcsalt__resource__fallback__initialized.html',1,'']]],
   ['csalt_5fresource_5ffile_88',['csalt_resource_file',['../structcsalt__resource__file.html',1,'']]],
@@ -22,6 +23,5 @@ var searchData=
   ['csalt_5fstore_5finterface_100',['csalt_store_interface',['../structcsalt__store__interface.html',1,'']]],
   ['csalt_5fstore_5flist_101',['csalt_store_list',['../structcsalt__store__list.html',1,'']]],
   ['csalt_5fstore_5flist_5finterface_102',['csalt_store_list_interface',['../structcsalt__store__list__interface.html',1,'']]],
-  ['csalt_5fstore_5flist_5fsplit_5fparams_103',['csalt_store_list_split_params',['../structcsalt__store__list__split__params.html',1,'']]],
-  ['csalt_5ftransfer_104',['csalt_transfer',['../structcsalt__transfer.html',1,'']]]
+  ['csalt_5fstore_5flist_5fsplit_5fparams_103',['csalt_store_list_split_params',['../structcsalt__store__list__split__params.html',1,'']]]
 ];

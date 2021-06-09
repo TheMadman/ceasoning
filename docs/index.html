@@ -69,13 +69,13 @@ $(function() {
 Where to Start</h1>
 <p>This project starts at generalized algorithms, then implements concrete types to use within those algorithms. Two examples are:</p>
 <ul>
-<li><a class="el" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
-<li><a class="el" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
+<li><a class="el" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
+<li><a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
 </ul>
 <p>Concrete stores and resources represent real resources, such as memory and disk space:</p>
 <ul>
 <li><a class="el" href="structcsalt__memory.html" title="A type representing a continuous block of memory.">csalt_memory</a> - represents a block of unmanaged memory, such as a stack member or a global variable</li>
-<li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a></li>
+<li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a></li>
 <li><a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> - represents a file, opened by a path</li>
 </ul>
 <p>Composite stores provide simple means to operate on multiple stores:</p>
@@ -92,7 +92,7 @@ An Example: Bytewise Copy Program</h1>
 <p>The following example program shows a program which takes, as command line arguments, the file names of a file to copy from and a file to copy to.</p>
 <p>A few points to take away from this:</p>
 <ul>
-<li>We never have to explicitely open, check, and clean up the files - this is done for us by the <a class="el" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> function;</li>
+<li>We never have to explicitely open, check, and clean up the files - this is done for us by the <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> function;</li>
 <li>We have written the function which does bytewise copying to use generic types - if the stores were, instead, heap memory, or network sockets, we could pass a <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> of those instead, making reusing or refactoring this code very simple.</li>
 <li>There are still error cases that this program does not concern itself with checking or correcting: what should happen if the transfer only partially completes, then throws an error? Should the behaviour be different if the output file is an existing file vs. a file created by this program? What if the output "file" isn't a file at all, but a virtual file in e.g. <code>/dev/tcp</code>, <code>/proc</code> etc.? Since this issue can easily become very complicated, and the caller has much better knowledge of the arguments than the program, we just omit those considerations.</li>
 </ul>
@@ -157,7 +157,7 @@ An Example: Bytewise Copy Program</h1>
 <div class="line"><span class="comment">     * case, bytewise_copy.</span></div>
 <div class="line"><span class="comment">     */</span></div>
 <div class="line">    <span class="keywordtype">int</span> result = 0;</div>
-<div class="line">    <span class="keywordflow">if</span> ((result = <a class="code" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a">csalt_resource_use</a>(<a class="code" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a>(&amp;<a class="code" href="structcsalt__resource__list.html">list</a>), bytewise_copy, 0)))</div>
+<div class="line">    <span class="keywordflow">if</span> ((result = <a class="code" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a>(<a class="code" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a>(&amp;<a class="code" href="structcsalt__resource__list.html">list</a>), bytewise_copy, 0)))</div>
 <div class="line">        fprintf(stderr, <span class="stringliteral">&quot;Error: %s\n&quot;</span>, strerror(errno));</div>
 <div class="line">    <span class="keywordflow">return</span> result;</div>
 <div class="line">}</div>
@@ -165,8 +165,8 @@ An Example: Bytewise Copy Program</h1>
 <div class="line"><span class="keywordtype">int</span> bytewise_copy(<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *resource, <span class="keywordtype">void</span> *_)</div>
 <div class="line">{</div>
 <div class="line">    <span class="comment">/*</span></div>
-<div class="line"><span class="comment">     * The second argument, the csalt_store*, is for data we want to preserve</span></div>
-<div class="line"><span class="comment">     * after the running of this function for later use in our application.</span></div>
+<div class="line"><span class="comment">     * The second argument, the void*, can act as an in/out parameter for this</span></div>
+<div class="line"><span class="comment">     * function.</span></div>
 <div class="line"><span class="comment">     * In this case, we just want to copy the contents of one file into another,</span></div>
 <div class="line"><span class="comment">     * then exit, so we pass 0 to csalt_resource_use and just don&#39;t use the second</span></div>
 <div class="line"><span class="comment">     * argument here.</span></div>
@@ -188,7 +188,7 @@ An Example: Bytewise Copy Program</h1>
 <div class="line">        *output = (<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *)<a class="code" href="compositestores_8h.html#a90d4e8f264c1d277991414fc4bb3d685">csalt_store_list_get</a>(<a class="code" href="structcsalt__resource__list.html">list</a>, 1);</div>
 <div class="line"> </div>
 <div class="line">    ssize_t input_size = <a class="code" href="basestores_8h.html#aef31425e1aeff00a39c9cac218d10b7c">csalt_store_size</a>(input);</div>
-<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__transfer.html">csalt_transfer</a> progress = <a class="code" href="basestores_8h.html#aeddee25f693cc4bf53ec7556dbef74eb">csalt_transfer</a>(input_size);</div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__progress.html">csalt_progress</a> progress = <a class="code" href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a>(input_size);</div>
 <div class="line"> </div>
 <div class="line">    <span class="comment">/*</span></div>
 <div class="line"><span class="comment">     * The ceasoning library is implemented as a non-blocking library by</span></div>
@@ -197,7 +197,7 @@ An Example: Bytewise Copy Program</h1>
 <div class="line">    <span class="keywordflow">for</span> (</div>
 <div class="line">        ssize_t transferred = 0;</div>
 <div class="line">        transferred &lt; input_size;</div>
-<div class="line">        transferred = <a class="code" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a">csalt_store_transfer</a>(&amp;progress, output, input, 0)</div>
+<div class="line">        transferred = <a class="code" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">csalt_store_transfer</a>(&amp;progress, output, input, 0)</div>
 <div class="line">    ) {</div>
 <div class="line">        <span class="comment">/*</span></div>
 <div class="line"><span class="comment">         * Always do error checking!</span></div>
@@ -224,17 +224,17 @@ Core Concepts</h1>
 </div><!-- fragment --><p>Passing a pointer to a <code>my_struct</code> to <code>csalt_store</code> functions will work as expected. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
-<div class="ttc" id="abasestores_8h_html_a985f7badc237622829ca9a7273420a7a"><div class="ttname"><a href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a">csalt_store_transfer</a></div><div class="ttdeci">ssize_t csalt_store_transfer(struct csalt_transfer *data, csalt_store *to, csalt_store *from, csalt_transfer_complete_fn *callback)</div><div class="ttdoc">this function provides a convenient means to write data from one store into another.</div><div class="ttdef"><b>Definition:</b> stores.c:257</div></div>
 <div class="ttc" id="abasestores_8h_html_aef31425e1aeff00a39c9cac218d10b7c"><div class="ttname"><a href="basestores_8h.html#aef31425e1aeff00a39c9cac218d10b7c">csalt_store_size</a></div><div class="ttdeci">size_t csalt_store_size(const csalt_store *store)</div><div class="ttdoc">Returns the current size of the given store.</div><div class="ttdef"><b>Definition:</b> stores.c:28</div></div>
-<div class="ttc" id="astructcsalt__transfer_html"><div class="ttname"><a href="structcsalt__transfer.html">csalt_transfer</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:151</div></div>
 <div class="ttc" id="astructcsalt__resource__initialized__interface_html"><div class="ttname"><a href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a></div><div class="ttdoc">Interface definition for initialized resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:100</div></div>
 <div class="ttc" id="afileresource_8h_html_aa6d6d84e7ab967e17960ac1b739c26a4"><div class="ttname"><a href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">csalt_resource_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_file(const char *path, int flags)</div><div class="ttdoc">Creates a file resource with the given path and flags.</div><div class="ttdef"><b>Definition:</b> file.c:91</div></div>
+<div class="ttc" id="abaseresources_8h_html_a991bf5e3b35d5b7d355b6fc35f2dab21"><div class="ttname"><a href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a></div><div class="ttdeci">int csalt_resource_use(csalt_resource *resource, csalt_store_block_fn *code_block, void *out)</div><div class="ttdoc">Manages a resource lifecycle and executes the given function.</div><div class="ttdef"><b>Definition:</b> resources.c:143</div></div>
 <div class="ttc" id="astructcsalt__memory_html"><div class="ttname"><a href="structcsalt__memory.html">csalt_memory</a></div><div class="ttdoc">A type representing a continuous block of memory.</div><div class="ttdef"><b>Definition:</b> basestores.h:261</div></div>
-<div class="ttc" id="abasestores_8h_html_aeddee25f693cc4bf53ec7556dbef74eb"><div class="ttname"><a href="basestores_8h.html#aeddee25f693cc4bf53ec7556dbef74eb">csalt_transfer</a></div><div class="ttdeci">struct csalt_transfer csalt_transfer(size_t amount)</div><div class="ttdoc">Creates a new struct csalt_transfer with the total set to amount and the remaining set to 0.</div><div class="ttdef"><b>Definition:</b> stores.c:186</div></div>
 <div class="ttc" id="afileresource_8h_html_a4b2a8c6d94dcb9a1bac1d5e36cd999cf"><div class="ttname"><a href="fileresource_8h.html#a4b2a8c6d94dcb9a1bac1d5e36cd999cf">csalt_resource_create_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode)</div><div class="ttdoc">Sets up a file resource for creation and opening.</div><div class="ttdef"><b>Definition:</b> file.c:106</div></div>
-<div class="ttc" id="abaseresources_8h_html_a43d22b208417f60e017f981fb9788b9a"><div class="ttname"><a href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a">csalt_resource_use</a></div><div class="ttdeci">int csalt_resource_use(csalt_resource *resource, csalt_resource_block *code_block, void *out)</div><div class="ttdoc">Manages a resource lifecycle and executes the given function.</div><div class="ttdef"><b>Definition:</b> resources.c:143</div></div>
+<div class="ttc" id="abasestores_8h_html_ad71ed28e391833e5796f315b9935cd2d"><div class="ttname"><a href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">csalt_store_transfer</a></div><div class="ttdeci">ssize_t csalt_store_transfer(struct csalt_progress *data, csalt_store *to, csalt_store *from, csalt_transfer_complete_fn *callback)</div><div class="ttdoc">this function provides a convenient means to write data from one store into another.</div><div class="ttdef"><b>Definition:</b> stores.c:257</div></div>
+<div class="ttc" id="astructcsalt__progress_html"><div class="ttname"><a href="structcsalt__progress.html">csalt_progress</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:151</div></div>
 <div class="ttc" id="acompositestores_8h_html_a90d4e8f264c1d277991414fc4bb3d685"><div class="ttname"><a href="compositestores_8h.html#a90d4e8f264c1d277991414fc4bb3d685">csalt_store_list_get</a></div><div class="ttdeci">csalt_store * csalt_store_list_get(const struct csalt_store_list *store, size_t index)</div><div class="ttdoc">Returns the store at the given index.</div><div class="ttdef"><b>Definition:</b> compositestores.c:31</div></div>
 <div class="ttc" id="astructcsalt__store__list_html"><div class="ttname"><a href="structcsalt__store__list.html">csalt_store_list</a></div><div class="ttdoc">Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...</div><div class="ttdef"><b>Definition:</b> compositestores.h:70</div></div>
+<div class="ttc" id="abasestores_8h_html_a60dfe3654f1c3f549d064e84af2b201e"><div class="ttname"><a href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a></div><div class="ttdeci">struct csalt_progress csalt_progress(size_t amount)</div><div class="ttdoc">Creates a new struct csalt_progress with the total set to amount and the remaining set to 0.</div><div class="ttdef"><b>Definition:</b> stores.c:186</div></div>
 <div class="ttc" id="astructcsalt__store__interface_html"><div class="ttname"><a href="structcsalt__store__interface.html">csalt_store_interface</a></div><div class="ttdef"><b>Definition:</b> basestores.h:81</div></div>
 <div class="ttc" id="astructcsalt__resource__file_html"><div class="ttname"><a href="structcsalt__resource__file.html">csalt_resource_file</a></div><div class="ttdoc">Struct representing a file resource supporting lazy-loading.</div><div class="ttdef"><b>Definition:</b> fileresource.h:46</div></div>
 <div class="ttc" id="astructcsalt__resource__list_html"><div class="ttname"><a href="structcsalt__resource__list.html">csalt_resource_list</a></div><div class="ttdoc">This resource allows operations on groups of resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:55</div></div>

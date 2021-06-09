@@ -147,9 +147,6 @@ typedef <a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b0
 <tr class="memitem:abc9fcda3df37b919b2221c0c2f6e5349"><td class="memItemLeft" align="right" valign="top"><a id="abc9fcda3df37b919b2221c0c2f6e5349"></a>
 typedef void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_deinit_fn</b>(<a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa">csalt_resource_initialized</a> *resource)</td></tr>
 <tr class="separator:abc9fcda3df37b919b2221c0c2f6e5349"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15f58a41de093a76f7add3b166787f3a"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a15f58a41de093a76f7add3b166787f3a">csalt_resource_block</a>(<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *, void *)</td></tr>
-<tr class="memdesc:a15f58a41de093a76f7add3b166787f3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function signature for blocks to pass to csalt_resource_use.  <a href="baseresources_8h.html#a15f58a41de093a76f7add3b166787f3a">More...</a><br /></td></tr>
-<tr class="separator:a15f58a41de093a76f7add3b166787f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -174,9 +171,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 <tr class="memitem:a8c9633bb42d267f702f798d5cd087d13"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">csalt_resource_heap_raw</a> (const struct <a class="el" href="structcsalt__heap__initialized.html">csalt_heap_initialized</a> *heap)</td></tr>
 <tr class="memdesc:a8c9633bb42d267f702f798d5cd087d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives immediate access to the raw pointer.  <a href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">More...</a><br /></td></tr>
 <tr class="separator:a8c9633bb42d267f702f798d5cd087d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a43d22b208417f60e017f981fb9788b9a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="baseresources_8h.html#a15f58a41de093a76f7add3b166787f3a">csalt_resource_block</a> *code_block, void *out)</td></tr>
-<tr class="memdesc:a43d22b208417f60e017f981fb9788b9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a resource lifecycle and executes the given function.  <a href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a">More...</a><br /></td></tr>
-<tr class="separator:a43d22b208417f60e017f981fb9788b9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *code_block, void *out)</td></tr>
+<tr class="memdesc:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a resource lifecycle and executes the given function.  <a href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">More...</a><br /></td></tr>
+<tr class="separator:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides an interface for resources with lifetimes. </p>
@@ -200,27 +197,6 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 <p>To create custom structs which can manage resources, use a struct csalt_resource_interface* as the first member.</p>
 <p>Functions operating on resources take a csalt_resource pointer; casting a pointer to your custom struct to a (csalt_resource *) will allow you to use it in those functions.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa" title="Represents a successfully initialized resource, which implements the csalt_store interface and the cs...">csalt_resource_initialized</a> </dd></dl>
-
-</div>
-</div>
-<a id="a15f58a41de093a76f7add3b166787f3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15f58a41de093a76f7add3b166787f3a">&#9670;&nbsp;</a></span>csalt_resource_block</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">typedef int csalt_resource_block(<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *, void *)</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Function signature for blocks to pass to csalt_resource_use. </p>
-<p>An initialized resource is passed as a pointer-to-store for use. your function should not deinitialize an initialized resource: that is managed by csalt_resource_use.</p>
-<p>Your function can also take an arbitrary pointer, to use as both an in- and out-parameter.</p>
-<p>You should return a return code which is useful for error checking in your code: csalt_resource_use will return it.</p>
-<p>Note that csalt_resource_use itself returns -1 if there was an error initializing the resource, and doesn't run your code. If you want to differentiate between an error initializing the resource and an error arising from your code, you should use a different return code.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="baseresources_8h.html#a43d22b208417f60e017f981fb9788b9a" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> </dd></dl>
 
 </div>
 </div>
@@ -301,12 +277,12 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 </div><div class="memdoc">
 
 <p>Gives immediate access to the raw pointer. </p>
-<p>This function should only really be used for reading data from the resulting pointer. Safe transfer with other stores can be done with <a class="el" href="basestores_8h.html#a985f7badc237622829ca9a7273420a7a" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>, and safe copying can be done with <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a>. </p>
+<p>This function should only really be used for reading data from the resulting pointer. Safe transfer with other stores can be done with <a class="el" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>, and safe copying can be done with <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a>. </p>
 
 </div>
 </div>
-<a id="a43d22b208417f60e017f981fb9788b9a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a43d22b208417f60e017f981fb9788b9a">&#9670;&nbsp;</a></span>csalt_resource_use()</h2>
+<a id="a991bf5e3b35d5b7d355b6fc35f2dab21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a991bf5e3b35d5b7d355b6fc35f2dab21">&#9670;&nbsp;</a></span>csalt_resource_use()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -320,7 +296,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="baseresources_8h.html#a15f58a41de093a76f7add3b166787f3a">csalt_resource_block</a> *&#160;</td>
+          <td class="paramtype"><a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *&#160;</td>
           <td class="paramname"><em>code_block</em>, </td>
         </tr>
         <tr>
