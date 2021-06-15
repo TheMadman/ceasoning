@@ -99,7 +99,8 @@ TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_store_fallback$(EXEEXT) \
 	tests/csalt_resource_list$(EXEEXT) \
 	tests/csalt_resource_first$(EXEEXT) \
-	tests/csalt_resource_network_udp$(EXEEXT)
+	tests/csalt_resource_network_udp_connected$(EXEEXT) \
+	tests/csalt_resource_network_udp_bound$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -127,7 +128,8 @@ am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_store_fallback$(EXEEXT) \
 	tests/csalt_resource_list$(EXEEXT) \
 	tests/csalt_resource_first$(EXEEXT) \
-	tests/csalt_resource_network_udp$(EXEEXT)
+	tests/csalt_resource_network_udp_connected$(EXEEXT) \
+	tests/csalt_resource_network_udp_bound$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -193,12 +195,19 @@ tests_csalt_resource_list_OBJECTS =  \
 tests_csalt_resource_list_LDADD = $(LDADD)
 tests_csalt_resource_list_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
-tests_csalt_resource_network_udp_SOURCES =  \
-	tests/csalt_resource_network_udp.c
-tests_csalt_resource_network_udp_OBJECTS =  \
-	tests/csalt_resource_network_udp.$(OBJEXT)
-tests_csalt_resource_network_udp_LDADD = $(LDADD)
-tests_csalt_resource_network_udp_DEPENDENCIES =  \
+tests_csalt_resource_network_udp_bound_SOURCES =  \
+	tests/csalt_resource_network_udp_bound.c
+tests_csalt_resource_network_udp_bound_OBJECTS =  \
+	tests/csalt_resource_network_udp_bound.$(OBJEXT)
+tests_csalt_resource_network_udp_bound_LDADD = $(LDADD)
+tests_csalt_resource_network_udp_bound_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_network_udp_connected_SOURCES =  \
+	tests/csalt_resource_network_udp_connected.c
+tests_csalt_resource_network_udp_connected_OBJECTS =  \
+	tests/csalt_resource_network_udp_connected.$(OBJEXT)
+tests_csalt_resource_network_udp_connected_LDADD = $(LDADD)
+tests_csalt_resource_network_udp_connected_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_use_SOURCES = tests/csalt_resource_use.c
 tests_csalt_resource_use_OBJECTS = tests/csalt_resource_use.$(OBJEXT)
@@ -251,7 +260,8 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
 	tests/$(DEPDIR)/csalt_resource_list.Po \
-	tests/$(DEPDIR)/csalt_resource_network_udp.Po \
+	tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po \
+	tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po \
 	tests/$(DEPDIR)/csalt_resource_use.Po \
 	tests/$(DEPDIR)/csalt_store_fallback.Po \
 	tests/$(DEPDIR)/csalt_store_list.Po \
@@ -278,13 +288,17 @@ am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c tests/csalt_resource_network_udp.c \
+	tests/csalt_resource_list.c \
+	tests/csalt_resource_network_udp_bound.c \
+	tests/csalt_resource_network_udp_connected.c \
 	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
 	tests/csalt_store_list.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c tests/csalt_resource_network_udp.c \
+	tests/csalt_resource_list.c \
+	tests/csalt_resource_network_udp_bound.c \
+	tests/csalt_resource_network_udp_connected.c \
 	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
 	tests/csalt_store_list.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
@@ -825,12 +839,18 @@ tests/csalt_resource_list.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_resource_list$(EXEEXT): $(tests_csalt_resource_list_OBJECTS) $(tests_csalt_resource_list_DEPENDENCIES) $(EXTRA_tests_csalt_resource_list_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_list$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_list_OBJECTS) $(tests_csalt_resource_list_LDADD) $(LIBS)
-tests/csalt_resource_network_udp.$(OBJEXT): tests/$(am__dirstamp) \
-	tests/$(DEPDIR)/$(am__dirstamp)
+tests/csalt_resource_network_udp_bound.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
 
-tests/csalt_resource_network_udp$(EXEEXT): $(tests_csalt_resource_network_udp_OBJECTS) $(tests_csalt_resource_network_udp_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resource_network_udp$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_OBJECTS) $(tests_csalt_resource_network_udp_LDADD) $(LIBS)
+tests/csalt_resource_network_udp_bound$(EXEEXT): $(tests_csalt_resource_network_udp_bound_OBJECTS) $(tests_csalt_resource_network_udp_bound_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_bound_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_network_udp_bound$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_bound_OBJECTS) $(tests_csalt_resource_network_udp_bound_LDADD) $(LIBS)
+tests/csalt_resource_network_udp_connected.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_network_udp_connected$(EXEEXT): $(tests_csalt_resource_network_udp_connected_OBJECTS) $(tests_csalt_resource_network_udp_connected_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_connected_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_network_udp_connected$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_connected_OBJECTS) $(tests_csalt_resource_network_udp_connected_LDADD) $(LIBS)
 tests/csalt_resource_use.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -883,7 +903,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_list.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_use.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_fallback.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_list.Po@am__quote@ # am--include-marker
@@ -1238,9 +1259,16 @@ tests/csalt_resource_first.log: tests/csalt_resource_first$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_network_udp.log: tests/csalt_resource_network_udp$(EXEEXT)
-	@p='tests/csalt_resource_network_udp$(EXEEXT)'; \
-	b='tests/csalt_resource_network_udp'; \
+tests/csalt_resource_network_udp_connected.log: tests/csalt_resource_network_udp_connected$(EXEEXT)
+	@p='tests/csalt_resource_network_udp_connected$(EXEEXT)'; \
+	b='tests/csalt_resource_network_udp_connected'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_network_udp_bound.log: tests/csalt_resource_network_udp_bound$(EXEEXT)
+	@p='tests/csalt_resource_network_udp_bound$(EXEEXT)'; \
+	b='tests/csalt_resource_network_udp_bound'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1492,7 +1520,8 @@ distclean: distclean-am
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
@@ -1555,7 +1584,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po

@@ -135,12 +135,26 @@ struct csalt_resource_network_udp {
 
 /**
  * \brief Creates a connected socket, taking the host name/IP address and
- * service name/port as arguments.
+ * service name/port number as arguments.
  *
  * The arguments passed to this function are used verbatim for a
  * getaddrinfo() call, and the same rules apply.
  */
 struct csalt_resource_network_udp csalt_resource_network_udp_connected(
+	const char *node,
+	const char *service
+);
+
+/**
+ * \brief Creates a bound UDP socket, taking the host name/IP address
+ * and service name/port number as arguments.
+ *
+ * The arguments passed to this function are used verbatim for a
+ * getaddrinfo() call, and the same rules apply.
+ *
+ * Setting node to NULL will allow binding to the wiledcard address.
+ */
+struct csalt_resource_network_udp csalt_resource_network_udp_bound(
 	const char *node,
 	const char *service
 );
