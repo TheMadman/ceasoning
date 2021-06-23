@@ -10,6 +10,11 @@
 extern "C" {
 #endif
 
+/**
+ * \file
+ * \brief Provides resources for networking
+ */
+
 struct csalt_resource_network_interface;
 typedef struct csalt_resource_network_initialized_interface *csalt_resource_network;
 

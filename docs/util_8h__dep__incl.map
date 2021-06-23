@@ -4,8 +4,8 @@
 <area shape="rect" id="node3" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_fal..." alt="" coords="78,155,255,181"/>
 <area shape="rect" id="node6" href="$stores_8h_source.html" title=" " alt="" coords="239,229,348,256"/>
 <area shape="rect" id="node4" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,379,205,405"/>
-<area shape="rect" id="node5" href="$resources_8h_source.html" title=" " alt="" coords="177,453,309,480"/>
+<area shape="rect" id="node5" href="$resources_8h_source.html" title=" " alt="" coords="242,453,374,480"/>
 <area shape="rect" id="node7" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="212,304,375,331"/>
 <area shape="rect" id="node8" href="$fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="490,379,635,405"/>
-<area shape="rect" id="node9" href="$networkresources_8h_source.html" title=" " alt="" coords="281,379,466,405"/>
+<area shape="rect" id="node9" href="$networkresources_8h.html" title="Provides resources for networking." alt="" coords="281,379,466,405"/>
 </map>

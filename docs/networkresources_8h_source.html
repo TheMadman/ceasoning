@@ -69,7 +69,7 @@ $(function() {
 <div class="title">networkresources.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CSALT_NETWORKRESOURCES_H</span></div>
+<a href="networkresources_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef CSALT_NETWORKRESOURCES_H</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define CSALT_NETWORKRESOURCES_H</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="baseresources_8h.html">baseresources.h</a>&quot;</span></div>
@@ -81,99 +81,104 @@ $(function() {
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> {</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">struct </span>csalt_resource_network_interface;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *<a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a>;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">typedef</span> ssize_t csalt_resource_sendto_fn(</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">void</span> *buffer,</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> flags,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">// Looks like Windows uses a `struct sockaddr` as well?</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *dest_addr,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    socklen_t addr_t</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">struct </span>csalt_resource_network_interface;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">typedef</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *<a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a>;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">typedef</span> ssize_t csalt_resource_sendto_fn(</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">void</span> *buffer,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">int</span> flags,</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;ssize_t csalt_resource_sendto(</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">void</span> *buffer,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span> flags,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *dest_addr,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    socklen_t addr_t</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">typedef</span> ssize_t csalt_resource_recvfrom_fn(</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> *buffer,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> flags,</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">struct</span> sockaddr *src_addr,</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    socklen_t *addrlen</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;ssize_t csalt_resource_recvfrom(</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> *buffer,</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">int</span> flags,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keyword">struct</span> sockaddr *src_addr,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    socklen_t *addrlen</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__initialized__interface.html">   76</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a> parent;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    csalt_resource_sendto_fn *sendto;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    csalt_resource_recvfrom_fn *recvfrom;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;};</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__socket.html">   85</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a> {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *vtable;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">int</span> fd;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">int</span> domain;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">int</span> type;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">int</span> protocol;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__udp__initialized.html">   93</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a> {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">union </span>{</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *vtable;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a> parent;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    };</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;};</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__udp.html">  129</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *node;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a> udp;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;};</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> csalt_resource_network_udp_connected(</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    const char *node,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> csalt_resource_network_udp_bound(</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    const char *node,</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160; </div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> csalt_resource_network_udp_stateless();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;} <span class="comment">// extern &quot;C&quot;</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">#endif // CSALT_NETWORKRESOURCES_H</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// Looks like Windows uses a `struct sockaddr` as well?</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *dest_addr,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    socklen_t addr_t</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;ssize_t <a class="code" href="networkresources_8h.html#a2a47eaad8894c7f07c510149f0629fd0">csalt_resource_sendto</a>(</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">void</span> *buffer,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> flags,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct</span> sockaddr *dest_addr,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    socklen_t addr_t</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">typedef</span> ssize_t csalt_resource_recvfrom_fn(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> *buffer,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> flags,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">struct</span> sockaddr *src_addr,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    socklen_t *addrlen</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;ssize_t <a class="code" href="networkresources_8h.html#a089575679fe09b9c883e705d9d685728">csalt_resource_recvfrom</a>(</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network</a> *network,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> *buffer,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">size_t</span> length,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">int</span> flags,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">struct</span> sockaddr *src_addr,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    socklen_t *addrlen</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__initialized__interface.html">   81</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a> parent;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    csalt_resource_sendto_fn *sendto;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    csalt_resource_recvfrom_fn *recvfrom;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__socket.html">   90</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a> {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *vtable;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">int</span> fd;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">int</span> domain;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">int</span> type;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">int</span> protocol;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__udp__initialized.html">   98</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a> {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keyword">union </span>{</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a> *vtable;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a> parent;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    };</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;};</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="structcsalt__resource__network__udp.html">  134</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *node;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a> udp;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;};</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> <a class="code" href="networkresources_8h.html#abea86c7a6502330cd81fe27a34ca7ec3">csalt_resource_network_udp_connected</a>(</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    const char *node,</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> <a class="code" href="networkresources_8h.html#a85afdcda66424581e61f9e889575b794">csalt_resource_network_udp_bound</a>(</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    const char *node,</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *service</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a> <a class="code" href="networkresources_8h.html#aaf2306d5f3d1a823b9b4f17606903610">csalt_resource_network_udp_stateless</a>();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#ifdef __cplusplus</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;} <span class="comment">// extern &quot;C&quot;</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#endif // CSALT_NETWORKRESOURCES_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="astructcsalt__resource__initialized__interface_html"><div class="ttname"><a href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a></div><div class="ttdoc">Interface definition for initialized resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:100</div></div>
+<div class="ttc" id="anetworkresources_8h_html_a85afdcda66424581e61f9e889575b794"><div class="ttname"><a href="networkresources_8h.html#a85afdcda66424581e61f9e889575b794">csalt_resource_network_udp_bound</a></div><div class="ttdeci">struct csalt_resource_network_udp csalt_resource_network_udp_bound(const char *node, const char *service)</div><div class="ttdoc">Creates a bound UDP socket, taking the host name/IP address and service name/port number as arguments...</div><div class="ttdef"><b>Definition:</b> network.c:353</div></div>
 <div class="ttc" id="abaseresources_8h_html"><div class="ttname"><a href="baseresources_8h.html">baseresources.h</a></div><div class="ttdoc">Provides an interface for resources with lifetimes.</div></div>
-<div class="ttc" id="astructcsalt__resource__network__socket_html"><div class="ttname"><a href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a></div><div class="ttdoc">Represents the common features of each kind of network socket.</div><div class="ttdef"><b>Definition:</b> networkresources.h:85</div></div>
-<div class="ttc" id="astructcsalt__resource__network__udp__initialized_html"><div class="ttname"><a href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a></div><div class="ttdef"><b>Definition:</b> networkresources.h:93</div></div>
-<div class="ttc" id="astructcsalt__resource__network__initialized__interface_html"><div class="ttname"><a href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a></div><div class="ttdef"><b>Definition:</b> networkresources.h:76</div></div>
-<div class="ttc" id="astructcsalt__resource__network__udp_html"><div class="ttname"><a href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a></div><div class="ttdoc">This structure represents a UDP socket.</div><div class="ttdef"><b>Definition:</b> networkresources.h:129</div></div>
+<div class="ttc" id="anetworkresources_8h_html_a2a47eaad8894c7f07c510149f0629fd0"><div class="ttname"><a href="networkresources_8h.html#a2a47eaad8894c7f07c510149f0629fd0">csalt_resource_sendto</a></div><div class="ttdeci">ssize_t csalt_resource_sendto(csalt_resource_network *network, const void *buffer, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</div><div class="ttdoc">Function wrapping the sendto() network socket call.</div><div class="ttdef"><b>Definition:</b> network.c:116</div></div>
+<div class="ttc" id="astructcsalt__resource__network__socket_html"><div class="ttname"><a href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a></div><div class="ttdoc">Represents the common features of each kind of network socket.</div><div class="ttdef"><b>Definition:</b> networkresources.h:90</div></div>
+<div class="ttc" id="astructcsalt__resource__network__udp__initialized_html"><div class="ttname"><a href="structcsalt__resource__network__udp__initialized.html">csalt_resource_network_udp_initialized</a></div><div class="ttdef"><b>Definition:</b> networkresources.h:98</div></div>
+<div class="ttc" id="anetworkresources_8h_html_abea86c7a6502330cd81fe27a34ca7ec3"><div class="ttname"><a href="networkresources_8h.html#abea86c7a6502330cd81fe27a34ca7ec3">csalt_resource_network_udp_connected</a></div><div class="ttdeci">struct csalt_resource_network_udp csalt_resource_network_udp_connected(const char *node, const char *service)</div><div class="ttdoc">Creates a connected socket, taking the host name/IP address and service name/port number as arguments...</div><div class="ttdef"><b>Definition:</b> network.c:221</div></div>
+<div class="ttc" id="anetworkresources_8h_html_aaf2306d5f3d1a823b9b4f17606903610"><div class="ttname"><a href="networkresources_8h.html#aaf2306d5f3d1a823b9b4f17606903610">csalt_resource_network_udp_stateless</a></div><div class="ttdeci">struct csalt_resource_network_udp csalt_resource_network_udp_stateless()</div><div class="ttdoc">Creates a new UDP socket.</div><div class="ttdef"><b>Definition:</b> network.c:442</div></div>
+<div class="ttc" id="astructcsalt__resource__network__initialized__interface_html"><div class="ttname"><a href="structcsalt__resource__network__initialized__interface.html">csalt_resource_network_initialized_interface</a></div><div class="ttdef"><b>Definition:</b> networkresources.h:81</div></div>
+<div class="ttc" id="astructcsalt__resource__network__udp_html"><div class="ttname"><a href="structcsalt__resource__network__udp.html">csalt_resource_network_udp</a></div><div class="ttdoc">This structure represents a UDP socket.</div><div class="ttdef"><b>Definition:</b> networkresources.h:134</div></div>
+<div class="ttc" id="anetworkresources_8h_html_a089575679fe09b9c883e705d9d685728"><div class="ttname"><a href="networkresources_8h.html#a089575679fe09b9c883e705d9d685728">csalt_resource_recvfrom</a></div><div class="ttdeci">ssize_t csalt_resource_recvfrom(csalt_resource_network *network, void *buffer, size_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</div><div class="ttdoc">Function wrapping the recvfrom() network socket call.</div><div class="ttdef"><b>Definition:</b> network.c:166</div></div>
 <div class="ttc" id="astructcsalt__resource__interface_html"><div class="ttname"><a href="structcsalt__resource__interface.html">csalt_resource_interface</a></div><div class="ttdoc">Interface definition for managed resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:85</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
