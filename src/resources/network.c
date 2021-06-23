@@ -433,3 +433,56 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_b
 	csalt_resource_socket_recvfrom,
 };
 
+struct csalt_resource_interface csalt_resource_network_udp_stateless_implementation;
+struct csalt_resource_network_initialized_interface csalt_resource_network_udp_stateless_init_implementation;
+
+#define udp_stateless_implementation csalt_resource_network_udp_stateless_implementation
+#define udp_stateless_init_implementation csalt_resource_network_udp_stateless_init_implementation
+
+struct csalt_resource_network_udp csalt_resource_network_udp_stateless()
+{
+	struct csalt_resource_network_udp result = {
+		.vtable = &udp_stateless_implementation,
+		.node = 0,
+		.service = 0,
+		.udp = {
+			.parent = {
+				.vtable = &udp_stateless_init_implementation,
+				.fd = -1,
+				.domain = 0,
+				.type = 0,
+				.protocol = 0,
+			},
+		},
+	};
+}
+
+csalt_resource_initialized *csalt_resource_network_udp_stateless_init(csalt_resource *resource)
+{
+	struct csalt_resource_network_udp *udp = (void *)resource;
+
+	udp->udp.parent.fd = socket(AF_INET, SOCK_DGRAM, 0);
+	if (udp->udp.parent.fd >= 0)
+		return (csalt_resource_initialized *)&udp->udp;
+
+	return 0;
+}
+
+struct csalt_resource_interface csalt_resource_network_udp_stateless_implementation = {
+	csalt_resource_network_udp_stateless_init,
+};
+
+struct csalt_resource_network_initialized_interface csalt_resource_network_udp_stateless_init_implementation = {
+	{
+		{
+			csalt_store_null_read,
+			csalt_store_null_write,
+			csalt_store_null_size,
+			csalt_resource_network_socket_split,
+		},
+		csalt_resource_network_socket_deinit,
+	},
+	csalt_resource_socket_sendto,
+	csalt_resource_socket_recvfrom,
+};
+

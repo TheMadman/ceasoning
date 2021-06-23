@@ -159,6 +159,12 @@ struct csalt_resource_network_udp csalt_resource_network_udp_bound(
 	const char *service
 );
 
+/**
+ * \brief Creates a new UDP socket. Supports sendto and automatically
+ * binds to the INADDR_ANY and a free port on recvfrom.
+ */
+struct csalt_resource_network_udp csalt_resource_network_udp_stateless();
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
