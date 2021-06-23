@@ -455,13 +455,15 @@ struct csalt_resource_network_udp csalt_resource_network_udp_stateless()
 			},
 		},
 	};
+
+	return result;
 }
 
 csalt_resource_initialized *csalt_resource_network_udp_stateless_init(csalt_resource *resource)
 {
 	struct csalt_resource_network_udp *udp = (void *)resource;
 
-	udp->udp.parent.fd = socket(AF_INET, SOCK_DGRAM, 0);
+	udp->udp.parent.fd = socket(AF_INET6, SOCK_DGRAM, 0);
 	if (udp->udp.parent.fd >= 0)
 		return (csalt_resource_initialized *)&udp->udp;
 
