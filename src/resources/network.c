@@ -1,6 +1,7 @@
 #include <csalt/networkresources.h>
 #include <netdb.h>
 #include <unistd.h>
+#include <errno.h>
 
 static struct csalt_resource_interface csalt_addrinfo_implementation;
 static struct csalt_resource_initialized_interface csalt_addrinfo_init_implementation;
@@ -185,6 +186,13 @@ ssize_t csalt_resource_socket_recvfrom(
 		src_addr,
 		addrlen
 	);
+	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
+		return 0;
+	if (result == 0) {
+		errno = ECONNRESET;
+		return -1;
+	}
+	return result;
 }
 
 struct csalt_resource_interface csalt_resource_network_udp_connected_implementation;
@@ -231,7 +239,7 @@ int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 	) {
 		int sock = socket(
 			current->ai_family,
-			current->ai_socktype,
+			current->ai_socktype | SOCK_NONBLOCK,
 			current->ai_protocol
 		);
 		if (sock == -1)
@@ -274,7 +282,14 @@ ssize_t csalt_resource_network_socket_read(
 	size_t amount
 ) {
 	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
-	return read(sock->fd, buffer, amount);
+	ssize_t result = read(sock->fd, buffer, amount);
+	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
+		return 0;
+	if (result == 0) {
+		errno = ECONNRESET;
+		return -1;
+	}
+	return result;
 }
 
 ssize_t csalt_resource_network_socket_write(
@@ -358,7 +373,7 @@ int use_csalt_addrinfo_bound(csalt_store *resource, void *store)
 	) {
 		int sock = socket(
 			current->ai_family,
-			current->ai_socktype,
+			current->ai_socktype | SOCK_NONBLOCK,
 			current->ai_protocol
 		);
 		if (sock == -1)
