@@ -163,6 +163,34 @@ struct csalt_resource_network_socket csalt_resource_network_udp_bound(
  */
 struct csalt_resource_network_socket csalt_resource_network_udp_stateless();
 
+/**
+ * \brief Implementation of sendto for socket resources.
+ *
+ * You generally should not be calling this directly: use csalt_resource_sendto().
+ */
+ssize_t csalt_resource_socket_sendto(
+	csalt_resource_network *network,
+	const void *buffer,
+	size_t length,
+	int flags,
+	const struct sockaddr *dest_addr,
+	socklen_t addr_t
+);
+
+/**
+ * \brief Implementation of recvfrom for socket resources.
+ *
+ * You generally should not be calling this directly: use csalt_resource_recvfrom().
+ */
+ssize_t csalt_resource_socket_recvfrom(
+	csalt_resource_network *network,
+	void *buffer,
+	size_t length,
+	int flags,
+	struct sockaddr *src_addr,
+	socklen_t *addrlen
+);
+
 #ifdef __cplusplus
 } // extern "C"
 #endif
