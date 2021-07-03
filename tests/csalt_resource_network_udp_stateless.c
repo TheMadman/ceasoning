@@ -70,7 +70,7 @@ int use_udp(csalt_store *store, void *_)
 
 int main()
 {
-	struct csalt_resource_network_udp udp = csalt_resource_network_udp_stateless();
+	struct csalt_resource_network_socket udp = csalt_resource_network_udp_stateless();
 	return csalt_resource_use((csalt_resource *)&udp, use_udp, 0);
 }
 

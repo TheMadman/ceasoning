@@ -87,7 +87,7 @@ static struct csalt_resource_initialized_interface csalt_addrinfo_init_implement
 /*
  * Convenience for creating/using a addrinfo resource from a udp
  */
-static csalt_resource_initialized *addrinfo_from_network(struct csalt_resource_network_udp *udp, csalt_store_block_fn *use)
+static csalt_resource_initialized *addrinfo_from_network(struct csalt_resource_network_socket *udp, csalt_store_block_fn *use)
 {
 	struct addrinfo hints = {
 		.ai_family = AF_UNSPEC,
@@ -131,19 +131,6 @@ ssize_t csalt_resource_sendto(
 	);
 }
 
-// Uninitialized sockets are set with this function, so we don't
-// keep double-checking if the thing is valid
-ssize_t csalt_resource_noop_sendto(
-	csalt_resource_network *network,
-	const void *buffer,
-	size_t length,
-	int flags,
-	const struct sockaddr *dest_addr,
-	socklen_t addr_t
-) {
-	return -1;
-}
-
 ssize_t csalt_resource_socket_sendto(
 	csalt_resource_network *network,
 	const void *buffer,
@@ -152,7 +139,7 @@ ssize_t csalt_resource_socket_sendto(
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
 ) {
-	struct csalt_resource_network_socket *sock = castto(sock, network);
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, network);
 	return sendto(
 		sock->fd,
 		buffer,
@@ -181,17 +168,6 @@ ssize_t csalt_resource_recvfrom(
 	);
 }
 
-ssize_t csalt_resource_noop_recvfrom(
-	csalt_resource_network *network,
-	void *buffer,
-	size_t length,
-	int flags,
-	struct sockaddr *src_addr,
-	socklen_t *addrlen
-) {
-	return -1;
-}
-
 ssize_t csalt_resource_socket_recvfrom(
 	csalt_resource_network *network,
 	void *buffer,
@@ -200,8 +176,8 @@ ssize_t csalt_resource_socket_recvfrom(
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
 ) {
-	struct csalt_resource_network_socket *sock = castto(sock, network);
-	return recvfrom(
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, network);
+	ssize_t result = recvfrom(
 		sock->fd,
 		buffer,
 		length,
@@ -218,24 +194,22 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_i
 #define udp_connected_implementation csalt_resource_network_udp_connected_implementation
 #define udp_init_connected_implementation csalt_resource_network_udp_init_connected_implementation
 
-struct csalt_resource_network_udp csalt_resource_network_udp_connected(
+struct csalt_resource_network_socket csalt_resource_network_udp_connected(
 	const char *node,
 	const char *service
 )
 {
-	struct csalt_resource_network_udp result = {
+	struct csalt_resource_network_socket result = {
 		.vtable = &udp_connected_implementation,
 		.udp = {
-			.parent = {
-				// Using the names here because this struct has
-				// a lot of members, should be easier to track this
-				// way
-				.vtable = &udp_init_connected_implementation,
-				.fd = -1,
-				.domain = 0,
-				.type = 0,
-				.protocol = 0,
-			},
+			// Using the names here because this struct has
+			// a lot of members, should be easier to track this
+			// way
+			.vtable = &udp_init_connected_implementation,
+			.fd = -1,
+			.domain = 0,
+			.type = 0,
+			.protocol = 0,
 		},
 		.node = node,
 		.service = service,
@@ -247,7 +221,7 @@ struct csalt_resource_network_udp csalt_resource_network_udp_connected(
 int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 {
 	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
-	struct csalt_resource_network_udp_initialized *udp = castto(udp, store);
+	struct csalt_resource_network_socket_initialized *udp = castto(udp, store);
 
 	struct addrinfo *current;
 	for (
@@ -269,7 +243,7 @@ int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 			current->ai_addrlen
 		);
 		if (connect_return != -1) {
-			udp->parent.fd = sock;
+			udp->fd = sock;
 			return 0;
 		}
 
@@ -280,14 +254,14 @@ int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 
 csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_resource *resource)
 {
-	struct csalt_resource_network_udp *udp = (void *)resource;
+	struct csalt_resource_network_socket *udp = (void *)resource;
 
 	return addrinfo_from_network(udp, use_csalt_addrinfo_connected);
 }
 
 void csalt_resource_network_socket_deinit(csalt_resource_initialized *resource)
 {
-	struct csalt_resource_network_socket *sock = castto(sock, resource);
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, resource);
 
 	close(sock->fd);
 	sock->fd = -1;
@@ -299,7 +273,7 @@ ssize_t csalt_resource_network_socket_read(
 	void *buffer,
 	size_t amount
 ) {
-	struct csalt_resource_network_socket *sock = castto(sock, store);
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	return read(sock->fd, buffer, amount);
 }
 
@@ -308,7 +282,7 @@ ssize_t csalt_resource_network_socket_write(
 	const void *buffer,
 	size_t amount
 ) {
-	struct csalt_resource_network_socket *sock = castto(sock, store);
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	return write(sock->fd, buffer, amount);
 }
 
@@ -350,23 +324,21 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_b
 #define udp_bound_implementation csalt_resource_network_udp_bound_implementation
 #define udp_bound_init_implementation csalt_resource_network_udp_bound_init_implementation
 
-struct csalt_resource_network_udp csalt_resource_network_udp_bound(
+struct csalt_resource_network_socket csalt_resource_network_udp_bound(
 	const char *node,
 	const char *service
 )
 {
-	struct csalt_resource_network_udp result = {
+	struct csalt_resource_network_socket result = {
 		.vtable = &udp_bound_implementation,
 		.node = node,
 		.service = service,
 		.udp = {
-			.parent = {
-				.vtable = &udp_bound_init_implementation,
-				.fd = -1,
-				.domain = 0,
-				.type = 0,
-				.protocol = 0,
-			},
+			.vtable = &udp_bound_init_implementation,
+			.fd = -1,
+			.domain = 0,
+			.type = 0,
+			.protocol = 0,
 		},
 	};
 
@@ -376,7 +348,7 @@ struct csalt_resource_network_udp csalt_resource_network_udp_bound(
 int use_csalt_addrinfo_bound(csalt_store *resource, void *store)
 {
 	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
-	struct csalt_resource_network_udp_initialized *udp = castto(udp, store);
+	struct csalt_resource_network_socket_initialized *udp = castto(udp, store);
 
 	struct addrinfo *current;
 	for (
@@ -398,7 +370,7 @@ int use_csalt_addrinfo_bound(csalt_store *resource, void *store)
 			current->ai_addrlen
 		);
 		if (bind_return != -1) {
-			udp->parent.fd = sock;
+			udp->fd = sock;
 			return 0;
 		}
 
@@ -410,7 +382,7 @@ int use_csalt_addrinfo_bound(csalt_store *resource, void *store)
 
 csalt_resource_initialized *csalt_resource_network_udp_bound_init(csalt_resource *resource)
 {
-	struct csalt_resource_network_udp *udp = (void *)resource;
+	struct csalt_resource_network_socket *udp = (void *)resource;
 
 	return addrinfo_from_network(udp, use_csalt_addrinfo_bound);
 }
@@ -439,20 +411,18 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_s
 #define udp_stateless_implementation csalt_resource_network_udp_stateless_implementation
 #define udp_stateless_init_implementation csalt_resource_network_udp_stateless_init_implementation
 
-struct csalt_resource_network_udp csalt_resource_network_udp_stateless()
+struct csalt_resource_network_socket csalt_resource_network_udp_stateless()
 {
-	struct csalt_resource_network_udp result = {
+	struct csalt_resource_network_socket result = {
 		.vtable = &udp_stateless_implementation,
 		.node = 0,
 		.service = 0,
 		.udp = {
-			.parent = {
-				.vtable = &udp_stateless_init_implementation,
-				.fd = -1,
-				.domain = 0,
-				.type = 0,
-				.protocol = 0,
-			},
+			.vtable = &udp_stateless_init_implementation,
+			.fd = -1,
+			.domain = 0,
+			.type = 0,
+			.protocol = 0,
 		},
 	};
 
@@ -461,10 +431,10 @@ struct csalt_resource_network_udp csalt_resource_network_udp_stateless()
 
 csalt_resource_initialized *csalt_resource_network_udp_stateless_init(csalt_resource *resource)
 {
-	struct csalt_resource_network_udp *udp = (void *)resource;
+	struct csalt_resource_network_socket *udp = (void *)resource;
 
-	udp->udp.parent.fd = socket(AF_INET6, SOCK_DGRAM, 0);
-	if (udp->udp.parent.fd >= 0)
+	udp->udp.fd = socket(AF_INET6, SOCK_DGRAM, 0);
+	if (udp->udp.fd >= 0)
 		return (csalt_resource_initialized *)&udp->udp;
 
 	return 0;

@@ -87,19 +87,12 @@ struct csalt_resource_network_initialized_interface {
 /**
  * \brief Represents the common features of each kind of network socket.
  */
-struct csalt_resource_network_socket {
+struct csalt_resource_network_socket_initialized {
 	struct csalt_resource_network_initialized_interface *vtable;
 	int fd;
 	int domain;
 	int type;
 	int protocol;
-};
-
-struct csalt_resource_network_udp_initialized {
-	union {
-		struct csalt_resource_network_initialized_interface *vtable;
-		struct csalt_resource_network_socket parent;
-	};
 };
 
 /**
@@ -131,11 +124,11 @@ struct csalt_resource_network_udp_initialized {
  * \see csalt_resource_network_udp_bound()
  * \see csalt_resource_network_udp_stateless()
  */
-struct csalt_resource_network_udp {
+struct csalt_resource_network_socket {
 	struct csalt_resource_interface *vtable;
 	const char *node;
 	const char *service;
-	struct csalt_resource_network_udp_initialized udp;
+	struct csalt_resource_network_socket_initialized udp;
 };
 
 /**
@@ -145,7 +138,7 @@ struct csalt_resource_network_udp {
  * The arguments passed to this function are used verbatim for a
  * getaddrinfo() call, and the same rules apply.
  */
-struct csalt_resource_network_udp csalt_resource_network_udp_connected(
+struct csalt_resource_network_socket csalt_resource_network_udp_connected(
 	const char *node,
 	const char *service
 );
@@ -159,7 +152,7 @@ struct csalt_resource_network_udp csalt_resource_network_udp_connected(
  *
  * Setting node to NULL will allow binding to the wiledcard address.
  */
-struct csalt_resource_network_udp csalt_resource_network_udp_bound(
+struct csalt_resource_network_socket csalt_resource_network_udp_bound(
 	const char *node,
 	const char *service
 );
@@ -168,7 +161,7 @@ struct csalt_resource_network_udp csalt_resource_network_udp_bound(
  * \brief Creates a new UDP socket. Supports sendto and automatically
  * binds to the INADDR_ANY and a free port on recvfrom.
  */
-struct csalt_resource_network_udp csalt_resource_network_udp_stateless();
+struct csalt_resource_network_socket csalt_resource_network_udp_stateless();
 
 #ifdef __cplusplus
 } // extern "C"

@@ -49,7 +49,7 @@ int use_udp(csalt_store *store, void *_)
 
 int client(const char *node, const char *service)
 {
-	struct csalt_resource_network_udp udp = csalt_resource_network_udp_connected(
+	struct csalt_resource_network_socket udp = csalt_resource_network_udp_connected(
 		node,
 		service
 	);
@@ -63,14 +63,17 @@ int server(int fd)
 	struct sockaddr_in6 addr = { 0 };
 	socklen_t addr_len = sizeof(addr);
 	puts("server begin recvfrom");
-	ssize_t received_length = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr *)&addr, &addr_len);
-
-	if (received_length < 0) {
-		perror("server failed to receive message");
-		return EXIT_TEST_ERROR;
-	} else {
-		printf("server received: \"%s\"\n", buffer);
+	ssize_t received_length = 0;
+	while (received_length == 0) {
+		received_length = recvfrom(fd, buffer, sizeof(buffer), 0, (struct sockaddr *)&addr, &addr_len);
+		if (received_length < 0) {
+			perror("server failed to receive message");
+			return EXIT_TEST_ERROR;
+		} else {
+			printf("server received: \"%s\"\n", buffer);
+		}
 	}
+
 	if (sendto(fd, buffer, received_length, 0, (struct sockaddr *)&addr, addr_len) < 0) {
 		perror("server failed to send message");
 		return EXIT_TEST_ERROR;

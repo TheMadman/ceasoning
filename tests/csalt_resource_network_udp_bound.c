@@ -14,24 +14,34 @@
 int use_list(csalt_store *store, void *params)
 {
 	struct csalt_store_list *list = (struct csalt_store_list *)store;
-	struct csalt_resource_network_udp_initialized *bound = (void *)csalt_store_list_get(list, 0);
+	struct csalt_resource_network_socket_initialized *bound = (void *)csalt_store_list_get(list, 0);
 	csalt_store *connected = csalt_store_list_get(list, 1);
 
 	const char payload[] = "Hello, World!";
 	
 	char recv_result[arrlength(payload)] = { 0 };
-	struct sockaddr addr = { 0 };
-	socklen_t addrlen = sizeof(addr);
+	struct sockaddr_storage addr_store = { 0 };
+	struct sockaddr *addr = (struct sockaddr *)&addr_store;
+	socklen_t addrlen = sizeof(store);
 
 	csalt_store_write(connected, payload, arrlength(payload));
-	csalt_resource_recvfrom(
-		(csalt_resource_network *)bound,
-		recv_result,
-		arrlength(recv_result),
-		0,
-		&addr,
-		&addrlen
-	);
+
+	ssize_t read_amount = 0;
+	while (read_amount < arrlength(payload)) {
+		ssize_t current_read = csalt_resource_recvfrom(
+			(csalt_resource_network *)bound,
+			recv_result,
+			arrlength(recv_result),
+			0,
+			addr,
+			&addrlen
+		);
+		if (current_read < 0) {
+			perror("recvfrom error");
+			return EXIT_FAILURE;
+		}
+		read_amount += current_read;
+	}
 
 	if (strcmp(payload, recv_result)) {
 		print_error("unexpected recv_result: %s", recv_result);
@@ -41,16 +51,30 @@ int use_list(csalt_store *store, void *params)
 	const char response[] = "Hello Client!";
 	char sendto_result[arrlength(response)] = { 0 };
 
-	csalt_resource_sendto(
+	ssize_t sendto_amount = csalt_resource_sendto(
 		(csalt_resource_network *)bound,
 		response,
 		arrlength(response),
 		0,
-		&addr,
+		addr,
 		addrlen
 	);
 
-	csalt_store_read(connected, sendto_result, arrlength(sendto_result));
+	if (sendto_amount < 0) {
+		perror("sendto");
+		return EXIT_FAILURE;
+	}
+
+	for (
+		ssize_t amount_read = 0;
+		amount_read < 1;
+		amount_read = csalt_store_read(connected, sendto_result, arrlength(sendto_result))
+	) {
+		if (amount_read < 0) {
+			perror("csalt_store_read");
+			return EXIT_FAILURE;
+		}
+	}
 
 	if (strcmp(response, sendto_result)) {
 		print_error("unexpected sendto_result: %s", sendto_result);
@@ -62,8 +86,8 @@ int use_list(csalt_store *store, void *params)
 
 int main()
 {
-	struct csalt_resource_network_udp bound = bound(HOST, PORT);
-	struct csalt_resource_network_udp connected = connected(HOST, PORT);
+	struct csalt_resource_network_socket bound = bound(HOST, PORT);
+	struct csalt_resource_network_socket connected = connected(HOST, PORT);
 
 	csalt_resource *array[] = {
 		(csalt_resource *)&bound,
