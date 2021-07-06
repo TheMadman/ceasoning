@@ -1,5 +1,5 @@
 <map id="csalt/basestores.h" name="csalt/basestores.h">
 <area shape="rect" id="node1" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="42,5,182,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,80,101,107"/>
-<area shape="rect" id="node3" href="$util_8h.html" title=" " alt="" coords="125,80,216,107"/>
+<area shape="rect" id="node3" href="$util_8h.html" title="This file provides macros for common tasks." alt="" coords="125,80,216,107"/>
 </map>

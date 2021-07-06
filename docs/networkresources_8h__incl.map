@@ -6,8 +6,8 @@
 <area shape="rect" id="node4" title=" " alt="" coords="104,155,179,181"/>
 <area shape="rect" id="node5" href="$stores_8h_source.html" title=" " alt="" coords="203,155,312,181"/>
 <area shape="rect" id="node6" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="314,304,419,331"/>
-<area shape="rect" id="node9" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_fal..." alt="" coords="186,229,329,256"/>
+<area shape="rect" id="node9" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="186,229,329,256"/>
 <area shape="rect" id="node7" title=" " alt="" coords="319,379,415,405"/>
-<area shape="rect" id="node8" href="$util_8h.html" title=" " alt="" coords="192,379,283,405"/>
+<area shape="rect" id="node8" href="$util_8h.html" title="This file provides macros for common tasks." alt="" coords="192,379,283,405"/>
 <area shape="rect" id="node11" title=" " alt="" coords="337,155,439,181"/>
 </map>
