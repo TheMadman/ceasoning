@@ -96,13 +96,13 @@ struct csalt_resource_network_socket_initialized {
 };
 
 /**
- * \brief This structure represents a UDP socket.
+ * \brief This structure represents a TCP/UDP socket.
  *
  * Network sockets do not support csalt_store_split() - calling
  * csalt_store_split() on a network socket will pass the original
  * store to the callback.
  * 
- * Creating a connected socket with csalt_resource_network_udp_connected()
+ * Creating a connected socket with csalt_resource_network_*_connected()
  * enables csalt_store_read() and csalt_store_write() functionality,
  * and such a socket can be used in abstract data types without issue.
  * As is the case with the rest of the library, nonblocking sockets
@@ -110,6 +110,7 @@ struct csalt_resource_network_socket_initialized {
  * the socket having no data to read.
  *
  * Creating a bound socket with csalt_resource_network_udp_bound()
+ * or a listening socket with csalt_resource_network_tcp_listening()
  * enables only csalt_store_read(). The generic store interface isn't
  * very useful for this kind of socket, however, as it loses information
  * about who sent the packet. The primary benefit of this interface in this
@@ -164,6 +165,35 @@ struct csalt_resource_network_socket csalt_resource_network_udp_bound(
 struct csalt_resource_network_socket csalt_resource_network_udp_stateless();
 
 /**
+ * \brief Creates a new connected TCP socket.
+ */
+struct csalt_resource_network_socket csalt_resource_network_tcp_connected(
+	const char *node,
+	const char *service
+);
+
+/**
+ * \brief Creates a new listening TCP socket.
+ *
+ * The workflow for operating on server TCP sockets is to create
+ * a listening TCP socket with this constructor, call csalt_resource_init() or
+ * preferably, csalt_resource_use() on the listening socket, then
+ *
+ */
+struct csalt_resource_network_socket csalt_resource_network_tcp_listening(
+	const char *node,
+	const char *service
+);
+
+/**
+ * \brief Accepts a connection from a listening socket.
+ */
+struct csalt_resource_network_socket csalt_resource_network_tcp_accept(
+	struct csalt_resource_network_socket_initialized *tcp,
+	csalt_store_block_fn *block
+);
+
+/**
  * \brief Implementation of sendto for socket resources.
  *
  * You generally should not be calling this directly: use csalt_resource_sendto().
@@ -189,6 +219,48 @@ ssize_t csalt_resource_socket_recvfrom(
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
+);
+
+/**
+ * \brief Initializer implementation for UDP sockets.
+ */
+csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_resource *resource);
+
+/**
+ * \brief Deinitializer implementation for UDP sockets.
+ */
+void csalt_resource_network_socket_deinit(csalt_resource_initialized *resource);
+
+/**
+ * \brief Read implementation for sockets.
+ */
+ssize_t csalt_resource_network_socket_read(
+	const csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+
+/**
+ * \brief Write implementation for sockets.
+ */
+ssize_t csalt_resource_network_socket_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+
+/**
+ * \brief Split implementation for sockets.
+ *
+ * This function is effectively a no-op, passing the store as-is to the
+ * block.
+ */
+int csalt_resource_network_socket_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *data
 );
 
 #ifdef __cplusplus

@@ -228,8 +228,8 @@ struct csalt_resource_network_socket csalt_resource_network_udp_connected(
 
 int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 {
-	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
-	struct csalt_resource_network_socket_initialized *udp = castto(udp, store);
+	struct csalt_addrinfo_initialized *addrinfo = (void *)resource;
+	struct csalt_resource_network_socket_initialized *udp = store;
 
 	struct addrinfo *current;
 	for (
