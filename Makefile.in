@@ -167,7 +167,8 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
 	src/stores/stores.lo src/resources/file.lo \
 	src/stores/compositestores.lo \
-	src/resources/compositeresources.lo src/resources/network.lo
+	src/resources/compositeresources.lo src/resources/network.lo \
+	src/stores/decorators.lo
 src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -264,6 +265,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	src/resources/$(DEPDIR)/network.Plo \
 	src/resources/$(DEPDIR)/resources.Plo \
 	src/stores/$(DEPDIR)/compositestores.Plo \
+	src/stores/$(DEPDIR)/decorators.Plo \
 	src/stores/$(DEPDIR)/stores.Plo \
 	tests/$(DEPDIR)/csalt_file_resource.Po \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
@@ -673,7 +675,8 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/compositestores.h\
 		       src/csalt/compositeresources.h\
 		       src/platforms/posix/csalt/platform/socket.h\
-		       src/csalt/networkresources.h
+		       src/csalt/networkresources.h\
+		       src/csalt/decoratorstores.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\
@@ -689,7 +692,9 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/csalt/impl/list_impl.h\
 	src/platforms/posix/csalt/platform/socket.h\
 	src/resources/network.c\
-	src/csalt/networkresources.h
+	src/csalt/networkresources.h\
+	src/stores/decorators.c\
+	src/csalt/decoratorstores.h
 
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
@@ -815,6 +820,8 @@ src/resources/compositeresources.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/resources/network.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
+src/stores/decorators.lo: src/stores/$(am__dirstamp) \
+	src/stores/$(DEPDIR)/$(am__dirstamp)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -916,6 +923,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/network.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/resources.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/compositestores.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/decorators.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/stores.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_file_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
@@ -1541,6 +1549,7 @@ distclean: distclean-am
 	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
+	-rm -f src/stores/$(DEPDIR)/decorators.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
@@ -1606,6 +1615,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
 	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
+	-rm -f src/stores/$(DEPDIR)/decorators.Plo
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
