@@ -216,8 +216,8 @@ ssize_t csalt_store_decorator_logger_read(const csalt_store *store, void *buffer
 		dprintf(
 			logger->file_descriptor,
 			READ_WRITE_FORMAT_STR,
-			"csalt_store_read",
 			custom_message,
+			"csalt_store_read",
 			decorated,
 			buffer,
 			bytes,
@@ -231,8 +231,8 @@ ssize_t csalt_store_decorator_logger_read(const csalt_store *store, void *buffer
 		dprintf(
 			logger->file_descriptor,
 			READ_WRITE_FORMAT_STR,
-			"csalt_store_read",
 			custom_message,
+			"csalt_store_read",
 			decorated,
 			buffer,
 			bytes,
