@@ -79,14 +79,12 @@ struct csalt_store_decorator {
  */
 struct csalt_store_log_message {
 	/**
-	 * \property
 	 * \brief Indicates which function should be logged. Must be
 	 * one of csalt_store_read or csalt_store_write.
 	 */
 	void *function;
 
 	/**
-	 * \property
 	 * \brief  A useful message for identifying the store. The function
 	 * name, passed parameters and return value will automatically
 	 * be included in the log.
@@ -107,7 +105,7 @@ struct csalt_store_log_message {
  * case of errors, the value of errno and its corresponding error string
  * are also printed.
  *
- * An example which logs errors to \t stderr:
+ * An example which logs errors to stderr:
  * \code
  * 	// csalt_store *file;
  *	struct csalt_store_log_message messages[] = {
@@ -128,6 +126,11 @@ struct csalt_store_log_message {
  *	if (read_result < 0)
  *		return EXIT_FAILURE;
  * \endcode
+ *
+ * \see csalt_store_decorator_logger_error_array
+ * \see csalt_store_decorator_logger_success_array
+ * \see csalt_store_decorator_logger_zero_bytes_array
+ * \see csalt_store_decorator_logger_arrays
  */
 struct csalt_store_decorator_logger {
 	struct csalt_store_decorator decorator;
@@ -156,6 +159,9 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_bounds(
 	const struct csalt_store_log_message *zero_bytes_end
 );
 
+/**
+ * \brief Convenience macro taking array arguments directly
+ */
 #define csalt_store_decorator_logger_arrays(store, fd, errors, successes, zero_bytes) \
 	(csalt_store_decorator_logger_bounds( \
 		store, \

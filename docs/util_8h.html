@@ -78,11 +78,12 @@ $(function() {
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="util_8h__dep__incl.png" border="0" usemap="#acsalt_2util_8hdep" alt=""/></div>
-<map name="csalt_2util_8hdep" id="acsalt_2util_8hdep">
-<area shape="rect" title="This file provides macros for common tasks." alt="" coords="175,5,265,32"/>
-<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="205,80,345,107"/>
-<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="78,155,255,181"/>
+<map name="csalt_2util_8hdep" id="csalt_2util_8hdep">
+<area shape="rect" title="This file provides macros for common tasks." alt="" coords="156,5,247,32"/>
+<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="190,80,330,107"/>
+<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="50,155,227,181"/>
 <area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="239,229,348,256"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="303,155,473,181"/>
 <area shape="rect" href="compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,379,205,405"/>
 <area shape="rect" href="resources_8h_source.html" title=" " alt="" coords="242,453,374,480"/>
 <area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="212,304,375,331"/>
@@ -105,6 +106,10 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)&#160;&#160;&#160;(sizeof(array) / sizeof(array[0]))</td></tr>
 <tr class="memdesc:ac8849258b846eb2806e17d5b6c0dfd66"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieves the number of elements in a typed array. <br /></td></tr>
 <tr class="separator:ac8849258b846eb2806e17d5b6c0dfd66"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae97fb3e0c45319bc1fb11adde2d2a1e8"><td class="memItemLeft" align="right" valign="top"><a id="ae97fb3e0c45319bc1fb11adde2d2a1e8"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array)&#160;&#160;&#160;(&amp;array[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])</td></tr>
+<tr class="memdesc:ae97fb3e0c45319bc1fb11adde2d2a1e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gets a pointer past the end of the array, such that <a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8" title="Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)">arrend(array)</a> - array == sizeof(array) <br /></td></tr>
+<tr class="separator:ae97fb3e0c45319bc1fb11adde2d2a1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e0524db5eddfda9d3770bcd93296411"><td class="memItemLeft" align="right" valign="top"><a id="a6e0524db5eddfda9d3770bcd93296411"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><b>DEFAULT_PAGESIZE</b>&#160;&#160;&#160;4096</td></tr>
 <tr class="separator:a6e0524db5eddfda9d3770bcd93296411"><td class="memSeparator" colspan="2">&#160;</td></tr>

@@ -1,8 +1,9 @@
 <map id="csalt/util.h" name="csalt/util.h">
-<area shape="rect" id="node1" title="This file provides macros for common tasks." alt="" coords="175,5,265,32"/>
-<area shape="rect" id="node2" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="205,80,345,107"/>
-<area shape="rect" id="node3" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="78,155,255,181"/>
+<area shape="rect" id="node1" title="This file provides macros for common tasks." alt="" coords="156,5,247,32"/>
+<area shape="rect" id="node2" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="190,80,330,107"/>
+<area shape="rect" id="node3" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="50,155,227,181"/>
 <area shape="rect" id="node6" href="$stores_8h_source.html" title=" " alt="" coords="239,229,348,256"/>
+<area shape="rect" id="node10" href="$decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="303,155,473,181"/>
 <area shape="rect" id="node4" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,379,205,405"/>
 <area shape="rect" id="node5" href="$resources_8h_source.html" title=" " alt="" coords="242,453,374,480"/>
 <area shape="rect" id="node7" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="212,304,375,331"/>

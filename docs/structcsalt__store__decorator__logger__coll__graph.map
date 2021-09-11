@@ -1,0 +1,6 @@
+<map id="csalt_store_decorator_logger" name="csalt_store_decorator_logger">
+<area shape="rect" id="node1" title="This object is responsible for wrapping a csalt_store&#39;s functions, checking return values and logging..." alt="" coords="84,213,247,255"/>
+<area shape="rect" id="node2" href="$structcsalt__store__log__message.html" title="A tuple type used by csalt_store_decorator_logger to provide log messages based on the return codes o..." alt="" coords="5,109,192,136"/>
+<area shape="rect" id="node3" href="$structcsalt__store__decorator.html" title=" " alt="" coords="216,109,379,136"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="218,5,377,32"/>
+</map>
