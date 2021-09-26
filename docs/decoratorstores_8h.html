@@ -93,13 +93,14 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="decoratorstores_8h__dep__incl.png" border="0" usemap="#acsalt_2decoratorstores_8hdep" alt=""/></div>
 <map name="csalt_2decoratorstores_8hdep" id="csalt_2decoratorstores_8hdep">
-<area shape="rect" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="347,5,517,32"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="377,80,487,107"/>
-<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="292,155,455,181"/>
-<area shape="rect" href="fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="490,229,635,256"/>
-<area shape="rect" href="compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,229,205,256"/>
-<area shape="rect" href="resources_8h_source.html" title=" " alt="" coords="242,304,374,331"/>
-<area shape="rect" href="networkresources_8h.html" title="Provides resources for networking." alt="" coords="281,229,466,256"/>
+<area shape="rect" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="196,5,367,32"/>
+<area shape="rect" href="decoratorresources_8h.html" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="5,229,200,256"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="407,80,516,107"/>
+<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="380,155,543,181"/>
+<area shape="rect" href="fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="709,229,854,256"/>
+<area shape="rect" href="compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="224,229,424,256"/>
+<area shape="rect" href="resources_8h_source.html" title=" " alt="" coords="461,304,593,331"/>
+<area shape="rect" href="networkresources_8h.html" title="Provides resources for networking." alt="" coords="499,229,685,256"/>
 </map>
 </div>
 </div>
@@ -112,27 +113,32 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tuple type used by <a class="el" href="structcsalt__store__decorator__logger.html" title="This object is responsible for wrapping a csalt_store&#39;s functions, checking return values and logging...">csalt_store_decorator_logger</a> to provide log messages based on the return codes of the given functions.  <a href="structcsalt__store__log__message.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__log__message__list.html">csalt_store_log_message_list</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This object is responsible for wrapping a csalt_store's functions, checking return values and logging messages.  <a href="structcsalt__store__decorator__logger.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:abd36c98883354ca355991a4a293b2364"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#abd36c98883354ca355991a4a293b2364">csalt_store_decorator_logger_arrays</a>(store,  fd,  errors,  successes,  zero_bytes)</td></tr>
-<tr class="memdesc:abd36c98883354ca355991a4a293b2364"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro taking array arguments directly.  <a href="decoratorstores_8h.html#abd36c98883354ca355991a4a293b2364">More...</a><br /></td></tr>
-<tr class="separator:abd36c98883354ca355991a4a293b2364"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a482a802c2b1969bd8f959dce2a46e694"><td class="memItemLeft" align="right" valign="top"><a id="a482a802c2b1969bd8f959dce2a46e694"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a482a802c2b1969bd8f959dce2a46e694">csalt_store_decorator_logger_error_array</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#a9aeef02340dd27cf134e91a299a8e536">csalt_store_decorator_logger_error_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
-<tr class="memdesc:a482a802c2b1969bd8f959dce2a46e694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
-<tr class="separator:a482a802c2b1969bd8f959dce2a46e694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9aabba9b12bd6d6f0074d8b408d4c763"><td class="memItemLeft" align="right" valign="top"><a id="a9aabba9b12bd6d6f0074d8b408d4c763"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a9aabba9b12bd6d6f0074d8b408d4c763">csalt_store_decorator_logger_success_array</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#af81e39de619f9ea0c716614a6c63e013">csalt_store_decorator_logger_success_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
-<tr class="memdesc:a9aabba9b12bd6d6f0074d8b408d4c763"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
-<tr class="separator:a9aabba9b12bd6d6f0074d8b408d4c763"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a67620b7e12a98073a2d89be6e846a672"><td class="memItemLeft" align="right" valign="top"><a id="a67620b7e12a98073a2d89be6e846a672"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a67620b7e12a98073a2d89be6e846a672">csalt_store_decorator_logger_zero_bytes_array</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#a06bbd9de9b532445a83bf9435105182b">csalt_store_decorator_logger_zero_bytes_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
-<tr class="memdesc:a67620b7e12a98073a2d89be6e846a672"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
-<tr class="separator:a67620b7e12a98073a2d89be6e846a672"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa14d49e604d504c09e7efc80d55219a4"><td class="memItemLeft" align="right" valign="top"><a id="aa14d49e604d504c09e7efc80d55219a4"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_log_message_list</b>(array)&#160;&#160;&#160;({ (array), <a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array) })</td></tr>
+<tr class="separator:aa14d49e604d504c09e7efc80d55219a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0554f23b41abbfbcc234ee30e1ec93"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a7f0554f23b41abbfbcc234ee30e1ec93">csalt_store_decorator_logger</a>(store,  fd,  errors,  successes,  zero_bytes)</td></tr>
+<tr class="memdesc:a7f0554f23b41abbfbcc234ee30e1ec93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro taking array arguments directly.  <a href="decoratorstores_8h.html#a7f0554f23b41abbfbcc234ee30e1ec93">More...</a><br /></td></tr>
+<tr class="separator:a7f0554f23b41abbfbcc234ee30e1ec93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a112c806a1b2b0f026e842879040a2ad6"><td class="memItemLeft" align="right" valign="top"><a id="a112c806a1b2b0f026e842879040a2ad6"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a112c806a1b2b0f026e842879040a2ad6">csalt_store_decorator_logger_errors</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#a9aeef02340dd27cf134e91a299a8e536">csalt_store_decorator_logger_error_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
+<tr class="memdesc:a112c806a1b2b0f026e842879040a2ad6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
+<tr class="separator:a112c806a1b2b0f026e842879040a2ad6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8db63c73b94371cb7e556e16267e4467"><td class="memItemLeft" align="right" valign="top"><a id="a8db63c73b94371cb7e556e16267e4467"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a8db63c73b94371cb7e556e16267e4467">csalt_store_decorator_logger_successes</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#af81e39de619f9ea0c716614a6c63e013">csalt_store_decorator_logger_success_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
+<tr class="memdesc:a8db63c73b94371cb7e556e16267e4467"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
+<tr class="separator:a8db63c73b94371cb7e556e16267e4467"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adab56c1db4a0106742d1d7a26b384637"><td class="memItemLeft" align="right" valign="top"><a id="adab56c1db4a0106742d1d7a26b384637"></a>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#adab56c1db4a0106742d1d7a26b384637">csalt_store_decorator_logger_zero_bytes</a>(store,  fd,  array)&#160;&#160;&#160;	(<a class="el" href="decoratorstores_8h.html#a06bbd9de9b532445a83bf9435105182b">csalt_store_decorator_logger_zero_bytes_bounds</a>(store, fd, (array), (<a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(array))))</td></tr>
+<tr class="memdesc:adab56c1db4a0106742d1d7a26b384637"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience wrapper taking an array argument directly. <br /></td></tr>
+<tr class="separator:adab56c1db4a0106742d1d7a26b384637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -152,6 +158,10 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decor
 size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a085b63fc3676c1dbf863ed662fc8b1b5">csalt_store_decorator_size</a> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store)</td></tr>
 <tr class="memdesc:a085b63fc3676c1dbf863ed662fc8b1b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A default size decorator, which takes a <a class="el" href="structcsalt__store__decorator.html">csalt_store_decorator</a> and forwards the call. <br /></td></tr>
 <tr class="separator:a085b63fc3676c1dbf863ed662fc8b1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa224e1cc3567acbc15da2859b95e8e53"><td class="memItemLeft" align="right" valign="top"><a id="aa224e1cc3567acbc15da2859b95e8e53"></a>
+const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#aa224e1cc3567acbc15da2859b95e8e53">csalt_store_log_message_list_get_message</a> (const struct <a class="el" href="structcsalt__store__log__message__list.html">csalt_store_log_message_list</a> *<a class="el" href="structcsalt__resource__list.html">list</a>, void *function)</td></tr>
+<tr class="memdesc:aa224e1cc3567acbc15da2859b95e8e53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Searches a list for a given function and returns the associated message, or 0 if none is found. <br /></td></tr>
+<tr class="separator:aa224e1cc3567acbc15da2859b95e8e53"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad7b1c9cf8789a0145f23c4c32fe8eb2f"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#ad7b1c9cf8789a0145f23c4c32fe8eb2f">csalt_store_decorator_logger_bounds</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, int file_descriptor, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *errors_begin, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *errors_end, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *successes_begin, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *successes_end, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *zero_bytes_begin, const struct <a class="el" href="structcsalt__store__log__message.html">csalt_store_log_message</a> *zero_bytes_end)</td></tr>
 <tr class="memdesc:ad7b1c9cf8789a0145f23c4c32fe8eb2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructore for <a class="el" href="structcsalt__store__decorator__logger.html" title="This object is responsible for wrapping a csalt_store&#39;s functions, checking return values and logging...">csalt_store_decorator_logger</a> which takes the beginning and end boundaries for log_message arrays.  <a href="decoratorstores_8h.html#ad7b1c9cf8789a0145f23c4c32fe8eb2f">More...</a><br /></td></tr>
 <tr class="separator:ad7b1c9cf8789a0145f23c4c32fe8eb2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,14 +192,14 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="d
 <p>The decorator itself, <a class="el" href="structcsalt__store__decorator.html">csalt_store_decorator</a>, can't be instanced. You are intended to include it at the beginning of implementations and configure it yourself. The decorator_* functions are provided as useful defaults for decorators, and they take a <a class="el" href="structcsalt__store__decorator.html">csalt_store_decorator</a> and simply forward the call.</p>
 <p>This file also provides some default store decorators. </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
-<a id="abd36c98883354ca355991a4a293b2364"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abd36c98883354ca355991a4a293b2364">&#9670;&nbsp;</a></span>csalt_store_decorator_logger_arrays</h2>
+<a id="a7f0554f23b41abbfbcc234ee30e1ec93"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0554f23b41abbfbcc234ee30e1ec93">&#9670;&nbsp;</a></span>csalt_store_decorator_logger</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define csalt_store_decorator_logger_arrays</td>
+          <td class="memname">#define <a class="el" href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a></td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">store, </td>

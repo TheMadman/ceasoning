@@ -10,7 +10,8 @@ TESTS = %reldir%/csalt_resource_use\
 	%reldir%/csalt_resource_network_udp_connected\
 	%reldir%/csalt_resource_network_udp_bound\
 	%reldir%/csalt_resource_network_udp_stateless\
-	%reldir%/csalt_store_decorator_logger
+	%reldir%/csalt_store_decorator_logger\
+	%reldir%/csalt_resource_decorator_logger
 
 check_PROGRAMS = $(TESTS)
 LDADD = $(top_builddir)/src/libcsalt.la

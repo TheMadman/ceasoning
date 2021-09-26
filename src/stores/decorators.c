@@ -146,12 +146,18 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_zero_bytes_boun
 
 typedef struct csalt_store_decorator_logger csalt_logger;
 
-static const char *message_for_function(const csalt_logger *logger, int log_type, void *function)
+const char *csalt_store_log_message_list_get_message(
+	const struct csalt_store_log_message_list *list,
+	void *function
+)
 {
+	if (!list->begin)
+		return 0;
+
 	for (
 		const struct csalt_store_log_message
-			*current = logger->message_lists[log_type].begin,
-			*end = logger->message_lists[log_type].end;
+			*current = list->begin,
+			*end = list->end;
 		current < end;
 		current++
 	) {
@@ -160,6 +166,18 @@ static const char *message_for_function(const csalt_logger *logger, int log_type
 	}
 
 	return 0;
+}
+
+static const char *message_for_function(
+	const csalt_logger *logger,
+	int log_type,
+	void *function
+)
+{
+	return csalt_store_log_message_list_get_message(
+		&logger->message_lists[log_type],
+		function
+	);
 }
 
 #define READ_WRITE_FORMAT_STR "%s: %s(%p, %p, %lu) -> %ld\n"
@@ -171,7 +189,12 @@ ssize_t csalt_store_decorator_logger_read(const csalt_store *store, void *buffer
 	ssize_t result = csalt_store_read(decorated, buffer, bytes);
 
 	if (result < 0) {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_ERROR, csalt_store_read);
+		const char *custom_message = message_for_function(
+			logger,
+			LOG_TYPE_ERROR,
+			csalt_store_read
+		);
+
 		if (!custom_message)
 			return result;
 

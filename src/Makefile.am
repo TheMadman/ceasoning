@@ -8,7 +8,8 @@ csaltinclude_HEADERS = %reldir%/csalt/util.h\
 		       %reldir%/csalt/compositeresources.h\
 		       %reldir%/platforms/posix/csalt/platform/socket.h\
 		       %reldir%/csalt/networkresources.h\
-		       %reldir%/csalt/decoratorstores.h
+		       %reldir%/csalt/decoratorstores.h\
+		       %reldir%/csalt/decoratorresources.h
 
 lib_LTLIBRARIES = %reldir%/libcsalt.la
 
@@ -27,5 +28,7 @@ lib_LTLIBRARIES = %reldir%/libcsalt.la
 	%reldir%/resources/network.c\
 	%reldir%/csalt/networkresources.h\
 	%reldir%/stores/decorators.c\
-	%reldir%/csalt/decoratorstores.h
+	%reldir%/csalt/decoratorstores.h\
+	%reldir%/resources/decorators.c\
+	%reldir%/csalt/decoratorresources.h
 

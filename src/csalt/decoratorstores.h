@@ -92,6 +92,22 @@ struct csalt_store_log_message {
 	const char *message;
 };
 
+struct csalt_store_log_message_list {
+	const struct csalt_store_log_message *begin;
+	const struct csalt_store_log_message *end;
+};
+
+#define csalt_store_log_message_list(array) ({ (array), arrend(array) })
+
+/**
+ * \brief Searches a list for a given function and returns
+ * 	the associated message, or 0 if none is found.
+ */
+const char *csalt_store_log_message_list_get_message(
+	const struct csalt_store_log_message_list *list,
+	void *function
+);
+
 /**
  * \brief This object is responsible for wrapping a csalt_store's
  * functions, checking return values and logging messages.
@@ -135,10 +151,7 @@ struct csalt_store_log_message {
 struct csalt_store_decorator_logger {
 	struct csalt_store_decorator decorator;
 	int file_descriptor;
-	struct {
-		const struct csalt_store_log_message *begin;
-		const struct csalt_store_log_message *end;
-	} message_lists[3];
+	struct csalt_store_log_message_list message_lists[3];
 };
 
 /**
@@ -162,7 +175,7 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_bounds(
 /**
  * \brief Convenience macro taking array arguments directly
  */
-#define csalt_store_decorator_logger_arrays(store, fd, errors, successes, zero_bytes) \
+#define csalt_store_decorator_logger(store, fd, errors, successes, zero_bytes) \
 	(csalt_store_decorator_logger_bounds( \
 		store, \
 		fd, \
@@ -188,7 +201,7 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_error_bounds(
 /**
  * \brief Convenience wrapper taking an array argument directly
  */
-#define csalt_store_decorator_logger_error_array(store, fd, array) \
+#define csalt_store_decorator_logger_errors(store, fd, array) \
 	(csalt_store_decorator_logger_error_bounds(store, fd, (array), (arrend(array))))
 
 
@@ -206,7 +219,7 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_success_bounds(
 /**
  * \brief Convenience wrapper taking an array argument directly
  */
-#define csalt_store_decorator_logger_success_array(store, fd, array) \
+#define csalt_store_decorator_logger_successes(store, fd, array) \
 	(csalt_store_decorator_logger_success_bounds(store, fd, (array), (arrend(array))))
 
 /**
@@ -223,7 +236,7 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_zero_bytes_boun
 /**
  * \brief Convenience wrapper taking an array argument directly
  */
-#define csalt_store_decorator_logger_zero_bytes_array(store, fd, array) \
+#define csalt_store_decorator_logger_zero_bytes(store, fd, array) \
 	(csalt_store_decorator_logger_zero_bytes_bounds(store, fd, (array), (arrend(array))))
 
 /**

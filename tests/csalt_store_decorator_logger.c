@@ -7,58 +7,6 @@
 
 #include "test_macros.h"
 
-struct csalt_store_stub {
-	struct csalt_store_interface *vtable;
-	size_t size;
-};
-
-
-ssize_t csalt_store_stub_read(const csalt_store *store, void *data, size_t amount)
-{
-	(void)store;
-	(void)data;
-	return amount;
-}
-
-ssize_t csalt_store_stub_write(csalt_store *store, const void *data, size_t amount)
-{
-	(void)store;
-	(void)data;
-	return amount;
-}
-
-size_t csalt_store_stub_size(const csalt_store *store)
-{
-	const struct csalt_store_stub *stub = (void *)store;
-	return stub->size;
-}
-
-int csalt_store_stub_split(
-	csalt_store *store,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-)
-{
-	return block(store, data);
-}
-
-struct csalt_store_interface csalt_store_stub_interface = {
-	csalt_store_stub_read,
-	csalt_store_stub_write,
-	csalt_store_stub_size,
-	csalt_store_stub_split
-};
-
-struct csalt_store_stub csalt_store_stub(size_t size)
-{
-	struct csalt_store_stub result = {
-		&csalt_store_stub_interface,
-		size
-	};
-	return result;
-}
 
 #define LOG_LABEL_READ_ERROR "stub read failed"
 #define LOG_LABEL_WRITE_ERROR "stub write failed"
@@ -99,7 +47,7 @@ int main()
 	};
 
 	struct csalt_store_decorator_logger logger =
-		csalt_store_decorator_logger_arrays(
+		csalt_store_decorator_logger(
 			(csalt_store *)&stub,
 			write_fd,
 			errors,

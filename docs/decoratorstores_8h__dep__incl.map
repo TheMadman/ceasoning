@@ -1,9 +1,10 @@
 <map id="csalt/decoratorstores.h" name="csalt/decoratorstores.h">
-<area shape="rect" id="node1" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="347,5,517,32"/>
-<area shape="rect" id="node2" href="$stores_8h_source.html" title=" " alt="" coords="377,80,487,107"/>
-<area shape="rect" id="node3" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="292,155,455,181"/>
-<area shape="rect" id="node6" href="$fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="490,229,635,256"/>
-<area shape="rect" id="node4" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,229,205,256"/>
-<area shape="rect" id="node5" href="$resources_8h_source.html" title=" " alt="" coords="242,304,374,331"/>
-<area shape="rect" id="node7" href="$networkresources_8h.html" title="Provides resources for networking." alt="" coords="281,229,466,256"/>
+<area shape="rect" id="node1" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="196,5,367,32"/>
+<area shape="rect" id="node2" href="$decoratorresources_8h.html" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="5,229,200,256"/>
+<area shape="rect" id="node3" href="$stores_8h_source.html" title=" " alt="" coords="407,80,516,107"/>
+<area shape="rect" id="node4" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="380,155,543,181"/>
+<area shape="rect" id="node7" href="$fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="709,229,854,256"/>
+<area shape="rect" id="node5" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="224,229,424,256"/>
+<area shape="rect" id="node6" href="$resources_8h_source.html" title=" " alt="" coords="461,304,593,331"/>
+<area shape="rect" id="node8" href="$networkresources_8h.html" title="Provides resources for networking." alt="" coords="499,229,685,256"/>
 </map>

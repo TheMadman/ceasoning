@@ -102,7 +102,8 @@ TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_network_udp_connected$(EXEEXT) \
 	tests/csalt_resource_network_udp_bound$(EXEEXT) \
 	tests/csalt_resource_network_udp_stateless$(EXEEXT) \
-	tests/csalt_store_decorator_logger$(EXEEXT)
+	tests/csalt_store_decorator_logger$(EXEEXT) \
+	tests/csalt_resource_decorator_logger$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -133,7 +134,8 @@ am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_network_udp_connected$(EXEEXT) \
 	tests/csalt_resource_network_udp_bound$(EXEEXT) \
 	tests/csalt_resource_network_udp_stateless$(EXEEXT) \
-	tests/csalt_store_decorator_logger$(EXEEXT)
+	tests/csalt_store_decorator_logger$(EXEEXT) \
+	tests/csalt_resource_decorator_logger$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -170,7 +172,7 @@ am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
 	src/stores/stores.lo src/resources/file.lo \
 	src/stores/compositestores.lo \
 	src/resources/compositeresources.lo src/resources/network.lo \
-	src/stores/decorators.lo
+	src/stores/decorators.lo src/resources/decorators.lo
 src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -187,6 +189,13 @@ tests_csalt_memory_resource_OBJECTS =  \
 	tests/csalt_memory_resource.$(OBJEXT)
 tests_csalt_memory_resource_LDADD = $(LDADD)
 tests_csalt_memory_resource_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_decorator_logger_SOURCES =  \
+	tests/csalt_resource_decorator_logger.c
+tests_csalt_resource_decorator_logger_OBJECTS =  \
+	tests/csalt_resource_decorator_logger.$(OBJEXT)
+tests_csalt_resource_decorator_logger_LDADD = $(LDADD)
+tests_csalt_resource_decorator_logger_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_first_SOURCES = tests/csalt_resource_first.c
 tests_csalt_resource_first_OBJECTS =  \
@@ -270,6 +279,7 @@ DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
+	src/resources/$(DEPDIR)/decorators.Plo \
 	src/resources/$(DEPDIR)/file.Plo \
 	src/resources/$(DEPDIR)/network.Plo \
 	src/resources/$(DEPDIR)/resources.Plo \
@@ -278,6 +288,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	src/stores/$(DEPDIR)/stores.Plo \
 	tests/$(DEPDIR)/csalt_file_resource.Po \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
+	tests/$(DEPDIR)/csalt_resource_decorator_logger.Po \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
 	tests/$(DEPDIR)/csalt_resource_list.Po \
 	tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po \
@@ -309,8 +320,9 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
-	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c \
+	tests/csalt_memory_resource.c \
+	tests/csalt_resource_decorator_logger.c \
+	tests/csalt_resource_first.c tests/csalt_resource_list.c \
 	tests/csalt_resource_network_udp_bound.c \
 	tests/csalt_resource_network_udp_connected.c \
 	tests/csalt_resource_network_udp_stateless.c \
@@ -319,8 +331,9 @@ SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_store_fallback.c tests/csalt_store_list.c \
 	tests/csalt_store_split.c tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
-	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c \
+	tests/csalt_memory_resource.c \
+	tests/csalt_resource_decorator_logger.c \
+	tests/csalt_resource_first.c tests/csalt_resource_list.c \
 	tests/csalt_resource_network_udp_bound.c \
 	tests/csalt_resource_network_udp_connected.c \
 	tests/csalt_resource_network_udp_stateless.c \
@@ -688,7 +701,8 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/compositeresources.h\
 		       src/platforms/posix/csalt/platform/socket.h\
 		       src/csalt/networkresources.h\
-		       src/csalt/decoratorstores.h
+		       src/csalt/decoratorstores.h\
+		       src/csalt/decoratorresources.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\
@@ -706,7 +720,9 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/resources/network.c\
 	src/csalt/networkresources.h\
 	src/stores/decorators.c\
-	src/csalt/decoratorstores.h
+	src/csalt/decoratorstores.h\
+	src/resources/decorators.c\
+	src/csalt/decoratorresources.h
 
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
@@ -834,6 +850,8 @@ src/resources/network.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/stores/decorators.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
+src/resources/decorators.lo: src/resources/$(am__dirstamp) \
+	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -858,6 +876,12 @@ tests/csalt_memory_resource.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_memory_resource$(EXEEXT): $(tests_csalt_memory_resource_OBJECTS) $(tests_csalt_memory_resource_DEPENDENCIES) $(EXTRA_tests_csalt_memory_resource_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_memory_resource$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_memory_resource_OBJECTS) $(tests_csalt_memory_resource_LDADD) $(LIBS)
+tests/csalt_resource_decorator_logger.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_decorator_logger$(EXEEXT): $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_DEPENDENCIES) $(EXTRA_tests_csalt_resource_decorator_logger_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_decorator_logger$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_LDADD) $(LIBS)
 tests/csalt_resource_first.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -937,6 +961,7 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/compositeresources.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/decorators.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/network.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/resources.Plo@am__quote@ # am--include-marker
@@ -945,6 +970,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/stores.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_file_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_decorator_logger.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_list.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po@am__quote@ # am--include-marker
@@ -1333,6 +1359,13 @@ tests/csalt_store_decorator_logger.log: tests/csalt_store_decorator_logger$(EXEE
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_decorator_logger.log: tests/csalt_resource_decorator_logger$(EXEEXT)
+	@p='tests/csalt_resource_decorator_logger$(EXEEXT)'; \
+	b='tests/csalt_resource_decorator_logger'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1571,6 +1604,7 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
+	-rm -f src/resources/$(DEPDIR)/decorators.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
@@ -1579,6 +1613,7 @@ distclean: distclean-am
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
@@ -1638,6 +1673,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
 		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
+	-rm -f src/resources/$(DEPDIR)/decorators.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/network.Plo
 	-rm -f src/resources/$(DEPDIR)/resources.Plo
@@ -1646,6 +1682,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/stores/$(DEPDIR)/stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
