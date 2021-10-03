@@ -29,7 +29,7 @@ int use_list(csalt_store *store, void *params)
 	ssize_t read_amount = 0;
 	while (read_amount < arrlength(payload)) {
 		ssize_t current_read = csalt_resource_recvfrom(
-			(csalt_resource_network *)bound,
+			bound,
 			recv_result,
 			arrlength(recv_result),
 			0,
@@ -94,7 +94,7 @@ int main()
 		(csalt_resource *)&connected,
 	};
 
-	csalt_resource_initialized *buffer[arrlength(array)] = { 0 };
+	csalt_store *buffer[arrlength(array)] = { 0 };
 
 	struct csalt_resource_list list = csalt_resource_list_array(array, buffer);
 

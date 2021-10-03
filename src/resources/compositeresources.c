@@ -8,40 +8,29 @@ typedef struct csalt_resource_list_initialized list_initialized;
 
 static struct csalt_resource_interface csalt_resource_list_implementation = {
 	csalt_resource_list_init,
-};
-
-static struct csalt_resource_initialized_interface csalt_resource_list_init_implementation = {
-	{
-		csalt_store_list_read,
-		csalt_store_list_write,
-		csalt_store_list_size,
-		csalt_store_list_split,
-	},
 	csalt_resource_list_deinit,
 };
 
 struct csalt_resource_list csalt_resource_list_bounds(
 	csalt_resource **begin,
 	csalt_resource **end,
-	csalt_resource_initialized **buffer_begin,
-	csalt_resource_initialized **buffer_end
+	csalt_store **buffer_begin,
+	csalt_store **buffer_end
 )
 {
 	struct csalt_resource_list result = { 0 };
 	result.vtable = &csalt_resource_list_implementation;
 	result.begin = begin;
 	result.end = end;
-	result.list.vtable = &csalt_resource_list_init_implementation;
-	result.list.parent.begin = (csalt_store **)buffer_begin;
-	result.list.parent.end = (csalt_store **)buffer_end;
+	result.list = csalt_store_list_bounds(buffer_begin, buffer_end);
 	return result;
 }
 
 int csalt_resource_list_init_real(
 	csalt_resource **current,
 	csalt_resource **end,
-	csalt_resource_initialized **buffer_current,
-	csalt_resource_initialized **buffer_end
+	csalt_store **buffer_current,
+	csalt_store **buffer_end
 )
 {
 	if (current == end)
@@ -57,36 +46,31 @@ int csalt_resource_list_init_real(
 			buffer_end
 		)
 	) {
-		csalt_resource_deinit(*buffer_current);
+		csalt_resource_deinit(*current);
 		return -1;
 	}
 	return 0;
 }
 
-size_t csalt_resource_list_length(struct csalt_resource_list_initialized *list)
-{
-	return list->parent.end - list->parent.begin;
-}
-
-csalt_resource_initialized *csalt_resource_list_init(csalt_resource *resource)
+csalt_store *csalt_resource_list_init(csalt_resource *resource)
 {
 	struct csalt_resource_list *list = castto(list, resource);
 	csalt_resource **current = list->begin;
 	csalt_resource **end = list->end;
-	csalt_resource_initialized **buffer_current = castto(buffer_current, list->list.parent.begin);
-	csalt_resource_initialized **buffer_end = castto(buffer_end, list->list.parent.end);
+	csalt_store **buffer_current = list->list.begin;
+	csalt_store **buffer_end = list->list.end;
 	if (csalt_resource_list_init_real(current, end, buffer_current, buffer_end))
 		return 0;
-	return (csalt_resource_initialized *)&list->list;
+	return (csalt_store *)&list->list;
 }
 
-void csalt_resource_list_deinit(csalt_resource_initialized *resource)
+void csalt_resource_list_deinit(csalt_resource *resource)
 {
-	struct csalt_resource_list_initialized *list = castto(list, resource);
+	struct csalt_resource_list *list = (struct csalt_resource_list *)resource;
 	for (
-		csalt_resource_initialized
-			**current = castto(current, list->parent.begin),
-			**end = castto(current, list->parent.end);
+		csalt_resource
+			**current = list->begin,
+			**end = list->end;
 		current < end;
 		current++
 	) {
@@ -111,23 +95,16 @@ int csalt_resource_list_receive_split(
 	return block(csalt_store(list), data);
 }
 
-static struct csalt_resource_initialized_interface csalt_resource_fallback_init_implementation = {
-	{
-		csalt_store_fallback_read,
-		csalt_store_fallback_write,
-		csalt_store_fallback_size,
-		csalt_store_fallback_split,
-	},
-	csalt_resource_list_deinit,
-};
-
 static struct csalt_resource_interface csalt_resource_fallback_implementation = {
 	csalt_resource_fallback_init,
+	csalt_resource_fallback_deinit,
 };
 
 struct csalt_resource_fallback csalt_resource_fallback_bounds(
 	csalt_resource **begin,
-	csalt_resource **end
+	csalt_resource **end,
+	csalt_store **buffer_begin,
+	csalt_store **buffer_end
 )
 {
 	struct csalt_resource_fallback result = { 0 };
@@ -135,29 +112,41 @@ struct csalt_resource_fallback csalt_resource_fallback_bounds(
 	result.end = end;
 	result.vtable = &csalt_resource_fallback_implementation;
 
-	result.fallback.vtable = &csalt_resource_fallback_init_implementation;
+	result.fallback = csalt_store_fallback_bounds(buffer_begin, buffer_end);
 
 	return result;
 }
 
-csalt_resource_initialized *csalt_resource_fallback_init(csalt_resource *resource)
+csalt_store *csalt_resource_fallback_init(csalt_resource *resource)
 {
-	struct csalt_resource_fallback *fallback = castto(fallback, resource);
+	struct csalt_resource_fallback *fallback = (void *)resource;
 	csalt_resource **current = fallback->begin;
 	csalt_resource **end = fallback->end;
-	csalt_resource_initialized **buffer_current = castto(buffer_current, fallback->fallback.parent.list.begin);
-	csalt_resource_initialized **buffer_end = castto(buffer_end, fallback->fallback.parent.list.end);
+	csalt_store **buffer_current = castto(buffer_current, fallback->fallback.list.begin);
+	csalt_store **buffer_end = castto(buffer_end, fallback->fallback.list.end);
 
 	if (csalt_resource_list_init_real(current, end, buffer_current, buffer_end))
 		return 0;
-	return (csalt_resource_initialized *)&fallback->fallback;
+	return (csalt_store *)&fallback->fallback;
 }
 
-// the csalt_resource_first doesn't actually need to split every resource,
-// so the regular resource interface will do
+void csalt_resource_fallback_deinit(csalt_resource *resource)
+{
+	struct csalt_resource_fallback *fallback = (void *)resource;
+	for (
+		csalt_resource
+			**current = fallback->begin,
+			**end = fallback->end;
+		current < end;
+		current++
+	) {
+		csalt_resource_deinit(*current);
+	}
+}
 
 static struct csalt_resource_interface csalt_resource_first_implementation = {
 	csalt_resource_first_init,
+	csalt_resource_first_deinit,
 };
 
 struct csalt_resource_first csalt_resource_first_bounds(
@@ -173,9 +162,9 @@ struct csalt_resource_first csalt_resource_first_bounds(
 	return result;
 }
 
-csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource)
+csalt_store *csalt_resource_first_init(csalt_resource *resource)
 {
-	struct csalt_resource_first *first = castto(first, resource);
+	struct csalt_resource_first *first = (void *)resource;
 
 	for (
 		csalt_resource
@@ -184,12 +173,22 @@ csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource)
 		current < end;
 		current++
 	) {
-		csalt_resource_initialized *result = csalt_resource_init(*current);
+		csalt_store *result = csalt_resource_init(*current);
 		if (result) {
+			first->returned = *current;
 			return result;
 		}
 	}
 
 	return 0;
+}
+
+void csalt_resource_first_deinit(csalt_resource *resource)
+{
+	struct csalt_resource_first *first = (void *)resource;
+	if (first->returned) {
+		csalt_resource_deinit(first->returned);
+		first->returned = 0;
+	}
 }
 

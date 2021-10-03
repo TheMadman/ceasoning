@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
+#include <errno.h>
 
 #include "csalt/util.h"
 
@@ -314,13 +315,13 @@ typedef struct csalt_store_file_descriptor csalt_fd;
 csalt_fd csalt_store_file_descriptor(int fd)
 {
 	off_t seek_end = lseek(fd, 0, SEEK_END);
+	off_t seek_begin = lseek(fd, 0, SEEK_SET);
 	csalt_fd result = {
 		&file_descriptor_interface,
 		fd,
+		max(seek_begin, 0),
 		max(seek_end, 0),
 	};
-
-	lseek(fd, 0, SEEK_SET);
 
 	return result;
 }
@@ -328,28 +329,29 @@ csalt_fd csalt_store_file_descriptor(int fd)
 ssize_t csalt_store_file_descriptor_read(const csalt_store *store, void *buffer, size_t bytes)
 {
 	const csalt_fd *file = (csalt_fd *)store;
-	return read(file->fd, buffer, bytes);
+	ssize_t result = read(file->fd, buffer, bytes);
+	if (result < 0 && (errno & (EWOULDBLOCK | EAGAIN))) {
+		result = 0;
+	}
+	return result;
 }
 
 ssize_t csalt_store_file_descriptor_write(csalt_store *store, const void *buffer, size_t bytes)
 {
 	csalt_fd *file = (csalt_fd *)store;
-	return write(file->fd, buffer, bytes);
+	ssize_t result = write(file->fd, buffer, bytes);
+	if (result < 0 && (errno & (EWOULDBLOCK | EAGAIN))) {
+		result = 0;
+	} else if (file->begin + result > file->end) {
+		file->end = max(lseek(file->fd, 0, SEEK_END), 0);
+	}
+	return result;
 }
 
 size_t csalt_store_file_descriptor_size(const csalt_store *store)
 {
-	// probably racy
 	const csalt_fd *file = (const csalt_fd *)store;
-	off_t current = max(lseek(file->fd, 0, SEEK_CUR), 0);
-
-	// in the case that the file was "split", we only want
-	// to report the size from the current split beginning
-	// (I.E. the current seek offset) to the current split end
-	off_t result = file->split_end - current;
-	lseek(file->fd, current, SEEK_SET);
-
-	return result;
+	return file->end - file->begin;
 }
 
 int csalt_store_file_descriptor_split(
@@ -362,11 +364,20 @@ int csalt_store_file_descriptor_split(
 {
 	csalt_fd *fd = (csalt_fd *)store;
 	off_t current = max(lseek(fd->fd, 0, SEEK_CUR), 0);
-	max(lseek(fd->fd, current + begin, SEEK_SET), 0);
+	size_t new_begin = current + begin;
+	size_t new_end = min(new_begin + end, fd->end);
+	max(lseek(fd->fd, new_begin, SEEK_SET), 0);
 
-	// Any reason to create a new csalt_fd on the stack?
-	// Can't think of one
-	int result = block(store, param);
+	csalt_fd new_fd = { fd->vtable, fd->fd, new_begin, new_end };
+	csalt_store *new_store = (csalt_store *)&new_fd;
+
+	int result = block(new_store, param);
+
+	if (new_fd.end > fd->end) {
+		// data written past the previous end of the file,
+		// update current file
+		fd->end = max(lseek(fd->fd, 0, SEEK_END), 0);
+	}
 
 	lseek(fd->fd, current, SEEK_SET);
 	return result;

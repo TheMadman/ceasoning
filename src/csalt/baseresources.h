@@ -26,17 +26,31 @@ extern "C" {
 #endif
 
 struct csalt_resource_interface;
-struct csalt_resource_initialized_interface;
 struct csalt_memory;
 
 /**
  * \brief Represents a "wish to fulfill" a request for a resource.
  *
- * The csalt_resource interface only includes a single
- * function - csalt_resource_initialize() - which attempts
- * to initialize the resource, and returns either a
- * pointer to csalt_resource_initialized on success or
- * a NULL pointer on failure.
+ * The csalt_resource interface includes a function for
+ * initializing a store and a function for deinitializing
+ * a store. csalt_resource_init() attempts to fulfill a
+ * request for a resource from the system, returning a
+ * pointer to a csalt_store on success or a null pointer
+ * on failure.
+ *
+ * csalt_resource_deinit() takes a resource which has already
+ * had csalt_resource_init() called on it and returns the
+ * resource to the operating system. The csalt_store which
+ * was returned by csalt_resource_init() is invalid, and
+ * attempting to use it is undefined behaviour (for obvious
+ * reasons - writing to a heap after it's freed, or a file
+ * descriptor after it has closed, etc.)
+ *
+ * The recommended way to manage resource life-cycles is
+ * by passing them to the csalt_resource_use() function,
+ * which will initialize the resource, test the store,
+ * pass it to your function and deinitialize the resource
+ * after.
  *
  * To create custom structs which can manage resources,
  * use a struct csalt_resource_interface* as the first
@@ -46,30 +60,16 @@ struct csalt_memory;
  * pointer; casting a pointer to your custom struct to
  * a (csalt_resource *) will allow you to use it in those
  * functions.
- *
- * \see csalt_resource_initialized
  */
 typedef struct csalt_resource_interface *csalt_resource;
-
-/**
- * \brief Represents a successfully initialized resource, which
- * 	implements the csalt_store interface and the
- * 	csalt_resource_deinit() function.
- *
- * To create custom structs which can operate on initialized
- * resources, use a struct csalt_resource_initialized_interface*
- * as the first member.
- *
- */
-typedef struct csalt_resource_initialized_interface *csalt_resource_initialized;
 
 /**
  * Function type for initializing the test on first use,
  * allows lazy evaluation of resources
  */
-typedef csalt_resource_initialized *csalt_resource_init_fn(csalt_resource *resource);
+typedef csalt_store *csalt_resource_init_fn(csalt_resource *resource);
 
-typedef void csalt_resource_deinit_fn(csalt_resource_initialized *resource);
+typedef void csalt_resource_deinit_fn(csalt_resource *resource);
 
 /**
  * \brief Interface definition for managed resources.
@@ -84,37 +84,22 @@ typedef void csalt_resource_deinit_fn(csalt_resource_initialized *resource);
  */
 struct csalt_resource_interface {
 	csalt_resource_init_fn *init;
-};
-
-/**
- * \brief Interface definition for initialized resources.
- *
- * Structs with a pointer-to-initialized-resource-interface
- * as their first member can be passed to initialized resource
- * functions with a simple cast.
- *
- * Structs implementing this interface should only ever
- * be returned as a consiquence of passing a csalt_resource
- * to csalt_resource_init().
- */
-struct csalt_resource_initialized_interface {
-	struct csalt_store_interface parent;
 	csalt_resource_deinit_fn *deinit;
 };
 
 /**
  * \brief Initializes a resource
  */
-csalt_resource_initialized *csalt_resource_init(csalt_resource *);
+csalt_store *csalt_resource_init(csalt_resource *);
 
 /**
  * \brief Cleans up the resource. The resource is set
  * to an invalid value after run.
  */
-void csalt_resource_deinit(csalt_resource_initialized *);
+void csalt_resource_deinit(csalt_resource *);
 
 /**
- * A noop for init
+ * \brief A noop for init, returning null
  */
 void csalt_noop_init(csalt_resource *_);
 
@@ -136,14 +121,10 @@ void csalt_noop_deinit(csalt_resource *_);
  * element in csalt_store_fallback with ease.
  */
 struct csalt_heap_initialized {
-	union {
-		struct csalt_resource_initialized_interface *vtable;
-		struct {
-			struct csalt_memory parent;
-			size_t size;
-			size_t amount_written;
-		};
-	};
+	struct csalt_store_interface *vtable;
+	struct csalt_memory memory;
+	size_t size;
+	size_t amount_written;
 };
 
 /**

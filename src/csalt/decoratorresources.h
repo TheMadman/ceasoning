@@ -14,12 +14,12 @@
 /**
  * \brief Default forwarding function for initializing a resource.
  */
-csalt_resource_initialized *csalt_resource_decorator_init(csalt_resource *);
+csalt_store *csalt_resource_decorator_init(csalt_resource *);
 
 /**
  * \brief Default fowarding function for deinitializing a resource.
  */
-void csalt_resource_decorator_deinit(csalt_resource_initialized *);
+void csalt_resource_decorator_deinit(csalt_resource *);
 
 struct csalt_resource_decorator {
 	const struct csalt_resource_interface *vtable;
@@ -164,6 +164,6 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_byte
 		arrend(successs_array) \
 	)
 
-csalt_resource_initialized *csalt_resource_decorator_logger_init(csalt_resource *);
+csalt_store *csalt_resource_decorator_logger_init(csalt_resource *);
 
 #endif // DECORATORRESOURCES_H

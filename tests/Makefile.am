@@ -15,4 +15,5 @@ TESTS = %reldir%/csalt_resource_use\
 	%reldir%/csalt_resource_decorator_logger
 
 check_PROGRAMS = $(TESTS)
+check_CFLAGS = --coverage
 LDADD = $(top_builddir)/src/libcsalt.la

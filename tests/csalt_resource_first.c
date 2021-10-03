@@ -14,9 +14,9 @@ int use(csalt_store *resource, void *param)
 
 	struct csalt_heap **array = param;
 	void
-		*heap1 = array[0]->heap.parent.begin,
-		*heap2 = array[1]->heap.parent.begin,
-		*heap3 = array[2]->heap.parent.begin;
+		*heap1 = array[0]->heap.memory.begin,
+		*heap2 = array[1]->heap.memory.begin,
+		*heap3 = array[2]->heap.memory.begin;
 
 	if (heap1) {
 		print_error("heap1 was initialized when it shouldn't have been");

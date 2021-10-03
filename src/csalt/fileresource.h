@@ -48,7 +48,7 @@ struct csalt_resource_file {
 	const char *filename;
 	int flags;
 	int mode;
-	struct csalt_resource_file_initialized file;
+	struct csalt_store_file_descriptor file;
 };
 
 ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t size);
@@ -65,9 +65,9 @@ int csalt_resource_file_split(
 	void *data
 );
 
-csalt_resource_initialized *csalt_resource_file_init(csalt_resource *resource);
+csalt_store *csalt_resource_file_init(csalt_resource *resource);
 
-void csalt_resource_file_deinit(csalt_resource_initialized *resource);
+void csalt_resource_file_deinit(csalt_resource *resource);
 
 /**
  * Creates a file resource with the given path and flags. The flags

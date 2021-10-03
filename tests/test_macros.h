@@ -68,7 +68,7 @@ struct csalt_store_stub csalt_store_stub(size_t size)
 	return result;
 }
 
-csalt_resource_initialized *csalt_resource_stub_init_fail(csalt_resource *resource)
+csalt_store *csalt_resource_stub_init_fail(csalt_resource *resource)
 {
 	(void)resource;
 	return 0;
@@ -80,34 +80,22 @@ struct csalt_resource_interface csalt_resource_stub_fail_implementation = {
 
 struct csalt_resource_stub {
 	struct csalt_resource_interface *vtable;
-	union {
-		struct csalt_resource_initialized_interface *return_value_vtable;
-		struct csalt_store_stub return_value;
-	};
+	struct csalt_store_stub return_value;
 };
 
-csalt_resource_initialized *csalt_resource_stub_init_success(csalt_resource *resource)
+csalt_store *csalt_resource_stub_init_success(csalt_resource *resource)
 {
 	struct csalt_resource_stub *stub = (void *)resource;
-	return &stub->return_value_vtable;
+	return (csalt_store *)&stub->return_value;
 }
 
-void csalt_resource_stub_deinit(csalt_resource_initialized *resource)
+void csalt_resource_stub_deinit(csalt_resource *resource)
 {
 	(void)resource;
 }
 
 struct csalt_resource_interface csalt_resource_stub_succeed_implementation = {
 	csalt_resource_stub_init_success,
-};
-
-struct csalt_resource_initialized_interface csalt_resource_stub_initialized_implementation = {
-	{
-		csalt_store_stub_read,
-		csalt_store_stub_write,
-		csalt_store_stub_size,
-		csalt_store_stub_split,
-	},
 	csalt_resource_stub_deinit,
 };
 
@@ -115,12 +103,8 @@ struct csalt_resource_stub csalt_resource_stub(size_t size)
 {
 	struct csalt_resource_stub result = {
 		&csalt_resource_stub_succeed_implementation,
-		{
-			.return_value = csalt_store_stub(size),
-		},
+		csalt_store_stub(size),
 	};
-
-	result.return_value_vtable = &csalt_resource_stub_initialized_implementation;
 
 	return result;
 }

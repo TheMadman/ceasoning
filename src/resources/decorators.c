@@ -4,13 +4,13 @@
 #include <string.h>
 #include <stdio.h>
 
-csalt_resource_initialized *csalt_resource_decorator_init(csalt_resource *resource)
+csalt_store *csalt_resource_decorator_init(csalt_resource *resource)
 {
 	struct csalt_resource_decorator *decorator = (void *)resource;
 	return csalt_resource_init(decorator->child);
 }
 
-void csalt_resource_decorator_deinit(csalt_resource_initialized *resource)
+void csalt_resource_decorator_deinit(csalt_resource *resource)
 {
 	struct csalt_resource_decorator *decorator = (void *)resource;
 	return csalt_resource_deinit((void *)decorator->child);
@@ -20,16 +20,14 @@ typedef struct csalt_resource_decorator_logger csalt_logger;
 
 struct csalt_resource_interface logger_implementation = {
 	csalt_resource_decorator_logger_init,
+	csalt_resource_decorator_deinit,
 };
 
-struct csalt_resource_initialized_interface logger_initialized_implementation = {
-	{
-		csalt_store_decorator_logger_read,
-		csalt_store_decorator_logger_write,
-		csalt_store_decorator_size,
-		csalt_store_decorator_split,
-	},
-	csalt_resource_decorator_deinit,
+struct csalt_store_interface logger_initialized_implementation = {
+	csalt_store_decorator_logger_read,
+	csalt_store_decorator_logger_write,
+	csalt_store_decorator_size,
+	csalt_store_decorator_split,
 };
 
 struct csalt_resource_decorator_logger csalt_resource_decorator_logger_bounds(
@@ -50,7 +48,7 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_bounds(
 	       	},
 		{
 			{
-				&logger_initialized_implementation.parent,
+				&logger_initialized_implementation,
 				0,
 			},
 			file_descriptor,
@@ -119,12 +117,12 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_byte
 	);
 }
 
-csalt_resource_initialized *csalt_resource_decorator_logger_init(csalt_resource *resource)
+csalt_store *csalt_resource_decorator_logger_init(csalt_resource *resource)
 {
 	int old_errno = errno;
 	errno = 0;
 	csalt_logger *logger = (csalt_logger *)resource;
-	csalt_resource_initialized *initialized_child = csalt_resource_init(logger->decorator.child);
+	csalt_store *initialized_child = csalt_resource_init(logger->decorator.child);
 	if (!initialized_child) {
 		const char *message = csalt_store_log_message_list_get_message(
 			&logger->store_logger.message_lists[0],
@@ -176,7 +174,7 @@ csalt_resource_initialized *csalt_resource_decorator_logger_init(csalt_resource 
 	logger->store_logger.decorator.child = (csalt_store *)initialized_child;
 
 	errno = old_errno;
-	return (csalt_resource_initialized *)&logger->store_logger;
+	return (csalt_store *)&logger->store_logger;
 
 ERROR_WITH_MESSAGE:
 ERROR_NO_MESSAGE:

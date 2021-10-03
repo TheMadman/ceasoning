@@ -8,25 +8,23 @@
 
 // Memory resource functions
 static struct csalt_resource_interface heap_implementation;
-static struct csalt_resource_initialized_interface heap_initialized_implementation;
 
 ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
 {
-	ssize_t written = csalt_memory_write(store, buffer, size);
+	struct csalt_heap_initialized *heap = (void *)store;
+	ssize_t written = csalt_memory_write((csalt_store *)&heap->memory, buffer, size);
 	if (written < 0)
 		return -1;
-
-	struct csalt_heap_initialized *heap = castto(heap, store);
 	heap->amount_written = max(heap->amount_written, written);
 	return written;
 }
 
 ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
 {
-	struct csalt_heap_initialized *heap = castto(heap, store);
+	struct csalt_heap_initialized *heap = (void *)store;
 	size = min(size, heap->amount_written);
 
-	return csalt_memory_read(store, buffer, size);
+	return csalt_memory_read((csalt_store *)&heap->memory, buffer, size);
 }
 
 int csalt_heap_split(
@@ -48,8 +46,8 @@ int csalt_heap_split(
 		return -1;
 
 	struct csalt_heap_initialized split = *heap;
-	split.parent.begin = heap->parent.begin + begin;
-	split.parent.end = heap->parent.begin + end;
+	split.memory.begin = heap->memory.begin + begin;
+	split.memory.end = heap->memory.begin + end;
 
 	ssize_t written_overlap_amount = max(0, min(end, heap->amount_written) - begin);
 	split.amount_written = written_overlap_amount;
@@ -62,38 +60,36 @@ int csalt_heap_split(
 	return result;
 }
 
-csalt_resource_initialized *csalt_heap_init(csalt_resource *resource)
+csalt_store *csalt_heap_init(csalt_resource *resource)
 {
 	struct csalt_heap *memory = castto(memory, resource);
 	char *result = malloc(memory->heap.size);
 	if (result) {
-		memory->heap.parent.begin = result;
-		memory->heap.parent.end = result + memory->heap.size;
-		return (csalt_resource_initialized *)&memory->heap;
+		memory->heap.memory = csalt_store_memory_bounds(result, result + memory->heap.size);
+		return (csalt_store *)&memory->heap;
 	}
 	return 0;
 }
 
-void csalt_heap_deinit(csalt_resource_initialized *resource)
+void csalt_heap_deinit(csalt_resource *resource)
 {
-	struct csalt_heap_initialized *memory = castto(memory, resource);
-	free(memory->parent.begin);
-	memory->parent.begin = 0;
-	memory->parent.end = 0;
+	struct csalt_heap *heap = (struct csalt_heap *)resource;
+	struct csalt_heap_initialized *memory = (void *)&heap->heap;
+	free(memory->memory.begin);
+	memory->memory.begin = 0;
+	memory->memory.end = 0;
 }
 
 static struct csalt_resource_interface heap_implementation = {
 	csalt_heap_init,
+	csalt_heap_deinit,
 };
 
-static struct csalt_resource_initialized_interface initialized_heap_implementation = {
-	{
-		csalt_heap_read,
-		csalt_heap_write,
-		csalt_memory_size,
-		csalt_heap_split,
-	},
-	csalt_heap_deinit,
+static struct csalt_store_interface initialized_heap_implementation = {
+	csalt_heap_read,
+	csalt_heap_write,
+	csalt_memory_size,
+	csalt_heap_split,
 };
 
 struct csalt_heap csalt_heap(size_t size)
@@ -107,7 +103,7 @@ struct csalt_heap csalt_heap(size_t size)
 
 void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap)
 {
-	return csalt_store_memory_raw(&heap->parent);
+	return csalt_store_memory_raw(&heap->memory);
 }
 
 // Interface implementing noops and returning invalid
@@ -130,12 +126,12 @@ void csalt_noop_deinit(csalt_resource *_)
 
 // Virtual function calls
 
-csalt_resource_initialized *csalt_resource_init(csalt_resource *resource)
+csalt_store *csalt_resource_init(csalt_resource *resource)
 {
 	return (*resource)->init(resource);
 }
 
-void csalt_resource_deinit(csalt_resource_initialized *resource)
+void csalt_resource_deinit(csalt_resource *resource)
 {
 	(*resource)->deinit(resource);
 }
@@ -146,11 +142,11 @@ int csalt_resource_use(
 	void *data
 )
 {
-	csalt_resource_initialized *initialized = csalt_resource_init(resource);
+	csalt_store *initialized = csalt_resource_init(resource);
 	if (!initialized)
 		return -1;
-	int result = code_block((csalt_store *)initialized, data);
-	csalt_resource_deinit(initialized);
+	int result = code_block(initialized, data);
+	csalt_resource_deinit(resource);
 	return result;
 }
 

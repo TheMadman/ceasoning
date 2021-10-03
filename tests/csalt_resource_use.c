@@ -8,10 +8,10 @@ int write_called = 0;
 int block_called = 0;
 int deinit_called = 0;
 
-struct csalt_resource_initialized_interface test_init_interface;
-csalt_resource_initialized test_init_ptr = &test_init_interface;
+struct csalt_store_interface test_init_interface;
+struct csalt_store_interface *test_init_ptr = &test_init_interface;
 
-csalt_resource_initialized *init(csalt_resource *_)
+csalt_store *init(csalt_resource *_)
 {
 	init_called++;
 	return &test_init_ptr;
@@ -43,7 +43,7 @@ int block(csalt_store *_, void *__)
 	return 0;
 }
 
-void deinit(csalt_resource_initialized *_)
+void deinit(csalt_resource *_)
 {
 	(void)_;
 	deinit_called++;
@@ -56,10 +56,6 @@ const struct csalt_store_interface store_interface = {
 
 struct csalt_resource_interface test_interface = {
 	init,
-};
-
-struct csalt_resource_initialized_interface test_init_interface = {
-	store_interface,
 	deinit,
 };
 
