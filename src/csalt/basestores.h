@@ -291,9 +291,46 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory);
 #define csalt_store_memory_array(array) (csalt_store_memory_bounds((array), (&array[arrlength(array)])))
 
 /**
- * Convenience macro for castto(csalt_store *, param)
+ * Convenience macro for casting to store pointer
  */
-#define csalt_store(param) castto(csalt_store *, param)
+#define csalt_store(param) (csalt_store *)(param)
 
+/**
+ * \brief Store representing a file descriptor.
+ *
+ * This store is used for file descriptors which are 
+ * available by default, including stdin, stdout and stderr.
+ *
+ * Also useful for resources which manage file descriptors.
+ */
+struct csalt_store_file_descriptor {
+	struct csalt_store_interface *vtable;
+	int fd;
+	size_t split_end;
+};
+
+struct csalt_store_file_descriptor csalt_store_file_descriptor(int fd);
+
+ssize_t csalt_store_file_descriptor_read(
+	const csalt_store *from,
+	void *to,
+	size_t bytes
+);
+
+ssize_t csalt_store_file_descriptor_write(
+	csalt_store *to,
+	const void *from,
+	size_t bytes
+);
+
+size_t csalt_store_file_descriptor_size(const csalt_store *store);
+
+int csalt_store_file_descriptor_split(
+	csalt_store *file,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
 
 #endif // CSALTSTORES_H

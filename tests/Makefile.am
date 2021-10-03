@@ -1,4 +1,5 @@
 TESTS = %reldir%/csalt_resource_use\
+	%reldir%/csalt_store_file_descriptor\
 	%reldir%/csalt_memory_resource\
 	%reldir%/csalt_store_split\
 	%reldir%/csalt_store_transfer\

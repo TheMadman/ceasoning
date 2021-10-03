@@ -1,5 +1,6 @@
 #include "csalt/stores.h"
 
+#include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
 
@@ -282,5 +283,92 @@ ssize_t csalt_store_transfer(
 	}
 
 	return progress->amount_completed;
+}
+
+
+/*
+ * For most error cases when seeking the file, we consider
+ * the operation to be successful - most error cases are
+ * seeking before the beginning/after the end of a device
+ * (which we don't do), or the file descriptor isn't a seekable
+ * device (such as stdin, stdout, stderr).
+ *
+ * A bad file descriptor is revealed by attempting to read/write
+ * from the device as well, so programmers shouldn't struggle
+ * tracking that error down, even if we hide it when seeking.
+ *
+ * I'm not sure I like this policy, but returning an error on
+ * construction/split/size. is something I've not considered,
+ * since most constructors are just storing the arguments for use
+ * in read/write calls.
+ */
+struct csalt_store_interface file_descriptor_interface = {
+	csalt_store_file_descriptor_read,
+	csalt_store_file_descriptor_write,
+	csalt_store_file_descriptor_size,
+	csalt_store_file_descriptor_split,
+};
+
+typedef struct csalt_store_file_descriptor csalt_fd;
+
+csalt_fd csalt_store_file_descriptor(int fd)
+{
+	off_t seek_end = lseek(fd, 0, SEEK_END);
+	csalt_fd result = {
+		&file_descriptor_interface,
+		fd,
+		max(seek_end, 0),
+	};
+
+	lseek(fd, 0, SEEK_SET);
+
+	return result;
+}
+
+ssize_t csalt_store_file_descriptor_read(const csalt_store *store, void *buffer, size_t bytes)
+{
+	const csalt_fd *file = (csalt_fd *)store;
+	return read(file->fd, buffer, bytes);
+}
+
+ssize_t csalt_store_file_descriptor_write(csalt_store *store, const void *buffer, size_t bytes)
+{
+	csalt_fd *file = (csalt_fd *)store;
+	return write(file->fd, buffer, bytes);
+}
+
+size_t csalt_store_file_descriptor_size(const csalt_store *store)
+{
+	// probably racy
+	const csalt_fd *file = (const csalt_fd *)store;
+	off_t current = max(lseek(file->fd, 0, SEEK_CUR), 0);
+
+	// in the case that the file was "split", we only want
+	// to report the size from the current split beginning
+	// (I.E. the current seek offset) to the current split end
+	off_t result = file->split_end - current;
+	lseek(file->fd, current, SEEK_SET);
+
+	return result;
+}
+
+int csalt_store_file_descriptor_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	csalt_fd *fd = (csalt_fd *)store;
+	off_t current = max(lseek(fd->fd, 0, SEEK_CUR), 0);
+	max(lseek(fd->fd, current + begin, SEEK_SET), 0);
+
+	// Any reason to create a new csalt_fd on the stack?
+	// Can't think of one
+	int result = block(store, param);
+
+	lseek(fd->fd, current, SEEK_SET);
+	return result;
 }
 
