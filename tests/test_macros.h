@@ -18,20 +18,26 @@
 struct csalt_store_stub {
 	struct csalt_store_interface *vtable;
 	size_t size;
+	size_t last_read;
+	size_t last_write;
+	size_t split_begin;
+	size_t split_end;
 };
 
 
 ssize_t csalt_store_stub_read(const csalt_store *store, void *data, size_t amount)
 {
-	(void)store;
 	(void)data;
+	struct csalt_store_stub *stub = (void *)store;
+	stub->last_read = amount;
 	return amount;
 }
 
 ssize_t csalt_store_stub_write(csalt_store *store, const void *data, size_t amount)
 {
-	(void)store;
 	(void)data;
+	struct csalt_store_stub *stub = (void *)store;
+	stub->last_write = amount;
 	return amount;
 }
 
@@ -49,7 +55,13 @@ int csalt_store_stub_split(
 	void *data
 )
 {
-	return block(store, data);
+	struct csalt_store_stub *stub = (void *)store;
+	stub->split_begin = begin;
+	stub->split_end = end;
+	int result = block(store, data);
+	stub->split_begin = 0;
+	stub->split_end = 0;
+	return result;
 }
 
 struct csalt_store_interface csalt_store_stub_interface = {

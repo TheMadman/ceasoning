@@ -6,6 +6,150 @@
 #include <stdint.h>
 #include <limits.h>
 
+struct csalt_store_interface csalt_store_pair_implementation = {
+	csalt_store_pair_read,
+	csalt_store_pair_write,
+	csalt_store_pair_size,
+	csalt_store_pair_split,
+};
+
+struct csalt_store_pair csalt_store_pair(csalt_store *first, csalt_store *second)
+{
+	struct csalt_store_pair result = {
+		&csalt_store_pair_implementation,
+		first,
+		second,
+	};
+	return result;
+}
+
+void csalt_store_pair_list_bounds(
+	csalt_store **begin,
+	csalt_store **end,
+	struct csalt_store_pair *out_begin
+)
+{
+	if (begin >= end)
+		return;
+
+	for (; begin < end - 1; begin++, out_begin++) {
+		*out_begin = csalt_store_pair(*begin, (csalt_store *)(out_begin + 1));
+	}
+	*out_begin = csalt_store_pair(*begin, 0);
+}
+
+ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t size)
+{
+	const struct csalt_store_pair *pair = (void *)store;
+	ssize_t first = 0;
+	if (pair->first)
+		first = csalt_store_read(pair->first, buffer, size);
+
+	ssize_t second = first;
+	if (first < size && pair->second)
+		second = csalt_store_read(pair->second, buffer, size);
+
+	return max(first, second);
+}
+
+ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size)
+{
+	struct csalt_store_pair *pair = (void *)store;
+	ssize_t first = 0;
+	if (pair->first)
+		first = csalt_store_write(pair->first, buffer, size);
+
+	ssize_t second = first;
+	if (pair->second)
+		second = csalt_store_write(pair->second, buffer, size);
+
+	return min(first, second);
+}
+
+size_t csalt_store_pair_size(const csalt_store *store)
+{
+	struct csalt_store_pair *pair = (void *)store;
+	size_t first = 0;
+	if (pair->first)
+		first = csalt_store_size(pair->first);
+
+	size_t second = first;
+	if (pair->second)
+		second = csalt_store_size(pair->second);
+
+	return min(first, second);
+}
+
+struct split_pair_params {
+	csalt_store *store;
+	size_t begin;
+	size_t end;
+	csalt_store_block_fn *block;
+	void *param;
+
+	csalt_store *pair_first;
+};
+
+static int split_second(csalt_store *store, void *param)
+{
+	struct split_pair_params *params = param;
+	struct csalt_store_pair new_pair = csalt_store_pair(params->pair_first, store);
+
+	return params->block((void *)&new_pair, params->param);
+}
+
+static int split_first(csalt_store *store, void *param)
+{
+	struct split_pair_params *params = param;
+	struct csalt_store_pair *original = (void *)(params->store);
+	params->pair_first = store;
+
+	if (!original->second) {
+		struct csalt_store_pair new_pair = csalt_store_pair(store, 0);
+		return params->block((void *)&new_pair, params->param);
+	}
+
+	return csalt_store_split(
+		original->second,
+		params->begin,
+		params->end,
+		split_second,
+		params
+	);
+}
+
+int csalt_store_pair_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct split_pair_params params = {
+		store,
+		begin,
+		end,
+		block,
+		param,
+
+		0,
+	};
+	struct csalt_store_pair *pair = (void *)store;
+
+	if (!(pair->first || pair->second)) {
+		return block(store, param);
+	}
+
+	return csalt_store_split(
+		pair->first,
+		begin,
+		end,
+		split_first,
+		&params
+	);
+}
+
 struct csalt_store_interface csalt_store_list_implementation = {
 	csalt_store_list_read,
 	csalt_store_list_write,

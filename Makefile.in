@@ -104,7 +104,8 @@ TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_network_udp_bound$(EXEEXT) \
 	tests/csalt_resource_network_udp_stateless$(EXEEXT) \
 	tests/csalt_store_decorator_logger$(EXEEXT) \
-	tests/csalt_resource_decorator_logger$(EXEEXT)
+	tests/csalt_resource_decorator_logger$(EXEEXT) \
+	tests/csalt_store_pair$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -137,7 +138,8 @@ am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_network_udp_bound$(EXEEXT) \
 	tests/csalt_resource_network_udp_stateless$(EXEEXT) \
 	tests/csalt_store_decorator_logger$(EXEEXT) \
-	tests/csalt_resource_decorator_logger$(EXEEXT)
+	tests/csalt_resource_decorator_logger$(EXEEXT) \
+	tests/csalt_store_pair$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -261,6 +263,10 @@ tests_csalt_store_list_SOURCES = tests/csalt_store_list.c
 tests_csalt_store_list_OBJECTS = tests/csalt_store_list.$(OBJEXT)
 tests_csalt_store_list_LDADD = $(LDADD)
 tests_csalt_store_list_DEPENDENCIES = $(top_builddir)/src/libcsalt.la
+tests_csalt_store_pair_SOURCES = tests/csalt_store_pair.c
+tests_csalt_store_pair_OBJECTS = tests/csalt_store_pair.$(OBJEXT)
+tests_csalt_store_pair_LDADD = $(LDADD)
+tests_csalt_store_pair_DEPENDENCIES = $(top_builddir)/src/libcsalt.la
 tests_csalt_store_split_SOURCES = tests/csalt_store_split.c
 tests_csalt_store_split_OBJECTS = tests/csalt_store_split.$(OBJEXT)
 tests_csalt_store_split_LDADD = $(LDADD)
@@ -308,6 +314,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	tests/$(DEPDIR)/csalt_store_fallback.Po \
 	tests/$(DEPDIR)/csalt_store_file_descriptor.Po \
 	tests/$(DEPDIR)/csalt_store_list.Po \
+	tests/$(DEPDIR)/csalt_store_pair.Po \
 	tests/$(DEPDIR)/csalt_store_split.Po \
 	tests/$(DEPDIR)/csalt_store_transfer.Po
 am__mv = mv -f
@@ -340,7 +347,8 @@ SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_list.c \
-	tests/csalt_store_split.c tests/csalt_store_transfer.c
+	tests/csalt_store_pair.c tests/csalt_store_split.c \
+	tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c \
 	tests/csalt_resource_decorator_logger.c \
@@ -352,7 +360,8 @@ DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_list.c \
-	tests/csalt_store_split.c tests/csalt_store_transfer.c
+	tests/csalt_store_pair.c tests/csalt_store_split.c \
+	tests/csalt_store_transfer.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -701,7 +710,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
-AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
+includes = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
+@DEVELOP_FALSE@AM_CFLAGS = $(includes)
+@DEVELOP_TRUE@AM_CFLAGS = $(includes) -g -O0 --coverage
 csaltincludedir = $(includedir)/csalt/
 csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/resources.h\
@@ -736,7 +747,6 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/resources/decorators.c\
 	src/csalt/decoratorresources.h
 
-check_CFLAGS = --coverage
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
 all: config.h
@@ -955,6 +965,12 @@ tests/csalt_store_list.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_store_list$(EXEEXT): $(tests_csalt_store_list_OBJECTS) $(tests_csalt_store_list_DEPENDENCIES) $(EXTRA_tests_csalt_store_list_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_store_list$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_list_OBJECTS) $(tests_csalt_store_list_LDADD) $(LIBS)
+tests/csalt_store_pair.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_pair$(EXEEXT): $(tests_csalt_store_pair_OBJECTS) $(tests_csalt_store_pair_DEPENDENCIES) $(EXTRA_tests_csalt_store_pair_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_pair$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_pair_OBJECTS) $(tests_csalt_store_pair_LDADD) $(LIBS)
 tests/csalt_store_split.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -1000,6 +1016,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_fallback.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_file_descriptor.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_list.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_pair.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_split.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_transfer.Po@am__quote@ # am--include-marker
 
@@ -1393,6 +1410,13 @@ tests/csalt_resource_decorator_logger.log: tests/csalt_resource_decorator_logger
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_store_pair.log: tests/csalt_store_pair$(EXEEXT)
+	@p='tests/csalt_store_pair$(EXEEXT)'; \
+	b='tests/csalt_store_pair'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1651,6 +1675,7 @@ distclean: distclean-am
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_file_descriptor.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile
@@ -1721,6 +1746,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_file_descriptor.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile

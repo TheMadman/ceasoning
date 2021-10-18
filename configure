@@ -634,6 +634,8 @@ ac_includes_default="\
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
+DEVELOP_FALSE
+DEVELOP_TRUE
 LIBOBJS
 CXXCPP
 am__fastdepCXX_FALSE
@@ -17199,6 +17201,16 @@ fi
 done
 
 
+# Adds Automake conditionals.
+ if test $DEVELOP; then
+  DEVELOP_TRUE=
+  DEVELOP_FALSE='#'
+else
+  DEVELOP_TRUE='#'
+  DEVELOP_FALSE=
+fi
+
+
 ac_config_files="$ac_config_files Makefile"
 
 cat >confcache <<\_ACEOF
@@ -17340,6 +17352,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${DEVELOP_TRUE}" && test -z "${DEVELOP_FALSE}"; then
+  as_fn_error $? "conditional \"DEVELOP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 

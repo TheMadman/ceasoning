@@ -16,6 +16,96 @@
 extern "C" {
 #endif
 
+/**
+ * \brief This type allows storing a pair of stores and interacting
+ * 	with them as though they are a single store.
+ *
+ * This type can be used to represent coupled stores, as well as lists
+ * of stores using a linked-list-like approach or binary trees using
+ * a nested approach. Either member may be initialized to a null
+ * pointer.
+ *
+ * A constructor is available for creating an individual pair, as well
+ * as one for initializing an array of pairs for a list of stores.
+ *
+ * csalt_store_read() attempts a read from the first store. If that
+ * store returns less than the desired amount of bytes, the second
+ * store is tried for all requested bytes instead.
+ *
+ * csalt_store_write() attempts to write to both stores, then returns
+ * the least amount written. This helps to prevent data loss in the case
+ * that one store failed to write as much as another.
+ *
+ * csalt_store_size() returns the smallest size reported by the two
+ * stores.
+ *
+ * csalt_store_split() passes a new pair, whose members have both
+ * been split by the requested amount.
+ *
+ * \sa csalt_store_pair()
+ * \sa csalt_store_pair_list()
+ */
+struct csalt_store_pair {
+	struct csalt_store_interface *interface;
+	csalt_store *first;
+	csalt_store *second;
+};
+
+/**
+ * \brief Constructor for creating a single pair.
+ */
+struct csalt_store_pair csalt_store_pair(csalt_store *first, csalt_store *second);
+
+ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size);
+size_t csalt_store_pair_size(const csalt_store *store);
+int csalt_store_pair_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
+
+/**
+ * \brief Constructor for creating a list of pairs, given
+ * 	an array of csalt_store#s to link together.
+ *
+ * This function effectively constructs a linked-list from pairs.
+ * The first pair's first property points to the first store in
+ * the array. The second property points to the second pair.
+ * The second pair's first property points to the second store,
+ * and its second property points to the next pair, and so on.
+ * The last pair's second property is set to a null pointer value.
+ *
+ * Note that this function uses an out-parameter for initializing an 
+ * already-existing array, instead of returning a value.
+ *
+ * Constructing an array for an existing local array of stores is simple:
+ * \code
+ * 
+ * 	struct csalt_store_pair list[arrsize(stores)] = { 0 };
+ * \endcode
+ *
+ * \param begin The beginning of the array of stores
+ * \param end The end of the array of stores
+ *
+ * \sa csalt_store_pair_list()
+ */
+void csalt_store_pair_list_bounds(
+	csalt_store **begin,
+	csalt_store **end,
+	struct csalt_store_pair *out_array_begin
+);
+
+/**
+ * \brief Convenience macro for constructing a pair_list from two arrays
+ *
+ * \sa csalt_store_pair_list_bounds()
+ */
+#define csalt_store_pair_list(store_array, out_array) \
+	csalt_store_pair_list_bounds((store_array), arrend(store_array), out_array)
+
 struct csalt_store_list;
 
 /**
