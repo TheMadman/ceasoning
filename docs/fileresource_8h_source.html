@@ -82,7 +82,7 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
 <div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="structcsalt__resource__file__initialized.html">   25</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__file__initialized.html">csalt_resource_file_initialized</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a> *vtable;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct </span>csalt_resource_initialized_interface *vtable;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">int</span> fd;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">size_t</span> begin;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">size_t</span> end;</div>
@@ -93,7 +93,7 @@ $(function() {
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *filename;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> flags;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">int</span> mode;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__file__initialized.html">csalt_resource_file_initialized</a> file;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__store__file__descriptor.html">csalt_store_file_descriptor</a> file;</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;ssize_t csalt_resource_file_read(<span class="keyword">const</span> <a class="code" href="structcsalt__store__interface.html">csalt_store</a> *store, <span class="keywordtype">void</span> *buffer, <span class="keywordtype">size_t</span> size);</div>
@@ -110,9 +110,9 @@ $(function() {
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> *data</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<a class="code" href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized</a> *csalt_resource_file_init(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *csalt_resource_file_init(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> csalt_resource_file_deinit(<a class="code" href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized</a> *resource);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> csalt_resource_file_deinit(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__file.html">csalt_resource_file</a> <a class="code" href="structcsalt__resource__file.html">csalt_resource_file</a>(const char *path, <span class="keywordtype">int</span> flags);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
@@ -124,9 +124,9 @@ $(function() {
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif // FILERESOURCE_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructcsalt__resource__initialized__interface_html"><div class="ttname"><a href="structcsalt__resource__initialized__interface.html">csalt_resource_initialized_interface</a></div><div class="ttdoc">Interface definition for initialized resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:100</div></div>
+<div class="ttc" id="astructcsalt__store__file__descriptor_html"><div class="ttname"><a href="structcsalt__store__file__descriptor.html">csalt_store_file_descriptor</a></div><div class="ttdoc">Store representing a file descriptor.</div><div class="ttdef"><b>Definition:</b> basestores.h:306</div></div>
 <div class="ttc" id="abaseresources_8h_html"><div class="ttname"><a href="baseresources_8h.html">baseresources.h</a></div><div class="ttdoc">Provides an interface for resources with lifetimes.</div></div>
-<div class="ttc" id="afileresource_8h_html_a4b2a8c6d94dcb9a1bac1d5e36cd999cf"><div class="ttname"><a href="fileresource_8h.html#a4b2a8c6d94dcb9a1bac1d5e36cd999cf">csalt_resource_create_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode)</div><div class="ttdoc">Sets up a file resource for creation and opening.</div><div class="ttdef"><b>Definition:</b> file.c:106</div></div>
+<div class="ttc" id="afileresource_8h_html_a4b2a8c6d94dcb9a1bac1d5e36cd999cf"><div class="ttname"><a href="fileresource_8h.html#a4b2a8c6d94dcb9a1bac1d5e36cd999cf">csalt_resource_create_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode)</div><div class="ttdoc">Sets up a file resource for creation and opening.</div><div class="ttdef"><b>Definition:</b> file.c:94</div></div>
 <div class="ttc" id="astructcsalt__store__interface_html"><div class="ttname"><a href="structcsalt__store__interface.html">csalt_store_interface</a></div><div class="ttdef"><b>Definition:</b> basestores.h:81</div></div>
 <div class="ttc" id="astructcsalt__resource__file__initialized_html"><div class="ttname"><a href="structcsalt__resource__file__initialized.html">csalt_resource_file_initialized</a></div><div class="ttdef"><b>Definition:</b> fileresource.h:25</div></div>
 <div class="ttc" id="astructcsalt__resource__file_html"><div class="ttname"><a href="structcsalt__resource__file.html">csalt_resource_file</a></div><div class="ttdoc">Struct representing a file resource supporting lazy-loading.</div><div class="ttdef"><b>Definition:</b> fileresource.h:46</div></div>

@@ -1,8 +1,7 @@
 <map id="csalt_resource_network_socket" name="csalt_resource_network_socket">
-<area shape="rect" id="node1" title="This structure represents a UDP socket." alt="" coords="77,407,253,448"/>
-<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,310,187,337"/>
-<area shape="rect" id="node3" href="$structcsalt__resource__network__socket__initialized.html" title="Represents the common features of each kind of network socket." alt="" coords="211,303,387,344"/>
-<area shape="rect" id="node4" href="$structcsalt__resource__network__initialized__interface.html" title=" " alt="" coords="211,199,387,240"/>
-<area shape="rect" id="node5" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="205,95,392,136"/>
-<area shape="rect" id="node6" href="$structcsalt__store__interface.html" title=" " alt="" coords="219,5,378,32"/>
+<area shape="rect" id="node1" title="This structure represents a UDP socket." alt="" coords="45,213,221,255"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,117,187,143"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__network__socket__initialized.html" title="Represents the common features of each kind of network socket." alt="" coords="211,109,387,151"/>
+<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="123,13,282,39"/>
+<area shape="rect" id="node5" href="$structcsalt__resource__network__initialized__interface.html" title=" " alt="" coords="307,5,483,47"/>
 </map>

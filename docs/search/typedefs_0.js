@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['csalt_5fresource_216',['csalt_resource',['../baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0',1,'baseresources.h']]],
-  ['csalt_5fresource_5finit_5ffn_217',['csalt_resource_init_fn',['../baseresources_8h.html#ac39690ed455719f50c6363e73903f5eb',1,'baseresources.h']]],
-  ['csalt_5fresource_5finitialized_218',['csalt_resource_initialized',['../baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa',1,'baseresources.h']]],
+  ['csalt_5fresource_217',['csalt_resource',['../baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0',1,'baseresources.h']]],
+  ['csalt_5fresource_5finit_5ffn_218',['csalt_resource_init_fn',['../baseresources_8h.html#a26ff3921c9023094dda423e096476f36',1,'baseresources.h']]],
   ['csalt_5fstore_219',['csalt_store',['../basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399',1,'basestores.h']]],
   ['csalt_5fstore_5fblock_5ffn_220',['csalt_store_block_fn',['../basestores_8h.html#a754a0571114d69241e5342689e50f976',1,'basestores.h']]],
   ['csalt_5fstore_5flist_5freceive_5fsplit_5ffn_221',['csalt_store_list_receive_split_fn',['../compositestores_8h.html#a3d4fef9bbe4aad153646476cc884a559',1,'compositestores.h']]],

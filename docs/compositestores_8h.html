@@ -111,6 +111,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This type allows storing a pair of stores and interacting with them as though they are a single store.  <a href="structcsalt__store__pair.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__list__interface.html">csalt_store_list_interface</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__store__list.html">csalt_store_list</a></td></tr>
@@ -122,6 +125,9 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:ac7d12f322813827952bd103ea8cba026"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#ac7d12f322813827952bd103ea8cba026">csalt_store_pair_list</a>(store_array,  out_array)&#160;&#160;&#160;	<a class="el" href="compositestores_8h.html#a66eca69a5c7a32777360cda3c6ca6607">csalt_store_pair_list_bounds</a>((store_array), <a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(store_array), out_array)</td></tr>
+<tr class="memdesc:ac7d12f322813827952bd103ea8cba026"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for constructing a pair_list from two arrays.  <a href="compositestores_8h.html#ac7d12f322813827952bd103ea8cba026">More...</a><br /></td></tr>
+<tr class="separator:ac7d12f322813827952bd103ea8cba026"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5974df7ed8a948e43a95f38f681f744"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#ad5974df7ed8a948e43a95f38f681f744">csalt_store_list</a>(param)&#160;&#160;&#160;<a class="el" href="util_8h.html#ab43229f6369275dc14bd12743cd82a0c">castto</a>(struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a> *, (param))</td></tr>
 <tr class="memdesc:ad5974df7ed8a948e43a95f38f681f744"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for casting to a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> *.  <a href="compositestores_8h.html#ad5974df7ed8a948e43a95f38f681f744">More...</a><br /></td></tr>
 <tr class="separator:ad5974df7ed8a948e43a95f38f681f744"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -140,6 +146,25 @@ Typedefs</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a37de335d33b6539623c9c690f4cfea36"><td class="memItemLeft" align="right" valign="top"><a id="a37de335d33b6539623c9c690f4cfea36"></a>
+struct <a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#a37de335d33b6539623c9c690f4cfea36">csalt_store_pair</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *first, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *second)</td></tr>
+<tr class="memdesc:a37de335d33b6539623c9c690f4cfea36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for creating a single pair. <br /></td></tr>
+<tr class="separator:a37de335d33b6539623c9c690f4cfea36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ec79355ee8142d9581df694101d48fb"><td class="memItemLeft" align="right" valign="top"><a id="a8ec79355ee8142d9581df694101d48fb"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_pair_read</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, void *buffer, size_t size)</td></tr>
+<tr class="separator:a8ec79355ee8142d9581df694101d48fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a01dc695f6c82c5dd6dab1bf62442a3b3"><td class="memItemLeft" align="right" valign="top"><a id="a01dc695f6c82c5dd6dab1bf62442a3b3"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_pair_write</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, const void *buffer, size_t size)</td></tr>
+<tr class="separator:a01dc695f6c82c5dd6dab1bf62442a3b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f16118790ce5e0efd93797bd7bcbb39"><td class="memItemLeft" align="right" valign="top"><a id="a0f16118790ce5e0efd93797bd7bcbb39"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_pair_size</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store)</td></tr>
+<tr class="separator:a0f16118790ce5e0efd93797bd7bcbb39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44f99c43a7c5d2ddb80ac82fea907dd2"><td class="memItemLeft" align="right" valign="top"><a id="a44f99c43a7c5d2ddb80ac82fea907dd2"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_pair_split</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *param)</td></tr>
+<tr class="separator:a44f99c43a7c5d2ddb80ac82fea907dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66eca69a5c7a32777360cda3c6ca6607"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#a66eca69a5c7a32777360cda3c6ca6607">csalt_store_pair_list_bounds</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **begin, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **end, struct <a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a> *out_array_begin)</td></tr>
+<tr class="memdesc:a66eca69a5c7a32777360cda3c6ca6607"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for creating a list of pairs, given an array of csalt_store::s to link together.  <a href="compositestores_8h.html#a66eca69a5c7a32777360cda3c6ca6607">More...</a><br /></td></tr>
+<tr class="separator:a66eca69a5c7a32777360cda3c6ca6607"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa195f41b03ca2678aa2cf5f400dc3fb9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#aa195f41b03ca2678aa2cf5f400dc3fb9">csalt_store_list_bounds</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **begin, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **end)</td></tr>
 <tr class="memdesc:aa195f41b03ca2678aa2cf5f400dc3fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a>.  <a href="compositestores_8h.html#aa195f41b03ca2678aa2cf5f400dc3fb9">More...</a><br /></td></tr>
 <tr class="separator:aa195f41b03ca2678aa2cf5f400dc3fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -251,6 +276,37 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
 
 <p>Convenience macro for constructing a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> from an array. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac7d12f322813827952bd103ea8cba026"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7d12f322813827952bd103ea8cba026">&#9670;&nbsp;</a></span>csalt_store_pair_list</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define csalt_store_pair_list</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">store_array, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">out_array&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;	<a class="el" href="compositestores_8h.html#a66eca69a5c7a32777360cda3c6ca6607">csalt_store_pair_list_bounds</a>((store_array), <a class="el" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(store_array), out_array)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience macro for constructing a pair_list from two arrays. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a66eca69a5c7a32777360cda3c6ca6607" title="Constructor for creating a list of pairs, given an array of csalt_store::s to link together.">csalt_store_pair_list_bounds()</a> </dd></dl>
 
 </div>
 </div>
@@ -407,9 +463,58 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallbac
 
 </div>
 </div>
+<a id="a66eca69a5c7a32777360cda3c6ca6607"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a66eca69a5c7a32777360cda3c6ca6607">&#9670;&nbsp;</a></span>csalt_store_pair_list_bounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void csalt_store_pair_list_bounds </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **&#160;</td>
+          <td class="paramname"><em>begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a> *&#160;</td>
+          <td class="paramname"><em>out_array_begin</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for creating a list of pairs, given an array of csalt_store::s to link together. </p>
+<p>This function effectively constructs a linked-list from pairs. The first pair's first property points to the first store in the array. The second property points to the second pair. The second pair's first property points to the second store, and its second property points to the next pair, and so on. The last pair's second property is set to a null pointer value.</p>
+<p>Note that this function uses an out-parameter for initializing an already-existing array, instead of returning a value.</p>
+<p>Constructing an array for an existing local array of stores is simple: </p><div class="fragment"><div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__store__pair.html">csalt_store_pair</a> <a class="code" href="structcsalt__resource__list.html">list</a>[arrsize(stores)] = { 0 };</div>
+</div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">begin</td><td>The beginning of the array of stores </td></tr>
+    <tr><td class="paramname">end</td><td>The end of the array of stores</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#ac7d12f322813827952bd103ea8cba026" title="Convenience macro for constructing a pair_list from two arrays.">csalt_store_pair_list()</a> </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 <div class="ttc" id="astructcsalt__progress_html"><div class="ttname"><a href="structcsalt__progress.html">csalt_progress</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:151</div></div>
-<div class="ttc" id="acompositestores_8h_html_a56680efacc9fcc05860704ae7b6516a9"><div class="ttname"><a href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">csalt_store_fallback_flush</a></div><div class="ttdeci">struct csalt_progress csalt_store_fallback_flush(struct csalt_store_fallback *store, struct csalt_progress *transfers)</div><div class="ttdoc">Writes out data from the first store into all stores after it.</div><div class="ttdef"><b>Definition:</b> compositestores.c:367</div></div>
+<div class="ttc" id="astructcsalt__store__pair_html"><div class="ttname"><a href="structcsalt__store__pair.html">csalt_store_pair</a></div><div class="ttdoc">This type allows storing a pair of stores and interacting with them as though they are a single store...</div><div class="ttdef"><b>Definition:</b> compositestores.h:48</div></div>
+<div class="ttc" id="astructcsalt__resource__list_html"><div class="ttname"><a href="structcsalt__resource__list.html">csalt_resource_list</a></div><div class="ttdoc">This resource allows operations on groups of resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:40</div></div>
+<div class="ttc" id="acompositestores_8h_html_a56680efacc9fcc05860704ae7b6516a9"><div class="ttname"><a href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9">csalt_store_fallback_flush</a></div><div class="ttdeci">struct csalt_progress csalt_store_fallback_flush(struct csalt_store_fallback *store, struct csalt_progress *transfers)</div><div class="ttdoc">Writes out data from the first store into all stores after it.</div><div class="ttdef"><b>Definition:</b> compositestores.c:511</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

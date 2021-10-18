@@ -17,5 +17,6 @@ var searchData=
   ['csalt_5fstore_5flist_243',['csalt_store_list',['../compositestores_8h.html#ad5974df7ed8a948e43a95f38f681f744',1,'compositestores.h']]],
   ['csalt_5fstore_5flist_5farray_244',['csalt_store_list_array',['../compositestores_8h.html#a05b3de0c9314f87ac037f6f89f290cf8',1,'compositestores.h']]],
   ['csalt_5fstore_5fmemory_5farray_245',['csalt_store_memory_array',['../basestores_8h.html#a91e84246aef7b460f4dddc47704b7257',1,'basestores.h']]],
-  ['csalt_5fstore_5fmemory_5fpointer_246',['csalt_store_memory_pointer',['../basestores_8h.html#ae3963b044b093bfd5993a2effbf213ee',1,'basestores.h']]]
+  ['csalt_5fstore_5fmemory_5fpointer_246',['csalt_store_memory_pointer',['../basestores_8h.html#ae3963b044b093bfd5993a2effbf213ee',1,'basestores.h']]],
+  ['csalt_5fstore_5fpair_5flist_247',['csalt_store_pair_list',['../compositestores_8h.html#ac7d12f322813827952bd103ea8cba026',1,'compositestores.h']]]
 ];
