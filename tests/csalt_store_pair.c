@@ -7,8 +7,8 @@ int receive_split(csalt_store *store, void *data);
 
 int main()
 {
-	struct csalt_store_stub first = csalt_store_stub(4);
-	struct csalt_store_stub second = csalt_store_stub(8);
+	struct csalt_store_stub first = csalt_store_stub(1024);
+	struct csalt_store_stub second = csalt_store_stub(512);
 
 	csalt_store *stores[] = {
 		csalt_store(&first),

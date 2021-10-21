@@ -19,7 +19,7 @@ struct csalt_store_stub {
 	struct csalt_store_interface *vtable;
 	size_t size;
 	size_t last_read;
-	size_t last_write;
+	ssize_t last_write;
 	size_t split_begin;
 	size_t split_end;
 };
@@ -29,16 +29,16 @@ ssize_t csalt_store_stub_read(const csalt_store *store, void *data, size_t amoun
 {
 	(void)data;
 	struct csalt_store_stub *stub = (void *)store;
-	stub->last_read = amount;
-	return amount;
+	stub->last_read = min((ssize_t)amount, stub->size);
+	return stub->last_read;
 }
 
 ssize_t csalt_store_stub_write(csalt_store *store, const void *data, size_t amount)
 {
 	(void)data;
 	struct csalt_store_stub *stub = (void *)store;
-	stub->last_write = amount;
-	return amount;
+	stub->last_write = min((ssize_t)amount, stub->size);
+	return stub->last_write;
 }
 
 size_t csalt_store_stub_size(const csalt_store *store)
@@ -76,6 +76,73 @@ struct csalt_store_stub csalt_store_stub(size_t size)
 	struct csalt_store_stub result = {
 		&csalt_store_stub_interface,
 		size
+	};
+	return result;
+}
+
+ssize_t csalt_store_stub_error_read(const csalt_store *_, void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return -1;
+}
+
+ssize_t csalt_store_stub_error_write(csalt_store *_, const void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return -1;
+}
+
+size_t csalt_store_stub_error_size(const csalt_store *_)
+{
+	return 0;
+}
+
+struct csalt_store_interface csalt_store_stub_error_implementation = {
+	csalt_store_stub_error_read,
+	csalt_store_stub_error_write,
+	csalt_store_stub_error_size,
+	csalt_store_stub_split,
+};
+
+struct csalt_store_stub csalt_store_stub_error()
+{
+	struct csalt_store_stub result = {
+		&csalt_store_stub_error_implementation,
+	};
+	return result;
+}
+
+ssize_t csalt_store_stub_zero_read(const csalt_store *_, void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return 0;
+}
+
+ssize_t csalt_store_stub_zero_write(csalt_store *_, const void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return 0;
+}
+
+struct csalt_store_interface csalt_store_stub_zero_implementation = {
+	csalt_store_stub_zero_read,
+	csalt_store_stub_zero_write,
+	csalt_store_stub_error_size,
+	csalt_store_stub_split,
+};
+
+struct csalt_store_stub csalt_store_stub_zero()
+{
+	struct csalt_store_stub result = {
+		&csalt_store_stub_zero_implementation,
 	};
 	return result;
 }

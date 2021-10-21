@@ -4,8 +4,10 @@
 /**
  * \file 
  * \brief This file provides stores which define relationships
- * between stores. Examples include csalt_store_fallback, which allows you to
- * define stores as a priority list where each is tried in order.
+ * between stores. Examples include csalt_store_pair, which can be used 
+ * to create pairs, linked-lists or binary trees of stores, and 
+ * csalt_store_fallback, which allows you to define stores as a priority 
+ * list where each store is tried in order.
  */
 
 #include <csalt/basestores.h>
@@ -29,8 +31,8 @@ extern "C" {
  * as one for initializing an array of pairs for a list of stores.
  *
  * csalt_store_read() attempts a read from the first store. If that
- * store returns less than the desired amount of bytes, the second
- * store is tried for all requested bytes instead.
+ * store returns zero bytes (or an error code), the second
+ * store is tried instead.
  *
  * csalt_store_write() attempts to write to both stores, then returns
  * the least amount written. This helps to prevent data loss in the case
@@ -87,6 +89,10 @@ int csalt_store_pair_split(
  * 	struct csalt_store_pair list[arrsize(stores)] = { 0 };
  * \endcode
  *
+ * The output array is untouched if there was an error with the
+ * parameters, such as the input/output being zero length, or the
+ * output array being smaller than the input array
+ *
  * \param begin The beginning of the array of stores
  * \param end The end of the array of stores
  *
@@ -95,252 +101,126 @@ int csalt_store_pair_split(
 void csalt_store_pair_list_bounds(
 	csalt_store **begin,
 	csalt_store **end,
-	struct csalt_store_pair *out_array_begin
+	struct csalt_store_pair *out_array_begin,
+	struct csalt_store_pair *out_array_end
 );
 
 /**
- * \brief Convenience macro for constructing a pair_list from two arrays
+ * \brief Convenience macro for constructing a pair_list from two arrays.
+ *
+ * This macro is the recommended way of constructing a pair_list, given
+ * the two arrays' sizes are defined at compile-time. Dynamic arrays, such as
+ * those allocated with malloc() or calloc(), must still use
+ * csalt_store_pair_list_bounds().
  *
  * \sa csalt_store_pair_list_bounds()
  */
 #define csalt_store_pair_list(store_array, out_array) \
-	csalt_store_pair_list_bounds((store_array), arrend(store_array), out_array)
-
-struct csalt_store_list;
-
-/**
- * This function type is the kind of function called by the generic csalt_store_list
- * interface when csalt_store_split() is called on it. It allows the logic of
- * splitting the list to be contained in csalt_store_list, while different kinds
- * of list only have to initialize a stack variable using the result.
- */
-typedef int csalt_store_list_receive_split_fn(
-	struct csalt_store_list *original,
-	struct csalt_store_list *list,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
-struct csalt_store_list_interface {
-	struct csalt_store_interface parent;
-	csalt_store_list_receive_split_fn *receive_split_list;
-};
+	csalt_store_pair_list_bounds( \
+		(store_array), \
+		arrend(store_array), \
+		out_array, \
+		arrend(out_array) \
+	)
 
 /**
- * \brief Most abstract stores are implemented as csalt_store_lists, with different
- * algorithms for iterating over the elements in the list.
- *
- * Care must be taken when using a bare csalt_store_list. Attempting to write to
- * the list will return the smallest amount written; re-writing or
- * csalt_store_transfer()ing multiple times should not result in data loss, but
- * may result in the same data being (over-)written multiple times in some
- * stores. If an error occurs in any store, this store returns an error value,
- * with no way to test which store caused the failure.
- *
- * Writes are attempted in every store, including stores that come after a
- * store which fails with an error value.
- *
- * Reads attempt to read from each store in order, until a store returns
- * the requested number of bytes.
- *
- * It is best to use this store only for stores which have similar availability
- * or error rates, such as stores of the same kind. For stores which may read or
- * write different amounts of bytes in a single read/write, other list stores
- * provide different algorithms for handling different cases: for example,
- * a csalt_store_fallback provides a cache-esque algorithm for handling multiple
- * stores, with a csalt_store_fallback_flush() method for reliably
- * updating data in slower stores.
- *
- * \see csalt_store_list_array()
- * \see csalt_store_list_bounds()
- * \see csalt_store_list()
+ * \brief Allows checking the length of a list of pairs constructed
+ * 	by csalt_store_pair_list() or csalt_store_pair_list_bounds().
  */
-struct csalt_store_list {
-	struct csalt_store_interface *vtable;
-	csalt_store **begin;
-	csalt_store **end;
-};
+size_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
 
 /**
- * \brief Convenience macro for casting to a csalt_store_list *
- *
- * \see csalt_store_list
+ * \brief Allows getting the csalt_store object at an offset from a 
+ * 	list of pairs constructed by csalt_store_pair_list() or 
+ * 	csalt_store_pair_list_bounds().
  */
-#define csalt_store_list(param) castto(struct csalt_store_list *, (param))
-
-/**
- * \brief Constructor for a csalt_store_list.
- *
- * \see csalt_store_list
- */
-struct csalt_store_list csalt_store_list_bounds(
-	csalt_store **begin,
-	csalt_store **end
-);
-
-/**
- * \brief Convenience macro for constructing a csalt_store_list from an array.
- *
- * \see csalt_store_list
- */
-#define csalt_store_list_array(array) (csalt_store_list_bounds(array, (&array[arrlength(array)])))
-
-/**
- * \brief Returns the store at the given index.
- *
- * Provides a bounds-checked getter for the elements
- * in the list.
- */
-csalt_store *csalt_store_list_get(
-	const struct csalt_store_list *store,
+csalt_store *csalt_store_pair_list_get(
+	const struct csalt_store_pair *pairs,
 	size_t index
 );
 
 /**
- * \brief Returns the number of stores in this list store.
- */
-size_t csalt_store_list_length(const struct csalt_store_list *store);
-
-ssize_t csalt_store_list_read(const csalt_store *store, void *buffer, size_t amount);
-ssize_t csalt_store_list_write(csalt_store *store, const void *buffer, size_t amount);
-int csalt_store_list_split(
-	csalt_store *store,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-size_t csalt_store_list_size(const csalt_store *store);
-int csalt_store_list_receive_split(
-	struct csalt_store_list *original,
-	struct csalt_store_list *list,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
-/**
- * \brief The csalt_store_fallback_store is a csalt_store_list providing
- * fallback logic for operations on the stores.
+ * \brief This type decorates a pair with fallback/caching logic.
  *
- * The behaviour of this store is intended to mimick caching logic.
- * It prevents reading/writing from later stores if data was found
- * previously, allowing you to skip slow stores if a faster store holds
- * the correct data.
+ * csalt_store_read() tries reading the first store first. If all the requested
+ * data are read, it returns immediately. Otherwise, it attempts to read the 
+ * remaining data from later stores. If data is read from the later stores 
+ * successfully, it is written back into earlier stores.
  *
- * On csalt_store_read(), the read is first attempted on the first item in the
- * list. If that item returns the amount expected, the whole fallback
- * returns; otherwise, the next item is attempted. The fallback store
- * keeps iterating through the list until a store reads the expected
- * amount of bytes, or the list is exhausted.
+ * If any store returns an error code from csalt_store_read(), the whole
+ * fallback store halts immediately and the contents of *buffer is undefined.
  *
- * If complete data is found in a store, it is written to the stores
- * that came before it.
+ * csalt_store_write() writes only to the first store in the list. The data
+ * can be written out to all stores by calling csalt_store_flush() on the list.
  *
- * If the store reaches the end of the list without reading the full
- * amount of bytes expected, it reads from the store which returned
- * the most bytes and returns the amount of bytes read from that store.
+ * csalt_store_size() implements the same logic as for csalt_store_pair.
  *
- * Standard csalt_store_write() calls only write to the first store
- * in the list. To write-out the contents of the last write to the
- * rest of the stores, you can use csalt_store_fallback_flush().
- * More nuanced write behaviour can be achieved by writing to
- * individual stores retrieved with csalt_store_list_get().
+ * csalt_store_split() behaves similarly to csalt_store_pair, except the
+ * result implements the same fallback logic for csalt_store_read() and
+ * csalt_store_write().
  *
- * The csalt_store_size() call returns the smallest reported size
- * of all the stores, allowing for safe reads and writes. 
- *
- * Calling csalt_store_split() on a fallback store provides a fallback
- * store in which every store it contains is split by the given amount.
- * This requires at least one dynamic memory allocation.
- *
- * \see csalt_store_fallback_array()
- * \see csalt_store_fallback_bounds()
+ * \sa csalt_store_fallback_array()
+ * \sa csalt_store_fallback_bounds()
  */
 struct csalt_store_fallback {
-	struct csalt_store_list list;
-	size_t amount_written;
+	struct csalt_store_interface *vtable;
+	struct csalt_store_pair pair;
 };
 
 /**
- * \brief Constructor for csalt_store_fallback taking a range of
- * pointers.
+ * \brief This function constructs a list of stores which implements caching
+ * 	logic.
  *
- * \see csalt_store_fallback
+ * The arguments should be the same as for the csalt_store_pair_list_bounds(),
+ * except taking an out-array of csalt_store_fallback as its last arguments.
+ *
+ * \sa csalt_store_fallback_array()
+ * \sa csalt_store_pair_list_bounds()
  */
-struct csalt_store_fallback csalt_store_fallback_bounds(
-	csalt_store **begin,
-	csalt_store **end
+void csalt_store_fallback_bounds(
+	csalt_store **list_begin,
+	csalt_store **list_end,
+	struct csalt_store_fallback *fallback_begin,
+	struct csalt_store_fallback *fallback_end
 );
 
 /**
- * \brief Convenience macro for initializing a fallback store from an
- * array.
+ * \brief Convenience macro from building csalt_store_fallback#s from two
+ * 	arrays.
  *
- * \see csalt_store_fallback
+ * This is the recommended way to construct csalt_store_fallback#s when the
+ * array lengths are known at compile-time.
+ * 
+ * \sa csalt_store_fallback_bounds()
  */
-#define csalt_store_fallback_array(array) csalt_store_fallback_bounds((array), (&array[arrlength(array)]))
+#define csalt_store_fallback_array(store_array, fallback_array) \
+	csalt_store_fallback_bounds( \
+		(store_array), \
+		arrend(store_array), \
+		(fallback_array), \
+		arrend(fallback_array) \
+	)
 
 ssize_t csalt_store_fallback_read(
 	const csalt_store *store,
 	void *buffer,
-	size_t size
+	size_t amount
 );
 
 ssize_t csalt_store_fallback_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t size
-);
-
-int csalt_store_fallback_split(
-	csalt_store *list,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
-int csalt_store_fallback_receive_split(
-	struct csalt_store_list *original,
-	struct csalt_store_list *list,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
+	size_t amount
 );
 
 size_t csalt_store_fallback_size(const csalt_store *store);
 
-/**
- * \brief Writes out data from the first store into all stores
- * after it.
- *
- * Takes an array of csalt_progresss, one for each store
- * in the fallback, which can safely be initialized to zero:
- *
- * \code
- * 	// Outside your main loop
- * 	// Assume number_stores is a const and you know the list's length
- * 	// otherwise, this becomes a heap allocation
- * 	// size_t number_stores = csalt_store_list_length(&fallback_ptr->list);
- * 	struct csalt_progress transfers[number_stores] = { 0 };
- *
- * 	// inside your main loop, or in a while loop for blocking behaviour
- * 	struct csalt_progress total_progress;
- * 	total_progress = csalt_store_fallback_flush(fallback_ptr, transfers);
- * \endcode
- *
- * As an academic note, you can actually safely use `number_stores - 1`
- * csalt_progresss, since you're not transferring from the first store
- * to the rest - but this code is simpler to read and remember.
- */
-struct csalt_progress csalt_store_fallback_flush(
-	struct csalt_store_fallback *store,
-	struct csalt_progress *transfers
+int csalt_store_fallback_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
 );
 
 #ifdef __cplusplus

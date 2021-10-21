@@ -23,7 +23,6 @@ lib_LTLIBRARIES = %reldir%/libcsalt.la
 	%reldir%/csalt/compositestores.h\
 	%reldir%/resources/compositeresources.c\
 	%reldir%/csalt/compositeresources.h\
-	%reldir%/csalt/impl/list_impl.h\
 	%reldir%/platforms/posix/csalt/platform/socket.h\
 	%reldir%/resources/network.c\
 	%reldir%/csalt/networkresources.h\
