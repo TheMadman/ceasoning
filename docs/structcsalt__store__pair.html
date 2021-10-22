@@ -76,7 +76,7 @@ $(function() {
 Collaboration diagram for csalt_store_pair:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__store__pair__coll__graph.png" border="0" usemap="#acsalt__store__pair_coll__map" alt="Collaboration graph"/></div>
-<map name="csalt__store__pair_coll__map" id="acsalt__store__pair_coll__map">
+<map name="csalt__store__pair_coll__map" id="csalt__store__pair_coll__map">
 <area shape="rect" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="22,124,147,151"/>
 <area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
 </map>
@@ -98,8 +98,8 @@ struct <a class="el" href="structcsalt__store__interface.html">csalt_store_inter
 <div class="textblock"><p>This type allows storing a pair of stores and interacting with them as though they are a single store. </p>
 <p>This type can be used to represent coupled stores, as well as lists of stores using a linked-list-like approach or binary trees using a nested approach. Either member may be initialized to a null pointer.</p>
 <p>A constructor is available for creating an individual pair, as well as one for initializing an array of pairs for a list of stores.</p>
-<p><a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> attempts a read from the first store. If that store returns less than the desired amount of bytes, the second store is tried for all requested bytes instead.</p>
-<p><a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> attempts to write to both stores, then returns the least amount written. This helps to prevent data loss in the case that one store failed to write as much as another.</p>
+<p><a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> attempts a read from the first store. If that store returns zero bytes, the second store is tried instead. If either store returns an error, this method returns an error and the contents of <code>*buffer</code> is undefined.</p>
+<p><a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> attempts to write to the first store first. If there was an error, it returns an error immediately; otherwise, it then attempts to write to the second store. If that errors, the whole pair returns an error and the data in the first store is undefined. If the write was successful on both stores, the pair returns the lowest amount written, allowing for repeated attempts without data loss.</p>
 <p><a class="el" href="basestores_8h.html#aef31425e1aeff00a39c9cac218d10b7c" title="Returns the current size of the given store.">csalt_store_size()</a> returns the smallest size reported by the two stores.</p>
 <p><a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101" title="Provides the means to divide a store into a sub-section and perform an operation on the result.">csalt_store_split()</a> passes a new pair, whose members have both been split by the requested amount.</p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a37de335d33b6539623c9c690f4cfea36" title="Constructor for creating a single pair.">csalt_store_pair()</a> </dd>

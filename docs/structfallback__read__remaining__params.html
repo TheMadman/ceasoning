@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.20"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Ceasoning: split_pair_params Struct Reference</title>
+<title>Ceasoning: fallback_read_remaining_params Struct Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -64,39 +64,21 @@ $(function() {
   <div class="summary">
 <a href="#pub-attribs">Data Fields</a>  </div>
   <div class="headertitle">
-<div class="title">split_pair_params Struct Reference</div>  </div>
+<div class="title">fallback_read_remaining_params Struct Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="dynheader">
-Collaboration diagram for split_pair_params:</div>
-<div class="dyncontent">
-<div class="center"><img src="structsplit__pair__params__coll__graph.png" border="0" usemap="#asplit__pair__params_coll__map" alt="Collaboration graph"/></div>
-<map name="split__pair__params_coll__map" id="split__pair__params_coll__map">
-<area shape="rect" title=" " alt="" coords="15,109,154,136"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-</map>
-<center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a3b35271f758879a1383417492e6d2a2f"><td class="memItemLeft" align="right" valign="top"><a id="a3b35271f758879a1383417492e6d2a2f"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>store</b></td></tr>
-<tr class="separator:a3b35271f758879a1383417492e6d2a2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3f39918a3a32b699060446c8d008b873"><td class="memItemLeft" align="right" valign="top"><a id="a3f39918a3a32b699060446c8d008b873"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b></td></tr>
-<tr class="separator:a3f39918a3a32b699060446c8d008b873"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a465d667a84052bf0ac118e66e0bfbfb3"><td class="memItemLeft" align="right" valign="top"><a id="a465d667a84052bf0ac118e66e0bfbfb3"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
-<tr class="separator:a465d667a84052bf0ac118e66e0bfbfb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0686ca908da8e8fc81e334a841c038c8"><td class="memItemLeft" align="right" valign="top"><a id="a0686ca908da8e8fc81e334a841c038c8"></a>
-<a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>block</b></td></tr>
-<tr class="separator:a0686ca908da8e8fc81e334a841c038c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af17d56d0e3aa0e8fb00250d9eaee2224"><td class="memItemLeft" align="right" valign="top"><a id="af17d56d0e3aa0e8fb00250d9eaee2224"></a>
-void *&#160;</td><td class="memItemRight" valign="bottom"><b>param</b></td></tr>
-<tr class="separator:af17d56d0e3aa0e8fb00250d9eaee2224"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8113e374734dc8b95f2a0c2173cc7fbb"><td class="memItemLeft" align="right" valign="top"><a id="a8113e374734dc8b95f2a0c2173cc7fbb"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>pair_first</b></td></tr>
-<tr class="separator:a8113e374734dc8b95f2a0c2173cc7fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb24fb669bcd5e7aff7e5811d2e8bf20"><td class="memItemLeft" align="right" valign="top"><a id="abb24fb669bcd5e7aff7e5811d2e8bf20"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>buffer</b></td></tr>
+<tr class="separator:abb24fb669bcd5e7aff7e5811d2e8bf20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bae66a0b974fb9a7b60ceb72a80475e"><td class="memItemLeft" align="right" valign="top"><a id="a4bae66a0b974fb9a7b60ceb72a80475e"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>remaining</b></td></tr>
+<tr class="separator:a4bae66a0b974fb9a7b60ceb72a80475e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5b3340cc420368d9f1bf52dddd5dbc"><td class="memItemLeft" align="right" valign="top"><a id="a4c5b3340cc420368d9f1bf52dddd5dbc"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>returned</b></td></tr>
+<tr class="separator:a4c5b3340cc420368d9f1bf52dddd5dbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
 <li>stores/compositestores.c</li>

@@ -68,7 +68,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>The csalt_store_fallback_store is a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> providing fallback logic for operations on the stores.  
+<p>This type decorates a pair with fallback/caching logic.  
  <a href="structcsalt__store__fallback.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="compositestores_8h_source.html">csalt/compositestores.h</a>&gt;</code></p>
@@ -77,33 +77,31 @@ Collaboration diagram for csalt_store_fallback:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__store__fallback__coll__graph.png" border="0" usemap="#acsalt__store__fallback_coll__map" alt="Collaboration graph"/></div>
 <map name="csalt__store__fallback_coll__map" id="csalt__store__fallback_coll__map">
-<area shape="rect" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="9,213,161,240"/>
-<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="25,124,145,151"/>
+<area shape="rect" title="This type decorates a pair with fallback/caching logic." alt="" coords="9,213,161,240"/>
 <area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
+<area shape="rect" href="structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="133,124,258,151"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a9065c5d97bfdf2c344e78bdce8811961"><td class="memItemLeft" align="right" valign="top"><a id="a9065c5d97bfdf2c344e78bdce8811961"></a>
-struct <a class="el" href="structcsalt__store__list.html">csalt_store_list</a>&#160;</td><td class="memItemRight" valign="bottom"><b>list</b></td></tr>
-<tr class="separator:a9065c5d97bfdf2c344e78bdce8811961"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aced792e28fcac2730f7591f71f12a5e4"><td class="memItemLeft" align="right" valign="top"><a id="aced792e28fcac2730f7591f71f12a5e4"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>amount_written</b></td></tr>
-<tr class="separator:aced792e28fcac2730f7591f71f12a5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ff74867d78e8aacc5c64bf488663279"><td class="memItemLeft" align="right" valign="top"><a id="a8ff74867d78e8aacc5c64bf488663279"></a>
+struct <a class="el" href="structcsalt__store__interface.html">csalt_store_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
+<tr class="separator:a8ff74867d78e8aacc5c64bf488663279"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d6948e6d57fdf07ba71d5f87d2f1616"><td class="memItemLeft" align="right" valign="top"><a id="a1d6948e6d57fdf07ba71d5f87d2f1616"></a>
+struct <a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pair</b></td></tr>
+<tr class="separator:a1d6948e6d57fdf07ba71d5f87d2f1616"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>The csalt_store_fallback_store is a <a class="el" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov...">csalt_store_list</a> providing fallback logic for operations on the stores. </p>
-<p>The behaviour of this store is intended to mimick caching logic. It prevents reading/writing from later stores if data was found previously, allowing you to skip slow stores if a faster store holds the correct data.</p>
-<p>On <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a>, the read is first attempted on the first item in the list. If that item returns the amount expected, the whole fallback returns; otherwise, the next item is attempted. The fallback store keeps iterating through the list until a store reads the expected amount of bytes, or the list is exhausted.</p>
-<p>If complete data is found in a store, it is written to the stores that came before it.</p>
-<p>If the store reaches the end of the list without reading the full amount of bytes expected, it reads from the store which returned the most bytes and returns the amount of bytes read from that store.</p>
-<p>Standard <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls only write to the first store in the list. To write-out the contents of the last write to the rest of the stores, you can use <a class="el" href="compositestores_8h.html#a56680efacc9fcc05860704ae7b6516a9" title="Writes out data from the first store into all stores after it.">csalt_store_fallback_flush()</a>. More nuanced write behaviour can be achieved by writing to individual stores retrieved with <a class="el" href="compositestores_8h.html#a90d4e8f264c1d277991414fc4bb3d685" title="Returns the store at the given index.">csalt_store_list_get()</a>.</p>
-<p>The <a class="el" href="basestores_8h.html#aef31425e1aeff00a39c9cac218d10b7c" title="Returns the current size of the given store.">csalt_store_size()</a> call returns the smallest reported size of all the stores, allowing for safe reads and writes.</p>
-<p>Calling <a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101" title="Provides the means to divide a store into a sub-section and perform an operation on the result.">csalt_store_split()</a> on a fallback store provides a fallback store in which every store it contains is split by the given amount. This requires at least one dynamic memory allocation.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a902e524828908972ec9821899782dc91" title="Convenience macro for initializing a fallback store from an array.">csalt_store_fallback_array()</a> </dd>
+<div class="textblock"><p>This type decorates a pair with fallback/caching logic. </p>
+<p><a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> tries reading the first store first. If all the requested data are read, it returns immediately. Otherwise, it attempts to read the remaining data from later stores. If data is read from the later stores successfully, it is written back into earlier stores.</p>
+<p>If any store returns an error code from <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a>, the whole fallback store halts immediately and the contents of *buffer is undefined.</p>
+<p><a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> writes only to the first store in the list. The data can be written out to all stores by calling csalt_store_flush() on the list.</p>
+<p><a class="el" href="basestores_8h.html#aef31425e1aeff00a39c9cac218d10b7c" title="Returns the current size of the given store.">csalt_store_size()</a> implements the same logic as for <a class="el" href="structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store...">csalt_store_pair</a>.</p>
+<p><a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101" title="Provides the means to divide a store into a sub-section and perform an operation on the result.">csalt_store_split()</a> behaves similarly to <a class="el" href="structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store...">csalt_store_pair</a>, except the result implements the same fallback logic for <a class="el" href="basestores_8h.html#adda04cfbc7d9065f56ba32fb7698b774" title="Function for reading from a store into a buffer.">csalt_store_read()</a> and <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a>.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a565d9e21406f6fa7c2edf72d77813608" title="Convenience macro from building csalt_store_fallbacks from two arrays.">csalt_store_fallback_array()</a> </dd>
 <dd>
-<a class="el" href="compositestores_8h.html#a2690f7aca20b00ef29f4bf0fe6d66eac" title="Constructor for csalt_store_fallback taking a range of pointers.">csalt_store_fallback_bounds()</a> </dd></dl>
+<a class="el" href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa" title="This function constructs a list of stores which implements caching logic.">csalt_store_fallback_bounds()</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="compositestores_8h_source.html">compositestores.h</a></li>
 </ul>
