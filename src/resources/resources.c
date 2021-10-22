@@ -75,7 +75,8 @@ void csalt_heap_deinit(csalt_resource *resource)
 {
 	struct csalt_heap *heap = (struct csalt_heap *)resource;
 	struct csalt_heap_initialized *memory = (void *)&heap->heap;
-	free(memory->memory.begin);
+	if (memory->memory.begin)
+		free(memory->memory.begin);
 	memory->memory.begin = 0;
 	memory->memory.end = 0;
 }

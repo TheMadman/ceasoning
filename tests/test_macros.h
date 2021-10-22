@@ -153,8 +153,13 @@ csalt_store *csalt_resource_stub_init_fail(csalt_resource *resource)
 	return 0;
 }
 
+csalt_store *csalt_resource_stub_init_fail(csalt_resource *);
+csalt_store *csalt_resource_stub_init_success(csalt_resource *);
+void csalt_resource_stub_deinit(csalt_resource *);
+
 struct csalt_resource_interface csalt_resource_stub_fail_implementation = {
 	csalt_resource_stub_init_fail,
+	csalt_resource_stub_deinit,
 };
 
 struct csalt_resource_stub {

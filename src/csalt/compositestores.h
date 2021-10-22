@@ -181,7 +181,7 @@ struct csalt_store_fallback {
  * \sa csalt_store_fallback_array()
  * \sa csalt_store_pair_list_bounds()
  */
-void csalt_store_fallback_bounds(
+int csalt_store_fallback_bounds(
 	csalt_store **list_begin,
 	csalt_store **list_end,
 	struct csalt_store_fallback *fallback_begin,

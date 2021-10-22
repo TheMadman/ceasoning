@@ -211,7 +211,7 @@ struct csalt_store_fallback csalt_store_fallback(
 	return result;
 }
 
-void csalt_store_fallback_bounds(
+int csalt_store_fallback_bounds(
 	csalt_store **stores_begin,
 	csalt_store **stores_end,
 	struct csalt_store_fallback *out_begin,
@@ -219,14 +219,14 @@ void csalt_store_fallback_bounds(
 )
 {
 	if (stores_begin >= stores_end)
-		return;
+		return -1;
 
 	if (out_begin >= out_end)
-		return;
+		return -1;
 
 	// sizeof(stores) > sizeof(out)
 	if (stores_end - stores_begin > out_end - out_begin)
-		return;
+		return -1;
 
 	for (; stores_begin < stores_end - 1; stores_begin++, out_begin++) {
 		*out_begin = csalt_store_fallback(
@@ -236,6 +236,8 @@ void csalt_store_fallback_bounds(
 	}
 
 	*out_begin = csalt_store_fallback(*stores_begin, 0);
+
+	return 0;
 }
 
 struct fallback_read_remaining_params {
