@@ -31,12 +31,16 @@ extern "C" {
  * as one for initializing an array of pairs for a list of stores.
  *
  * csalt_store_read() attempts a read from the first store. If that
- * store returns zero bytes (or an error code), the second
- * store is tried instead.
+ * store returns zero bytes, the second store is tried instead. If either
+ * store returns an error, this method returns an error and the contents
+ * of \c *buffer is undefined.
  *
- * csalt_store_write() attempts to write to both stores, then returns
- * the least amount written. This helps to prevent data loss in the case
- * that one store failed to write as much as another.
+ * csalt_store_write() attempts to write to the first store first. If
+ * there was an error, it returns an error immediately; otherwise, it
+ * then attempts to write to the second store. If that errors, the whole
+ * pair returns an error and the data in the first store is undefined. If
+ * the write was successful on both stores, the pair returns the lowest
+ * amount written, allowing for repeated attempts without data loss.
  *
  * csalt_store_size() returns the smallest size reported by the two
  * stores.
@@ -71,7 +75,7 @@ int csalt_store_pair_split(
 
 /**
  * \brief Constructor for creating a list of pairs, given
- * 	an array of csalt_store#s to link together.
+ * 	an array of csalt_store%s to link together.
  *
  * This function effectively constructs a linked-list from pairs.
  * The first pair's first property points to the first store in
@@ -185,10 +189,10 @@ void csalt_store_fallback_bounds(
 );
 
 /**
- * \brief Convenience macro from building csalt_store_fallback#s from two
+ * \brief Convenience macro from building csalt_store_fallback%s from two
  * 	arrays.
  *
- * This is the recommended way to construct csalt_store_fallback#s when the
+ * This is the recommended way to construct csalt_store_fallback%s when the
  * array lengths are known at compile-time.
  * 
  * \sa csalt_store_fallback_bounds()

@@ -18,11 +18,11 @@ Concrete stores and resources represent real resources, such as memory and disk 
 
 Composite stores provide simple means to operate on multiple stores:
 
-- csalt_store_list - treats multiple stores as if they are a single store
+- csalt_store_pair - treats multiple stores as if they are a single store
 - csalt_store_fallback - uses stores as a priority list, where later stores are only
   checked if earlier stores don't contain the requested data
 
-- csalt_resource_list - implements the same store interface as csalt_store_list, as 
+- csalt_resource_list - implements the same store interface as csalt_store_pair, as 
   well as functionality for initializing, checking and deinitializing resources
 - csalt_resource_fallback - implements csalt_resource_list resource initialization logic
   with csalt_store_fallback logic for the store interface

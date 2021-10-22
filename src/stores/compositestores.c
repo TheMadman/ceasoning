@@ -53,9 +53,15 @@ ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t siz
 	if (pair->first)
 		first = csalt_store_read(pair->first, buffer, size);
 
+	if (first < 0)
+		return first;
+
 	ssize_t second = first;
-	if (first <= 0 && pair->second)
+	if (first == 0 && pair->second)
 		second = csalt_store_read(pair->second, buffer, size);
+
+	if (second < 0)
+		return second;
 
 	return max(first, second);
 }
@@ -66,6 +72,9 @@ ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t si
 	ssize_t first = 0;
 	if (pair->first)
 		first = csalt_store_write(pair->first, buffer, size);
+
+	if (first < 0)
+		return first;
 
 	ssize_t second = first;
 	if (pair->second)
