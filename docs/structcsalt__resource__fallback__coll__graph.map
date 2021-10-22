@@ -1,9 +1,7 @@
 <map id="csalt_resource_fallback" name="csalt_resource_fallback">
-<area shape="rect" id="node1" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="45,463,219,489"/>
-<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,337,187,363"/>
-<area shape="rect" id="node3" href="$structcsalt__resource__fallback__initialized.html" title=" " alt="" coords="211,329,386,371"/>
-<area shape="rect" id="node4" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="168,175,355,216"/>
-<area shape="rect" id="node5" href="$structcsalt__store__interface.html" title=" " alt="" coords="234,5,393,32"/>
-<area shape="rect" id="node7" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="321,124,441,151"/>
-<area shape="rect" id="node6" href="$structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="320,240,472,267"/>
+<area shape="rect" id="node1" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="91,347,265,373"/>
+<area shape="rect" id="node2" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
+<area shape="rect" id="node5" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="110,124,230,151"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="278,228,459,255"/>
+<area shape="rect" id="node4" href="$structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="102,228,254,255"/>
 </map>
