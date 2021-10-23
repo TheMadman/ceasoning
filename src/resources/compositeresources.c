@@ -28,13 +28,13 @@ int csalt_resource_pair_list_bounds(
 	struct csalt_resource_pair *out_end
 )
 {
-	if (in_begin <= in_end)
+	if (in_begin > in_end)
 		return -1;
 
-	if (out_begin <= out_end)
+	if (out_begin > out_end)
 		return -1;
 
-	// if (sizeof(resources) > sizeof(out))
+	// if (arrlength(resources) > arrlength(out))
 	if (in_end - in_begin > out_end - out_begin)
 		return -1;
 

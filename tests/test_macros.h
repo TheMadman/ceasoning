@@ -165,6 +165,7 @@ struct csalt_resource_interface csalt_resource_stub_fail_implementation = {
 struct csalt_resource_stub {
 	struct csalt_resource_interface *vtable;
 	struct csalt_store_stub return_value;
+	int deinit_called;
 };
 
 csalt_store *csalt_resource_stub_init_success(csalt_resource *resource)
@@ -175,7 +176,8 @@ csalt_store *csalt_resource_stub_init_success(csalt_resource *resource)
 
 void csalt_resource_stub_deinit(csalt_resource *resource)
 {
-	(void)resource;
+	struct csalt_resource_stub *stub = (void *)resource;
+	stub->deinit_called = 1;
 }
 
 struct csalt_resource_interface csalt_resource_stub_succeed_implementation = {
@@ -188,6 +190,7 @@ struct csalt_resource_stub csalt_resource_stub(size_t size)
 	struct csalt_resource_stub result = {
 		&csalt_resource_stub_succeed_implementation,
 		csalt_store_stub(size),
+		0,
 	};
 
 	return result;

@@ -11,4 +11,7 @@ include $(srcdir)/src/Makefile.am
 include $(srcdir)/tests/Makefile.am
 dist_doc_DATA = README.md
 
+.PHONY: static-check
 
+static-check:
+	cppcheck --cppcheck-build-dir="$(builddir)" "$(top_srcdir)"/src "$(top_srcdir)"/tests

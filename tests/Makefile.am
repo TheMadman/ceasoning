@@ -8,6 +8,7 @@ TESTS = %reldir%/csalt_resource_use\
 	%reldir%/csalt_store_decorator_logger\
 	%reldir%/csalt_resource_decorator_logger\
 	%reldir%/csalt_store_pair\
+	%reldir%/csalt_resource_pair\
 	%reldir%/csalt_store_fallback
 
 check_PROGRAMS = $(TESTS)

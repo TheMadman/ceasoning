@@ -100,6 +100,7 @@ TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_store_decorator_logger$(EXEEXT) \
 	tests/csalt_resource_decorator_logger$(EXEEXT) \
 	tests/csalt_store_pair$(EXEEXT) \
+	tests/csalt_resource_pair$(EXEEXT) \
 	tests/csalt_store_fallback$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
@@ -129,6 +130,7 @@ am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_store_decorator_logger$(EXEEXT) \
 	tests/csalt_resource_decorator_logger$(EXEEXT) \
 	tests/csalt_store_pair$(EXEEXT) \
+	tests/csalt_resource_pair$(EXEEXT) \
 	tests/csalt_store_fallback$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
@@ -197,6 +199,12 @@ tests_csalt_resource_first_OBJECTS =  \
 tests_csalt_resource_first_LDADD = $(LDADD)
 tests_csalt_resource_first_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_pair_SOURCES = tests/csalt_resource_pair.c
+tests_csalt_resource_pair_OBJECTS =  \
+	tests/csalt_resource_pair.$(OBJEXT)
+tests_csalt_resource_pair_LDADD = $(LDADD)
+tests_csalt_resource_pair_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_use_SOURCES = tests/csalt_resource_use.c
 tests_csalt_resource_use_OBJECTS = tests/csalt_resource_use.$(OBJEXT)
 tests_csalt_resource_use_LDADD = $(LDADD)
@@ -264,6 +272,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
 	tests/$(DEPDIR)/csalt_resource_decorator_logger.Po \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
+	tests/$(DEPDIR)/csalt_resource_pair.Po \
 	tests/$(DEPDIR)/csalt_resource_use.Po \
 	tests/$(DEPDIR)/csalt_store_decorator_logger.Po \
 	tests/$(DEPDIR)/csalt_store_fallback.Po \
@@ -293,7 +302,8 @@ am__v_CCLD_1 =
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c \
 	tests/csalt_resource_decorator_logger.c \
-	tests/csalt_resource_first.c tests/csalt_resource_use.c \
+	tests/csalt_resource_first.c tests/csalt_resource_pair.c \
+	tests/csalt_resource_use.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_pair.c \
@@ -301,7 +311,8 @@ SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c \
 	tests/csalt_resource_decorator_logger.c \
-	tests/csalt_resource_first.c tests/csalt_resource_use.c \
+	tests/csalt_resource_first.c tests/csalt_resource_pair.c \
+	tests/csalt_resource_use.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_pair.c \
@@ -854,6 +865,12 @@ tests/csalt_resource_first.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_resource_first$(EXEEXT): $(tests_csalt_resource_first_OBJECTS) $(tests_csalt_resource_first_DEPENDENCIES) $(EXTRA_tests_csalt_resource_first_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_first$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_first_OBJECTS) $(tests_csalt_resource_first_LDADD) $(LIBS)
+tests/csalt_resource_pair.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_pair$(EXEEXT): $(tests_csalt_resource_pair_OBJECTS) $(tests_csalt_resource_pair_DEPENDENCIES) $(EXTRA_tests_csalt_resource_pair_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_pair$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_pair_OBJECTS) $(tests_csalt_resource_pair_LDADD) $(LIBS)
 tests/csalt_resource_use.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -920,6 +937,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_decorator_logger.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_pair.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_use.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_decorator_logger.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_fallback.Po@am__quote@ # am--include-marker
@@ -1283,6 +1301,13 @@ tests/csalt_store_pair.log: tests/csalt_store_pair$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_pair.log: tests/csalt_resource_pair$(EXEEXT)
+	@p='tests/csalt_resource_pair$(EXEEXT)'; \
+	b='tests/csalt_resource_pair'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 tests/csalt_store_fallback.log: tests/csalt_store_fallback$(EXEEXT)
 	@p='tests/csalt_store_fallback$(EXEEXT)'; \
 	b='tests/csalt_store_fallback'; \
@@ -1539,6 +1564,7 @@ distclean: distclean-am
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
@@ -1605,6 +1631,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_decorator_logger.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
@@ -1656,6 +1683,11 @@ uninstall-am: uninstall-csaltincludeHEADERS uninstall-dist_docDATA \
 
 .PRECIOUS: Makefile
 
+
+.PHONY: static-check
+
+static-check:
+	cppcheck --cppcheck-build-dir="$(builddir)" "$(top_srcdir)"/src "$(top_srcdir)"/tests
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
