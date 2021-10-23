@@ -3,10 +3,89 @@
 #include <csalt/util.h>
 #include "test_macros.h"
 
+#include <stdlib.h>
+
+int receive_empty_split(csalt_store *store, void *data);
+int receive_empty_first_pair(csalt_store *store, void *data);
 int receive_split(csalt_store *store, void *data);
 
 int main()
 {
+	{
+		struct csalt_store_pair pair = csalt_store_pair(0, 0);
+		ssize_t written = csalt_store_write(
+			csalt_store(&pair),
+			0,
+			10
+		);
+
+		if (written > 0) {
+			print_error(
+				"csalt_store_write() returned a value on an empty pair: %ld",
+				written
+			);
+			return EXIT_FAILURE;
+		}
+
+		ssize_t read = csalt_store_read(
+			csalt_store(&pair),
+			0,
+			10
+		);
+
+		if (read > 0) {
+			print_error(
+				"csalt_store_read() returned a value on an empty pair: %ld",
+				read
+			);
+			return EXIT_FAILURE;
+		}
+
+		csalt_store_split(
+			csalt_store(&pair),
+			0,
+			10,
+			receive_empty_split,
+			0
+		);
+	}
+
+	{
+		struct csalt_store_stub stub = csalt_store_stub(1024);
+		struct csalt_store_pair pair = csalt_store_pair(
+			0,
+			csalt_store(&stub)
+		);
+
+		ssize_t written = csalt_store_write(
+			csalt_store(&pair),
+			0,
+			10
+		);
+		if (written != 10) {
+			print_error("csalt_store_write() should have written to second store");
+			return EXIT_FAILURE;
+		}
+
+		ssize_t read = csalt_store_read(
+			csalt_store(&pair),
+			0,
+			10
+		);
+		if (read != 10) {
+			print_error("csalt_store_read() should have read from second store");
+			return EXIT_FAILURE;
+		}
+
+		csalt_store_split(
+			csalt_store(&pair),
+			0,
+			10,
+			receive_empty_first_pair,
+			0
+		);
+	}
+
 	{
 		struct csalt_store_stub first = csalt_store_stub(1024);
 		struct csalt_store_stub second = csalt_store_stub(512);
@@ -187,3 +266,24 @@ int receive_split(csalt_store *store, void *data)
 	return EXIT_SUCCESS;
 }
 
+int receive_empty_split(csalt_store *store, void *data)
+{
+	struct csalt_store_pair *pair = (void *)store;
+	return 0;
+}
+
+int receive_empty_first_pair(csalt_store *store, void *data)
+{
+	struct csalt_store_pair *pair = (void *)store;
+
+	if (pair->first || !pair->second) {
+		print_error(
+			"split pair with empty first member has unexpected value: %p -> %p",
+			pair->first,
+			pair->second
+		);
+		exit(EXIT_FAILURE);
+	}
+
+	return 0;
+}

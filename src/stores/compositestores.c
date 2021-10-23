@@ -36,7 +36,7 @@ void csalt_store_pair_list_bounds(
 	if (out_begin >= out_end)
 		return;
 
-	// sizeof(stores) > sizeof(out)
+	// arrlength(stores) > arrlength(out)
 	if (end - begin > out_end - out_begin)
 		return;
 
@@ -69,7 +69,10 @@ ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t siz
 ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size)
 {
 	struct csalt_store_pair *pair = (void *)store;
-	ssize_t first = 0;
+	if (!(pair->first || pair->second))
+		return 0;
+
+	ssize_t first = SSIZE_MAX;
 	if (pair->first)
 		first = csalt_store_write(pair->first, buffer, size);
 
@@ -158,13 +161,22 @@ int csalt_store_pair_split(
 		return block(store, param);
 	}
 
-	return csalt_store_split(
-		pair->first,
-		begin,
-		end,
-		split_first,
-		&params
-	);
+	if (pair->first)
+		return csalt_store_split(
+			pair->first,
+			begin,
+			end,
+			split_first,
+			&params
+		);
+	else
+		return csalt_store_split(
+			pair->second,
+			begin,
+			end,
+			split_second,
+			&params
+		);
 }
 
 // A nice, little tail-recursion optimisation
@@ -224,7 +236,7 @@ int csalt_store_fallback_bounds(
 	if (out_begin >= out_end)
 		return -1;
 
-	// sizeof(stores) > sizeof(out)
+	// arrlength(stores) > arrlength(out)
 	if (stores_end - stores_begin > out_end - out_begin)
 		return -1;
 
