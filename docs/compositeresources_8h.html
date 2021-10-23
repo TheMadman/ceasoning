@@ -109,12 +109,18 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Data Structures</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This type allows storing a pair of resources and treating them as a single resource.  <a href="structcsalt__resource__pair.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct uses the first working resource.  <a href="structcsalt__resource__first.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a860a1dc9b44d3d08b01ee719b758d783"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">csalt_resource_pair_list</a>(resources,  out)</td></tr>
+<tr class="memdesc:a860a1dc9b44d3d08b01ee719b758d783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for building a linked-list of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s.  <a href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">More...</a><br /></td></tr>
+<tr class="separator:a860a1dc9b44d3d08b01ee719b758d783"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="memItemLeft" align="right" valign="top"><a id="a11a2ca062f63dbd7ca3b8e4b251047d3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a11a2ca062f63dbd7ca3b8e4b251047d3">csalt_resource_first_array</a>(array)&#160;&#160;&#160;(<a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a>((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
 <tr class="memdesc:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for constructing a resource_first_bounds from an array. <br /></td></tr>
@@ -122,6 +128,19 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:aae7ed46f4608e9f7a28a74127163e3e8"><td class="memItemLeft" align="right" valign="top"><a id="aae7ed46f4608e9f7a28a74127163e3e8"></a>
+struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#aae7ed46f4608e9f7a28a74127163e3e8">csalt_resource_pair</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *first, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *second)</td></tr>
+<tr class="memdesc:aae7ed46f4608e9f7a28a74127163e3e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>. <br /></td></tr>
+<tr class="separator:aae7ed46f4608e9f7a28a74127163e3e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19e9034f320bdebe0f1272fca1e4b6d7"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">csalt_resource_pair_list_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **resource_begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **resource_end, struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a> *out_begin, struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a> *out_end)</td></tr>
+<tr class="memdesc:a19e9034f320bdebe0f1272fca1e4b6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a linked-list-like structure of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s.  <a href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">More...</a><br /></td></tr>
+<tr class="separator:a19e9034f320bdebe0f1272fca1e4b6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a482fed5ac087b2228cba5139850b78a9"><td class="memItemLeft" align="right" valign="top"><a id="a482fed5ac087b2228cba5139850b78a9"></a>
+<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_pair_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a482fed5ac087b2228cba5139850b78a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75d731d14c93a156fcdd2485c8efed08"><td class="memItemLeft" align="right" valign="top"><a id="a75d731d14c93a156fcdd2485c8efed08"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_pair_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a75d731d14c93a156fcdd2485c8efed08"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e30a6f4593605115ad538816b2ec182"><td class="memItemLeft" align="right" valign="top"><a id="a5e30a6f4593605115ad538816b2ec182"></a>
 struct <a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
 <tr class="memdesc:a5e30a6f4593605115ad538816b2ec182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a csalt_resource_first_bounds. <br /></td></tr>
@@ -136,7 +155,97 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file defines abstract resources, which allow you to define relationships between resources. </p>
 <p>This includes the csalt_resource_list resource, which allows you to treat any number of resources as a single resource safely </p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a860a1dc9b44d3d08b01ee719b758d783"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a860a1dc9b44d3d08b01ee719b758d783">&#9670;&nbsp;</a></span>csalt_resource_pair_list</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define csalt_resource_pair_list</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">resources, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">out&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">csalt_resource_pair_list_bounds</a>( \</div>
+<div class="line">        (resources), \</div>
+<div class="line">        <a class="code" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(resources), \</div>
+<div class="line">        (out), \</div>
+<div class="line">        <a class="code" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(out) \</div>
+<div class="line">    )</div>
+</div><!-- fragment -->
+<p>Convenience macro for building a linked-list of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s. </p>
+<p>This is the recommended way to construct lists of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s with arrays whose lengths are known at compile-time. If the arrays are dynamically allocated, such as with <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> or malloc, you must use <a class="el" href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7" title="Constructs a linked-list-like structure of csalt_resource_pairs.">csalt_resource_pair_list_bounds()</a> instead.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a> </dd>
+<dd>
+<a class="el" href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7" title="Constructs a linked-list-like structure of csalt_resource_pairs.">csalt_resource_pair_list_bounds()</a> </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a19e9034f320bdebe0f1272fca1e4b6d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19e9034f320bdebe0f1272fca1e4b6d7">&#9670;&nbsp;</a></span>csalt_resource_pair_list_bounds()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int csalt_resource_pair_list_bounds </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td>
+          <td class="paramname"><em>resource_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td>
+          <td class="paramname"><em>resource_end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a> *&#160;</td>
+          <td class="paramname"><em>out_begin</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a> *&#160;</td>
+          <td class="paramname"><em>out_end</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a linked-list-like structure of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s. </p>
+<p>Returns 0 on success or -1 on error. Errors include one of the arrays being zero-length, one of the arrays being ill-defined, or the output array being smaller than the input array.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a> </dd>
+<dd>
+<a class="el" href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783" title="Convenience macro for building a linked-list of csalt_resource_pairs.">csalt_resource_pair_list()</a> </dd></dl>
+
+</div>
+</div>
+</div><!-- contents -->
+<div class="ttc" id="acompositeresources_8h_html_a19e9034f320bdebe0f1272fca1e4b6d7"><div class="ttname"><a href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">csalt_resource_pair_list_bounds</a></div><div class="ttdeci">int csalt_resource_pair_list_bounds(csalt_resource **resource_begin, csalt_resource **resource_end, struct csalt_resource_pair *out_begin, struct csalt_resource_pair *out_end)</div><div class="ttdoc">Constructs a linked-list-like structure of csalt_resource_pairs.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:24</div></div>
+<div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:32</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

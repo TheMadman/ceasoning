@@ -155,9 +155,9 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="co
 <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#af6a028caa3aa9afc177fcce8e8e2ad40">csalt_store_pair_list_get</a> (const struct <a class="el" href="structcsalt__store__pair.html">csalt_store_pair</a> *pairs, size_t index)</td></tr>
 <tr class="memdesc:af6a028caa3aa9afc177fcce8e8e2ad40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Allows getting the csalt_store object at an offset from a list of pairs constructed by <a class="el" href="compositestores_8h.html#ac7d12f322813827952bd103ea8cba026" title="Convenience macro for constructing a pair_list from two arrays.">csalt_store_pair_list()</a> or <a class="el" href="compositestores_8h.html#a310add26f62ff195921bf74aed8fc6f7" title="Constructor for creating a list of pairs, given an array of csalt_stores to link together.">csalt_store_pair_list_bounds()</a>. <br /></td></tr>
 <tr class="separator:af6a028caa3aa9afc177fcce8e8e2ad40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a90f9b9e9b1ae4cacbf8ddd9a2e721cfa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa">csalt_store_fallback_bounds</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **list_begin, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **list_end, struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *fallback_begin, struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *fallback_end)</td></tr>
-<tr class="memdesc:a90f9b9e9b1ae4cacbf8ddd9a2e721cfa"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs a list of stores which implements caching logic.  <a href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa">More...</a><br /></td></tr>
-<tr class="separator:a90f9b9e9b1ae4cacbf8ddd9a2e721cfa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a276a6489af3a17f0aa9003e7e5380b6b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositestores_8h.html#a276a6489af3a17f0aa9003e7e5380b6b">csalt_store_fallback_bounds</a> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **list_begin, <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **list_end, struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *fallback_begin, struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a> *fallback_end)</td></tr>
+<tr class="memdesc:a276a6489af3a17f0aa9003e7e5380b6b"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function constructs a list of stores which implements caching logic.  <a href="compositestores_8h.html#a276a6489af3a17f0aa9003e7e5380b6b">More...</a><br /></td></tr>
+<tr class="separator:a276a6489af3a17f0aa9003e7e5380b6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6f8ccc8dd6c4b3883c4719b00da0adc"><td class="memItemLeft" align="right" valign="top"><a id="ae6f8ccc8dd6c4b3883c4719b00da0adc"></a>
 ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_read</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, void *buffer, size_t amount)</td></tr>
 <tr class="separator:ae6f8ccc8dd6c4b3883c4719b00da0adc"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,7 +200,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_s
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa">csalt_store_fallback_bounds</a>( \</div>
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="compositestores_8h.html#a276a6489af3a17f0aa9003e7e5380b6b">csalt_store_fallback_bounds</a>( \</div>
 <div class="line">        (store_array), \</div>
 <div class="line">        <a class="code" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(store_array), \</div>
 <div class="line">        (fallback_array), \</div>
@@ -209,7 +209,7 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_s
 </div><!-- fragment -->
 <p>Convenience macro from building <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a>s from two arrays. </p>
 <p>This is the recommended way to construct <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a>s when the array lengths are known at compile-time.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa" title="This function constructs a list of stores which implements caching logic.">csalt_store_fallback_bounds()</a> </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositestores_8h.html#a276a6489af3a17f0aa9003e7e5380b6b" title="This function constructs a list of stores which implements caching logic.">csalt_store_fallback_bounds()</a> </dd></dl>
 
 </div>
 </div>
@@ -252,14 +252,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_s
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a90f9b9e9b1ae4cacbf8ddd9a2e721cfa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa">&#9670;&nbsp;</a></span>csalt_store_fallback_bounds()</h2>
+<a id="a276a6489af3a17f0aa9003e7e5380b6b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a276a6489af3a17f0aa9003e7e5380b6b">&#9670;&nbsp;</a></span>csalt_store_fallback_bounds()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void csalt_store_fallback_bounds </td>
+          <td class="memname">int csalt_store_fallback_bounds </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **&#160;</td>
           <td class="paramname"><em>list_begin</em>, </td>
@@ -353,9 +353,9 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_fallback_s
 </div>
 </div>
 </div><!-- contents -->
-<div class="ttc" id="acompositestores_8h_html_a90f9b9e9b1ae4cacbf8ddd9a2e721cfa"><div class="ttname"><a href="compositestores_8h.html#a90f9b9e9b1ae4cacbf8ddd9a2e721cfa">csalt_store_fallback_bounds</a></div><div class="ttdeci">void csalt_store_fallback_bounds(csalt_store **list_begin, csalt_store **list_end, struct csalt_store_fallback *fallback_begin, struct csalt_store_fallback *fallback_end)</div><div class="ttdoc">This function constructs a list of stores which implements caching logic.</div><div class="ttdef"><b>Definition:</b> compositestores.c:214</div></div>
 <div class="ttc" id="astructcsalt__store__pair_html"><div class="ttname"><a href="structcsalt__store__pair.html">csalt_store_pair</a></div><div class="ttdoc">This type allows storing a pair of stores and interacting with them as though they are a single store...</div><div class="ttdef"><b>Definition:</b> compositestores.h:54</div></div>
 <div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:32</div></div>
+<div class="ttc" id="acompositestores_8h_html_a276a6489af3a17f0aa9003e7e5380b6b"><div class="ttname"><a href="compositestores_8h.html#a276a6489af3a17f0aa9003e7e5380b6b">csalt_store_fallback_bounds</a></div><div class="ttdeci">int csalt_store_fallback_bounds(csalt_store **list_begin, csalt_store **list_end, struct csalt_store_fallback *fallback_begin, struct csalt_store_fallback *fallback_end)</div><div class="ttdoc">This function constructs a list of stores which implements caching logic.</div><div class="ttdef"><b>Definition:</b> compositestores.c:226</div></div>
 <div class="ttc" id="acompositestores_8h_html_a310add26f62ff195921bf74aed8fc6f7"><div class="ttname"><a href="compositestores_8h.html#a310add26f62ff195921bf74aed8fc6f7">csalt_store_pair_list_bounds</a></div><div class="ttdeci">void csalt_store_pair_list_bounds(csalt_store **begin, csalt_store **end, struct csalt_store_pair *out_array_begin, struct csalt_store_pair *out_array_end)</div><div class="ttdoc">Constructor for creating a list of pairs, given an array of csalt_stores to link together.</div><div class="ttdef"><b>Definition:</b> compositestores.c:26</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
