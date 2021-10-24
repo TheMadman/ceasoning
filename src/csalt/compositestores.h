@@ -172,6 +172,14 @@ struct csalt_store_fallback {
 };
 
 /**
+ * \brief Constructs a csalt_store_fallback from two csalt_store%s.
+ */
+struct csalt_store_fallback csalt_store_fallback(
+	csalt_store *first,
+	csalt_store *second
+);
+
+/**
  * \brief This function constructs a list of stores which implements caching
  * 	logic.
  *

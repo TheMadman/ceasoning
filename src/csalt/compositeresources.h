@@ -98,6 +98,62 @@ csalt_store *csalt_resource_pair_init(csalt_resource *resource);
 void csalt_resource_pair_deinit(csalt_resource *resource);
 
 /**
+ * \brief This type provides a resource which initializes multiple resources,
+ * 	returning a csalt_store_fallback on initialization.
+ *
+ * This resource attempts to initialize all resources, returning 0 if any of
+ * them fail and a pointer to a csalt_store_fallback on success. A 
+ * constructor is available taking two resources, and one is available for
+ * an array of resources.
+ *
+ * \sa csalt_resource_fallback()
+ * \sa csalt_resource_fallback_array()
+ * \sa csalt_resource_fallback_bounds()
+ */
+struct csalt_resource_fallback {
+	struct csalt_resource_interface *vtable;
+	struct csalt_resource_pair pair;
+	struct csalt_store_fallback result;
+};
+
+/**
+ * \brief Constructs a csalt_resource_fallback from two resources.
+ */
+struct csalt_resource_fallback csalt_resource_fallback(
+	csalt_resource *first,
+	csalt_resource *second
+);
+
+/**
+ * \brief Constructs a csalt_resource_fallback from an array of 
+ * 	csalt_resource%s.
+ */
+int csalt_resource_fallback_bounds(
+	csalt_resource **resource_begin,
+	csalt_resource **resource_end,
+	struct csalt_resource_fallback *out_begin,
+	struct csalt_resource_fallback *out_end
+);
+
+/**
+ * \brief Convenience macro for constructing a csalt_resource_fallback from
+ * 	two arrays.
+ *
+ * This is the recommended way to construct a csalt_resource_fallback if the
+ * arrays' sizes are known at compile-time.
+ */
+#define csalt_resource_fallback_array(resources, out) \
+	csalt_resource_fallback_bounds( \
+		(resources), \
+		arrend(resources), \
+		(out), \
+		arrend(out) \
+	)
+
+csalt_store *csalt_resource_fallback_init(csalt_resource *resource);
+void csalt_resource_fallback_deinit(csalt_resource *resource);
+
+/**
  * \brief This struct uses the first working resource.
  *
  * When initialized, it attempts to initialize the first resource;

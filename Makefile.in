@@ -101,7 +101,8 @@ TESTS = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_decorator_logger$(EXEEXT) \
 	tests/csalt_store_pair$(EXEEXT) \
 	tests/csalt_resource_pair$(EXEEXT) \
-	tests/csalt_store_fallback$(EXEEXT)
+	tests/csalt_store_fallback$(EXEEXT) \
+	tests/csalt_resource_fallback$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -131,7 +132,8 @@ am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
 	tests/csalt_resource_decorator_logger$(EXEEXT) \
 	tests/csalt_store_pair$(EXEEXT) \
 	tests/csalt_resource_pair$(EXEEXT) \
-	tests/csalt_store_fallback$(EXEEXT)
+	tests/csalt_store_fallback$(EXEEXT) \
+	tests/csalt_resource_fallback$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -192,6 +194,13 @@ tests_csalt_resource_decorator_logger_OBJECTS =  \
 	tests/csalt_resource_decorator_logger.$(OBJEXT)
 tests_csalt_resource_decorator_logger_LDADD = $(LDADD)
 tests_csalt_resource_decorator_logger_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_fallback_SOURCES =  \
+	tests/csalt_resource_fallback.c
+tests_csalt_resource_fallback_OBJECTS =  \
+	tests/csalt_resource_fallback.$(OBJEXT)
+tests_csalt_resource_fallback_LDADD = $(LDADD)
+tests_csalt_resource_fallback_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_first_SOURCES = tests/csalt_resource_first.c
 tests_csalt_resource_first_OBJECTS =  \
@@ -271,6 +280,7 @@ am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
 	tests/$(DEPDIR)/csalt_file_resource.Po \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
 	tests/$(DEPDIR)/csalt_resource_decorator_logger.Po \
+	tests/$(DEPDIR)/csalt_resource_fallback.Po \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
 	tests/$(DEPDIR)/csalt_resource_pair.Po \
 	tests/$(DEPDIR)/csalt_resource_use.Po \
@@ -302,8 +312,8 @@ am__v_CCLD_1 =
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c \
 	tests/csalt_resource_decorator_logger.c \
-	tests/csalt_resource_first.c tests/csalt_resource_pair.c \
-	tests/csalt_resource_use.c \
+	tests/csalt_resource_fallback.c tests/csalt_resource_first.c \
+	tests/csalt_resource_pair.c tests/csalt_resource_use.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_pair.c \
@@ -311,8 +321,8 @@ SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
 	tests/csalt_memory_resource.c \
 	tests/csalt_resource_decorator_logger.c \
-	tests/csalt_resource_first.c tests/csalt_resource_pair.c \
-	tests/csalt_resource_use.c \
+	tests/csalt_resource_fallback.c tests/csalt_resource_first.c \
+	tests/csalt_resource_pair.c tests/csalt_resource_use.c \
 	tests/csalt_store_decorator_logger.c \
 	tests/csalt_store_fallback.c \
 	tests/csalt_store_file_descriptor.c tests/csalt_store_pair.c \
@@ -859,6 +869,12 @@ tests/csalt_resource_decorator_logger.$(OBJEXT):  \
 tests/csalt_resource_decorator_logger$(EXEEXT): $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_DEPENDENCIES) $(EXTRA_tests_csalt_resource_decorator_logger_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_decorator_logger$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_LDADD) $(LIBS)
+tests/csalt_resource_fallback.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_fallback$(EXEEXT): $(tests_csalt_resource_fallback_OBJECTS) $(tests_csalt_resource_fallback_DEPENDENCIES) $(EXTRA_tests_csalt_resource_fallback_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_fallback$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_fallback_OBJECTS) $(tests_csalt_resource_fallback_LDADD) $(LIBS)
 tests/csalt_resource_first.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -936,6 +952,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_file_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_decorator_logger.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_fallback.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_pair.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_use.Po@am__quote@ # am--include-marker
@@ -1315,6 +1332,13 @@ tests/csalt_store_fallback.log: tests/csalt_store_fallback$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_fallback.log: tests/csalt_resource_fallback$(EXEEXT)
+	@p='tests/csalt_resource_fallback$(EXEEXT)'; \
+	b='tests/csalt_resource_fallback'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1563,6 +1587,7 @@ distclean: distclean-am
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
@@ -1630,6 +1655,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po

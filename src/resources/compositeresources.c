@@ -82,6 +82,55 @@ void csalt_resource_pair_deinit(csalt_resource *resource)
 	}
 }
 
+static struct csalt_resource_interface
+	csalt_resource_fallback_implementation = {
+	csalt_resource_fallback_init,
+	csalt_resource_fallback_deinit,
+};
+
+struct csalt_resource_fallback csalt_resource_fallback(
+	csalt_resource *first,
+	csalt_resource *second
+)
+{
+	struct csalt_resource_fallback result = {
+		&csalt_resource_fallback_implementation,
+		csalt_resource_pair(first, second),
+		0
+	};
+
+	return result;
+}
+
+int csalt_resource_fallback_bounds(
+	csalt_resource **in_begin,
+	csalt_resource **in_end,
+	struct csalt_resource_fallback *out_begin,
+	struct csalt_resource_fallback *out_end
+)
+{
+	if (in_end <= in_begin)
+		return -1;
+
+	if (out_end <= out_begin)
+		return -1;
+
+	// if (arrlength(in) > arrlength(out))
+	if (in_end - in_begin > out_end - out_begin)
+		return -1;
+
+	for (; in_begin < in_end - 1; in_begin++, out_begin++) {
+		*out_begin = csalt_resource_fallback(
+			*in_begin,
+			(void *)(out_begin + 1)
+		);
+	}
+
+	*out_begin = csalt_resource_fallback(*in_begin, 0);
+
+	return 0;
+}
+
 static struct csalt_resource_interface csalt_resource_first_implementation = {
 	csalt_resource_first_init,
 	csalt_resource_first_deinit,
@@ -98,6 +147,26 @@ struct csalt_resource_first csalt_resource_first_bounds(
 	result.end = end;
 
 	return result;
+}
+
+csalt_store *csalt_resource_fallback_init(csalt_resource *resource)
+{
+	struct csalt_resource_fallback *fallback = (void *)resource;
+
+	struct csalt_store_pair
+		*pair = (void *)csalt_resource_init(
+			csalt_resource(&fallback->pair)
+		);
+
+	fallback->result = csalt_store_fallback(pair->first, pair->second);
+	return (void *)&fallback->result;
+}
+
+void csalt_resource_fallback_deinit(csalt_resource *resource)
+{
+	struct csalt_resource_fallback *fallback = (void *)resource;
+
+	csalt_resource_deinit(csalt_resource(&fallback->pair));
 }
 
 csalt_store *csalt_resource_first_init(csalt_resource *resource)
