@@ -46,7 +46,7 @@ void csalt_store_pair_list_bounds(
 	*out_begin = csalt_store_pair(*begin, 0);
 }
 
-ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t size)
+ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, size_t size)
 {
 	const struct csalt_store_pair *pair = (void *)store;
 	ssize_t first = 0;
@@ -86,7 +86,7 @@ ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t si
 	return min(first, second);
 }
 
-size_t csalt_store_pair_size(const csalt_store *store)
+size_t csalt_store_pair_size(csalt_store *store)
 {
 	struct csalt_store_pair *pair = (void *)store;
 	size_t first = 0;
@@ -284,7 +284,7 @@ static int fallback_read_remaining(csalt_store *store, void *arg)
 
 // this became more complicated than I intended...
 ssize_t csalt_store_fallback_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t requested_amount
 )
@@ -342,7 +342,7 @@ ssize_t csalt_store_fallback_write(
 	);
 }
 
-size_t csalt_store_fallback_size(const csalt_store *store)
+size_t csalt_store_fallback_size(csalt_store *store)
 {
 	struct csalt_store_fallback *fallback = (void *)store;
 	return csalt_store_size((void *)&fallback->pair);

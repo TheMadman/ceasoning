@@ -19,7 +19,7 @@ ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
 	return written;
 }
 
-ssize_t csalt_heap_read(const csalt_store *store, void *buffer, size_t size)
+ssize_t csalt_heap_read(csalt_store *store, void *buffer, size_t size)
 {
 	struct csalt_heap_initialized *heap = (void *)store;
 	size = min(size, heap->amount_written);

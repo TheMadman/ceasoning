@@ -10,7 +10,7 @@ struct csalt_resource_interface csalt_resource_file_interface = {
 	csalt_resource_file_deinit,
 };
 
-//ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t size)
+//ssize_t csalt_resource_file_read(csalt_store *store, void *buffer, size_t size)
 //{
 //	struct csalt_resource_file_initialized *file = castto(file, store);
 //	lseek(file->fd, file->begin, SEEK_SET);
@@ -30,7 +30,7 @@ struct csalt_resource_interface csalt_resource_file_interface = {
 //	return result;
 //}
 //
-//size_t csalt_resource_file_size(const csalt_store *store)
+//size_t csalt_resource_file_size(csalt_store *store)
 //{
 //	struct csalt_resource_file_initialized *file = castto(file, store);
 //	return file->end - file->begin;

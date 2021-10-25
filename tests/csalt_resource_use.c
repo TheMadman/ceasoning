@@ -9,7 +9,7 @@ int block_called = 0;
 int deinit_called = 0;
 
 struct csalt_store_interface test_init_interface;
-struct csalt_store_interface *test_init_ptr = &test_init_interface;
+const struct csalt_store_interface *test_init_ptr = &test_init_interface;
 
 csalt_store *init(csalt_resource *_)
 {
@@ -17,7 +17,7 @@ csalt_store *init(csalt_resource *_)
 	return &test_init_ptr;
 }
 
-ssize_t test_read(const csalt_store *_, void *__, size_t size)
+ssize_t test_read(csalt_store *_, void *__, size_t size)
 {
 	(void)_;
 	(void)__;

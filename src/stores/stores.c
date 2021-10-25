@@ -10,7 +10,7 @@
 // virtual call functions
 
 ssize_t csalt_store_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t bytes
 )
@@ -27,7 +27,7 @@ ssize_t csalt_store_write(
 	return (*to)->write(to, from, bytes);
 }
 
-size_t csalt_store_size(const csalt_store *store)
+size_t csalt_store_size(csalt_store *store)
 {
 	return (*store)->size(store);
 }
@@ -46,7 +46,7 @@ int csalt_store_split(
 // null interface
 
 ssize_t csalt_store_null_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 )
@@ -77,7 +77,7 @@ ssize_t csalt_store_null_write(
 	return -1;
 }
 
-size_t csalt_store_null_size(const csalt_store *store)
+size_t csalt_store_null_size(csalt_store *store)
 {
 	(void)store;
 	return 0;
@@ -112,7 +112,7 @@ const struct csalt_store_interface *csalt_store_null_implementation = &csalt_sto
 // memory interface
 
 ssize_t csalt_memory_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 )
@@ -139,7 +139,7 @@ ssize_t csalt_memory_write(
 	return size;
 }
 
-size_t csalt_memory_size(const csalt_store *store)
+size_t csalt_memory_size(csalt_store *store)
 {
 	const struct csalt_memory *memory = (struct csalt_memory *)store;
 	return memory->end - memory->begin;
@@ -326,7 +326,7 @@ csalt_fd csalt_store_file_descriptor(int fd)
 	return result;
 }
 
-ssize_t csalt_store_file_descriptor_read(const csalt_store *store, void *buffer, size_t bytes)
+ssize_t csalt_store_file_descriptor_read(csalt_store *store, void *buffer, size_t bytes)
 {
 	const csalt_fd *file = (csalt_fd *)store;
 	ssize_t result = read(file->fd, buffer, bytes);
@@ -348,7 +348,7 @@ ssize_t csalt_store_file_descriptor_write(csalt_store *store, const void *buffer
 	return result;
 }
 
-size_t csalt_store_file_descriptor_size(const csalt_store *store)
+size_t csalt_store_file_descriptor_size(csalt_store *store)
 {
 	const csalt_fd *file = (const csalt_fd *)store;
 	return file->end - file->begin;

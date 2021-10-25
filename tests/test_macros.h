@@ -25,7 +25,7 @@ struct csalt_store_stub {
 };
 
 
-ssize_t csalt_store_stub_read(const csalt_store *store, void *data, size_t amount)
+ssize_t csalt_store_stub_read(csalt_store *store, void *data, size_t amount)
 {
 	(void)data;
 	struct csalt_store_stub *stub = (void *)store;
@@ -41,7 +41,7 @@ ssize_t csalt_store_stub_write(csalt_store *store, const void *data, size_t amou
 	return stub->last_write;
 }
 
-size_t csalt_store_stub_size(const csalt_store *store)
+size_t csalt_store_stub_size(csalt_store *store)
 {
 	const struct csalt_store_stub *stub = (void *)store;
 	return stub->size;
@@ -80,7 +80,7 @@ struct csalt_store_stub csalt_store_stub(size_t size)
 	return result;
 }
 
-ssize_t csalt_store_stub_error_read(const csalt_store *_, void *__, size_t ___)
+ssize_t csalt_store_stub_error_read(csalt_store *_, void *__, size_t ___)
 {
 	(void)_;
 	(void)__;
@@ -96,7 +96,7 @@ ssize_t csalt_store_stub_error_write(csalt_store *_, const void *__, size_t ___)
 	return -1;
 }
 
-size_t csalt_store_stub_error_size(const csalt_store *_)
+size_t csalt_store_stub_error_size(csalt_store *_)
 {
 	return 0;
 }
@@ -116,7 +116,7 @@ struct csalt_store_stub csalt_store_stub_error()
 	return result;
 }
 
-ssize_t csalt_store_stub_zero_read(const csalt_store *_, void *__, size_t ___)
+ssize_t csalt_store_stub_zero_read(csalt_store *_, void *__, size_t ___)
 {
 	(void)_;
 	(void)__;

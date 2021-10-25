@@ -51,11 +51,11 @@ struct csalt_resource_file {
 	struct csalt_store_file_descriptor file;
 };
 
-ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_resource_file_read(csalt_store *store, void *buffer, size_t size);
 
 ssize_t csalt_resource_file_write(csalt_store *store, const void *buffer, size_t size);
 
-size_t csalt_resource_file_size(const csalt_store *store);
+size_t csalt_resource_file_size(csalt_store *store);
 
 int csalt_resource_file_split(
 	csalt_store *store,

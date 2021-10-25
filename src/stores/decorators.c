@@ -9,7 +9,7 @@
 #define LOG_TYPE_ZERO_BYTES 2
 
 ssize_t csalt_store_decorator_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t size
 ) {
@@ -37,7 +37,7 @@ int csalt_store_decorator_split(
 	return csalt_store_split(decorator->child, begin, end, block, data);
 }
 
-size_t csalt_store_decorator_size(const csalt_store *store)
+size_t csalt_store_decorator_size(csalt_store *store)
 {
 	struct csalt_store_decorator *decorator = (void *)store;
 	return csalt_store_size(decorator->child);
@@ -182,7 +182,7 @@ static const char *message_for_function(
 
 #define READ_WRITE_FORMAT_STR "%s: %s(%p, %p, %lu) -> %ld\n"
 
-ssize_t csalt_store_decorator_logger_read(const csalt_store *store, void *buffer, size_t bytes)
+ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size_t bytes)
 {
 	csalt_logger *logger = (csalt_logger *)store;
 	csalt_store *decorated = logger->decorator.child;

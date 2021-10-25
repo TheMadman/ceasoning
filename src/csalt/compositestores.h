@@ -62,9 +62,9 @@ struct csalt_store_pair {
  */
 struct csalt_store_pair csalt_store_pair(csalt_store *first, csalt_store *second);
 
-ssize_t csalt_store_pair_read(const csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, size_t size);
 ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size);
-size_t csalt_store_pair_size(const csalt_store *store);
+size_t csalt_store_pair_size(csalt_store *store);
 int csalt_store_pair_split(
 	csalt_store *store,
 	size_t begin,
@@ -214,7 +214,7 @@ int csalt_store_fallback_bounds(
 	)
 
 ssize_t csalt_store_fallback_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t amount
 );
@@ -225,7 +225,7 @@ ssize_t csalt_store_fallback_write(
 	size_t amount
 );
 
-size_t csalt_store_fallback_size(const csalt_store *store);
+size_t csalt_store_fallback_size(csalt_store *store);
 
 int csalt_store_fallback_split(
 	csalt_store *store,

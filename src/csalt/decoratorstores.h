@@ -35,7 +35,7 @@
  * csalt_store_decorator and forwards the call.
  */
 ssize_t csalt_store_decorator_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t size
 );
@@ -66,7 +66,7 @@ int csalt_store_decorator_split(
  * \brief A default size decorator, which takes
  * a csalt_store_decorator and forwards the call.
  */
-size_t csalt_store_decorator_size(const csalt_store *store);
+size_t csalt_store_decorator_size(csalt_store *store);
 
 struct csalt_store_decorator {
 	struct csalt_store_interface *vtable;
@@ -242,7 +242,7 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_zero_bytes_boun
 /**
  * \brief Implementation for logger read function
  */
-ssize_t csalt_store_decorator_logger_read(const csalt_store *store, void *buffer, size_t bytes);
+ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size_t bytes);
 
 /**
  * \brief Implementation for logger write function
