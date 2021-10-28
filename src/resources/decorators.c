@@ -182,3 +182,111 @@ ERROR_NO_MESSAGE:
 	return 0;
 }
 
+static struct csalt_store_interface csalt_decorator_lazy_implementation = {
+	csalt_decorator_lazy_read,
+	csalt_decorator_lazy_write,
+	csalt_decorator_lazy_size,
+	csalt_decorator_lazy_split,
+};
+
+struct csalt_decorator_lazy csalt_decorator_lazy(csalt_resource *resource)
+{
+	struct csalt_decorator_lazy result = {
+		&csalt_decorator_lazy_implementation,
+		resource,
+		0,
+	};
+
+	return result;
+}
+
+ssize_t csalt_decorator_lazy_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+)
+{
+	struct csalt_decorator_lazy *lazy = (void *)store;
+	if (!lazy->result)
+		lazy->result = csalt_resource_init(lazy->resource);
+
+	if (!lazy->result)
+		return -1;
+	return csalt_store_read(lazy->result, buffer, amount);
+}
+
+ssize_t csalt_decorator_lazy_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+)
+{
+	struct csalt_decorator_lazy *lazy = (void *)store;
+	if (!lazy->result)
+		lazy->result = csalt_resource_init(lazy->resource);
+
+	if (!lazy->result)
+		return -1;
+	return csalt_store_write(lazy->result, buffer, amount);
+}
+
+size_t csalt_decorator_lazy_size(csalt_store *store)
+{
+	struct csalt_decorator_lazy *lazy = (void *)store;
+	if (!lazy->result)
+		lazy->result = csalt_resource_init(lazy->resource);
+
+	if (!lazy->result)
+		return -1;
+	return csalt_store_size(lazy->result);
+}
+
+int csalt_decorator_lazy_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_decorator_lazy *lazy = (void *)store;
+	if (!lazy->result)
+		lazy->result = csalt_resource_init(lazy->resource);
+
+	if (!lazy->result)
+		return block(&csalt_store_null_implementation, param);
+	return csalt_store_split(lazy->result, begin, end, block, param);
+}
+
+static struct csalt_resource_interface
+	csalt_resource_decorator_lazy_implementation = {
+	csalt_resource_decorator_lazy_init,
+	csalt_resource_decorator_lazy_deinit,
+};
+
+struct csalt_resource_decorator_lazy csalt_resource_decorator_lazy(
+	csalt_resource *resource
+)
+{
+	struct csalt_resource_decorator_lazy result = {
+		&csalt_resource_decorator_lazy_implementation,
+		csalt_decorator_lazy(resource),
+	};
+	return result;
+}
+
+csalt_store *csalt_resource_decorator_lazy_init(csalt_resource *resource)
+{
+	struct csalt_resource_decorator_lazy *lazy = (void *)resource;
+	return csalt_store(&lazy->decorator);
+}
+
+void csalt_resource_decorator_lazy_deinit(csalt_resource *resource)
+{
+	struct csalt_resource_decorator_lazy *lazy = (void *)resource;
+	if (lazy->decorator.result) {
+		csalt_resource_deinit(lazy->decorator.resource);
+		lazy->decorator.result = 0;
+	}
+}
+

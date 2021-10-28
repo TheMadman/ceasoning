@@ -166,4 +166,80 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_byte
 
 csalt_store *csalt_resource_decorator_logger_init(csalt_resource *);
 
+/**
+ * \brief This decorator implements the store interface around a resource,
+ * 	and attempts to initialize and use it only when a method is
+ * 	attempted on it.
+ *
+ * When the resource fails to initialize, csalt_store_read() and
+ * csalt_store_write() return -1, csalt_store_size() returns 0 and
+ * csalt_store_split() calls the block with a no-op store.
+ *
+ * Initialization will be attempted on each call to a csalt_store method. Once
+ * initialization is successful, it isn't tried again.
+ *
+ * The recommended use is through csalt_resource_decorator_lazy, which
+ * implements the resource interface and automatically deinitializes these
+ * decorated stores when it is deinitialized. Otherwise, you have to test
+ * csalt_decorator_lazy.result and call csalt_resource_deinit()
+ * on csalt_decorator_lazy.resource manually.
+ *
+ * \sa csalt_decorator_lazy()
+ */
+struct csalt_decorator_lazy {
+	struct csalt_store_interface *vtable;
+	csalt_resource *resource;
+	csalt_store *result;
+};
+
+/**
+ * \brief Constructor for a csalt_decorator_lazy, wrapping a resource.
+ *
+ * Is it a resource decorator? Is it a store decorator? Are viruses life, or
+ * not life?
+ *
+ * \sa csalt_decorator_lazy
+ */
+struct csalt_decorator_lazy csalt_decorator_lazy(csalt_resource *resource);
+
+ssize_t csalt_decorator_lazy_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+ssize_t csalt_decorator_lazy_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+size_t csalt_decorator_lazy_size(csalt_store *store);
+int csalt_decorator_lazy_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
+
+/**
+ * \brief This decorator decorates a resource and only initializes it when
+ * 	an attempt is made to read/write/etc. on the resulting store.
+ *
+ * csalt_resource_init() never fails for this type of decorator. It returns
+ * a csalt_decorator_lazy, which, when csalt_store_read() or
+ * csalt_store_write() are called on it, may return errors when
+ * csalt_resource_init() fails on the real resource.
+ */
+struct csalt_resource_decorator_lazy {
+	struct csalt_resource_interface *vtable;
+	struct csalt_decorator_lazy decorator;
+};
+
+struct csalt_resource_decorator_lazy csalt_resource_decorator_lazy(
+	csalt_resource *resource
+);
+
+csalt_store *csalt_resource_decorator_lazy_init(csalt_resource *resource);
+void csalt_resource_decorator_lazy_deinit(csalt_resource *resource);
+
 #endif // DECORATORRESOURCES_H
