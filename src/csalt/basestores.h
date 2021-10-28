@@ -23,13 +23,13 @@ struct csalt_store_interface;
  * a csalt_store_interface can be passed with a basic
  * cast to the virtual functions listed here.
  */
-typedef struct csalt_store_interface *csalt_store;
+typedef const struct csalt_store_interface *csalt_store;
 
 /**
  * Function type for reading data from a store into a buffer
  */
 typedef ssize_t csalt_store_read_fn(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t size
 );
@@ -76,7 +76,7 @@ typedef int csalt_store_split_fn(
  * Note that any store of size 0 can't be read to or
  * written from.
  */
-typedef size_t csalt_store_size_fn(const csalt_store *store);
+typedef size_t csalt_store_size_fn(csalt_store *store);
 
 struct csalt_store_interface {
 	csalt_store_read_fn *read;
@@ -90,7 +90,7 @@ struct csalt_store_interface {
  *
  * Returns the amount of bytes actually read, or -1 on failure.
  */
-ssize_t csalt_store_read(const csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
 
 /**
  * Function for writing to a store from a buffer.
@@ -102,7 +102,7 @@ ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 /**
  * Returns the current size of the given store.
  */
-size_t csalt_store_size(const csalt_store *store);
+size_t csalt_store_size(csalt_store *store);
 
 /**
  * Provides the means to divide a store into a
@@ -184,7 +184,7 @@ ssize_t csalt_store_transfer(
 
 // null/noop interface
 ssize_t csalt_store_null_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 );
@@ -196,7 +196,7 @@ ssize_t csalt_store_null_write(
 	size_t size
 );
 
-size_t csalt_store_null_size(const csalt_store *store);
+size_t csalt_store_null_size(csalt_store *store);
 
 int csalt_store_null_split(
 	csalt_store *store,
@@ -220,7 +220,7 @@ extern const struct csalt_store_interface *csalt_store_null_implementation;
 // memory interface
 
 ssize_t csalt_memory_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 );
@@ -232,7 +232,7 @@ ssize_t csalt_memory_write(
 	size_t size
 );
 
-size_t csalt_memory_size(const csalt_store *store);
+size_t csalt_memory_size(csalt_store *store);
 
 int csalt_memory_split(
 	csalt_store *store,
@@ -313,7 +313,7 @@ struct csalt_store_file_descriptor {
 struct csalt_store_file_descriptor csalt_store_file_descriptor(int fd);
 
 ssize_t csalt_store_file_descriptor_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t bytes
 );
@@ -324,7 +324,7 @@ ssize_t csalt_store_file_descriptor_write(
 	size_t bytes
 );
 
-size_t csalt_store_file_descriptor_size(const csalt_store *store);
+size_t csalt_store_file_descriptor_size(csalt_store *store);
 
 int csalt_store_file_descriptor_split(
 	csalt_store *file,

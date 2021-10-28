@@ -3,7 +3,7 @@
 
 AC_PREREQ([2.69])
 AC_INIT([ceasoning], [0.1], [marcus@harrisonland.co.uk])
-AM_INIT_AUTOMAKE([-Wall -Werror foreign subdir-objects])
+AM_INIT_AUTOMAKE([-Wall foreign subdir-objects])
 AM_PROG_AR
 LT_INIT
 # AC_CONFIG_SRCDIR([src/saltresources.h])
@@ -32,6 +32,9 @@ AC_TYPE_SSIZE_T
 # Checks for library functions.
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([memset])
+
+# Adds Automake conditionals.
+AM_CONDITIONAL([DEVELOP], [test $DEVELOP])
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT

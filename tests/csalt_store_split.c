@@ -16,7 +16,7 @@ struct test_struct {
 	size_t end;
 };
 
-ssize_t test_read(const csalt_store *store, void *buffer, size_t size)
+ssize_t test_read(csalt_store *store, void *buffer, size_t size)
 {
 	(void)store;
 	(void)buffer;
@@ -34,7 +34,7 @@ ssize_t test_write(csalt_store *store, const void *buffer, size_t size)
 	return 0;
 }
 
-size_t test_size(const csalt_store *store)
+size_t test_size(csalt_store *store)
 {
 	const struct test_struct *data = (struct test_struct *)store;
 	return data->end - data->begin;

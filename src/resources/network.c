@@ -273,7 +273,7 @@ void csalt_resource_network_socket_deinit(csalt_resource *resource)
 
 // these functions should really be shared with csalt_resource_file...
 ssize_t csalt_resource_network_socket_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t amount
 ) {

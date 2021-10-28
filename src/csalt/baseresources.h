@@ -77,10 +77,6 @@ typedef void csalt_resource_deinit_fn(csalt_resource *resource);
  * Structs with a pointer-to-resource-interface
  * as their first member can be passed to resource
  * functions with a simple cast.
- *
- * This struct should not be instantiated instantly,
- * but instead be a member of a struct which is
- * itself set up with a function.
  */
 struct csalt_resource_interface {
 	csalt_resource_init_fn *init;

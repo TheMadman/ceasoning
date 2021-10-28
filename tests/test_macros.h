@@ -18,24 +18,30 @@
 struct csalt_store_stub {
 	struct csalt_store_interface *vtable;
 	size_t size;
+	size_t last_read;
+	ssize_t last_write;
+	size_t split_begin;
+	size_t split_end;
 };
 
 
-ssize_t csalt_store_stub_read(const csalt_store *store, void *data, size_t amount)
+ssize_t csalt_store_stub_read(csalt_store *store, void *data, size_t amount)
 {
-	(void)store;
 	(void)data;
-	return amount;
+	struct csalt_store_stub *stub = (void *)store;
+	stub->last_read = min((ssize_t)amount, stub->size);
+	return stub->last_read;
 }
 
 ssize_t csalt_store_stub_write(csalt_store *store, const void *data, size_t amount)
 {
-	(void)store;
 	(void)data;
-	return amount;
+	struct csalt_store_stub *stub = (void *)store;
+	stub->last_write = min((ssize_t)amount, stub->size);
+	return stub->last_write;
 }
 
-size_t csalt_store_stub_size(const csalt_store *store)
+size_t csalt_store_stub_size(csalt_store *store)
 {
 	const struct csalt_store_stub *stub = (void *)store;
 	return stub->size;
@@ -49,7 +55,13 @@ int csalt_store_stub_split(
 	void *data
 )
 {
-	return block(store, data);
+	struct csalt_store_stub *stub = (void *)store;
+	stub->split_begin = begin;
+	stub->split_end = end;
+	int result = block(store, data);
+	stub->split_begin = 0;
+	stub->split_end = 0;
+	return result;
 }
 
 struct csalt_store_interface csalt_store_stub_interface = {
@@ -68,19 +80,92 @@ struct csalt_store_stub csalt_store_stub(size_t size)
 	return result;
 }
 
+ssize_t csalt_store_stub_error_read(csalt_store *_, void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return -1;
+}
+
+ssize_t csalt_store_stub_error_write(csalt_store *_, const void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return -1;
+}
+
+size_t csalt_store_stub_error_size(csalt_store *_)
+{
+	return 0;
+}
+
+struct csalt_store_interface csalt_store_stub_error_implementation = {
+	csalt_store_stub_error_read,
+	csalt_store_stub_error_write,
+	csalt_store_stub_error_size,
+	csalt_store_stub_split,
+};
+
+struct csalt_store_stub csalt_store_stub_error()
+{
+	struct csalt_store_stub result = {
+		&csalt_store_stub_error_implementation,
+	};
+	return result;
+}
+
+ssize_t csalt_store_stub_zero_read(csalt_store *_, void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return 0;
+}
+
+ssize_t csalt_store_stub_zero_write(csalt_store *_, const void *__, size_t ___)
+{
+	(void)_;
+	(void)__;
+	(void)___;
+	return 0;
+}
+
+struct csalt_store_interface csalt_store_stub_zero_implementation = {
+	csalt_store_stub_zero_read,
+	csalt_store_stub_zero_write,
+	csalt_store_stub_error_size,
+	csalt_store_stub_split,
+};
+
+struct csalt_store_stub csalt_store_stub_zero()
+{
+	struct csalt_store_stub result = {
+		&csalt_store_stub_zero_implementation,
+	};
+	return result;
+}
+
 csalt_store *csalt_resource_stub_init_fail(csalt_resource *resource)
 {
 	(void)resource;
 	return 0;
 }
 
+csalt_store *csalt_resource_stub_init_fail(csalt_resource *);
+csalt_store *csalt_resource_stub_init_success(csalt_resource *);
+void csalt_resource_stub_deinit(csalt_resource *);
+
 struct csalt_resource_interface csalt_resource_stub_fail_implementation = {
 	csalt_resource_stub_init_fail,
+	csalt_resource_stub_deinit,
 };
 
 struct csalt_resource_stub {
 	struct csalt_resource_interface *vtable;
 	struct csalt_store_stub return_value;
+	int deinit_called;
 };
 
 csalt_store *csalt_resource_stub_init_success(csalt_resource *resource)
@@ -91,7 +176,8 @@ csalt_store *csalt_resource_stub_init_success(csalt_resource *resource)
 
 void csalt_resource_stub_deinit(csalt_resource *resource)
 {
-	(void)resource;
+	struct csalt_resource_stub *stub = (void *)resource;
+	stub->deinit_called = 1;
 }
 
 struct csalt_resource_interface csalt_resource_stub_succeed_implementation = {
@@ -104,6 +190,7 @@ struct csalt_resource_stub csalt_resource_stub(size_t size)
 	struct csalt_resource_stub result = {
 		&csalt_resource_stub_succeed_implementation,
 		csalt_store_stub(size),
+		0,
 	};
 
 	return result;
