@@ -1,7 +1,8 @@
 <map id="csalt_resource_fallback" name="csalt_resource_fallback">
-<area shape="rect" id="node1" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="91,347,265,373"/>
-<area shape="rect" id="node2" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-<area shape="rect" id="node5" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="110,124,230,151"/>
-<area shape="rect" id="node3" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="278,228,459,255"/>
-<area shape="rect" id="node4" href="$structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="102,228,254,255"/>
+<area shape="rect" id="node1" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ..." alt="" coords="137,332,311,359"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,124,187,151"/>
+<area shape="rect" id="node3" href="$structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource." alt="" coords="150,243,298,269"/>
+<area shape="rect" id="node4" href="$structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="225,124,351,151"/>
+<area shape="rect" id="node6" href="$structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic." alt="" coords="323,243,475,269"/>
+<area shape="rect" id="node5" href="$structcsalt__store__interface.html" title=" " alt="" coords="263,5,422,32"/>
 </map>

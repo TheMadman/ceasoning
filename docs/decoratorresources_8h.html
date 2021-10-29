@@ -96,6 +96,15 @@ Include dependency graph for decoratorresources.h:</div>
 <area shape="rect" title=" " alt="" coords="25,379,121,405"/>
 </map>
 </div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="decoratorresources_8h__dep__incl.png" border="0" usemap="#acsalt_2decoratorresources_8hdep" alt=""/></div>
+<map name="csalt_2decoratorresources_8hdep" id="csalt_2decoratorresources_8hdep">
+<area shape="rect" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="5,5,200,32"/>
+<area shape="rect" href="resources_8h_source.html" title=" " alt="" coords="37,80,169,107"/>
+</map>
+</div>
 </div>
 <p><a href="decoratorresources_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -105,6 +114,12 @@ Data Structures</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__decorator__logger.html">csalt_resource_decorator_logger</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Decorator which wraps a resource, logs messages for resource operations and, on successful initialization, wraps the resulting store in a <a class="el" href="structcsalt__store__decorator__logger.html" title="This object is responsible for wrapping a csalt_store&#39;s functions, checking return values and logging...">csalt_store_decorator_logger</a>.  <a href="structcsalt__resource__decorator__logger.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__decorator__lazy.html">csalt_decorator_lazy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This decorator implements the store interface around a resource, and attempts to initialize and use it only when a method is attempted on it.  <a href="structcsalt__decorator__lazy.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__decorator__lazy.html">csalt_resource_decorator_lazy</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This decorator decorates a resource and only initializes it when an attempt is made to read/write/etc.  <a href="structcsalt__resource__decorator__lazy.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -125,7 +140,7 @@ Macros</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:ae14c5eac9e836952ef2de37af2d03fc2"><td class="memItemLeft" align="right" valign="top"><a id="ae14c5eac9e836952ef2de37af2d03fc2"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#ae14c5eac9e836952ef2de37af2d03fc2">csalt_resource_decorator_init</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#ae14c5eac9e836952ef2de37af2d03fc2">csalt_resource_decorator_init</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
 <tr class="memdesc:ae14c5eac9e836952ef2de37af2d03fc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default forwarding function for initializing a resource. <br /></td></tr>
 <tr class="separator:ae14c5eac9e836952ef2de37af2d03fc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3646c5be24eb6f6e3cb2de1dc8b383f7"><td class="memItemLeft" align="right" valign="top"><a id="a3646c5be24eb6f6e3cb2de1dc8b383f7"></a>
@@ -145,8 +160,33 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deco
 <tr class="memdesc:a50d4479b1f9848b0081b366d02469a99"><td class="mdescLeft">&#160;</td><td class="mdescRight">A convenience constructor for setting up a zero-bytes-only logger.  <a href="decoratorresources_8h.html#a50d4479b1f9848b0081b366d02469a99">More...</a><br /></td></tr>
 <tr class="separator:a50d4479b1f9848b0081b366d02469a99"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac51d8acbd8f5713995e07ac96d353ef2"><td class="memItemLeft" align="right" valign="top"><a id="ac51d8acbd8f5713995e07ac96d353ef2"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_decorator_logger_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_decorator_logger_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
 <tr class="separator:ac51d8acbd8f5713995e07ac96d353ef2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7c4bb87d0d7acc634479136543104c9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__decorator__lazy.html">csalt_decorator_lazy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#ad7c4bb87d0d7acc634479136543104c9">csalt_decorator_lazy</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="memdesc:ad7c4bb87d0d7acc634479136543104c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i...">csalt_decorator_lazy</a>, wrapping a resource.  <a href="decoratorresources_8h.html#ad7c4bb87d0d7acc634479136543104c9">More...</a><br /></td></tr>
+<tr class="separator:ad7c4bb87d0d7acc634479136543104c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d241cc7ad016bc3392b26cbf7dfe724"><td class="memItemLeft" align="right" valign="top"><a id="a9d241cc7ad016bc3392b26cbf7dfe724"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_read</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, void *buffer, size_t amount)</td></tr>
+<tr class="separator:a9d241cc7ad016bc3392b26cbf7dfe724"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa878f7458751c0b5d3f8558aba4e3e01"><td class="memItemLeft" align="right" valign="top"><a id="aa878f7458751c0b5d3f8558aba4e3e01"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_write</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, const void *buffer, size_t amount)</td></tr>
+<tr class="separator:aa878f7458751c0b5d3f8558aba4e3e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a574e3df2d44d8250032df6fab37a7b05"><td class="memItemLeft" align="right" valign="top"><a id="a574e3df2d44d8250032df6fab37a7b05"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_size</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
+<tr class="separator:a574e3df2d44d8250032df6fab37a7b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cf4963fd4a3acbc9d15beddf598357b"><td class="memItemLeft" align="right" valign="top"><a id="a0cf4963fd4a3acbc9d15beddf598357b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_split</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *param)</td></tr>
+<tr class="separator:a0cf4963fd4a3acbc9d15beddf598357b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e399a16db2de218380f32081234755c"><td class="memItemLeft" align="right" valign="top"><a id="a6e399a16db2de218380f32081234755c"></a>
+struct <a class="el" href="structcsalt__resource__decorator__lazy.html">csalt_resource_decorator_lazy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#a6e399a16db2de218380f32081234755c">csalt_resource_decorator_lazy</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="memdesc:a6e399a16db2de218380f32081234755c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__resource__decorator__lazy.html" title="This decorator decorates a resource and only initializes it when an attempt is made to read/write/etc...">csalt_resource_decorator_lazy</a>. <br /></td></tr>
+<tr class="separator:a6e399a16db2de218380f32081234755c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2950bd3f44641146855b84e88d771475"><td class="memItemLeft" align="right" valign="top"><a id="a2950bd3f44641146855b84e88d771475"></a>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_decorator_lazy_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a2950bd3f44641146855b84e88d771475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4eafa7657bc6502719b21a48c674bd40"><td class="memItemLeft" align="right" valign="top"><a id="a4eafa7657bc6502719b21a48c674bd40"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_decorator_lazy_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a4eafa7657bc6502719b21a48c674bd40"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file is responsible for providing decorator functions around csalt_resources. </p>
@@ -345,6 +385,28 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deco
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ad7c4bb87d0d7acc634479136543104c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7c4bb87d0d7acc634479136543104c9">&#9670;&nbsp;</a></span>csalt_decorator_lazy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structcsalt__decorator__lazy.html">csalt_decorator_lazy</a> <a class="el" href="structcsalt__decorator__lazy.html">csalt_decorator_lazy</a> </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *&#160;</td>
+          <td class="paramname"><em>resource</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructor for a <a class="el" href="structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i...">csalt_decorator_lazy</a>, wrapping a resource. </p>
+<p>Is it a resource decorator? Is it a store decorator? Are viruses life, or not life?</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i...">csalt_decorator_lazy</a> </dd></dl>
+
+</div>
+</div>
 <a id="a85752a5f0d5e1149e8497c44f103a9e6"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a85752a5f0d5e1149e8497c44f103a9e6">&#9670;&nbsp;</a></span>csalt_resource_decorator_logger_bounds()</h2>
 

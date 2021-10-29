@@ -68,7 +68,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Implements the <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> algorithms with <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> resource management.  
+<p>This type provides a resource which initializes multiple resources, returning a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> on initialization.  
  <a href="structcsalt__resource__fallback.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="compositeresources_8h_source.html">csalt/compositeresources.h</a>&gt;</code></p>
@@ -76,12 +76,13 @@ $(function() {
 Collaboration diagram for csalt_resource_fallback:</div>
 <div class="dyncontent">
 <div class="center"><img src="structcsalt__resource__fallback__coll__graph.png" border="0" usemap="#acsalt__resource__fallback_coll__map" alt="Collaboration graph"/></div>
-<map name="csalt__resource__fallback_coll__map" id="acsalt__resource__fallback_coll__map">
-<area shape="rect" title="Implements the csalt_store_fallback algorithms with csalt_resource_list resource management." alt="" coords="91,347,265,373"/>
-<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-<area shape="rect" href="structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="110,124,230,151"/>
-<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="278,228,459,255"/>
-<area shape="rect" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s..." alt="" coords="102,228,254,255"/>
+<map name="csalt__resource__fallback_coll__map" id="csalt__resource__fallback_coll__map">
+<area shape="rect" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ..." alt="" coords="137,332,311,359"/>
+<area shape="rect" href="structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,124,187,151"/>
+<area shape="rect" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource." alt="" coords="150,243,298,269"/>
+<area shape="rect" href="structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="225,124,351,151"/>
+<area shape="rect" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic." alt="" coords="323,243,475,269"/>
+<area shape="rect" href="structcsalt__store__interface.html" title=" " alt="" coords="263,5,422,32"/>
 </map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -90,26 +91,21 @@ Data Fields</h2></td></tr>
 <tr class="memitem:ab56e90b88a74b5df108f5206ee40d3a2"><td class="memItemLeft" align="right" valign="top"><a id="ab56e90b88a74b5df108f5206ee40d3a2"></a>
 struct <a class="el" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
 <tr class="separator:ab56e90b88a74b5df108f5206ee40d3a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a663c176fdad4292b371798ae045171bb"><td class="memItemLeft" align="right" valign="top"><a id="a663c176fdad4292b371798ae045171bb"></a>
-<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>begin</b></td></tr>
-<tr class="separator:a663c176fdad4292b371798ae045171bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ed58524c6449a68ffa2e046901e02b8"><td class="memItemLeft" align="right" valign="top"><a id="a8ed58524c6449a68ffa2e046901e02b8"></a>
-<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
-<tr class="separator:a8ed58524c6449a68ffa2e046901e02b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1006756b525069d3365a46c796569be8"><td class="memItemLeft" align="right" valign="top"><a id="a1006756b525069d3365a46c796569be8"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_begin</b></td></tr>
-<tr class="separator:a1006756b525069d3365a46c796569be8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac40b268d3878316e49ca63993699b97a"><td class="memItemLeft" align="right" valign="top"><a id="ac40b268d3878316e49ca63993699b97a"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> **&#160;</td><td class="memItemRight" valign="bottom"><b>buffer_end</b></td></tr>
-<tr class="separator:ac40b268d3878316e49ca63993699b97a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6e0c26232d956a0a35d8625f0303948"><td class="memItemLeft" align="right" valign="top"><a id="ab6e0c26232d956a0a35d8625f0303948"></a>
-struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a>&#160;</td><td class="memItemRight" valign="bottom"><b>fallback</b></td></tr>
-<tr class="separator:ab6e0c26232d956a0a35d8625f0303948"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30283bfb52c534bcc4c64394a92bb5c5"><td class="memItemLeft" align="right" valign="top"><a id="a30283bfb52c534bcc4c64394a92bb5c5"></a>
+struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pair</b></td></tr>
+<tr class="separator:a30283bfb52c534bcc4c64394a92bb5c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad6d76b60ff7c286b7701ab778c1d7ab7"><td class="memItemLeft" align="right" valign="top"><a id="ad6d76b60ff7c286b7701ab778c1d7ab7"></a>
+struct <a class="el" href="structcsalt__store__fallback.html">csalt_store_fallback</a>&#160;</td><td class="memItemRight" valign="bottom"><b>result</b></td></tr>
+<tr class="separator:ad6d76b60ff7c286b7701ab778c1d7ab7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Implements the <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> algorithms with <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a> resource management. </p>
-<p>Since <a class="el" href="structcsalt__store__fallback.html" title="The csalt_store_fallback_store is a csalt_store_list providing fallback logic for operations on the s...">csalt_store_fallback</a> requires all stores to be valid at the time of check, this resource operates on the assumption that all resources must be initialized and valid before read/write/size/split can take place. Similarly to <a class="el" href="structcsalt__resource__list.html" title="This resource allows operations on groups of resources.">csalt_resource_list</a>, if any resource fails, the entire list fails.</p>
-<p>For check-then-fall-back mechanisms on the resource initialization and validation itself, use the <a class="el" href="structcsalt__resource__first.html" title="This struct uses the first working resource.">csalt_resource_first</a> resource. </p>
+<div class="textblock"><p>This type provides a resource which initializes multiple resources, returning a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> on initialization. </p>
+<p>This resource attempts to initialize all resources, returning 0 if any of them fail and a pointer to a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> on success. A constructor is available taking two resources, and one is available for an array of resources.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="compositeresources_8h.html#a17fe400bc6bc548e584c861f10782d97" title="Constructs a csalt_resource_fallback from two resources.">csalt_resource_fallback()</a> </dd>
+<dd>
+<a class="el" href="compositeresources_8h.html#a635ab25a93cd5c2d1b2dd3b8cbf6674f" title="Convenience macro for constructing a csalt_resource_fallback from two arrays.">csalt_resource_fallback_array()</a> </dd>
+<dd>
+<a class="el" href="compositeresources_8h.html#adaf1dd0baf330990815109401231f090" title="Constructs a csalt_resource_fallback from an array of csalt_resources.">csalt_resource_fallback_bounds()</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="compositeresources_8h_source.html">compositeresources.h</a></li>
 </ul>

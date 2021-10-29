@@ -207,7 +207,7 @@ int csalt_store_null_split(
 );
 
 /**
- * This interface represents a no-op interface, in the case of
+ * \brief This interface represents a no-op interface, in the case of
  * errors.
  *
  * Reads and writes immediately return error values.

@@ -226,15 +226,28 @@ int csalt_decorator_lazy_split(
  * 	an attempt is made to read/write/etc. on the resulting store.
  *
  * csalt_resource_init() never fails for this type of decorator. It returns
- * a csalt_decorator_lazy, which, when csalt_store_read() or
- * csalt_store_write() are called on it, may return errors when
- * csalt_resource_init() fails on the real resource.
+ * a csalt_decorator_lazy, which, when csalt_store_read(),
+ * csalt_store_write(), csalt_store_size() or csalt_store_split() are called
+ * on it, attempts to initialize the real resource before performing the
+ * operation.
+ *
+ * If the real resource fails to initialize at csalt_store_read() or
+ * csalt_store_write(), those functions return -1. If the real resource fails
+ * to initialize on csalt_store_size(), \c (size_t)-1 is returned. If the real
+ * resource fails to initialize on csalt_store_split(),
+ * csalt_store_null_implementation is passed.
+ *
+ * \sa csalt_resource_decorator_lazy()
+ * \sa csalt_decorator_lazy
  */
 struct csalt_resource_decorator_lazy {
 	struct csalt_resource_interface *vtable;
 	struct csalt_decorator_lazy decorator;
 };
 
+/**
+ * \brief Constructor for a csalt_resource_decorator_lazy.
+ */
 struct csalt_resource_decorator_lazy csalt_resource_decorator_lazy(
 	csalt_resource *resource
 );

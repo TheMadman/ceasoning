@@ -112,6 +112,9 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This type allows storing a pair of resources and treating them as a single resource.  <a href="structcsalt__resource__pair.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This type provides a resource which initializes multiple resources, returning a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> on initialization.  <a href="structcsalt__resource__fallback.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">This struct uses the first working resource.  <a href="structcsalt__resource__first.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,6 +124,9 @@ Macros</h2></td></tr>
 <tr class="memitem:a860a1dc9b44d3d08b01ee719b758d783"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">csalt_resource_pair_list</a>(resources,  out)</td></tr>
 <tr class="memdesc:a860a1dc9b44d3d08b01ee719b758d783"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for building a linked-list of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s.  <a href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">More...</a><br /></td></tr>
 <tr class="separator:a860a1dc9b44d3d08b01ee719b758d783"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a635ab25a93cd5c2d1b2dd3b8cbf6674f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a635ab25a93cd5c2d1b2dd3b8cbf6674f">csalt_resource_fallback_array</a>(resources,  out)</td></tr>
+<tr class="memdesc:a635ab25a93cd5c2d1b2dd3b8cbf6674f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for constructing a <a class="el" href="structcsalt__resource__fallback.html" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ...">csalt_resource_fallback</a> from two arrays.  <a href="compositeresources_8h.html#a635ab25a93cd5c2d1b2dd3b8cbf6674f">More...</a><br /></td></tr>
+<tr class="separator:a635ab25a93cd5c2d1b2dd3b8cbf6674f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="memItemLeft" align="right" valign="top"><a id="a11a2ca062f63dbd7ca3b8e4b251047d3"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a11a2ca062f63dbd7ca3b8e4b251047d3">csalt_resource_first_array</a>(array)&#160;&#160;&#160;(<a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a>((array), &amp;((array)[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
 <tr class="memdesc:a11a2ca062f63dbd7ca3b8e4b251047d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for constructing a resource_first_bounds from an array. <br /></td></tr>
@@ -136,17 +142,31 @@ struct <a class="el" href="structcsalt__resource__pair.html">csalt_resource_pair
 <tr class="memdesc:a19e9034f320bdebe0f1272fca1e4b6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a linked-list-like structure of <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a>s.  <a href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">More...</a><br /></td></tr>
 <tr class="separator:a19e9034f320bdebe0f1272fca1e4b6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a482fed5ac087b2228cba5139850b78a9"><td class="memItemLeft" align="right" valign="top"><a id="a482fed5ac087b2228cba5139850b78a9"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_pair_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_pair_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="separator:a482fed5ac087b2228cba5139850b78a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75d731d14c93a156fcdd2485c8efed08"><td class="memItemLeft" align="right" valign="top"><a id="a75d731d14c93a156fcdd2485c8efed08"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_pair_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="separator:a75d731d14c93a156fcdd2485c8efed08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17fe400bc6bc548e584c861f10782d97"><td class="memItemLeft" align="right" valign="top"><a id="a17fe400bc6bc548e584c861f10782d97"></a>
+struct <a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a17fe400bc6bc548e584c861f10782d97">csalt_resource_fallback</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *first, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *second)</td></tr>
+<tr class="memdesc:a17fe400bc6bc548e584c861f10782d97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structcsalt__resource__fallback.html" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ...">csalt_resource_fallback</a> from two resources. <br /></td></tr>
+<tr class="separator:a17fe400bc6bc548e584c861f10782d97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adaf1dd0baf330990815109401231f090"><td class="memItemLeft" align="right" valign="top"><a id="adaf1dd0baf330990815109401231f090"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#adaf1dd0baf330990815109401231f090">csalt_resource_fallback_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **resource_begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **resource_end, struct <a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a> *out_begin, struct <a class="el" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a> *out_end)</td></tr>
+<tr class="memdesc:adaf1dd0baf330990815109401231f090"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="structcsalt__resource__fallback.html" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ...">csalt_resource_fallback</a> from an array of csalt_resources. <br /></td></tr>
+<tr class="separator:adaf1dd0baf330990815109401231f090"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5950c5bf2fb5f034299a7dafe2cf25d4"><td class="memItemLeft" align="right" valign="top"><a id="a5950c5bf2fb5f034299a7dafe2cf25d4"></a>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_fallback_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a5950c5bf2fb5f034299a7dafe2cf25d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a299e2a94d1c2025e26854d8cc8c04786"><td class="memItemLeft" align="right" valign="top"><a id="a299e2a94d1c2025e26854d8cc8c04786"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_fallback_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a299e2a94d1c2025e26854d8cc8c04786"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5e30a6f4593605115ad538816b2ec182"><td class="memItemLeft" align="right" valign="top"><a id="a5e30a6f4593605115ad538816b2ec182"></a>
 struct <a class="el" href="structcsalt__resource__first.html">csalt_resource_first</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="compositeresources_8h.html#a5e30a6f4593605115ad538816b2ec182">csalt_resource_first_bounds</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **begin, <a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> **end)</td></tr>
 <tr class="memdesc:a5e30a6f4593605115ad538816b2ec182"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a csalt_resource_first_bounds. <br /></td></tr>
 <tr class="separator:a5e30a6f4593605115ad538816b2ec182"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a86567e2b1a4cb9c473894157079d05"><td class="memItemLeft" align="right" valign="top"><a id="a1a86567e2b1a4cb9c473894157079d05"></a>
-<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="separator:a1a86567e2b1a4cb9c473894157079d05"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6bd6f8c2aa75d4c420c4f5b0777c3701"><td class="memItemLeft" align="right" valign="top"><a id="a6bd6f8c2aa75d4c420c4f5b0777c3701"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)</td></tr>
@@ -156,6 +176,43 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_
 <div class="textblock"><p>This file defines abstract resources, which allow you to define relationships between resources. </p>
 <p>This includes the csalt_resource_list resource, which allows you to treat any number of resources as a single resource safely </p>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a635ab25a93cd5c2d1b2dd3b8cbf6674f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a635ab25a93cd5c2d1b2dd3b8cbf6674f">&#9670;&nbsp;</a></span>csalt_resource_fallback_array</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define csalt_resource_fallback_array</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">resources, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">out&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">    <a class="code" href="compositeresources_8h.html#adaf1dd0baf330990815109401231f090">csalt_resource_fallback_bounds</a>( \</div>
+<div class="line">        (resources), \</div>
+<div class="line">        <a class="code" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(resources), \</div>
+<div class="line">        (out), \</div>
+<div class="line">        <a class="code" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a>(out) \</div>
+<div class="line">    )</div>
+</div><!-- fragment -->
+<p>Convenience macro for constructing a <a class="el" href="structcsalt__resource__fallback.html" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ...">csalt_resource_fallback</a> from two arrays. </p>
+<p>This is the recommended way to construct a <a class="el" href="structcsalt__resource__fallback.html" title="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ...">csalt_resource_fallback</a> if the arrays' sizes are known at compile-time. </p>
+
+</div>
+</div>
 <a id="a860a1dc9b44d3d08b01ee719b758d783"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a860a1dc9b44d3d08b01ee719b758d783">&#9670;&nbsp;</a></span>csalt_resource_pair_list</h2>
 
@@ -245,6 +302,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_
 </div>
 </div><!-- contents -->
 <div class="ttc" id="acompositeresources_8h_html_a19e9034f320bdebe0f1272fca1e4b6d7"><div class="ttname"><a href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">csalt_resource_pair_list_bounds</a></div><div class="ttdeci">int csalt_resource_pair_list_bounds(csalt_resource **resource_begin, csalt_resource **resource_end, struct csalt_resource_pair *out_begin, struct csalt_resource_pair *out_end)</div><div class="ttdoc">Constructs a linked-list-like structure of csalt_resource_pairs.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:24</div></div>
+<div class="ttc" id="acompositeresources_8h_html_adaf1dd0baf330990815109401231f090"><div class="ttname"><a href="compositeresources_8h.html#adaf1dd0baf330990815109401231f090">csalt_resource_fallback_bounds</a></div><div class="ttdeci">int csalt_resource_fallback_bounds(csalt_resource **resource_begin, csalt_resource **resource_end, struct csalt_resource_fallback *out_begin, struct csalt_resource_fallback *out_end)</div><div class="ttdoc">Constructs a csalt_resource_fallback from an array of csalt_resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:105</div></div>
 <div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:32</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
