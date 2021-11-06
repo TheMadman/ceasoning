@@ -291,6 +291,73 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory);
 #define csalt_store_memory_array(array) (csalt_store_memory_bounds((array), (&array[arrlength(array)])))
 
 /**
+ * \brief Convenience macro for writing a stack value to a store.
+ *
+ * This macro takes the given value and attempts to write it to the
+ * store, returning the amount written.
+ *
+ * Example usage:
+ *
+ * \code
+ *
+ * int my_func(csalt_store *store, void *param)
+ * {
+ * 	int triangle_points[2][3] = {
+ * 		0, 0,
+ * 		0, 1,
+ * 		1, 1,
+ * 	};
+ *
+ * 	ssize_t written = csalt_write(store, triangle_points);
+ * 	if (written < 0) {
+ * 		// handle error
+ * 	}
+ * 	if (written < sizeof(triangle_points)) {
+ * 		// handle partial write
+ * 	}
+ * }
+ *
+ * \endcode
+ */
+#define csalt_write(store, value) \
+	csalt_store_write(csalt_store(store), &value, sizeof(value));
+
+/**
+ * \brief Convenience macro for reading a stack value from a store.
+ *
+ * This macro takes the given value and attempts to read from the given
+ * store into it, returning the amount read.
+ *
+ * Example usage:
+ *
+ * \code
+ *
+ * int my_func(csalt_store *store, void *param)
+ * {
+ * 	char magic_number[8] = { 0 };
+ *
+ * 	ssize_t read = csalt_read(store, magic_number);
+ *
+ * 	if (read < 0) {
+ * 		// handle error
+ * 	}
+ * 	if (read < sizeof(magic_number)) {
+ *		// handle partial read
+ *	}
+ *
+ *	const char expected[] = "\x89" "\x50" "\x4e" "\x47"
+ *		"\x0d" "\x0a" "\x1a" "\x0a";
+ *	if (strncmp(expected, magic_number, sizeof(magic_number))) {
+ *		// handle not PNG file
+ *	}
+ * }
+ *
+ * \endcode
+ */
+#define csalt_read(store, value) \
+	csalt_store_read(csalt_store(store), &value, sizeof(value))
+
+/**
  * Convenience macro for casting to store pointer
  */
 #define csalt_store(param) (csalt_store *)(param)

@@ -11,7 +11,8 @@ TESTS = %reldir%/csalt_resource_use\
 	%reldir%/csalt_resource_pair\
 	%reldir%/csalt_store_fallback\
 	%reldir%/csalt_resource_fallback\
-	%reldir%/csalt_resource_decorator_lazy
+	%reldir%/csalt_resource_decorator_lazy\
+	%reldir%/csalt_store_memory
 
 check_PROGRAMS = $(TESTS)
 LDADD = $(top_builddir)/src/libcsalt.la
