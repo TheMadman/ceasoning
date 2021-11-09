@@ -86,16 +86,20 @@ struct csalt_store_interface {
 };
 
 /**
- * Function for reading from a store into a buffer.
+ * \brief Function for reading from a store into a buffer.
  *
  * Returns the amount of bytes actually read, or -1 on failure.
+ *
+ * \sa csalt_read()
  */
 ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
 
 /**
- * Function for writing to a store from a buffer.
+ * \brief Function for writing to a store from a buffer.
  *
  * Returns the amount of bytes actually written, or -1 on failure.
+ *
+ * \sa csalt_write()
  */
 ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 
