@@ -174,7 +174,8 @@ am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
 	src/stores/stores.lo src/resources/file.lo \
 	src/stores/compositestores.lo \
 	src/resources/compositeresources.lo src/resources/network.lo \
-	src/stores/decorators.lo src/resources/decorators.lo
+	src/stores/decorators.lo src/resources/decorators.lo \
+	src/keystores/keystores.lo
 src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -285,7 +286,8 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
+am__depfiles_remade = src/keystores/$(DEPDIR)/keystores.Plo \
+	src/resources/$(DEPDIR)/compositeresources.Plo \
 	src/resources/$(DEPDIR)/decorators.Plo \
 	src/resources/$(DEPDIR)/file.Plo \
 	src/resources/$(DEPDIR)/network.Plo \
@@ -712,7 +714,8 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/platforms/posix/csalt/platform/socket.h\
 		       src/csalt/networkresources.h\
 		       src/csalt/decoratorstores.h\
-		       src/csalt/decoratorresources.h
+		       src/csalt/decoratorresources.h\
+		       src/csalt/keystores.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\
@@ -731,7 +734,9 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/stores/decorators.c\
 	src/csalt/decoratorstores.h\
 	src/resources/decorators.c\
-	src/csalt/decoratorresources.h
+	src/csalt/decoratorresources.h\
+	src/keystores/keystores.c\
+	src/csalt/keystores.h
 
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
@@ -861,6 +866,14 @@ src/stores/decorators.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
 src/resources/decorators.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
+src/keystores/$(am__dirstamp):
+	@$(MKDIR_P) src/keystores
+	@: > src/keystores/$(am__dirstamp)
+src/keystores/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) src/keystores/$(DEPDIR)
+	@: > src/keystores/$(DEPDIR)/$(am__dirstamp)
+src/keystores/keystores.lo: src/keystores/$(am__dirstamp) \
+	src/keystores/$(DEPDIR)/$(am__dirstamp)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
@@ -966,6 +979,8 @@ tests/csalt_store_transfer$(EXEEXT): $(tests_csalt_store_transfer_OBJECTS) $(tes
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
+	-rm -f src/keystores/*.$(OBJEXT)
+	-rm -f src/keystores/*.lo
 	-rm -f src/resources/*.$(OBJEXT)
 	-rm -f src/resources/*.lo
 	-rm -f src/stores/*.$(OBJEXT)
@@ -975,6 +990,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@src/keystores/$(DEPDIR)/keystores.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/compositeresources.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/decorators.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/file.Plo@am__quote@ # am--include-marker
@@ -1035,6 +1051,7 @@ mostlyclean-libtool:
 clean-libtool:
 	-rm -rf .libs _libs
 	-rm -rf src/.libs src/_libs
+	-rm -rf src/keystores/.libs src/keystores/_libs
 	-rm -rf src/resources/.libs src/resources/_libs
 	-rm -rf src/stores/.libs src/stores/_libs
 	-rm -rf tests/.libs tests/_libs
@@ -1609,6 +1626,8 @@ distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
 	-rm -f src/$(am__dirstamp)
+	-rm -f src/keystores/$(DEPDIR)/$(am__dirstamp)
+	-rm -f src/keystores/$(am__dirstamp)
 	-rm -f src/resources/$(DEPDIR)/$(am__dirstamp)
 	-rm -f src/resources/$(am__dirstamp)
 	-rm -f src/stores/$(DEPDIR)/$(am__dirstamp)
@@ -1626,7 +1645,8 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
+		-rm -f src/keystores/$(DEPDIR)/keystores.Plo
+	-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
 	-rm -f src/resources/$(DEPDIR)/decorators.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/network.Plo
@@ -1696,7 +1716,8 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
+		-rm -f src/keystores/$(DEPDIR)/keystores.Plo
+	-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
 	-rm -f src/resources/$(DEPDIR)/decorators.Plo
 	-rm -f src/resources/$(DEPDIR)/file.Plo
 	-rm -f src/resources/$(DEPDIR)/network.Plo
