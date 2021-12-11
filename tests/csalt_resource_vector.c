@@ -5,6 +5,21 @@
 int use_vector(csalt_store *store, void *_)
 {
 	{
+		char read_buffer[1024] = { 0 };
+
+		ssize_t amount_read = csalt_store_read(
+			store,
+			read_buffer,
+			sizeof(read_buffer)
+		);
+
+		if (amount_read != 0) {
+			print_error("Read uninitialized value");
+			return EXIT_FAILURE;
+		}
+	}
+
+	{
 		const char write_data[] = "Hello, world!";
 
 		char read_data[sizeof(write_data)] = { 0 };

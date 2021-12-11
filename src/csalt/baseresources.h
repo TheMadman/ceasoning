@@ -198,6 +198,15 @@ struct csalt_resource_vector_initialized {
 	 * end of the split.
 	 */
 	size_t end;
+
+	/**
+	 * \brief Stores the amount of data written, to prevent
+	 * reading uninitialized values.
+	 *
+	 * If you split/write after the beginning, then read from the beginning,
+	 * the memory before your write will be initialized to 0.
+	 */
+	size_t amount_written;
 };
 
 /**

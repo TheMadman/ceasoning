@@ -112,7 +112,8 @@ static struct csalt_resource_vector_initialized vector_initialized(
 	void *allocated,
 	void *allocated_end,
 	size_t begin,
-	size_t end
+	size_t end,
+	size_t write_amount
 );
 
 ssize_t csalt_resource_vector_read(
@@ -123,7 +124,7 @@ ssize_t csalt_resource_vector_read(
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 
-	size_t read_amount = min(amount, vector->end - vector->begin);
+	size_t read_amount = min(amount, vector->amount_written);
 	memcpy(buffer, vector->original_pointer + vector->begin, read_amount);
 	return read_amount;
 }
@@ -151,6 +152,7 @@ int vector_write(csalt_store *store, void *arg)
 		params->buffer,
 		write_amount
 	);
+	vector->amount_written = write_amount;
 	params->result = write_amount;
 	return 0;
 }
@@ -233,14 +235,24 @@ int csalt_resource_vector_split(
 		}
 	}
 
+	size_t written_from_begin = max(vector->amount_written - begin, 0);
+
 	struct csalt_resource_vector_initialized result = vector_initialized(
 		*allocated,
 		*allocated_end,
 		begin_index,
-		end_index
+		end_index,
+		written_from_begin
 	);
 
-	return block(csalt_store(&result), arg);
+	int return_value = block(csalt_store(&result), arg);
+
+	if (result.amount_written > written_from_begin) {
+		size_t delta = result.amount_written - written_from_begin;
+		vector->amount_written += delta;
+	}
+
+	return return_value;
 }
 
 struct csalt_store_interface vector_initialized_implementation = {
@@ -254,7 +266,8 @@ static struct csalt_resource_vector_initialized vector_initialized(
 	void *allocated,
 	void *allocated_end,
 	size_t begin,
-	size_t end
+	size_t end,
+	size_t write_amount
 )
 {
 	struct csalt_resource_vector_initialized result = {
@@ -263,6 +276,7 @@ static struct csalt_resource_vector_initialized vector_initialized(
 		allocated_end,
 		begin,
 		end,
+		write_amount,
 	};
 	return result;
 }
@@ -288,7 +302,8 @@ csalt_store *csalt_resource_vector_init(csalt_resource *resource)
 		result,
 		result + alloc_size,
 		0,
-		SIZE_MAX
+		SIZE_MAX,
+		0
 	);
 
 	return csalt_store(&vector_resource->vector);
@@ -299,7 +314,7 @@ void csalt_resource_vector_deinit(csalt_resource *resource)
 	struct csalt_resource_vector *vector_resource = (void *)resource;
 	if (vector_resource->vector.original_pointer) {
 		free(vector_resource->vector.original_pointer);
-		vector_resource->vector = vector_initialized(0,0,0,0);
+		vector_resource->vector = vector_initialized(0,0,0,0,0);
 	}
 }
 
