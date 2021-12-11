@@ -123,6 +123,12 @@ Data Structures</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__heap.html">csalt_heap</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a heap memory resource.  <a href="structcsalt__heap.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__vector__initialized.html">csalt_resource_vector_initialized</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A type representing an initialized vector, implementing the csalt_store interface.  <a href="structcsalt__resource__vector__initialized.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages heap memory which can expand with <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls.  <a href="structcsalt__resource__vector.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
@@ -167,6 +173,9 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 <tr class="memitem:a8c9633bb42d267f702f798d5cd087d13"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">csalt_resource_heap_raw</a> (const struct <a class="el" href="structcsalt__heap__initialized.html">csalt_heap_initialized</a> *heap)</td></tr>
 <tr class="memdesc:a8c9633bb42d267f702f798d5cd087d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives immediate access to the raw pointer.  <a href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">More...</a><br /></td></tr>
 <tr class="separator:a8c9633bb42d267f702f798d5cd087d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac63bec06a19b8197c37d0951bcee2b12"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#ac63bec06a19b8197c37d0951bcee2b12">csalt_resource_vector</a> (size_t initial_size)</td></tr>
+<tr class="memdesc:ac63bec06a19b8197c37d0951bcee2b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a vector with an initial buffer size.  <a href="baseresources_8h.html#ac63bec06a19b8197c37d0951bcee2b12">More...</a><br /></td></tr>
+<tr class="separator:ac63bec06a19b8197c37d0951bcee2b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *code_block, void *out)</td></tr>
 <tr class="memdesc:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a resource lifecycle and executes the given function.  <a href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">More...</a><br /></td></tr>
 <tr class="separator:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -296,6 +305,27 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 <p>Manages a resource lifecycle and executes the given function. </p>
 <p>Takes a pointer to resource struct, a code block and an optional parameter, passes the resource and parameter to the code block, cleans up the resource and finally, returns the result of code_block.</p>
 <p>csalt_resource_use itself will return -1 if the resource allocation failed. Otherwise, it will return the return value of the passed block. </p>
+
+</div>
+</div>
+<a id="ac63bec06a19b8197c37d0951bcee2b12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac63bec06a19b8197c37d0951bcee2b12">&#9670;&nbsp;</a></span>csalt_resource_vector()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a> <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a> </td>
+          <td>(</td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>initial_size</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Constructs a vector with an initial buffer size. </p>
+<p>Passing 0 produces a vector with a default buffer size. </p>
 
 </div>
 </div>
