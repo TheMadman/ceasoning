@@ -72,9 +72,6 @@ typedef int csalt_store_split_fn(
 /**
  * \brief Returns the size of the store, if applicable, or 0
  * if not applicable to this store.
- *
- * Note that any store of size 0 can't be read to or
- * written from.
  */
 typedef size_t csalt_store_size_fn(csalt_store *store);
 
@@ -105,6 +102,21 @@ ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 
 /**
  * \brief Returns the current size of the given store.
+ *
+ * Generally, calling csalt_store_size before calling one of csalt_store_read
+ * or csalt_store_write is racy: this is true of most underlying stores,
+ * including files, shared memory or sockets. Your application can request
+ * the size, then the store's size can be changed without your application
+ * knowing by a write by another process altogether. Therefore, you should only
+ * use this pattern if you have good reason to believe that the store will not
+ * arbitrarily change size - for example, because you control the file or
+ * the endpoint of the network socket.
+ *
+ * The much safer approach is to simply attempt to csalt_store_read or
+ * csalt_store_write from the store and check the return values for amount
+ * read/written and error values. If you are constructing stores from user
+ * input, you should try to formulate your application to use csalt_store_size
+ * as little as possible.
  */
 size_t csalt_store_size(csalt_store *store);
 

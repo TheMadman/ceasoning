@@ -6,10 +6,11 @@ csaltinclude_HEADERS = %reldir%/csalt/util.h\
 		       %reldir%/csalt/basestores.h\
 		       %reldir%/csalt/compositestores.h\
 		       %reldir%/csalt/compositeresources.h\
-		       %reldir%/platforms/posix/csalt/platform/socket.h\
 		       %reldir%/csalt/networkresources.h\
 		       %reldir%/csalt/decoratorstores.h\
-		       %reldir%/csalt/decoratorresources.h
+		       %reldir%/csalt/decoratorresources.h\
+		       %reldir%/platforms/posix/csalt/platform/socket.h\
+		       %reldir%/platforms/posix/csalt/platform/threads.h
 
 lib_LTLIBRARIES = %reldir%/libcsalt.la
 

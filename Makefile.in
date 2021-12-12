@@ -720,10 +720,11 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/basestores.h\
 		       src/csalt/compositestores.h\
 		       src/csalt/compositeresources.h\
-		       src/platforms/posix/csalt/platform/socket.h\
 		       src/csalt/networkresources.h\
 		       src/csalt/decoratorstores.h\
-		       src/csalt/decoratorresources.h
+		       src/csalt/decoratorresources.h\
+		       src/platforms/posix/csalt/platform/socket.h\
+		       src/platforms/posix/csalt/platform/threads.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\

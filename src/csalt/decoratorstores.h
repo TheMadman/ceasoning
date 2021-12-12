@@ -2,6 +2,7 @@
 #define DECORATORSTORES_H
 
 #include "basestores.h"
+#include <csalt/platform/threads.h>
 
 /**
  * \file
@@ -248,5 +249,35 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size
  * \brief Implementation for logger write function
  */
 ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, size_t bytes);
+
+/**
+ * \brief Provides a means to lock accesses to the store behind a mutex.
+ *
+ * Use this decorator, or csalt_resource_decorator_mutex, when sharing a store
+ * across multiple threads to keep accesses synchronized.
+ *
+ * In the case that a mutex lock fails when calling csalt_store_size, the
+ * function call returns 0. It may also return 0 if the underlying store
+ * returns a size of 0.
+ *
+ * All functions trigger a lock - csalt_store_read, csalt_store_write,
+ * csalt_store_size and csalt_store_split. csalt_store_split requires a lock,
+ * since splitting beyond the end of the store may mutate the store,
+ * which may trigger race conditions. Once the split is finished, the mutex
+ * is unlocked before being passed to the block parameter, to prevent
+ * a deadlock.
+ */
+struct csalt_store_decorator_mutex {
+	struct csalt_store_decorator decorator;
+	csalt_mutex *mutex;
+};
+
+/**
+ * \brief Constructor for a csalt_store_decorator_mutex.
+ */
+struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
+	csalt_store *store,
+	csalt_mutex *mutex
+);
 
 #endif //DECORATORSTORES_H

@@ -345,5 +345,117 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 	return result;
 }
 
-#define SPLIT_FORMAT_STR "%s: csalt_store_split(%p, %ld, %ld, %p, %p) -> %d"
+ssize_t csalt_store_decorator_mutex_read(
+	csalt_store *store,
+	void *buffer,
+	size_t size
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_read(mutex->decorator.child, buffer, size);
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
+}
+
+ssize_t csalt_store_decorator_mutex_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t size
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+
+	ssize_t result = csalt_store_write(
+		mutex->decorator.child,
+		buffer,
+		size
+	);
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
+}
+
+size_t csalt_store_decorator_mutex_size(csalt_store *store)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return 0;
+
+	size_t result = csalt_store_size(mutex->decorator.child);
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
+}
+
+struct decorator_mutex_split_params {
+	csalt_store_block_fn *block;
+	void *param;
+	csalt_mutex *mutex;
+};
+
+int mutex_receive_split(csalt_store *store, void *param)
+{
+	struct decorator_mutex_split_params *original_params = param;
+	csalt_mutex_unlock(original_params->mutex);
+
+	return original_params->block(store, original_params->param);
+}
+
+int csalt_store_decorator_mutex_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+	struct decorator_mutex_split_params original_params = {
+		block,
+		param,
+		mutex->mutex,
+	};
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+
+	return csalt_store_split(
+		mutex->decorator.child,
+		begin,
+		end,
+		mutex_receive_split,
+		&original_params
+	);
+}
+
+struct csalt_store_interface csalt_store_decorator_mutex_implementation = {
+	csalt_store_decorator_mutex_read,
+	csalt_store_decorator_mutex_write,
+	csalt_store_decorator_mutex_size,
+	csalt_store_decorator_mutex_split,
+};
+
+struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
+	csalt_store *store,
+	csalt_mutex *mutex
+)
+{
+	struct csalt_store_decorator_mutex result = {
+		{
+			&csalt_store_decorator_mutex_implementation,
+			store,
+		},
+		mutex
+	};
+	return result;
+}
 
