@@ -2,6 +2,7 @@
 #define FILERESOURCE_H
 
 #include <sys/types.h>
+#include <fcntl.h>
 
 #include "stores.h"
 #include "baseresources.h"

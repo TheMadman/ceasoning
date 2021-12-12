@@ -194,6 +194,11 @@ struct csalt_progress csalt_progress(size_t size)
 	return result;
 }
 
+int csalt_progress_complete(struct csalt_progress *progress)
+{
+	return progress->total == progress->amount_completed;
+}
+
 struct transfer_data {
 	csalt_store *to;
 	csalt_store *from;
@@ -258,8 +263,8 @@ static size_t progress_remaining(struct csalt_progress *progress)
 
 ssize_t csalt_store_transfer(
 	struct csalt_progress *progress,
-	csalt_store *to,
 	csalt_store *from,
+	csalt_store *to,
 	csalt_transfer_complete_fn *callback
 )
 {
