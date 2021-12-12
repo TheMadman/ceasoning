@@ -37,8 +37,8 @@ int main()
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, &B),
 		castto(csalt_store *, &A),
+		castto(csalt_store *, &B),
 		transfer_complete_small
 	);
 
@@ -53,8 +53,8 @@ int main()
 	ssize_t transfer_amount = 0;
 	while ((transfer_amount = csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, &D),
 		castto(csalt_store *, &C),
+		castto(csalt_store *, &D),
 		transfer_complete_big
 	)) < ARRSIZE) {
 		switch (transfer_amount) {

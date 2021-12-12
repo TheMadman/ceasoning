@@ -28,8 +28,8 @@ int test_write(csalt_store *resource, void *_)
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	ssize_t amount_written = csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, resource),
 		castto(csalt_store *, &A),
+		castto(csalt_store *, resource),
 		noop
 	);
 	if (amount_written != sizeof(a)) {
@@ -58,8 +58,8 @@ int test_read(csalt_store *resource, void *_)
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	ssize_t amount_read = csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, &A),
 		castto(csalt_store *, resource),
+		castto(csalt_store *, &A),
 		noop
 	);
 	if (amount_read != sizeof(a)) {
