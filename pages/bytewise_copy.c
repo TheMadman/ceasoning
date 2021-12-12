@@ -1,113 +1,125 @@
 #include <csalt/resources.h>
-
 #include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <string.h>
 
-int bytewise_copy(csalt_store *, void *);
+int bytewise_copy(csalt_store *store, void *);
 
-char usage_format[] = "Usage: %s file-from file-to";
-
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
+	/*
+	 * Check if we have enough arguments
+	 */
 	if (argc < 3) {
-		fprintf(stderr, usage_format, argv[0]);
-		return EXIT_FAILURE;
+		printf("Usage: %s <input-file> <output-file>\n", argv[0]);
+		return 1;
 	}
 
 	/*
-	 * Create our files, one for reading and one for writing.
-	 * 
-	 * These calls do not attempt to open the files; that is only
-	 * done when they are passed to csalt_resource_use.
+	 * Create two file resources - one for input, one for output.
+	 * These calls don't attempt to open the files yet, that happens
+	 * later.
 	 */
 	struct csalt_resource_file
 		input = csalt_resource_file(argv[1], O_RDONLY),
 		output = csalt_resource_create_file(argv[2], O_WRONLY, 0644);
 
 	/*
-	 * Prepare an array to use for our list resource.
+	 * Add them to an array - this will be used to initialize a list
 	 */
-	csalt_resource *resource_array[] = {
+	csalt_resource *resources[] = {
 		csalt_resource(&input),
 		csalt_resource(&output),
 	};
 
-	csalt_resource_initialized *buffer[2] = { 0 };
+	/*
+	 * Create an array of resource pairs, which will store our list
+	 */
+	struct csalt_resource_pair list[arrlength(resources)] = { 0 };
 
 	/*
-	 * The csalt_resource_list allows us to treat multiple resources
-	 * as a single resource.
+	 * This macro wraps a function, taking two in-place arrays and
+	 * initializing list based on resources
 	 */
-	struct csalt_resource_list list = csalt_resource_list_array(resource_array, buffer);
+	csalt_resource_pair_list(resources, list);
 
 	/*
-	 * When `list` is initialized by csalt_resource_use, it attempts to
-	 * initialize the first resource. If that fails, it returns without
-	 * calling bytewise_copy. If it succeeds, it moves onto the second resource.
+	 * This is where the magic happens.
 	 *
-	 * If the second resource fails, it deinitializes the first resource and
-	 * returns without calling bytewise_copy.
+	 * This function attempts to initialize the first resource in
+	 * our list. If that fails, it returns -1. Otherwise, it attempts
+	 * the second resource in the list.
 	 *
-	 * Only if both resources can be correctly initialized does the bytewise_copy
-	 * function run.
+	 * If the second resource fails, the first resource is correctly
+	 * cleaned up for us, then the function returns -1.
 	 *
-	 * csalt_resource_use returns -1 when the resource fails to initialize;
-	 * otherwise, it returns the return value of the function passed, in this
-	 * case, bytewise_copy.
+	 * Only if both resources open successfully do we run bytewise_copy.
+	 * Then, we return the return value of bytewise_copy.
 	 */
-	int result = 0;
-	if ((result = csalt_resource_use(csalt_resource(&list), bytewise_copy, 0)))
-		fprintf(stderr, "Error: %s\n", strerror(errno));
+	int result = csalt_resource_use(
+		csalt_resource(&list),
+		bytewise_copy,
+		0
+	);
+
+	if (result < 0)
+		perror("Error opening file");
 	return result;
 }
 
-int bytewise_copy(csalt_store *resource, void *_)
+int bytewise_copy(csalt_store *store, void *_)
 {
 	/*
-	 * The second argument, the void*, can act as an in/out parameter for this
-	 * function.
-	 * In this case, we just want to copy the contents of one file into another,
-	 * then exit, so we pass 0 to csalt_resource_use and just don't use the second
-	 * argument here.
+	 * A resource-pair, when initialized, returns a store-pair.
+	 * We can use this to get our individual file stores to begin
+	 * transfering data.
 	 */
-
-	struct csalt_store_list *list = (struct csalt_store_list *)resource;
+	struct csalt_store_pair *pairs = (struct csalt_store_pair *)store;
 
 	/*
-	 * Resources implement the store interface, and can be safely cast from
-	 * resources to stores.
+	 * csalt_store_pair_list_get is a convenience function around
+	 * pairs that are arranged like a linked-list - which is what
+	 * csalt_resource_pair_list does.
 	 *
-	 * While in this case, we know the exact types of these variables
-	 * (csalt_resource_file), it is actually more convenient for us to
-	 * use them as generic stores, and it makes our function more flexible,
-	 * to boot.
+	 * Even though, in this case, we know that we're operating on
+	 * the return values of csalt_resource_file, we only need the
+	 * generic csalt_store interface - this also makes this function
+	 * more generic, allowing it to accept ANY csalt_store_pair of
+	 * two stores.
 	 */
-	csalt_store
-		*input = (csalt_store *)csalt_store_list_get(list, 0),
-		*output = (csalt_store *)csalt_store_list_get(list, 1);
-
-	ssize_t input_size = csalt_store_size(input);
-	struct csalt_progress progress = csalt_progress(input_size);
+	csalt_store *first = csalt_store_pair_list_get(pairs, 0);
+	csalt_store *second = csalt_store_pair_list_get(pairs, 1);
 
 	/*
-	 * The ceasoning library is implemented as a non-blocking library by
-	 * default. Blocking behaviour can be achieved through a simple spinlock.
+	 * csalt_progress is a simple struct storing how much data
+	 * has been transferred, vs. how much we expected.
 	 */
-	for (
-		ssize_t transferred = 0;
-		transferred < input_size;
-		transferred = csalt_store_transfer(&progress, output, input, 0)
-	) {
-		/*
-		 * Always do error checking!
-		 */
-		if (transferred < 0)
-			return EXIT_FAILURE;
-	}
+	struct csalt_progress
+		progress = csalt_progress(csalt_store_size(first));
 
-	return EXIT_SUCCESS;
+	/*
+	 * We want blocking behaviour for this application, which
+	 * is achieved via a simple spin-looop.
+	 *
+	 * The ceasoning library is non-blocking by default, which
+	 * allows the construction of composite types that can implement
+	 * algorithms generically.
+	 */
+	while (!csalt_progress_complete(&progress))
+		/*
+		 * Non-blocking file descriptor types will return 0
+		 * when there's no data to read, and -1 when the file
+		 * descriptor is unavailable for reading/writing. That includes
+		 * types representing network sockets, etc.
+		 *
+		 * This allows us to do one generic error check which works
+		 * across all stores, without having to worry about
+		 * EAGAIN or EWOULDBLOCK.
+		 *
+		 * csalt_store_transfer is a function accepting any two stores
+		 * and attempting a non-blocking transfer between them. It
+		 * returns the total amount copied across all calls, or -1 if
+		 * there is an error.
+		 */
+		if (csalt_store_transfer(&progress, first, second, 0) < 0)
+			return -1;
 }
 
