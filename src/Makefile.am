@@ -32,3 +32,5 @@ lib_LTLIBRARIES = %reldir%/libcsalt.la
 	%reldir%/resources/decorators.c\
 	%reldir%/csalt/decoratorresources.h
 
+%canon_reldir%_libcsalt_la_LDFLAGS = -pthread
+%canon_reldir%_libcsalt_la_CFLAGS = -I$(srcdir)/src -I$(srcdir)/src/platforms/posix -pthread

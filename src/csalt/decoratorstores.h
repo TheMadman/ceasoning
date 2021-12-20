@@ -266,6 +266,8 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
  * which may trigger race conditions. Once the split is finished, the mutex
  * is unlocked before being passed to the block parameter, to prevent
  * a deadlock.
+ *
+ * This store type can block on calls if other threads have locked the mutex.
  */
 struct csalt_store_decorator_mutex {
 	struct csalt_store_decorator decorator;
@@ -278,6 +280,47 @@ struct csalt_store_decorator_mutex {
 struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
 	csalt_store *store,
 	csalt_mutex *mutex
+);
+
+ssize_t csalt_store_decorator_mutex_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+
+ssize_t csalt_store_decorator_mutex_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+
+size_t csalt_store_decorator_mutex_size(csalt_store *store);
+
+int csalt_store_decorator_mutex_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
+
+/**
+ * \brief Provides a means to synchronize access to the store via a read/write
+ * 	lock.
+ *
+ * This type performs a read lock for calls to csalt_store_read and
+ * csalt_store_size and performs a write lock for csalt_store_write and
+ * csalt_store_split.
+ */
+struct csalt_store_decorator_rwlock {
+	struct csalt_store_decorator decorator;
+	csalt_mutex *mutex;
+	csalt_rwlock *rwlock;
+};
+
+struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
+	csalt_store *store,
+	csalt_rwlock *rwlock
 );
 
 #endif //DECORATORSTORES_H
