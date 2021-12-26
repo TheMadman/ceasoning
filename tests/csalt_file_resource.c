@@ -34,8 +34,7 @@ int test_write(csalt_store *resource, void *_)
 	);
 	if (amount_written != sizeof(a)) {
 		print_error(
-			"Unexpected number of bytes written, "
-			"expected: %ld actual: %ld",
+			"Unexpected number of bytes written, expected: %ld actual: %ld",
 			sizeof(a),
 			amount_written
 		);
