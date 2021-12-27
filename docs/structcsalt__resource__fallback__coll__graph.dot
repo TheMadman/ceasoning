@@ -1,0 +1,20 @@
+digraph "csalt_resource_fallback"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="csalt_resource_fallback",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This type provides a resource which initializes multiple resources, returning a csalt_store_fallback ..."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vtable" ,fontname="Helvetica"];
+  Node2 [label="csalt_resource_interface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__resource__interface.html",tooltip="Interface definition for managed resources."];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pair" ,fontname="Helvetica"];
+  Node3 [label="csalt_resource_pair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__resource__pair.html",tooltip="This type allows storing a pair of resources and treating them as a single resource."];
+  Node4 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" result" ,fontname="Helvetica"];
+  Node4 [label="csalt_store_pair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__store__pair.html",tooltip="This type allows storing a pair of stores and interacting with them as though they are a single store..."];
+  Node5 -> Node4 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" second\nfirst\ninterface" ,fontname="Helvetica"];
+  Node5 [label="csalt_store_interface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__store__interface.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" second\nvtable\nfirst" ,fontname="Helvetica"];
+  Node6 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" result" ,fontname="Helvetica"];
+  Node6 [label="csalt_store_fallback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__store__fallback.html",tooltip="This type decorates a pair with fallback/caching logic."];
+  Node5 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vtable" ,fontname="Helvetica"];
+  Node4 -> Node6 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pair" ,fontname="Helvetica"];
+}

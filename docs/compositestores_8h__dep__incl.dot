@@ -1,0 +1,27 @@
+digraph "csalt/compositestores.h"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="csalt/compositestores.h",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This file provides stores which define relationships between stores. Examples include csalt_store_pai..."];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="csalt/compositeresources.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$compositeresources_8h.html",tooltip="This file defines abstract resources, which allow you to define relationships between resources."];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="csalt/resources.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$resources_8h_source.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="csalt/stores.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$stores_8h_source.html",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="csalt/baseresources.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$baseresources_8h.html",tooltip="Provides an interface for resources with lifetimes."];
+  Node5 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="csalt/decoratorresources.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$decoratorresources_8h.html",tooltip="This file is responsible for providing decorator functions around csalt_resources."];
+  Node6 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="csalt/fileresource.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$fileresource_8h.html",tooltip="Provides a wrapper around on-disk files for use with csalt_resource algorithms."];
+  Node7 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="csalt/networkresources.h",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$networkresources_8h.html",tooltip="Provides resources for networking."];
+  Node8 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

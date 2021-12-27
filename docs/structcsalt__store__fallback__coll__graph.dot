@@ -1,0 +1,12 @@
+digraph "csalt_store_fallback"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="csalt_store_fallback",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="This type decorates a pair with fallback/caching logic."];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" vtable" ,fontname="Helvetica"];
+  Node2 [label="csalt_store_interface",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__store__interface.html",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" pair" ,fontname="Helvetica"];
+  Node3 [label="csalt_store_pair",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structcsalt__store__pair.html",tooltip="This type allows storing a pair of stores and interacting with them as though they are a single store..."];
+  Node2 -> Node3 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" second\nfirst\ninterface" ,fontname="Helvetica"];
+}
