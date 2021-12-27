@@ -401,12 +401,15 @@ struct decorator_mutex_split_params {
 	csalt_mutex *mutex;
 };
 
-int mutex_receive_split(csalt_store *store, void *param)
+static int mutex_receive_split(csalt_store *store, void *param)
 {
 	struct decorator_mutex_split_params *original_params = param;
 	csalt_mutex_unlock(original_params->mutex);
 
-	return original_params->block(store, original_params->param);
+	struct csalt_store_decorator_mutex
+		result = csalt_store_decorator_mutex(store, original_params->mutex);
+
+	return original_params->block(csalt_store(&result), original_params->param);
 }
 
 int csalt_store_decorator_mutex_split(
