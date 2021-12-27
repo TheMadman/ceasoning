@@ -1,5 +1,8 @@
 \mainpage Syntactic sugar for Common C Tasks
 
+Help I wrote an object-oriented declarative library in an imperative language
+and now I'm having an identity crisis
+
 \section start Where to Start
 
 This project starts at generalized algorithms, then implements concrete types

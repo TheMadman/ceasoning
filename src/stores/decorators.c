@@ -386,13 +386,7 @@ size_t csalt_store_decorator_mutex_size(csalt_store *store)
 {
 	struct csalt_store_decorator_mutex *mutex = (void *)store;
 
-	int try_lock = csalt_mutex_lock(mutex->mutex);
-	if (try_lock)
-		return 0;
-
-	size_t result = csalt_store_size(mutex->decorator.child);
-	csalt_mutex_unlock(mutex->mutex);
-	return result;
+	return csalt_store_size(mutex->decorator.child);
 }
 
 struct decorator_mutex_split_params {
@@ -495,7 +489,7 @@ ssize_t csalt_store_decorator_rwlock_write(
 size_t csalt_store_decorator_rwlock_size(csalt_store *store)
 {
 	struct csalt_store_decorator_rwlock *lock = (void *)store;
-	// do we need locks for size? It'd be racy even with locks
+
 	return csalt_store_size(lock->decorator.child);
 }
 
