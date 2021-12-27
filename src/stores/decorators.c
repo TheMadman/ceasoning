@@ -462,3 +462,115 @@ struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
 	return result;
 }
 
+ssize_t csalt_store_decorator_rwlock_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+	int try_lock = csalt_rwlock_rdlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_read(lock->decorator.child, buffer, amount);
+	csalt_rwlock_unlock(lock->rwlock);
+	return result;
+}
+
+ssize_t csalt_store_decorator_rwlock_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+	int try_lock = csalt_rwlock_wrlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_write(lock->decorator.child, buffer, amount);
+	csalt_rwlock_unlock(lock->rwlock);
+	return result;
+}
+
+size_t csalt_store_decorator_rwlock_size(csalt_store *store)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+	// do we need locks for size? It'd be racy even with locks
+	return csalt_store_size(lock->decorator.child);
+}
+
+struct decorator_rwlock_split_params {
+	csalt_store_block_fn *block;
+	void *param;
+	csalt_rwlock *rwlock;
+};
+
+static int rwlock_receive_split(csalt_store *store, void *param)
+{
+	struct decorator_rwlock_split_params *original_params = param;
+	csalt_rwlock_unlock(original_params->rwlock);
+
+	struct csalt_store_decorator_rwlock
+		result = csalt_store_decorator_rwlock(
+			store,
+			original_params->rwlock
+		);
+
+	return original_params->block(
+		csalt_store(&result),
+		original_params->param
+	);
+}
+
+int csalt_store_decorator_rwlock_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+
+	struct decorator_rwlock_split_params original_params = {
+		block,
+		param,
+		lock->rwlock,
+	};
+
+	int try_lock = csalt_rwlock_wrlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+
+	return csalt_store_split(
+		lock->decorator.child,
+		begin,
+		end,
+		rwlock_receive_split,
+		&original_params
+	);
+}
+
+static struct csalt_store_interface rwlock_implementation = {
+	csalt_store_decorator_rwlock_read,
+	csalt_store_decorator_rwlock_write,
+	csalt_store_decorator_rwlock_size,
+	csalt_store_decorator_rwlock_split,
+};
+
+struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
+	csalt_store *store,
+	csalt_rwlock *rwlock
+)
+{
+	struct csalt_store_decorator_rwlock result = {
+		{
+			&rwlock_implementation,
+			store,
+		},
+		rwlock,
+	};
+
+	return result;
+}
+

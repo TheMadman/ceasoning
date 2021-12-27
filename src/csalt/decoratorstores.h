@@ -314,13 +314,34 @@ int csalt_store_decorator_mutex_split(
  */
 struct csalt_store_decorator_rwlock {
 	struct csalt_store_decorator decorator;
-	csalt_mutex *mutex;
 	csalt_rwlock *rwlock;
 };
 
 struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
 	csalt_store *store,
 	csalt_rwlock *rwlock
+);
+
+ssize_t csalt_store_decorator_rwlock_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+
+ssize_t csalt_store_decorator_rwlock_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+
+size_t csalt_store_decorator_rwlock_size(csalt_store *store);
+
+int csalt_store_decorator_rwlock_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
 );
 
 #endif //DECORATORSTORES_H
