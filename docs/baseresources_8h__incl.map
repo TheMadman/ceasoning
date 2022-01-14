@@ -4,10 +4,10 @@
 <area shape="rect" id="node3" title=" " alt="" coords="104,80,179,107"/>
 <area shape="rect" id="node4" href="$stores_8h_source.html" title=" " alt="" coords="203,80,312,107"/>
 <area shape="rect" id="node5" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="195,229,301,256"/>
-<area shape="rect" id="node8" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="77,155,219,181"/>
+<area shape="rect" id="node8" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="77,155,219,181"/>
 <area shape="rect" id="node9" href="$decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="295,155,431,181"/>
 <area shape="rect" id="node6" title=" " alt="" coords="65,304,161,331"/>
-<area shape="rect" id="node7" href="$util_8h.html" title=" " alt="" coords="191,304,281,331"/>
+<area shape="rect" id="node7" href="$util_8h.html" title="This file provides macros for common tasks." alt="" coords="191,304,281,331"/>
 <area shape="rect" id="node10" href="$threads_8h_source.html" title=" " alt="" coords="325,229,504,256"/>
 <area shape="rect" id="node11" title=" " alt="" coords="373,304,457,331"/>
 </map>
