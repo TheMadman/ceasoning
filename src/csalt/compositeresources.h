@@ -6,9 +6,9 @@
  * \brief This file defines abstract resources, which
  * allow you to define relationships between resources.
  *
- * This includes the csalt_resource_list resource, which
- * allows you to treat any number of resources as a single
- * resource safely
+ * This includes the csalt_resource_pair resource, which
+ * allows you to treat two or more resources as a single
+ * resource.
  */
 
 #include <csalt/baseresources.h>

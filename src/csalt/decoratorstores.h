@@ -2,7 +2,7 @@
 #define DECORATORSTORES_H
 
 #include "basestores.h"
-#include <csalt/platform/threads.h>
+#include "csalt/platform/threads.h"
 
 /**
  * \file

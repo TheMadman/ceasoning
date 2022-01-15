@@ -13,9 +13,9 @@
 
 int use_list(csalt_store *store, void *params)
 {
-	struct csalt_store_list *list = (struct csalt_store_list *)store;
-	struct csalt_resource_network_socket_initialized *bound = (void *)csalt_store_list_get(list, 0);
-	csalt_store *connected = csalt_store_list_get(list, 1);
+	struct csalt_store_pair *list = (struct csalt_store_pair *)store;
+	struct csalt_resource_network_socket_initialized *bound = (void *)csalt_store_pair_list_get(list, 0);
+	csalt_store *connected = csalt_store_pair_list_get(list, 1);
 
 	const char payload[] = "Hello, World!";
 	
@@ -94,9 +94,12 @@ int main()
 		(csalt_resource *)&connected,
 	};
 
-	csalt_store *buffer[arrlength(array)] = { 0 };
+	struct csalt_resource_pair pairs[arrlength(array)] = { 0 };
+	int error = csalt_resource_pair_list(array, pairs);
+	if (error) {
+		print_error("Error initializing pair list");
+		return EXIT_TEST_ERROR;
+	}
 
-	struct csalt_resource_list list = csalt_resource_list_array(array, buffer);
-
-	return csalt_resource_use((csalt_resource *)&list, use_list, 0);
+	return csalt_resource_use((csalt_resource *)pairs, use_list, 0);
 }
