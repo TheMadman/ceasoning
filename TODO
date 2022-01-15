@@ -1,0 +1,46 @@
+- Currently, csalt_store_transfer doesn't support "transfer-until-done"
+  symantics. It relies on the user querying the store(s) for their size
+  to initialize the call. This is racy, since other threads (or
+  even processes) can change the size/content of the store part-way
+  through.
+  - To implement this, I'd like to implement csalt_store_read/_write
+    to return both a number-of-bytes and "EOF-reached" state.
+    Even if the underlying function doesn't test those atomically,
+    the interface should _support_ an atomic read-and-check.
+  - Part of why csalt_store_transfer is racy anyway is because it
+    copies data into an internal, fixed-size page. I can't think
+    of a good way to support _actually_ generic transfer, e.g.
+    between a filesystem file and a network socket, or from a
+    network socket to a pair_list, without the memory go-between.
+    This might limit its usefulness, since even if we let the user
+    supply their own go-between, they might still have to interrogate
+    the size of the store at run-time, allocate the memory, then
+    perform the read - which is exactly the same race condition we're
+    trying to solve.
+
+- I'd like a good TCP interface, with the acquire-callback-release
+  pattern used throughout the rest of the library, for listening
+  sockets. It's a toughy though, since depending on the application,
+  different people do different things - some people use multiplexing
+  via poll/epoll/kqueue and friends, some people use
+  one-thread-per-client, some use one-process-per-client, some use
+  pre-threading/-forking, and some use a combination - I think Apache
+  pre-forks _and_ pre-threads, with a main thread feeding new clients
+  into a queue.
+
+  I don't want to enforce a my-way-or-the-highway approach to anything
+  this library supports - they should have all the power they could
+  get without the library, which is true of most of the existing
+  algorithms.
+
+- I want a good key/value interface, with similar flexibility to the
+  bytewise stores. This would support some basic level of fetching
+  remote data, like from redis or a REST API, and even a basic level
+  of SQL query - as well as, of course, a local dictionary.
+
+- I got about half-way through a condition-variable-based store
+  decorator, thinking it might be useful as a ring-buffer, but I
+  have to think about the details more, and study the condition
+  variable documentation. I might have to test it a few times too.
+  It wouldn't be very useful if the ring-buffer access was made
+  totally serially by accident.
