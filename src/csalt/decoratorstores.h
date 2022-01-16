@@ -1,7 +1,26 @@
 #ifndef DECORATORSTORES_H
 #define DECORATORSTORES_H
 
+/*
+ * Ceasoning - Syntactic Sugar for Common C Tasks
+ * Copyright (C) 2022   Marcus Harrison
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "basestores.h"
+#include "csalt/platform/threads.h"
 
 /**
  * \file
@@ -248,5 +267,113 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size
  * \brief Implementation for logger write function
  */
 ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, size_t bytes);
+
+/**
+ * \brief Provides a means to lock accesses to the store behind a mutex.
+ *
+ * Use this decorator, or csalt_resource_decorator_mutex, when sharing a store
+ * across multiple threads to keep accesses synchronized.
+ *
+ * In the case that a mutex lock fails when calling csalt_store_size, the
+ * function call returns 0. It may also return 0 if the underlying store
+ * returns a size of 0.
+ *
+ * The following functions trigger a lock: csalt_store_read(),
+ * csalt_store_write() and csalt_store_split(). csalt_store_size() is
+ * unsynchronized, as depending on the value of a csalt_store_size() for
+ * a call to another function is still a race condition.
+ *
+ * csalt_store_split requires a lock, since splitting beyond the end of the
+ * store may mutate the store, which may trigger race conditions. Once the
+ * split is finished, the mutex is unlocked before being passed to the block
+ * parameter, to prevent a deadlock.
+ *
+ * This store type can block on calls if other threads have locked the mutex.
+ */
+struct csalt_store_decorator_mutex {
+	struct csalt_store_decorator decorator;
+	csalt_mutex *mutex;
+};
+
+/**
+ * \brief Constructor for a csalt_store_decorator_mutex.
+ */
+struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
+	csalt_store *store,
+	csalt_mutex *mutex
+);
+
+ssize_t csalt_store_decorator_mutex_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+
+ssize_t csalt_store_decorator_mutex_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+
+size_t csalt_store_decorator_mutex_size(csalt_store *store);
+
+int csalt_store_decorator_mutex_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
+
+/**
+ * \brief Provides a means to synchronize access to the store via a read/write
+ * 	lock.
+ *
+ * This type performs a read lock for calls to csalt_store_read() and performs
+ * a write lock for csalt_store_write() and csalt_store_split().
+ *
+ * csalt_store_size() is unsynchronized, since calling csalt_store_size() and
+ * depending on the result for a call to csalt_store_read() or
+ * csalt_store_write() would result in a race condition.
+ *
+ * Read/write locks allow multiple concurrent readers, but only one writer at
+ * any time. Writes block on current readers, and take priority over pending
+ * readers. Reads block on current writers and have lower priority than
+ * pending writers.
+ */
+struct csalt_store_decorator_rwlock {
+	struct csalt_store_decorator decorator;
+	csalt_rwlock *rwlock;
+};
+
+/**
+ * \brief Constructor for a csalt_store_decorator_rwlock.
+ */
+struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
+	csalt_store *store,
+	csalt_rwlock *rwlock
+);
+
+ssize_t csalt_store_decorator_rwlock_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+);
+
+ssize_t csalt_store_decorator_rwlock_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+);
+
+size_t csalt_store_decorator_rwlock_size(csalt_store *store);
+
+int csalt_store_decorator_rwlock_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
 
 #endif //DECORATORSTORES_H

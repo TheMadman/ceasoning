@@ -1,6 +1,24 @@
 #ifndef CSALT_BASERESOURCES_H
 #define CSALT_BASERESOURCES_H
 
+/*
+ * Ceasoning - Syntactic Sugar for Common C Tasks
+ * Copyright (C) 2022   Marcus Harrison
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <stddef.h>
 #include <unistd.h>
 
@@ -153,6 +171,81 @@ struct csalt_heap csalt_heap(size_t size);
  * can be done with csalt_store_read().
  */
 void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
+
+/**
+ * \brief A type representing an initialized vector, implementing the
+ * 	csalt_store interface.
+ *
+ * Writes and splits past the end of this type will attempt to resize the
+ * pointed-to heap memory before writing.
+ *
+ * Initialization and clean-up are performed by csalt_resource_vector, which
+ * is how you should use this type. Otherwise, you must perform clean-up of
+ * the internal pointer yourself, which you should avoid.
+ */
+struct csalt_resource_vector_initialized {
+	struct csalt_store_interface *vtable;
+	
+	/**
+	 * \brief This pointer is the pointer to the initialized heap memory,
+	 * as returned by malloc() or realloc(), and is the member that
+	 * needs free() called on it.
+	 *
+	 * Again, you should only use this type via
+	 * csalt_resource_vector, which will do the initialization and
+	 * clean-up for you when passed to csalt_resource_use().
+	 */
+	void *original_pointer;
+
+	/**
+	 * \brief This pointer is the pointer to the end of the initialized
+	 * heap memory.
+	 *
+	 * This is the value that's checked for when to expand the vector.
+	 */
+	void *original_end;
+
+	/**
+	 * \brief Index from original_pointer representing the
+	 * beginning of the split
+	 */
+	size_t begin;
+
+	/**
+	 * \brief Index from original_pointer representing the
+	 * end of the split.
+	 */
+	size_t end;
+
+	/**
+	 * \brief Stores the amount of data written, to prevent
+	 * reading uninitialized values.
+	 *
+	 * If you split/write after the beginning, then read from the beginning,
+	 * the memory before your write will be initialized to 0.
+	 */
+	size_t amount_written;
+};
+
+/**
+ * \brief Manages heap memory which can expand with csalt_store_write() calls.
+ *
+ * This type is similar to csalt_heap, except that writing past the end of
+ * the heap memory attempts a reallocation and copy. The newly reallocated
+ * size attempted is simply twice the previous size.
+ */
+struct csalt_resource_vector {
+	struct csalt_resource_interface *vtable;
+	size_t size;
+	struct csalt_resource_vector_initialized vector;
+};
+
+/**
+ * \brief Constructs a vector with an initial buffer size.
+ *
+ * Passing 0 produces a vector with a default buffer size.
+ */
+struct csalt_resource_vector csalt_resource_vector(size_t initial_size);
 
 /**
  * \brief Manages a resource lifecycle and executes the given

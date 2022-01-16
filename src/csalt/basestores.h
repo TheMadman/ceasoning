@@ -1,6 +1,24 @@
 #ifndef CSALTSTORES_H
 #define CSALTSTORES_H
 
+/*
+ * Ceasoning - Syntactic Sugar for Common C Tasks
+ * Copyright (C) 2022   Marcus Harrison
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <sys/types.h>
 
 #include <csalt/util.h>
@@ -19,14 +37,14 @@
 struct csalt_store_interface;
 
 /**
- * Any struct whos first member is a pointer to
+ * \brief Any struct whos first member is a pointer to
  * a csalt_store_interface can be passed with a basic
  * cast to the virtual functions listed here.
  */
 typedef const struct csalt_store_interface *csalt_store;
 
 /**
- * Function type for reading data from a store into a buffer
+ * \brief Function type for reading data from a store into a buffer
  */
 typedef ssize_t csalt_store_read_fn(
 	csalt_store *store,
@@ -35,7 +53,7 @@ typedef ssize_t csalt_store_read_fn(
 );
 
 /**
- * Function type for writing data from a buffer into a store
+ * \brief Function type for writing data from a buffer into a store
  */
 typedef ssize_t csalt_store_write_fn(
 	csalt_store *store,
@@ -44,13 +62,13 @@ typedef ssize_t csalt_store_write_fn(
 );
 
 /**
- * Type for a logic block to use inside csalt_store_split_fn
+ * \brief Type for a logic block to use inside csalt_store_split_fn
  * functions.
  */
 typedef int csalt_store_block_fn(csalt_store *store, void *data);
 
 /**
- * Function type for representing a sub-section of an
+ * \brief Function type for representing a sub-section of an
  * existing store as a new store, and performing an
  * action on the result.
  *
@@ -70,11 +88,8 @@ typedef int csalt_store_split_fn(
 );
 
 /**
- * Returns the size of the store, if applicable, or 0
+ * \brief Returns the size of the store, if applicable, or 0
  * if not applicable to this store.
- *
- * Note that any store of size 0 can't be read to or
- * written from.
  */
 typedef size_t csalt_store_size_fn(csalt_store *store);
 
@@ -104,12 +119,27 @@ ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
 ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 
 /**
- * Returns the current size of the given store.
+ * \brief Returns the current size of the given store.
+ *
+ * Generally, calling csalt_store_size before calling one of csalt_store_read
+ * or csalt_store_write is racy: this is true of most underlying stores,
+ * including files, shared memory or sockets. Your application can request
+ * the size, then the store's size can be changed without your application
+ * knowing by a write by another process altogether. Therefore, you should only
+ * use this pattern if you have good reason to believe that the store will not
+ * arbitrarily change size - for example, because you control the file or
+ * the endpoint of the network socket.
+ *
+ * The much safer approach is to simply attempt to csalt_store_read or
+ * csalt_store_write from the store and check the return values for amount
+ * read/written and error values. If you are constructing stores from user
+ * input, you should try to formulate your application to use csalt_store_size
+ * as little as possible.
  */
 size_t csalt_store_size(csalt_store *store);
 
 /**
- * Provides the means to divide a store into a
+ * \brief Provides the means to divide a store into a
  * sub-section and perform an operation on the result.
  *
  * One of the limitations of this function is to prevent
@@ -144,11 +174,12 @@ int csalt_store_split(
 );
 
 /**
- * This structure allows the transfer algorithm to run in
- * a non-blocking fashion. When the remaining is equal to
- * the total, the passed call-back is called, allowing you to
- * perform the same call in a loop (e.g. a render loop or
- * a spin-lock in case you want blocking behaviour).
+ * \brief This structure allows the transfer algorithm to run in
+ * a non-blocking fashion.
+ *
+ * When the remaining is equal to the total, the passed call-back is called,
+ * allowing you to perform the same call in a loop (e.g. a render loop or a 
+ * spin-lock in case you want blocking behaviour).
  *
  * \see csalt_progress()
  */
@@ -158,19 +189,25 @@ struct csalt_progress {
 };
 
 /**
- * Creates a new struct csalt_progress with the total
+ * \brief Creates a new struct csalt_progress with the total
  * set to amount and the remaining set to 0.
  */
 struct csalt_progress csalt_progress(size_t amount);
 
 /**
- * Represents a function passed to csalt_store_transfer
+ * \brief This function returns truthy if progress is finished, false
+ * otherwise
+ */
+int csalt_progress_complete(struct csalt_progress *progress);
+
+/**
+ * \brief Represents a function passed to csalt_store_transfer
  * to perform once the transfer has completed.
  */
 typedef void csalt_transfer_complete_fn(csalt_store *dest);
 
 /**
- * this function provides a convenient means to write data
+ * \brief This function provides a convenient means to write data
  * from one store into another.
  *
  * If the transfer partially completes - for example, on
@@ -181,8 +218,8 @@ typedef void csalt_transfer_complete_fn(csalt_store *dest);
  */
 ssize_t csalt_store_transfer(
 	struct csalt_progress *data,
-	csalt_store *to,
 	csalt_store *from,
+	csalt_store *to,
 	csalt_transfer_complete_fn *callback
 );
 

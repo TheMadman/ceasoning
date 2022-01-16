@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['csalt_5fstore_5fnull_5fimplementation_210',['csalt_store_null_implementation',['../basestores_8h.html#aadbf1745ee1786b6cb730dccabd2fbe6',1,'stores.c']]]
+  ['amount_5fwritten_236',['amount_written',['../structcsalt__resource__vector__initialized.html#ad1501066252fe863ccdac949154498f8',1,'csalt_resource_vector_initialized']]]
 ];

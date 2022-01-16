@@ -65,17 +65,19 @@ $(function() {
 <div class="title">Syntactic sugar for Common C Tasks </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h1><a class="anchor" id="start"></a>
+<div class="textblock"><p>Help I wrote an object-oriented declarative library in an imperative language and now I'm having an identity crisis</p>
+<h1><a class="anchor" id="start"></a>
 Where to Start</h1>
 <p>This project starts at generalized algorithms, then implements concrete types to use within those algorithms. Two examples are:</p>
 <ul>
-<li><a class="el" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d" title="this function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
+<li><a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772" title="This function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a> - Non-blocking transfer of data between any two points</li>
 <li><a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a> - Initialize, test, use and free a system resource</li>
 </ul>
 <p>Concrete stores and resources represent real resources, such as memory and disk space:</p>
 <ul>
 <li><a class="el" href="structcsalt__memory.html" title="A type representing a continuous block of memory.">csalt_memory</a> - represents a block of unmanaged memory, such as a stack member or a global variable</li>
 <li><a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> - represents a heap memory allocation request, which can be managed automatically with <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a></li>
+<li><a class="el" href="structcsalt__resource__vector.html" title="Manages heap memory which can expand with csalt_store_write() calls.">csalt_resource_vector</a> - represents heap-allocated memory which can expand to accommodate large csalt_store_write and csalt_store_split calls</li>
 <li><a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a> - represents a file, opened by a path</li>
 </ul>
 <p>Composite stores provide simple means to operate on multiple stores:</p>
@@ -84,9 +86,160 @@ Where to Start</h1>
 <li><a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> - uses stores as a priority list, where later stores are only checked if earlier stores don't contain the requested data</li>
 <li><a class="el" href="structcsalt__resource__first.html" title="This struct uses the first working resource.">csalt_resource_first</a> - attempts to initialize resources in the order they're given, returning the first successfuly-initialized resource</li>
 </ul>
-<p>Concrete and composite stores may be combined in any way, allowing simple expression of complex relationships - for example, a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> may contain a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> and a csalt_resource_list of <a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a>s. </p>
+<p>Concrete and composite stores may be combined in any way, allowing simple expression of complex relationships - for example, a <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> may contain a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> and a <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a> list of <a class="el" href="structcsalt__resource__file.html" title="Struct representing a file resource supporting lazy-loading.">csalt_resource_file</a>s.</p>
+<h1><a class="anchor" id="example1"></a>
+Simple bytewise-copy example</h1>
+<p>This is an example program which takes two files and copies bytes from one to the other.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;csalt/resources.h&gt;</span></div>
+<div class="line"><span class="preprocessor">#include &lt;stdio.h&gt;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> bytewise_copy(<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *store, <span class="keywordtype">void</span> *);</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span> *argv[])</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * Check if we have enough arguments</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keywordflow">if</span> (argc &lt; 3) {</div>
+<div class="line">        printf(<span class="stringliteral">&quot;Usage: %s &lt;input-file&gt; &lt;output-file&gt;\n&quot;</span>, argv[0]);</div>
+<div class="line">        <span class="keywordflow">return</span> 1;</div>
+<div class="line">    }</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * Create two file resources - one for input, one for output.</span></div>
+<div class="line"><span class="comment">     * These calls don&#39;t attempt to open the files yet, that happens</span></div>
+<div class="line"><span class="comment">     * later.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__file.html">csalt_resource_file</a></div>
+<div class="line">        input = <a class="code" href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">csalt_resource_file</a>(argv[1], O_RDONLY),</div>
+<div class="line">        output = <a class="code" href="fileresource_8h.html#a4b2a8c6d94dcb9a1bac1d5e36cd999cf">csalt_resource_create_file</a>(argv[2], O_WRONLY, 0644);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * Add them to an array - this will be used to initialize a list</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resources[] = {</div>
+<div class="line">        <a class="code" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a>(&amp;input),</div>
+<div class="line">        <a class="code" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a>(&amp;output),</div>
+<div class="line">    };</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * Create an array of resource pairs, which will store our list</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__pair.html">csalt_resource_pair</a> list[<a class="code" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(resources)] = { 0 };</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * This macro wraps a function, taking two in-place arrays and</span></div>
+<div class="line"><span class="comment">     * initializing list based on resources</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <a class="code" href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">csalt_resource_pair_list</a>(resources, list);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * This is where the magic happens.</span></div>
+<div class="line"><span class="comment">     *</span></div>
+<div class="line"><span class="comment">     * This function attempts to initialize the first resource in</span></div>
+<div class="line"><span class="comment">     * our list. If that fails, it returns -1. Otherwise, it attempts</span></div>
+<div class="line"><span class="comment">     * the second resource in the list.</span></div>
+<div class="line"><span class="comment">     *</span></div>
+<div class="line"><span class="comment">     * If the second resource fails, the first resource is correctly</span></div>
+<div class="line"><span class="comment">     * cleaned up for us, then the function returns -1.</span></div>
+<div class="line"><span class="comment">     *</span></div>
+<div class="line"><span class="comment">     * Only if both resources open successfully do we run bytewise_copy.</span></div>
+<div class="line"><span class="comment">     * Then, we return the return value of bytewise_copy.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keywordtype">int</span> result = <a class="code" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a>(</div>
+<div class="line">        <a class="code" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a>(&amp;list),</div>
+<div class="line">        bytewise_copy,</div>
+<div class="line">        0</div>
+<div class="line">    );</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (result &lt; 0)</div>
+<div class="line">        perror(<span class="stringliteral">&quot;Error opening file&quot;</span>);</div>
+<div class="line">    <span class="keywordflow">return</span> result;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="keywordtype">int</span> bytewise_copy(<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *store, <span class="keywordtype">void</span> *_)</div>
+<div class="line">{</div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * A resource-pair, when initialized, returns a store-pair.</span></div>
+<div class="line"><span class="comment">     * We can use this to get our individual file stores to begin</span></div>
+<div class="line"><span class="comment">     * transfering data.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__store__pair.html">csalt_store_pair</a> *pairs = (<span class="keyword">struct </span><a class="code" href="structcsalt__store__pair.html">csalt_store_pair</a> *)store;</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * csalt_store_pair_list_get is a convenience function around</span></div>
+<div class="line"><span class="comment">     * pairs that are arranged like a linked-list - which is what</span></div>
+<div class="line"><span class="comment">     * csalt_resource_pair_list does.</span></div>
+<div class="line"><span class="comment">     *</span></div>
+<div class="line"><span class="comment">     * Even though, in this case, we know that we&#39;re operating on</span></div>
+<div class="line"><span class="comment">     * the return values of csalt_resource_file, we only need the</span></div>
+<div class="line"><span class="comment">     * generic csalt_store interface - this also makes this function</span></div>
+<div class="line"><span class="comment">     * more generic, allowing it to accept ANY csalt_store_pair of</span></div>
+<div class="line"><span class="comment">     * two stores.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <a class="code" href="structcsalt__store__interface.html">csalt_store</a> *first = <a class="code" href="compositestores_8h.html#af6a028caa3aa9afc177fcce8e8e2ad40">csalt_store_pair_list_get</a>(pairs, 0);</div>
+<div class="line">    <a class="code" href="structcsalt__store__interface.html">csalt_store</a> *second = <a class="code" href="compositestores_8h.html#af6a028caa3aa9afc177fcce8e8e2ad40">csalt_store_pair_list_get</a>(pairs, 1);</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * csalt_progress is a simple struct storing how much data</span></div>
+<div class="line"><span class="comment">     * has been transferred, vs. how much we expected.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keyword">struct </span><a class="code" href="structcsalt__progress.html">csalt_progress</a></div>
+<div class="line">        progress = <a class="code" href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a>(<a class="code" href="basestores_8h.html#ad46e9aaa1f82900dbe78e30d0db0da5d">csalt_store_size</a>(first));</div>
+<div class="line"> </div>
+<div class="line">    <span class="comment">/*</span></div>
+<div class="line"><span class="comment">     * We want blocking behaviour for this application, which</span></div>
+<div class="line"><span class="comment">     * is achieved via a simple spin-looop.</span></div>
+<div class="line"><span class="comment">     *</span></div>
+<div class="line"><span class="comment">     * The ceasoning library is non-blocking by default, which</span></div>
+<div class="line"><span class="comment">     * allows the construction of composite types that can implement</span></div>
+<div class="line"><span class="comment">     * algorithms generically.</span></div>
+<div class="line"><span class="comment">     */</span></div>
+<div class="line">    <span class="keywordflow">while</span> (!<a class="code" href="basestores_8h.html#ab5fbda98b98e98c80ce19a928f582959">csalt_progress_complete</a>(&amp;progress))</div>
+<div class="line">        <span class="comment">/*</span></div>
+<div class="line"><span class="comment">         * Non-blocking file descriptor types will return 0</span></div>
+<div class="line"><span class="comment">         * when there&#39;s no data to read, and -1 when the file</span></div>
+<div class="line"><span class="comment">         * descriptor is unavailable for reading/writing. That includes</span></div>
+<div class="line"><span class="comment">         * types representing network sockets, etc.</span></div>
+<div class="line"><span class="comment">         *</span></div>
+<div class="line"><span class="comment">         * This allows us to do one generic error check which works</span></div>
+<div class="line"><span class="comment">         * across all stores, without having to worry about</span></div>
+<div class="line"><span class="comment">         * EAGAIN or EWOULDBLOCK.</span></div>
+<div class="line"><span class="comment">         *</span></div>
+<div class="line"><span class="comment">         * csalt_store_transfer is a function accepting any two stores</span></div>
+<div class="line"><span class="comment">         * and attempting a non-blocking transfer between them. It</span></div>
+<div class="line"><span class="comment">         * returns the total amount copied across all calls, or -1 if</span></div>
+<div class="line"><span class="comment">         * there is an error.</span></div>
+<div class="line"><span class="comment">         */</span></div>
+<div class="line">        <span class="keywordflow">if</span> (<a class="code" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772">csalt_store_transfer</a>(&amp;progress, first, second, 0) &lt; 0)</div>
+<div class="line">            <span class="keywordflow">return</span> -1;</div>
+<div class="line">}</div>
+<div class="line"> </div>
+</div><!-- fragment --><p>A few things to note:</p><ul>
+<li>We never need to call open/close on the file descriptors for us - we don't need to write the logic of making sure every file descriptor opens, and cleaning up the file descriptors that don't. This is handled by <a class="el" href="structcsalt__resource__pair.html" title="This type allows storing a pair of resources and treating them as a single resource.">csalt_resource_pair</a> when we call csalt_resource_use.</li>
+<li>We never have to close the file descriptors - once the bytewise_copy function finishes, csalt_resource_use will clean up for us.</li>
+<li>The bytewise_copy function is very generic - if we want to re-use it for, say, a network socket transferring bytes into heap memory, no modifications are necessary. We can just pass a list containing those two stores.</li>
+<li>All the types we create to manage our resources are created on the stack. Likewise, the pointer passed to bytewise_copy is into the stack. The only system calls the library performs are the calls you request - for example, to use a heap resource, or read/write from a file descriptor store. </li>
+</ul>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
+<div class="ttc" id="autil_8h_html_ac8849258b846eb2806e17d5b6c0dfd66"><div class="ttname"><a href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a></div><div class="ttdeci">#define arrlength(array)</div><div class="ttdoc">Retrieves the number of elements in a typed array.</div><div class="ttdef"><b>Definition:</b> util.h:26</div></div>
+<div class="ttc" id="acompositeresources_8h_html_a860a1dc9b44d3d08b01ee719b758d783"><div class="ttname"><a href="compositeresources_8h.html#a860a1dc9b44d3d08b01ee719b758d783">csalt_resource_pair_list</a></div><div class="ttdeci">#define csalt_resource_pair_list(resources, out)</div><div class="ttdoc">Convenience macro for building a linked-list of csalt_resource_pairs.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:89</div></div>
+<div class="ttc" id="afileresource_8h_html_aa6d6d84e7ab967e17960ac1b739c26a4"><div class="ttname"><a href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">csalt_resource_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_file(const char *path, int flags)</div><div class="ttdoc">Creates a file resource with the given path and flags.</div><div class="ttdef"><b>Definition:</b> file.c:55</div></div>
+<div class="ttc" id="abaseresources_8h_html_a991bf5e3b35d5b7d355b6fc35f2dab21"><div class="ttname"><a href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a></div><div class="ttdeci">int csalt_resource_use(csalt_resource *resource, csalt_store_block_fn *code_block, void *out)</div><div class="ttdoc">Manages a resource lifecycle and executes the given function.</div><div class="ttdef"><b>Definition:</b> resources.c:361</div></div>
+<div class="ttc" id="afileresource_8h_html_a4b2a8c6d94dcb9a1bac1d5e36cd999cf"><div class="ttname"><a href="fileresource_8h.html#a4b2a8c6d94dcb9a1bac1d5e36cd999cf">csalt_resource_create_file</a></div><div class="ttdeci">struct csalt_resource_file csalt_resource_create_file(const char *path, int flags, int mode)</div><div class="ttdoc">Sets up a file resource for creation and opening.</div><div class="ttdef"><b>Definition:</b> file.c:67</div></div>
+<div class="ttc" id="acompositestores_8h_html_af6a028caa3aa9afc177fcce8e8e2ad40"><div class="ttname"><a href="compositestores_8h.html#af6a028caa3aa9afc177fcce8e8e2ad40">csalt_store_pair_list_get</a></div><div class="ttdeci">csalt_store * csalt_store_pair_list_get(const struct csalt_store_pair *pairs, size_t index)</div><div class="ttdoc">Allows getting the csalt_store object at an offset from a list of pairs constructed by csalt_store_pa...</div><div class="ttdef"><b>Definition:</b> compositestores.c:195</div></div>
+<div class="ttc" id="astructcsalt__progress_html"><div class="ttname"><a href="structcsalt__progress.html">csalt_progress</a></div><div class="ttdoc">This structure allows the transfer algorithm to run in a non-blocking fashion.</div><div class="ttdef"><b>Definition:</b> basestores.h:168</div></div>
+<div class="ttc" id="astructcsalt__store__pair_html"><div class="ttname"><a href="structcsalt__store__pair.html">csalt_store_pair</a></div><div class="ttdoc">This type allows storing a pair of stores and interacting with them as though they are a single store...</div><div class="ttdef"><b>Definition:</b> compositestores.h:54</div></div>
+<div class="ttc" id="abasestores_8h_html_ab5fbda98b98e98c80ce19a928f582959"><div class="ttname"><a href="basestores_8h.html#ab5fbda98b98e98c80ce19a928f582959">csalt_progress_complete</a></div><div class="ttdeci">int csalt_progress_complete(struct csalt_progress *progress)</div><div class="ttdoc">This function returns truthy if progress is finished, false otherwise.</div><div class="ttdef"><b>Definition:</b> stores.c:197</div></div>
+<div class="ttc" id="astructcsalt__resource__pair_html"><div class="ttname"><a href="structcsalt__resource__pair.html">csalt_resource_pair</a></div><div class="ttdoc">This type allows storing a pair of resources and treating them as a single resource.</div><div class="ttdef"><b>Definition:</b> compositeresources.h:46</div></div>
+<div class="ttc" id="abasestores_8h_html_a60dfe3654f1c3f549d064e84af2b201e"><div class="ttname"><a href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a></div><div class="ttdeci">struct csalt_progress csalt_progress(size_t amount)</div><div class="ttdoc">Creates a new struct csalt_progress with the total set to amount and the remaining set to 0.</div><div class="ttdef"><b>Definition:</b> stores.c:188</div></div>
+<div class="ttc" id="astructcsalt__store__interface_html"><div class="ttname"><a href="structcsalt__store__interface.html">csalt_store_interface</a></div><div class="ttdef"><b>Definition:</b> basestores.h:78</div></div>
+<div class="ttc" id="abasestores_8h_html_ad46e9aaa1f82900dbe78e30d0db0da5d"><div class="ttname"><a href="basestores_8h.html#ad46e9aaa1f82900dbe78e30d0db0da5d">csalt_store_size</a></div><div class="ttdeci">size_t csalt_store_size(csalt_store *store)</div><div class="ttdoc">Returns the current size of the given store.</div><div class="ttdef"><b>Definition:</b> stores.c:30</div></div>
+<div class="ttc" id="abasestores_8h_html_a20e02a002904116c6cb8f63256675772"><div class="ttname"><a href="basestores_8h.html#a20e02a002904116c6cb8f63256675772">csalt_store_transfer</a></div><div class="ttdeci">ssize_t csalt_store_transfer(struct csalt_progress *data, csalt_store *from, csalt_store *to, csalt_transfer_complete_fn *callback)</div><div class="ttdoc">This function provides a convenient means to write data from one store into another.</div><div class="ttdef"><b>Definition:</b> stores.c:264</div></div>
+<div class="ttc" id="astructcsalt__resource__file_html"><div class="ttname"><a href="structcsalt__resource__file.html">csalt_resource_file</a></div><div class="ttdoc">Struct representing a file resource supporting lazy-loading.</div><div class="ttdef"><b>Definition:</b> fileresource.h:47</div></div>
+<div class="ttc" id="abaseresources_8h_html_a45c92d03a7f8f9b97793e37b743d0de0"><div class="ttname"><a href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a></div><div class="ttdeci">struct csalt_resource_interface * csalt_resource</div><div class="ttdoc">Represents a &quot;wish to fulfill&quot; a request for a resource.</div><div class="ttdef"><b>Definition:</b> baseresources.h:64</div></div>
+<div class="ttc" id="astructcsalt__resource__interface_html"><div class="ttname"><a href="structcsalt__resource__interface.html">csalt_resource_interface</a></div><div class="ttdoc">Interface definition for managed resources.</div><div class="ttdef"><b>Definition:</b> baseresources.h:81</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

@@ -1,0 +1,5 @@
+<map id="csalt_store_decorator_mutex" name="csalt_store_decorator_mutex">
+<area shape="rect" id="node1" title="Provides a means to lock accesses to the store behind a mutex." alt="" coords="5,199,168,240"/>
+<area shape="rect" id="node2" href="$structcsalt__store__decorator.html" title=" " alt="" coords="5,109,168,136"/>
+<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="7,5,166,32"/>
+</map>

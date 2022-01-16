@@ -1,3 +1,21 @@
+/*
+ * Ceasoning - Syntactic Sugar for Common C Tasks
+ * Copyright (C) 2022   Marcus Harrison
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include "csalt/decoratorstores.h"
 #include <errno.h>
 #include <stdarg.h>
@@ -345,5 +363,226 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 	return result;
 }
 
-#define SPLIT_FORMAT_STR "%s: csalt_store_split(%p, %ld, %ld, %p, %p) -> %d"
+ssize_t csalt_store_decorator_mutex_read(
+	csalt_store *store,
+	void *buffer,
+	size_t size
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_read(mutex->decorator.child, buffer, size);
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
+}
+
+ssize_t csalt_store_decorator_mutex_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t size
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+
+	ssize_t result = csalt_store_write(
+		mutex->decorator.child,
+		buffer,
+		size
+	);
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
+}
+
+size_t csalt_store_decorator_mutex_size(csalt_store *store)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+
+	return csalt_store_size(mutex->decorator.child);
+}
+
+struct decorator_mutex_split_params {
+	csalt_store_block_fn *block;
+	void *param;
+	csalt_mutex *mutex;
+};
+
+static int mutex_receive_split(csalt_store *store, void *param)
+{
+	struct decorator_mutex_split_params *original_params = param;
+	csalt_mutex_unlock(original_params->mutex);
+
+	struct csalt_store_decorator_mutex
+		result = csalt_store_decorator_mutex(store, original_params->mutex);
+
+	return original_params->block(csalt_store(&result), original_params->param);
+}
+
+int csalt_store_decorator_mutex_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_store_decorator_mutex *mutex = (void *)store;
+	struct decorator_mutex_split_params original_params = {
+		block,
+		param,
+		mutex->mutex,
+	};
+
+	int try_lock = csalt_mutex_lock(mutex->mutex);
+	if (try_lock)
+		return -1;
+
+	return csalt_store_split(
+		mutex->decorator.child,
+		begin,
+		end,
+		mutex_receive_split,
+		&original_params
+	);
+}
+
+struct csalt_store_interface csalt_store_decorator_mutex_implementation = {
+	csalt_store_decorator_mutex_read,
+	csalt_store_decorator_mutex_write,
+	csalt_store_decorator_mutex_size,
+	csalt_store_decorator_mutex_split,
+};
+
+struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
+	csalt_store *store,
+	csalt_mutex *mutex
+)
+{
+	struct csalt_store_decorator_mutex result = {
+		{
+			&csalt_store_decorator_mutex_implementation,
+			store,
+		},
+		mutex
+	};
+	return result;
+}
+
+ssize_t csalt_store_decorator_rwlock_read(
+	csalt_store *store,
+	void *buffer,
+	size_t amount
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+	int try_lock = csalt_rwlock_rdlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_read(lock->decorator.child, buffer, amount);
+	csalt_rwlock_unlock(lock->rwlock);
+	return result;
+}
+
+ssize_t csalt_store_decorator_rwlock_write(
+	csalt_store *store,
+	const void *buffer,
+	size_t amount
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+	int try_lock = csalt_rwlock_wrlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+	ssize_t result = csalt_store_write(lock->decorator.child, buffer, amount);
+	csalt_rwlock_unlock(lock->rwlock);
+	return result;
+}
+
+size_t csalt_store_decorator_rwlock_size(csalt_store *store)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+
+	return csalt_store_size(lock->decorator.child);
+}
+
+struct decorator_rwlock_split_params {
+	csalt_store_block_fn *block;
+	void *param;
+	csalt_rwlock *rwlock;
+};
+
+static int rwlock_receive_split(csalt_store *store, void *param)
+{
+	struct decorator_rwlock_split_params *original_params = param;
+	csalt_rwlock_unlock(original_params->rwlock);
+
+	struct csalt_store_decorator_rwlock
+		result = csalt_store_decorator_rwlock(
+			store,
+			original_params->rwlock
+		);
+
+	return original_params->block(
+		csalt_store(&result),
+		original_params->param
+	);
+}
+
+int csalt_store_decorator_rwlock_split(
+	csalt_store *store,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_store_decorator_rwlock *lock = (void *)store;
+
+	struct decorator_rwlock_split_params original_params = {
+		block,
+		param,
+		lock->rwlock,
+	};
+
+	int try_lock = csalt_rwlock_wrlock(lock->rwlock);
+	if (try_lock)
+		return -1;
+
+	return csalt_store_split(
+		lock->decorator.child,
+		begin,
+		end,
+		rwlock_receive_split,
+		&original_params
+	);
+}
+
+static struct csalt_store_interface rwlock_implementation = {
+	csalt_store_decorator_rwlock_read,
+	csalt_store_decorator_rwlock_write,
+	csalt_store_decorator_rwlock_size,
+	csalt_store_decorator_rwlock_split,
+};
+
+struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
+	csalt_store *store,
+	csalt_rwlock *rwlock
+)
+{
+	struct csalt_store_decorator_rwlock result = {
+		{
+			&rwlock_implementation,
+			store,
+		},
+		rwlock,
+	};
+
+	return result;
+}
 

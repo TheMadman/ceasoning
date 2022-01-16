@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['message_212',['message',['../structcsalt__store__log__message.html#ac4584235d590d6cc9c1f54a4e7ccf5c9',1,'csalt_store_log_message']]]
+  ['csalt_5fstore_5fnull_5fimplementation_238',['csalt_store_null_implementation',['../basestores_8h.html#aadbf1745ee1786b6cb730dccabd2fbe6',1,'stores.c']]]
 ];

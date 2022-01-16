@@ -84,7 +84,7 @@ $(function() {
 Include dependency graph for basestores.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="basestores_8h__incl.png" border="0" usemap="#acsalt_2basestores_8h" alt=""/></div>
-<map name="csalt_2basestores_8h" id="csalt_2basestores_8h">
+<map name="csalt_2basestores_8h" id="acsalt_2basestores_8h">
 <area shape="rect" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="42,5,182,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,101,107"/>
 <area shape="rect" href="util_8h.html" title="This file provides macros for common tasks." alt="" coords="125,80,216,107"/>
@@ -94,7 +94,7 @@ Include dependency graph for basestores.h:</div>
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="basestores_8h__dep__incl.png" border="0" usemap="#acsalt_2basestores_8hdep" alt=""/></div>
-<map name="csalt_2basestores_8hdep" id="csalt_2basestores_8hdep">
+<map name="csalt_2basestores_8hdep" id="acsalt_2basestores_8hdep">
 <area shape="rect" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="327,5,467,32"/>
 <area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="182,80,359,107"/>
 <area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="343,155,452,181"/>
@@ -134,6 +134,12 @@ Macros</h2></td></tr>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a91e84246aef7b460f4dddc47704b7257">csalt_store_memory_array</a>(array)&#160;&#160;&#160;(<a class="el" href="basestores_8h.html#af825a25160b9613d9d88c6f979a6c956">csalt_store_memory_bounds</a>((array), (&amp;array[<a class="el" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">arrlength</a>(array)])))</td></tr>
 <tr class="memdesc:a91e84246aef7b460f4dddc47704b7257"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for setting up an array-of-type. <br /></td></tr>
 <tr class="separator:a91e84246aef7b460f4dddc47704b7257"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add888dbae07945f88b3bee0757492c92"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#add888dbae07945f88b3bee0757492c92">csalt_write</a>(store,  value)&#160;&#160;&#160;	<a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a>(store), &amp;value, sizeof(value));</td></tr>
+<tr class="memdesc:add888dbae07945f88b3bee0757492c92"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for writing a stack value to a store.  <a href="basestores_8h.html#add888dbae07945f88b3bee0757492c92">More...</a><br /></td></tr>
+<tr class="separator:add888dbae07945f88b3bee0757492c92"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70e8a08a8af3f9be496320657125dff6"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a70e8a08a8af3f9be496320657125dff6">csalt_read</a>(store,  value)&#160;&#160;&#160;	<a class="el" href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111">csalt_store_read</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a>(store), &amp;value, sizeof(value))</td></tr>
+<tr class="memdesc:a70e8a08a8af3f9be496320657125dff6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for reading a stack value from a store.  <a href="basestores_8h.html#a70e8a08a8af3f9be496320657125dff6">More...</a><br /></td></tr>
+<tr class="separator:a70e8a08a8af3f9be496320657125dff6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a85bbef6a2d4c1b7fd8cfc240d96ee066"><td class="memItemLeft" align="right" valign="top"><a id="a85bbef6a2d4c1b7fd8cfc240d96ee066"></a>
 #define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a85bbef6a2d4c1b7fd8cfc240d96ee066">csalt_store</a>(param)&#160;&#160;&#160;(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *)(param)</td></tr>
 <tr class="memdesc:a85bbef6a2d4c1b7fd8cfc240d96ee066"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience macro for casting to store pointer. <br /></td></tr>
@@ -160,8 +166,9 @@ typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hre
 <tr class="memitem:aff499d5bd3bd912690f7c732289bab05"><td class="memItemLeft" align="right" valign="top">typedef int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#aff499d5bd3bd912690f7c732289bab05">csalt_store_split_fn</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
 <tr class="memdesc:aff499d5bd3bd912690f7c732289bab05"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type for representing a sub-section of an existing store as a new store, and performing an action on the result.  <a href="basestores_8h.html#aff499d5bd3bd912690f7c732289bab05">More...</a><br /></td></tr>
 <tr class="separator:aff499d5bd3bd912690f7c732289bab05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6175a6d25330030ed10bc2eb46bd56e"><td class="memItemLeft" align="right" valign="top">typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ac6175a6d25330030ed10bc2eb46bd56e">csalt_store_size_fn</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
-<tr class="memdesc:ac6175a6d25330030ed10bc2eb46bd56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the store, if applicable, or 0 if not applicable to this store.  <a href="basestores_8h.html#ac6175a6d25330030ed10bc2eb46bd56e">More...</a><br /></td></tr>
+<tr class="memitem:ac6175a6d25330030ed10bc2eb46bd56e"><td class="memItemLeft" align="right" valign="top"><a id="ac6175a6d25330030ed10bc2eb46bd56e"></a>
+typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ac6175a6d25330030ed10bc2eb46bd56e">csalt_store_size_fn</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
+<tr class="memdesc:ac6175a6d25330030ed10bc2eb46bd56e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the store, if applicable, or 0 if not applicable to this store. <br /></td></tr>
 <tr class="separator:ac6175a6d25330030ed10bc2eb46bd56e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af080e4946bb33036310f9d5caf399b01"><td class="memItemLeft" align="right" valign="top"><a id="af080e4946bb33036310f9d5caf399b01"></a>
 typedef void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#af080e4946bb33036310f9d5caf399b01">csalt_transfer_complete_fn</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *dest)</td></tr>
@@ -176,9 +183,8 @@ Functions</h2></td></tr>
 <tr class="memitem:af08cbcd3a9ab090e7cea564de5374541"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, const void *buffer, size_t size)</td></tr>
 <tr class="memdesc:af08cbcd3a9ab090e7cea564de5374541"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function for writing to a store from a buffer.  <a href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">More...</a><br /></td></tr>
 <tr class="separator:af08cbcd3a9ab090e7cea564de5374541"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad46e9aaa1f82900dbe78e30d0db0da5d"><td class="memItemLeft" align="right" valign="top"><a id="ad46e9aaa1f82900dbe78e30d0db0da5d"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ad46e9aaa1f82900dbe78e30d0db0da5d">csalt_store_size</a> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
-<tr class="memdesc:ad46e9aaa1f82900dbe78e30d0db0da5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current size of the given store. <br /></td></tr>
+<tr class="memitem:ad46e9aaa1f82900dbe78e30d0db0da5d"><td class="memItemLeft" align="right" valign="top">size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ad46e9aaa1f82900dbe78e30d0db0da5d">csalt_store_size</a> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
+<tr class="memdesc:ad46e9aaa1f82900dbe78e30d0db0da5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the current size of the given store.  <a href="basestores_8h.html#ad46e9aaa1f82900dbe78e30d0db0da5d">More...</a><br /></td></tr>
 <tr class="separator:ad46e9aaa1f82900dbe78e30d0db0da5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10f600145423c05afe3bc2c1d44bd101"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101">csalt_store_split</a> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
 <tr class="memdesc:a10f600145423c05afe3bc2c1d44bd101"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides the means to divide a store into a sub-section and perform an operation on the result.  <a href="basestores_8h.html#a10f600145423c05afe3bc2c1d44bd101">More...</a><br /></td></tr>
@@ -187,9 +193,13 @@ size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="ba
 struct <a class="el" href="structcsalt__progress.html">csalt_progress</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a60dfe3654f1c3f549d064e84af2b201e">csalt_progress</a> (size_t amount)</td></tr>
 <tr class="memdesc:a60dfe3654f1c3f549d064e84af2b201e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new struct <a class="el" href="structcsalt__progress.html" title="This structure allows the transfer algorithm to run in a non-blocking fashion.">csalt_progress</a> with the total set to amount and the remaining set to 0. <br /></td></tr>
 <tr class="separator:a60dfe3654f1c3f549d064e84af2b201e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad71ed28e391833e5796f315b9935cd2d"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">csalt_store_transfer</a> (struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *data, <a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *to, <a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *from, <a class="el" href="basestores_8h.html#af080e4946bb33036310f9d5caf399b01">csalt_transfer_complete_fn</a> *callback)</td></tr>
-<tr class="memdesc:ad71ed28e391833e5796f315b9935cd2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">this function provides a convenient means to write data from one store into another.  <a href="basestores_8h.html#ad71ed28e391833e5796f315b9935cd2d">More...</a><br /></td></tr>
-<tr class="separator:ad71ed28e391833e5796f315b9935cd2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5fbda98b98e98c80ce19a928f582959"><td class="memItemLeft" align="right" valign="top"><a id="ab5fbda98b98e98c80ce19a928f582959"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#ab5fbda98b98e98c80ce19a928f582959">csalt_progress_complete</a> (struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *progress)</td></tr>
+<tr class="memdesc:ab5fbda98b98e98c80ce19a928f582959"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function returns truthy if progress is finished, false otherwise. <br /></td></tr>
+<tr class="separator:ab5fbda98b98e98c80ce19a928f582959"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20e02a002904116c6cb8f63256675772"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772">csalt_store_transfer</a> (struct <a class="el" href="structcsalt__progress.html">csalt_progress</a> *data, <a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *from, <a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *to, <a class="el" href="basestores_8h.html#af080e4946bb33036310f9d5caf399b01">csalt_transfer_complete_fn</a> *callback)</td></tr>
+<tr class="memdesc:a20e02a002904116c6cb8f63256675772"><td class="mdescLeft">&#160;</td><td class="mdescRight">This function provides a convenient means to write data from one store into another.  <a href="basestores_8h.html#a20e02a002904116c6cb8f63256675772">More...</a><br /></td></tr>
+<tr class="separator:a20e02a002904116c6cb8f63256675772"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace5a26169474b1caf54f313d074d4ed8"><td class="memItemLeft" align="right" valign="top"><a id="ace5a26169474b1caf54f313d074d4ed8"></a>
 ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_null_read</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *from, void *to, size_t size)</td></tr>
 <tr class="separator:ace5a26169474b1caf54f313d074d4ed8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,24 +258,107 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file defines interfaces for anything which data can be written to or read from. </p>
 <p>These interfaces are intended to also represent data stores which do not need to be acquired or released, such as application global memory and stack frame memory. </p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="ac6175a6d25330030ed10bc2eb46bd56e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6175a6d25330030ed10bc2eb46bd56e">&#9670;&nbsp;</a></span>csalt_store_size_fn</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a70e8a08a8af3f9be496320657125dff6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70e8a08a8af3f9be496320657125dff6">&#9670;&nbsp;</a></span>csalt_read</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef size_t csalt_store_size_fn(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td>
+          <td class="memname">#define csalt_read</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">store, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;	<a class="el" href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111">csalt_store_read</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a>(store), &amp;value, sizeof(value))</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Returns the size of the store, if applicable, or 0 if not applicable to this store. </p>
-<p>Note that any store of size 0 can't be read to or written from. </p>
+<p>Convenience macro for reading a stack value from a store. </p>
+<p>This macro takes the given value and attempts to read from the given store into it, returning the amount read.</p>
+<p>Example usage:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> my_func(<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *store, <span class="keywordtype">void</span> *param)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">char</span> magic_number[8] = { 0 };</div>
+<div class="line"> </div>
+<div class="line">    ssize_t read = <a class="code" href="basestores_8h.html#a70e8a08a8af3f9be496320657125dff6">csalt_read</a>(store, magic_number);</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordflow">if</span> (read &lt; 0) {</div>
+<div class="line">        <span class="comment">// handle error</span></div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">if</span> (read &lt; <span class="keyword">sizeof</span>(magic_number)) {</div>
+<div class="line">    <span class="comment">// handle partial read</span></div>
+<div class="line"> }</div>
+<div class="line"> </div>
+<div class="line"> <span class="keyword">const</span> <span class="keywordtype">char</span> expected[] = <span class="stringliteral">&quot;\x89&quot;</span> <span class="stringliteral">&quot;\x50&quot;</span> <span class="stringliteral">&quot;\x4e&quot;</span> <span class="stringliteral">&quot;\x47&quot;</span></div>
+<div class="line">    <span class="stringliteral">&quot;\x0d&quot;</span> <span class="stringliteral">&quot;\x0a&quot;</span> <span class="stringliteral">&quot;\x1a&quot;</span> <span class="stringliteral">&quot;\x0a&quot;</span>;</div>
+<div class="line"> <span class="keywordflow">if</span> (strncmp(expected, magic_number, <span class="keyword">sizeof</span>(magic_number))) {</div>
+<div class="line">    <span class="comment">// handle not PNG file</span></div>
+<div class="line"> }</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
+</div>
+</div>
+<a id="add888dbae07945f88b3bee0757492c92"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add888dbae07945f88b3bee0757492c92">&#9670;&nbsp;</a></span>csalt_write</h2>
 
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define csalt_write</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">store, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;	<a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a>(<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a>(store), &amp;value, sizeof(value));</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience macro for writing a stack value to a store. </p>
+<p>This macro takes the given value and attempts to write it to the store, returning the amount written.</p>
+<p>Example usage:</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> my_func(<a class="code" href="structcsalt__store__interface.html">csalt_store</a> *store, <span class="keywordtype">void</span> *param)</div>
+<div class="line">{</div>
+<div class="line">    <span class="keywordtype">int</span> triangle_points[2][3] = {</div>
+<div class="line">        0, 0,</div>
+<div class="line">        0, 1,</div>
+<div class="line">        1, 1,</div>
+<div class="line">    };</div>
+<div class="line"> </div>
+<div class="line">    ssize_t written = <a class="code" href="basestores_8h.html#add888dbae07945f88b3bee0757492c92">csalt_write</a>(store, triangle_points);</div>
+<div class="line">    <span class="keywordflow">if</span> (written &lt; 0) {</div>
+<div class="line">        <span class="comment">// handle error</span></div>
+<div class="line">    }</div>
+<div class="line">    <span class="keywordflow">if</span> (written &lt; <span class="keyword">sizeof</span>(triangle_points)) {</div>
+<div class="line">        <span class="comment">// handle partial write</span></div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> 
 </div>
 </div>
+<h2 class="groupheader">Typedef Documentation</h2>
 <a id="aff499d5bd3bd912690f7c732289bab05"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aff499d5bd3bd912690f7c732289bab05">&#9670;&nbsp;</a></span>csalt_store_split_fn</h2>
 
@@ -370,7 +463,30 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 </div><div class="memdoc">
 
 <p>Function for reading from a store into a buffer. </p>
-<p>Returns the amount of bytes actually read, or -1 on failure. </p>
+<p>Returns the amount of bytes actually read, or -1 on failure.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="basestores_8h.html#a70e8a08a8af3f9be496320657125dff6" title="Convenience macro for reading a stack value from a store.">csalt_read()</a> </dd></dl>
+
+</div>
+</div>
+<a id="ad46e9aaa1f82900dbe78e30d0db0da5d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad46e9aaa1f82900dbe78e30d0db0da5d">&#9670;&nbsp;</a></span>csalt_store_size()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t csalt_store_size </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td>
+          <td class="paramname"><em>store</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns the current size of the given store. </p>
+<p>Generally, calling csalt_store_size before calling one of csalt_store_read or csalt_store_write is racy: this is true of most underlying stores, including files, shared memory or sockets. Your application can request the size, then the store's size can be changed without your application knowing by a write by another process altogether. Therefore, you should only use this pattern if you have good reason to believe that the store will not arbitrarily change size - for example, because you control the file or the endpoint of the network socket.</p>
+<p>The much safer approach is to simply attempt to csalt_store_read or csalt_store_write from the store and check the return values for amount read/written and error values. If you are constructing stores from user input, you should try to formulate your application to use csalt_store_size as little as possible. </p>
 
 </div>
 </div>
@@ -425,8 +541,8 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 
 </div>
 </div>
-<a id="ad71ed28e391833e5796f315b9935cd2d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad71ed28e391833e5796f315b9935cd2d">&#9670;&nbsp;</a></span>csalt_store_transfer()</h2>
+<a id="a20e02a002904116c6cb8f63256675772"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20e02a002904116c6cb8f63256675772">&#9670;&nbsp;</a></span>csalt_store_transfer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -441,13 +557,13 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td>
-          <td class="paramname"><em>to</em>, </td>
+          <td class="paramname"><em>from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td>
-          <td class="paramname"><em>from</em>, </td>
+          <td class="paramname"><em>to</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -463,7 +579,7 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
       </table>
 </div><div class="memdoc">
 
-<p>this function provides a convenient means to write data from one store into another. </p>
+<p>This function provides a convenient means to write data from one store into another. </p>
 <p>If the transfer partially completes - for example, on a non-blocking socket resource or similar - it returns early, returning the total data transferred so far.</p>
 <p>Returns -1 on error. </p>
 
@@ -502,7 +618,8 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 </div><div class="memdoc">
 
 <p>Function for writing to a store from a buffer. </p>
-<p>Returns the amount of bytes actually written, or -1 on failure. </p>
+<p>Returns the amount of bytes actually written, or -1 on failure.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="basestores_8h.html#add888dbae07945f88b3bee0757492c92" title="Convenience macro for writing a stack value to a store.">csalt_write()</a> </dd></dl>
 
 </div>
 </div>
@@ -533,6 +650,9 @@ const struct <a class="el" href="structcsalt__store__interface.html">csalt_store
 </div>
 </div>
 </div><!-- contents -->
+<div class="ttc" id="abasestores_8h_html_add888dbae07945f88b3bee0757492c92"><div class="ttname"><a href="basestores_8h.html#add888dbae07945f88b3bee0757492c92">csalt_write</a></div><div class="ttdeci">#define csalt_write(store, value)</div><div class="ttdoc">Convenience macro for writing a stack value to a store.</div><div class="ttdef"><b>Definition:</b> basestores.h:345</div></div>
+<div class="ttc" id="abasestores_8h_html_a70e8a08a8af3f9be496320657125dff6"><div class="ttname"><a href="basestores_8h.html#a70e8a08a8af3f9be496320657125dff6">csalt_read</a></div><div class="ttdeci">#define csalt_read(store, value)</div><div class="ttdoc">Convenience macro for reading a stack value from a store.</div><div class="ttdef"><b>Definition:</b> basestores.h:380</div></div>
+<div class="ttc" id="astructcsalt__store__interface_html"><div class="ttname"><a href="structcsalt__store__interface.html">csalt_store_interface</a></div><div class="ttdef"><b>Definition:</b> basestores.h:78</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="http://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.8.20

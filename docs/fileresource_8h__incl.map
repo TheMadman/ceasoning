@@ -1,12 +1,15 @@
 <map id="csalt/fileresource.h" name="csalt/fileresource.h">
-<area shape="rect" id="node1" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="87,5,233,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="152,379,248,405"/>
-<area shape="rect" id="node3" href="$stores_8h_source.html" title=" " alt="" coords="125,155,200,181"/>
-<area shape="rect" id="node8" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="197,80,325,107"/>
-<area shape="rect" id="node4" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="147,304,253,331"/>
-<area shape="rect" id="node6" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="254,229,397,256"/>
-<area shape="rect" id="node7" href="$decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="43,229,179,256"/>
-<area shape="rect" id="node5" href="$util_8h.html" title="This file provides macros for common tasks." alt="" coords="284,379,375,405"/>
-<area shape="rect" id="node9" title=" " alt="" coords="224,155,299,181"/>
-<area shape="rect" id="node10" title=" " alt="" coords="323,155,397,181"/>
+<area shape="rect" id="node1" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="145,5,290,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="16,379,112,405"/>
+<area shape="rect" id="node3" title=" " alt="" coords="357,80,419,107"/>
+<area shape="rect" id="node4" href="$stores_8h_source.html" title=" " alt="" coords="132,155,207,181"/>
+<area shape="rect" id="node11" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="204,80,332,107"/>
+<area shape="rect" id="node5" href="$basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="153,304,258,331"/>
+<area shape="rect" id="node7" href="$compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="43,229,186,256"/>
+<area shape="rect" id="node8" href="$decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="261,229,397,256"/>
+<area shape="rect" id="node6" href="$util_8h.html" title="This file provides macros for common tasks." alt="" coords="148,379,239,405"/>
+<area shape="rect" id="node9" href="$threads_8h_source.html" title=" " alt="" coords="283,304,461,331"/>
+<area shape="rect" id="node10" title=" " alt="" coords="330,379,414,405"/>
+<area shape="rect" id="node12" title=" " alt="" coords="231,155,305,181"/>
+<area shape="rect" id="node13" title=" " alt="" coords="329,155,404,181"/>
 </map>
