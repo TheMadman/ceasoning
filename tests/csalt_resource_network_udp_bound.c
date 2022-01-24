@@ -1,3 +1,21 @@
+/*
+ * Ceasoning - Syntactic Sugar for Common C Tasks
+ * Copyright (C) 2022   Marcus Harrison
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 #include <csalt/networkresources.h>
 #include <csalt/resources.h>
 #include <csalt/util.h>
@@ -13,9 +31,9 @@
 
 int use_list(csalt_store *store, void *params)
 {
-	struct csalt_store_list *list = (struct csalt_store_list *)store;
-	struct csalt_resource_network_socket_initialized *bound = (void *)csalt_store_list_get(list, 0);
-	csalt_store *connected = csalt_store_list_get(list, 1);
+	struct csalt_store_pair *list = (struct csalt_store_pair *)store;
+	struct csalt_resource_network_socket_initialized *bound = (void *)csalt_store_pair_list_get(list, 0);
+	csalt_store *connected = csalt_store_pair_list_get(list, 1);
 
 	const char payload[] = "Hello, World!";
 	
@@ -94,9 +112,12 @@ int main()
 		(csalt_resource *)&connected,
 	};
 
-	csalt_store *buffer[arrlength(array)] = { 0 };
+	struct csalt_resource_pair pairs[arrlength(array)] = { 0 };
+	int error = csalt_resource_pair_list(array, pairs);
+	if (error) {
+		print_error("Error initializing pair list");
+		return EXIT_TEST_ERROR;
+	}
 
-	struct csalt_resource_list list = csalt_resource_list_array(array, buffer);
-
-	return csalt_resource_use((csalt_resource *)&list, use_list, 0);
+	return csalt_resource_use((csalt_resource *)pairs, use_list, 0);
 }
