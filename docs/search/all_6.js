@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['syntactic_20sugar_20for_20common_20c_20tasks_83',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]],
-  ['store_5fsingle_5fsplit_5fparams_84',['store_single_split_params',['../structstore__single__split__params.html',1,'']]]
+  ['max_120',['max',['../util_8h.html#affe776513b24d84b39af8ab0930fef7f',1,'util.h']]],
+  ['message_121',['message',['../structcsalt__store__log__message.html#ac4584235d590d6cc9c1f54a4e7ccf5c9',1,'csalt_store_log_message']]],
+  ['min_122',['min',['../util_8h.html#ac6afabdc09a49a433ee19d8a9486056d',1,'util.h']]]
 ];

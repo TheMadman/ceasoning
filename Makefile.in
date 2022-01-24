@@ -91,17 +91,23 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 TESTS = tests/csalt_resource_use$(EXEEXT) \
+	tests/csalt_store_file_descriptor$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
 	tests/csalt_store_transfer$(EXEEXT) \
 	tests/csalt_file_resource$(EXEEXT) \
-	tests/csalt_store_list$(EXEEXT) \
-	tests/csalt_store_fallback$(EXEEXT) \
-	tests/csalt_resource_list$(EXEEXT) \
 	tests/csalt_resource_first$(EXEEXT) \
-	tests/csalt_resource_network_udp_connected$(EXEEXT) \
-	tests/csalt_resource_network_udp_bound$(EXEEXT) \
-	tests/csalt_resource_network_udp_stateless$(EXEEXT)
+	tests/csalt_store_decorator_logger$(EXEEXT) \
+	tests/csalt_resource_decorator_logger$(EXEEXT) \
+	tests/csalt_store_pair$(EXEEXT) \
+	tests/csalt_resource_pair$(EXEEXT) \
+	tests/csalt_store_fallback$(EXEEXT) \
+	tests/csalt_resource_fallback$(EXEEXT) \
+	tests/csalt_resource_decorator_lazy$(EXEEXT) \
+	tests/csalt_store_memory$(EXEEXT) \
+	tests/csalt_resource_vector$(EXEEXT) \
+	tests/csalt_store_decorator_mutex$(EXEEXT) \
+	tests/csalt_store_decorator_rwlock$(EXEEXT)
 check_PROGRAMS = $(am__EXEEXT_1)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -121,17 +127,23 @@ CONFIG_HEADER = config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__EXEEXT_1 = tests/csalt_resource_use$(EXEEXT) \
+	tests/csalt_store_file_descriptor$(EXEEXT) \
 	tests/csalt_memory_resource$(EXEEXT) \
 	tests/csalt_store_split$(EXEEXT) \
 	tests/csalt_store_transfer$(EXEEXT) \
 	tests/csalt_file_resource$(EXEEXT) \
-	tests/csalt_store_list$(EXEEXT) \
-	tests/csalt_store_fallback$(EXEEXT) \
-	tests/csalt_resource_list$(EXEEXT) \
 	tests/csalt_resource_first$(EXEEXT) \
-	tests/csalt_resource_network_udp_connected$(EXEEXT) \
-	tests/csalt_resource_network_udp_bound$(EXEEXT) \
-	tests/csalt_resource_network_udp_stateless$(EXEEXT)
+	tests/csalt_store_decorator_logger$(EXEEXT) \
+	tests/csalt_resource_decorator_logger$(EXEEXT) \
+	tests/csalt_store_pair$(EXEEXT) \
+	tests/csalt_resource_pair$(EXEEXT) \
+	tests/csalt_store_fallback$(EXEEXT) \
+	tests/csalt_resource_fallback$(EXEEXT) \
+	tests/csalt_resource_decorator_lazy$(EXEEXT) \
+	tests/csalt_store_memory$(EXEEXT) \
+	tests/csalt_resource_vector$(EXEEXT) \
+	tests/csalt_store_decorator_mutex$(EXEEXT) \
+	tests/csalt_store_decorator_rwlock$(EXEEXT)
 am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
 am__vpath_adj = case $$p in \
     $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
@@ -164,15 +176,23 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)" \
 LTLIBRARIES = $(lib_LTLIBRARIES)
 src_libcsalt_la_LIBADD =
 am__dirstamp = $(am__leading_dot)dirstamp
-am_src_libcsalt_la_OBJECTS = src/resources/resources.lo \
-	src/stores/stores.lo src/resources/file.lo \
-	src/stores/compositestores.lo \
-	src/resources/compositeresources.lo src/resources/network.lo
+am_src_libcsalt_la_OBJECTS = src/resources/libcsalt_la-resources.lo \
+	src/stores/libcsalt_la-stores.lo \
+	src/resources/libcsalt_la-file.lo \
+	src/stores/libcsalt_la-compositestores.lo \
+	src/resources/libcsalt_la-compositeresources.lo \
+	src/resources/libcsalt_la-network.lo \
+	src/stores/libcsalt_la-decorators.lo \
+	src/resources/libcsalt_la-decorators.lo
 src_libcsalt_la_OBJECTS = $(am_src_libcsalt_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
+src_libcsalt_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
+	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
+	$(src_libcsalt_la_CFLAGS) $(CFLAGS) $(src_libcsalt_la_LDFLAGS) \
+	$(LDFLAGS) -o $@
 tests_csalt_file_resource_SOURCES = tests/csalt_file_resource.c
 tests_csalt_file_resource_OBJECTS =  \
 	tests/csalt_file_resource.$(OBJEXT)
@@ -185,43 +205,70 @@ tests_csalt_memory_resource_OBJECTS =  \
 tests_csalt_memory_resource_LDADD = $(LDADD)
 tests_csalt_memory_resource_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_decorator_lazy_SOURCES =  \
+	tests/csalt_resource_decorator_lazy.c
+tests_csalt_resource_decorator_lazy_OBJECTS =  \
+	tests/csalt_resource_decorator_lazy.$(OBJEXT)
+tests_csalt_resource_decorator_lazy_LDADD = $(LDADD)
+tests_csalt_resource_decorator_lazy_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_decorator_logger_SOURCES =  \
+	tests/csalt_resource_decorator_logger.c
+tests_csalt_resource_decorator_logger_OBJECTS =  \
+	tests/csalt_resource_decorator_logger.$(OBJEXT)
+tests_csalt_resource_decorator_logger_LDADD = $(LDADD)
+tests_csalt_resource_decorator_logger_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_fallback_SOURCES =  \
+	tests/csalt_resource_fallback.c
+tests_csalt_resource_fallback_OBJECTS =  \
+	tests/csalt_resource_fallback.$(OBJEXT)
+tests_csalt_resource_fallback_LDADD = $(LDADD)
+tests_csalt_resource_fallback_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_first_SOURCES = tests/csalt_resource_first.c
 tests_csalt_resource_first_OBJECTS =  \
 	tests/csalt_resource_first.$(OBJEXT)
 tests_csalt_resource_first_LDADD = $(LDADD)
 tests_csalt_resource_first_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
-tests_csalt_resource_list_SOURCES = tests/csalt_resource_list.c
-tests_csalt_resource_list_OBJECTS =  \
-	tests/csalt_resource_list.$(OBJEXT)
-tests_csalt_resource_list_LDADD = $(LDADD)
-tests_csalt_resource_list_DEPENDENCIES =  \
-	$(top_builddir)/src/libcsalt.la
-tests_csalt_resource_network_udp_bound_SOURCES =  \
-	tests/csalt_resource_network_udp_bound.c
-tests_csalt_resource_network_udp_bound_OBJECTS =  \
-	tests/csalt_resource_network_udp_bound.$(OBJEXT)
-tests_csalt_resource_network_udp_bound_LDADD = $(LDADD)
-tests_csalt_resource_network_udp_bound_DEPENDENCIES =  \
-	$(top_builddir)/src/libcsalt.la
-tests_csalt_resource_network_udp_connected_SOURCES =  \
-	tests/csalt_resource_network_udp_connected.c
-tests_csalt_resource_network_udp_connected_OBJECTS =  \
-	tests/csalt_resource_network_udp_connected.$(OBJEXT)
-tests_csalt_resource_network_udp_connected_LDADD = $(LDADD)
-tests_csalt_resource_network_udp_connected_DEPENDENCIES =  \
-	$(top_builddir)/src/libcsalt.la
-tests_csalt_resource_network_udp_stateless_SOURCES =  \
-	tests/csalt_resource_network_udp_stateless.c
-tests_csalt_resource_network_udp_stateless_OBJECTS =  \
-	tests/csalt_resource_network_udp_stateless.$(OBJEXT)
-tests_csalt_resource_network_udp_stateless_LDADD = $(LDADD)
-tests_csalt_resource_network_udp_stateless_DEPENDENCIES =  \
+tests_csalt_resource_pair_SOURCES = tests/csalt_resource_pair.c
+tests_csalt_resource_pair_OBJECTS =  \
+	tests/csalt_resource_pair.$(OBJEXT)
+tests_csalt_resource_pair_LDADD = $(LDADD)
+tests_csalt_resource_pair_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_resource_use_SOURCES = tests/csalt_resource_use.c
 tests_csalt_resource_use_OBJECTS = tests/csalt_resource_use.$(OBJEXT)
 tests_csalt_resource_use_LDADD = $(LDADD)
 tests_csalt_resource_use_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_resource_vector_SOURCES = tests/csalt_resource_vector.c
+tests_csalt_resource_vector_OBJECTS =  \
+	tests/csalt_resource_vector.$(OBJEXT)
+tests_csalt_resource_vector_LDADD = $(LDADD)
+tests_csalt_resource_vector_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_store_decorator_logger_SOURCES =  \
+	tests/csalt_store_decorator_logger.c
+tests_csalt_store_decorator_logger_OBJECTS =  \
+	tests/csalt_store_decorator_logger.$(OBJEXT)
+tests_csalt_store_decorator_logger_LDADD = $(LDADD)
+tests_csalt_store_decorator_logger_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_store_decorator_mutex_SOURCES =  \
+	tests/csalt_store_decorator_mutex.c
+tests_csalt_store_decorator_mutex_OBJECTS =  \
+	tests/csalt_store_decorator_mutex.$(OBJEXT)
+tests_csalt_store_decorator_mutex_LDADD = $(LDADD)
+tests_csalt_store_decorator_mutex_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_store_decorator_rwlock_SOURCES =  \
+	tests/csalt_store_decorator_rwlock.c
+tests_csalt_store_decorator_rwlock_OBJECTS =  \
+	tests/csalt_store_decorator_rwlock.$(OBJEXT)
+tests_csalt_store_decorator_rwlock_LDADD = $(LDADD)
+tests_csalt_store_decorator_rwlock_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
 tests_csalt_store_fallback_SOURCES = tests/csalt_store_fallback.c
 tests_csalt_store_fallback_OBJECTS =  \
@@ -229,10 +276,22 @@ tests_csalt_store_fallback_OBJECTS =  \
 tests_csalt_store_fallback_LDADD = $(LDADD)
 tests_csalt_store_fallback_DEPENDENCIES =  \
 	$(top_builddir)/src/libcsalt.la
-tests_csalt_store_list_SOURCES = tests/csalt_store_list.c
-tests_csalt_store_list_OBJECTS = tests/csalt_store_list.$(OBJEXT)
-tests_csalt_store_list_LDADD = $(LDADD)
-tests_csalt_store_list_DEPENDENCIES = $(top_builddir)/src/libcsalt.la
+tests_csalt_store_file_descriptor_SOURCES =  \
+	tests/csalt_store_file_descriptor.c
+tests_csalt_store_file_descriptor_OBJECTS =  \
+	tests/csalt_store_file_descriptor.$(OBJEXT)
+tests_csalt_store_file_descriptor_LDADD = $(LDADD)
+tests_csalt_store_file_descriptor_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_store_memory_SOURCES = tests/csalt_store_memory.c
+tests_csalt_store_memory_OBJECTS = tests/csalt_store_memory.$(OBJEXT)
+tests_csalt_store_memory_LDADD = $(LDADD)
+tests_csalt_store_memory_DEPENDENCIES =  \
+	$(top_builddir)/src/libcsalt.la
+tests_csalt_store_pair_SOURCES = tests/csalt_store_pair.c
+tests_csalt_store_pair_OBJECTS = tests/csalt_store_pair.$(OBJEXT)
+tests_csalt_store_pair_LDADD = $(LDADD)
+tests_csalt_store_pair_DEPENDENCIES = $(top_builddir)/src/libcsalt.la
 tests_csalt_store_split_SOURCES = tests/csalt_store_split.c
 tests_csalt_store_split_OBJECTS = tests/csalt_store_split.$(OBJEXT)
 tests_csalt_store_split_LDADD = $(LDADD)
@@ -259,22 +318,31 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = src/resources/$(DEPDIR)/compositeresources.Plo \
-	src/resources/$(DEPDIR)/file.Plo \
-	src/resources/$(DEPDIR)/network.Plo \
-	src/resources/$(DEPDIR)/resources.Plo \
-	src/stores/$(DEPDIR)/compositestores.Plo \
-	src/stores/$(DEPDIR)/stores.Plo \
+am__depfiles_remade =  \
+	src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Plo \
+	src/resources/$(DEPDIR)/libcsalt_la-decorators.Plo \
+	src/resources/$(DEPDIR)/libcsalt_la-file.Plo \
+	src/resources/$(DEPDIR)/libcsalt_la-network.Plo \
+	src/resources/$(DEPDIR)/libcsalt_la-resources.Plo \
+	src/stores/$(DEPDIR)/libcsalt_la-compositestores.Plo \
+	src/stores/$(DEPDIR)/libcsalt_la-decorators.Plo \
+	src/stores/$(DEPDIR)/libcsalt_la-stores.Plo \
 	tests/$(DEPDIR)/csalt_file_resource.Po \
 	tests/$(DEPDIR)/csalt_memory_resource.Po \
+	tests/$(DEPDIR)/csalt_resource_decorator_lazy.Po \
+	tests/$(DEPDIR)/csalt_resource_decorator_logger.Po \
+	tests/$(DEPDIR)/csalt_resource_fallback.Po \
 	tests/$(DEPDIR)/csalt_resource_first.Po \
-	tests/$(DEPDIR)/csalt_resource_list.Po \
-	tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po \
-	tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po \
-	tests/$(DEPDIR)/csalt_resource_network_udp_stateless.Po \
+	tests/$(DEPDIR)/csalt_resource_pair.Po \
 	tests/$(DEPDIR)/csalt_resource_use.Po \
+	tests/$(DEPDIR)/csalt_resource_vector.Po \
+	tests/$(DEPDIR)/csalt_store_decorator_logger.Po \
+	tests/$(DEPDIR)/csalt_store_decorator_mutex.Po \
+	tests/$(DEPDIR)/csalt_store_decorator_rwlock.Po \
 	tests/$(DEPDIR)/csalt_store_fallback.Po \
-	tests/$(DEPDIR)/csalt_store_list.Po \
+	tests/$(DEPDIR)/csalt_store_file_descriptor.Po \
+	tests/$(DEPDIR)/csalt_store_memory.Po \
+	tests/$(DEPDIR)/csalt_store_pair.Po \
 	tests/$(DEPDIR)/csalt_store_split.Po \
 	tests/$(DEPDIR)/csalt_store_transfer.Po
 am__mv = mv -f
@@ -297,22 +365,32 @@ am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
 SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
-	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c \
-	tests/csalt_resource_network_udp_bound.c \
-	tests/csalt_resource_network_udp_connected.c \
-	tests/csalt_resource_network_udp_stateless.c \
-	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
-	tests/csalt_store_list.c tests/csalt_store_split.c \
+	tests/csalt_memory_resource.c \
+	tests/csalt_resource_decorator_lazy.c \
+	tests/csalt_resource_decorator_logger.c \
+	tests/csalt_resource_fallback.c tests/csalt_resource_first.c \
+	tests/csalt_resource_pair.c tests/csalt_resource_use.c \
+	tests/csalt_resource_vector.c \
+	tests/csalt_store_decorator_logger.c \
+	tests/csalt_store_decorator_mutex.c \
+	tests/csalt_store_decorator_rwlock.c \
+	tests/csalt_store_fallback.c \
+	tests/csalt_store_file_descriptor.c tests/csalt_store_memory.c \
+	tests/csalt_store_pair.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
 DIST_SOURCES = $(src_libcsalt_la_SOURCES) tests/csalt_file_resource.c \
-	tests/csalt_memory_resource.c tests/csalt_resource_first.c \
-	tests/csalt_resource_list.c \
-	tests/csalt_resource_network_udp_bound.c \
-	tests/csalt_resource_network_udp_connected.c \
-	tests/csalt_resource_network_udp_stateless.c \
-	tests/csalt_resource_use.c tests/csalt_store_fallback.c \
-	tests/csalt_store_list.c tests/csalt_store_split.c \
+	tests/csalt_memory_resource.c \
+	tests/csalt_resource_decorator_lazy.c \
+	tests/csalt_resource_decorator_logger.c \
+	tests/csalt_resource_fallback.c tests/csalt_resource_first.c \
+	tests/csalt_resource_pair.c tests/csalt_resource_use.c \
+	tests/csalt_resource_vector.c \
+	tests/csalt_store_decorator_logger.c \
+	tests/csalt_store_decorator_mutex.c \
+	tests/csalt_store_decorator_rwlock.c \
+	tests/csalt_store_fallback.c \
+	tests/csalt_store_file_descriptor.c tests/csalt_store_memory.c \
+	tests/csalt_store_pair.c tests/csalt_store_split.c \
 	tests/csalt_store_transfer.c
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -662,7 +740,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
-AM_CPPFLAGS = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
+includes = -I$(top_srcdir)/src -I$(top_srcdir)/src/platforms/posix
+@DEVELOP_FALSE@AM_CFLAGS = $(includes)
+@DEVELOP_TRUE@AM_CFLAGS = $(includes) -g -O0 --coverage
 csaltincludedir = $(includedir)/csalt/
 csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/resources.h\
@@ -672,8 +752,11 @@ csaltinclude_HEADERS = src/csalt/util.h\
 		       src/csalt/basestores.h\
 		       src/csalt/compositestores.h\
 		       src/csalt/compositeresources.h\
+		       src/csalt/networkresources.h\
+		       src/csalt/decoratorstores.h\
+		       src/csalt/decoratorresources.h\
 		       src/platforms/posix/csalt/platform/socket.h\
-		       src/csalt/networkresources.h
+		       src/platforms/posix/csalt/platform/threads.h
 
 lib_LTLIBRARIES = src/libcsalt.la
 src_libcsalt_la_SOURCES = src/resources/resources.c\
@@ -686,11 +769,16 @@ src_libcsalt_la_SOURCES = src/resources/resources.c\
 	src/csalt/compositestores.h\
 	src/resources/compositeresources.c\
 	src/csalt/compositeresources.h\
-	src/csalt/impl/list_impl.h\
 	src/platforms/posix/csalt/platform/socket.h\
 	src/resources/network.c\
-	src/csalt/networkresources.h
+	src/csalt/networkresources.h\
+	src/stores/decorators.c\
+	src/csalt/decoratorstores.h\
+	src/resources/decorators.c\
+	src/csalt/decoratorresources.h
 
+src_libcsalt_la_LDFLAGS = -pthread
+src_libcsalt_la_CFLAGS = -I$(srcdir)/src -I$(srcdir)/src/platforms/posix -pthread
 LDADD = $(top_builddir)/src/libcsalt.la
 dist_doc_DATA = README.md
 all: config.h
@@ -797,7 +885,7 @@ src/resources/$(am__dirstamp):
 src/resources/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/resources/$(DEPDIR)
 	@: > src/resources/$(DEPDIR)/$(am__dirstamp)
-src/resources/resources.lo: src/resources/$(am__dirstamp) \
+src/resources/libcsalt_la-resources.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/stores/$(am__dirstamp):
 	@$(MKDIR_P) src/stores
@@ -805,22 +893,28 @@ src/stores/$(am__dirstamp):
 src/stores/$(DEPDIR)/$(am__dirstamp):
 	@$(MKDIR_P) src/stores/$(DEPDIR)
 	@: > src/stores/$(DEPDIR)/$(am__dirstamp)
-src/stores/stores.lo: src/stores/$(am__dirstamp) \
+src/stores/libcsalt_la-stores.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
-src/resources/file.lo: src/resources/$(am__dirstamp) \
+src/resources/libcsalt_la-file.lo: src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
-src/stores/compositestores.lo: src/stores/$(am__dirstamp) \
+src/stores/libcsalt_la-compositestores.lo: src/stores/$(am__dirstamp) \
 	src/stores/$(DEPDIR)/$(am__dirstamp)
-src/resources/compositeresources.lo: src/resources/$(am__dirstamp) \
+src/resources/libcsalt_la-compositeresources.lo:  \
+	src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
-src/resources/network.lo: src/resources/$(am__dirstamp) \
+src/resources/libcsalt_la-network.lo: src/resources/$(am__dirstamp) \
+	src/resources/$(DEPDIR)/$(am__dirstamp)
+src/stores/libcsalt_la-decorators.lo: src/stores/$(am__dirstamp) \
+	src/stores/$(DEPDIR)/$(am__dirstamp)
+src/resources/libcsalt_la-decorators.lo:  \
+	src/resources/$(am__dirstamp) \
 	src/resources/$(DEPDIR)/$(am__dirstamp)
 src/$(am__dirstamp):
 	@$(MKDIR_P) src
 	@: > src/$(am__dirstamp)
 
 src/libcsalt.la: $(src_libcsalt_la_OBJECTS) $(src_libcsalt_la_DEPENDENCIES) $(EXTRA_src_libcsalt_la_DEPENDENCIES) src/$(am__dirstamp)
-	$(AM_V_CCLD)$(LINK) -rpath $(libdir) $(src_libcsalt_la_OBJECTS) $(src_libcsalt_la_LIBADD) $(LIBS)
+	$(AM_V_CCLD)$(src_libcsalt_la_LINK) -rpath $(libdir) $(src_libcsalt_la_OBJECTS) $(src_libcsalt_la_LIBADD) $(LIBS)
 tests/$(am__dirstamp):
 	@$(MKDIR_P) tests
 	@: > tests/$(am__dirstamp)
@@ -839,54 +933,90 @@ tests/csalt_memory_resource.$(OBJEXT): tests/$(am__dirstamp) \
 tests/csalt_memory_resource$(EXEEXT): $(tests_csalt_memory_resource_OBJECTS) $(tests_csalt_memory_resource_DEPENDENCIES) $(EXTRA_tests_csalt_memory_resource_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_memory_resource$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_memory_resource_OBJECTS) $(tests_csalt_memory_resource_LDADD) $(LIBS)
+tests/csalt_resource_decorator_lazy.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_decorator_lazy$(EXEEXT): $(tests_csalt_resource_decorator_lazy_OBJECTS) $(tests_csalt_resource_decorator_lazy_DEPENDENCIES) $(EXTRA_tests_csalt_resource_decorator_lazy_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_decorator_lazy$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_decorator_lazy_OBJECTS) $(tests_csalt_resource_decorator_lazy_LDADD) $(LIBS)
+tests/csalt_resource_decorator_logger.$(OBJEXT):  \
+	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_decorator_logger$(EXEEXT): $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_DEPENDENCIES) $(EXTRA_tests_csalt_resource_decorator_logger_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_decorator_logger$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_decorator_logger_OBJECTS) $(tests_csalt_resource_decorator_logger_LDADD) $(LIBS)
+tests/csalt_resource_fallback.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_fallback$(EXEEXT): $(tests_csalt_resource_fallback_OBJECTS) $(tests_csalt_resource_fallback_DEPENDENCIES) $(EXTRA_tests_csalt_resource_fallback_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_fallback$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_fallback_OBJECTS) $(tests_csalt_resource_fallback_LDADD) $(LIBS)
 tests/csalt_resource_first.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
 tests/csalt_resource_first$(EXEEXT): $(tests_csalt_resource_first_OBJECTS) $(tests_csalt_resource_first_DEPENDENCIES) $(EXTRA_tests_csalt_resource_first_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_first$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_first_OBJECTS) $(tests_csalt_resource_first_LDADD) $(LIBS)
-tests/csalt_resource_list.$(OBJEXT): tests/$(am__dirstamp) \
+tests/csalt_resource_pair.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
-tests/csalt_resource_list$(EXEEXT): $(tests_csalt_resource_list_OBJECTS) $(tests_csalt_resource_list_DEPENDENCIES) $(EXTRA_tests_csalt_resource_list_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resource_list$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_list_OBJECTS) $(tests_csalt_resource_list_LDADD) $(LIBS)
-tests/csalt_resource_network_udp_bound.$(OBJEXT):  \
-	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
-
-tests/csalt_resource_network_udp_bound$(EXEEXT): $(tests_csalt_resource_network_udp_bound_OBJECTS) $(tests_csalt_resource_network_udp_bound_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_bound_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resource_network_udp_bound$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_bound_OBJECTS) $(tests_csalt_resource_network_udp_bound_LDADD) $(LIBS)
-tests/csalt_resource_network_udp_connected.$(OBJEXT):  \
-	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
-
-tests/csalt_resource_network_udp_connected$(EXEEXT): $(tests_csalt_resource_network_udp_connected_OBJECTS) $(tests_csalt_resource_network_udp_connected_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_connected_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resource_network_udp_connected$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_connected_OBJECTS) $(tests_csalt_resource_network_udp_connected_LDADD) $(LIBS)
-tests/csalt_resource_network_udp_stateless.$(OBJEXT):  \
-	tests/$(am__dirstamp) tests/$(DEPDIR)/$(am__dirstamp)
-
-tests/csalt_resource_network_udp_stateless$(EXEEXT): $(tests_csalt_resource_network_udp_stateless_OBJECTS) $(tests_csalt_resource_network_udp_stateless_DEPENDENCIES) $(EXTRA_tests_csalt_resource_network_udp_stateless_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_resource_network_udp_stateless$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_network_udp_stateless_OBJECTS) $(tests_csalt_resource_network_udp_stateless_LDADD) $(LIBS)
+tests/csalt_resource_pair$(EXEEXT): $(tests_csalt_resource_pair_OBJECTS) $(tests_csalt_resource_pair_DEPENDENCIES) $(EXTRA_tests_csalt_resource_pair_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_pair$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_pair_OBJECTS) $(tests_csalt_resource_pair_LDADD) $(LIBS)
 tests/csalt_resource_use.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
 tests/csalt_resource_use$(EXEEXT): $(tests_csalt_resource_use_OBJECTS) $(tests_csalt_resource_use_DEPENDENCIES) $(EXTRA_tests_csalt_resource_use_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_resource_use$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_use_OBJECTS) $(tests_csalt_resource_use_LDADD) $(LIBS)
+tests/csalt_resource_vector.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_resource_vector$(EXEEXT): $(tests_csalt_resource_vector_OBJECTS) $(tests_csalt_resource_vector_DEPENDENCIES) $(EXTRA_tests_csalt_resource_vector_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_resource_vector$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_resource_vector_OBJECTS) $(tests_csalt_resource_vector_LDADD) $(LIBS)
+tests/csalt_store_decorator_logger.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_decorator_logger$(EXEEXT): $(tests_csalt_store_decorator_logger_OBJECTS) $(tests_csalt_store_decorator_logger_DEPENDENCIES) $(EXTRA_tests_csalt_store_decorator_logger_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_decorator_logger$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_decorator_logger_OBJECTS) $(tests_csalt_store_decorator_logger_LDADD) $(LIBS)
+tests/csalt_store_decorator_mutex.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_decorator_mutex$(EXEEXT): $(tests_csalt_store_decorator_mutex_OBJECTS) $(tests_csalt_store_decorator_mutex_DEPENDENCIES) $(EXTRA_tests_csalt_store_decorator_mutex_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_decorator_mutex$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_decorator_mutex_OBJECTS) $(tests_csalt_store_decorator_mutex_LDADD) $(LIBS)
+tests/csalt_store_decorator_rwlock.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_decorator_rwlock$(EXEEXT): $(tests_csalt_store_decorator_rwlock_OBJECTS) $(tests_csalt_store_decorator_rwlock_DEPENDENCIES) $(EXTRA_tests_csalt_store_decorator_rwlock_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_decorator_rwlock$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_decorator_rwlock_OBJECTS) $(tests_csalt_store_decorator_rwlock_LDADD) $(LIBS)
 tests/csalt_store_fallback.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
 tests/csalt_store_fallback$(EXEEXT): $(tests_csalt_store_fallback_OBJECTS) $(tests_csalt_store_fallback_DEPENDENCIES) $(EXTRA_tests_csalt_store_fallback_DEPENDENCIES) tests/$(am__dirstamp)
 	@rm -f tests/csalt_store_fallback$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_fallback_OBJECTS) $(tests_csalt_store_fallback_LDADD) $(LIBS)
-tests/csalt_store_list.$(OBJEXT): tests/$(am__dirstamp) \
+tests/csalt_store_file_descriptor.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
-tests/csalt_store_list$(EXEEXT): $(tests_csalt_store_list_OBJECTS) $(tests_csalt_store_list_DEPENDENCIES) $(EXTRA_tests_csalt_store_list_DEPENDENCIES) tests/$(am__dirstamp)
-	@rm -f tests/csalt_store_list$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_list_OBJECTS) $(tests_csalt_store_list_LDADD) $(LIBS)
+tests/csalt_store_file_descriptor$(EXEEXT): $(tests_csalt_store_file_descriptor_OBJECTS) $(tests_csalt_store_file_descriptor_DEPENDENCIES) $(EXTRA_tests_csalt_store_file_descriptor_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_file_descriptor$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_file_descriptor_OBJECTS) $(tests_csalt_store_file_descriptor_LDADD) $(LIBS)
+tests/csalt_store_memory.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_memory$(EXEEXT): $(tests_csalt_store_memory_OBJECTS) $(tests_csalt_store_memory_DEPENDENCIES) $(EXTRA_tests_csalt_store_memory_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_memory$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_memory_OBJECTS) $(tests_csalt_store_memory_LDADD) $(LIBS)
+tests/csalt_store_pair.$(OBJEXT): tests/$(am__dirstamp) \
+	tests/$(DEPDIR)/$(am__dirstamp)
+
+tests/csalt_store_pair$(EXEEXT): $(tests_csalt_store_pair_OBJECTS) $(tests_csalt_store_pair_DEPENDENCIES) $(EXTRA_tests_csalt_store_pair_DEPENDENCIES) tests/$(am__dirstamp)
+	@rm -f tests/csalt_store_pair$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(tests_csalt_store_pair_OBJECTS) $(tests_csalt_store_pair_LDADD) $(LIBS)
 tests/csalt_store_split.$(OBJEXT): tests/$(am__dirstamp) \
 	tests/$(DEPDIR)/$(am__dirstamp)
 
@@ -911,22 +1041,30 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/compositeresources.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/file.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/network.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/resources.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/compositestores.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/stores.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/libcsalt_la-decorators.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/libcsalt_la-file.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/libcsalt_la-network.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/resources/$(DEPDIR)/libcsalt_la-resources.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/libcsalt_la-compositestores.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/libcsalt_la-decorators.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/stores/$(DEPDIR)/libcsalt_la-stores.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_file_resource.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_memory_resource.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_decorator_lazy.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_decorator_logger.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_fallback.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_first.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_list.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_network_udp_stateless.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_pair.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_use.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_resource_vector.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_decorator_logger.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_decorator_mutex.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_decorator_rwlock.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_fallback.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_list.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_file_descriptor.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_memory.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_pair.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_split.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tests/$(DEPDIR)/csalt_store_transfer.Po@am__quote@ # am--include-marker
 
@@ -959,6 +1097,62 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LTCOMPILE) -c -o $@ $<
+
+src/resources/libcsalt_la-resources.lo: src/resources/resources.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/resources/libcsalt_la-resources.lo -MD -MP -MF src/resources/$(DEPDIR)/libcsalt_la-resources.Tpo -c -o src/resources/libcsalt_la-resources.lo `test -f 'src/resources/resources.c' || echo '$(srcdir)/'`src/resources/resources.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/resources/$(DEPDIR)/libcsalt_la-resources.Tpo src/resources/$(DEPDIR)/libcsalt_la-resources.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/resources/resources.c' object='src/resources/libcsalt_la-resources.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/resources/libcsalt_la-resources.lo `test -f 'src/resources/resources.c' || echo '$(srcdir)/'`src/resources/resources.c
+
+src/stores/libcsalt_la-stores.lo: src/stores/stores.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/stores/libcsalt_la-stores.lo -MD -MP -MF src/stores/$(DEPDIR)/libcsalt_la-stores.Tpo -c -o src/stores/libcsalt_la-stores.lo `test -f 'src/stores/stores.c' || echo '$(srcdir)/'`src/stores/stores.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/stores/$(DEPDIR)/libcsalt_la-stores.Tpo src/stores/$(DEPDIR)/libcsalt_la-stores.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/stores/stores.c' object='src/stores/libcsalt_la-stores.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/stores/libcsalt_la-stores.lo `test -f 'src/stores/stores.c' || echo '$(srcdir)/'`src/stores/stores.c
+
+src/resources/libcsalt_la-file.lo: src/resources/file.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/resources/libcsalt_la-file.lo -MD -MP -MF src/resources/$(DEPDIR)/libcsalt_la-file.Tpo -c -o src/resources/libcsalt_la-file.lo `test -f 'src/resources/file.c' || echo '$(srcdir)/'`src/resources/file.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/resources/$(DEPDIR)/libcsalt_la-file.Tpo src/resources/$(DEPDIR)/libcsalt_la-file.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/resources/file.c' object='src/resources/libcsalt_la-file.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/resources/libcsalt_la-file.lo `test -f 'src/resources/file.c' || echo '$(srcdir)/'`src/resources/file.c
+
+src/stores/libcsalt_la-compositestores.lo: src/stores/compositestores.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/stores/libcsalt_la-compositestores.lo -MD -MP -MF src/stores/$(DEPDIR)/libcsalt_la-compositestores.Tpo -c -o src/stores/libcsalt_la-compositestores.lo `test -f 'src/stores/compositestores.c' || echo '$(srcdir)/'`src/stores/compositestores.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/stores/$(DEPDIR)/libcsalt_la-compositestores.Tpo src/stores/$(DEPDIR)/libcsalt_la-compositestores.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/stores/compositestores.c' object='src/stores/libcsalt_la-compositestores.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/stores/libcsalt_la-compositestores.lo `test -f 'src/stores/compositestores.c' || echo '$(srcdir)/'`src/stores/compositestores.c
+
+src/resources/libcsalt_la-compositeresources.lo: src/resources/compositeresources.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/resources/libcsalt_la-compositeresources.lo -MD -MP -MF src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Tpo -c -o src/resources/libcsalt_la-compositeresources.lo `test -f 'src/resources/compositeresources.c' || echo '$(srcdir)/'`src/resources/compositeresources.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Tpo src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/resources/compositeresources.c' object='src/resources/libcsalt_la-compositeresources.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/resources/libcsalt_la-compositeresources.lo `test -f 'src/resources/compositeresources.c' || echo '$(srcdir)/'`src/resources/compositeresources.c
+
+src/resources/libcsalt_la-network.lo: src/resources/network.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/resources/libcsalt_la-network.lo -MD -MP -MF src/resources/$(DEPDIR)/libcsalt_la-network.Tpo -c -o src/resources/libcsalt_la-network.lo `test -f 'src/resources/network.c' || echo '$(srcdir)/'`src/resources/network.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/resources/$(DEPDIR)/libcsalt_la-network.Tpo src/resources/$(DEPDIR)/libcsalt_la-network.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/resources/network.c' object='src/resources/libcsalt_la-network.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/resources/libcsalt_la-network.lo `test -f 'src/resources/network.c' || echo '$(srcdir)/'`src/resources/network.c
+
+src/stores/libcsalt_la-decorators.lo: src/stores/decorators.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/stores/libcsalt_la-decorators.lo -MD -MP -MF src/stores/$(DEPDIR)/libcsalt_la-decorators.Tpo -c -o src/stores/libcsalt_la-decorators.lo `test -f 'src/stores/decorators.c' || echo '$(srcdir)/'`src/stores/decorators.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/stores/$(DEPDIR)/libcsalt_la-decorators.Tpo src/stores/$(DEPDIR)/libcsalt_la-decorators.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/stores/decorators.c' object='src/stores/libcsalt_la-decorators.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/stores/libcsalt_la-decorators.lo `test -f 'src/stores/decorators.c' || echo '$(srcdir)/'`src/stores/decorators.c
+
+src/resources/libcsalt_la-decorators.lo: src/resources/decorators.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -MT src/resources/libcsalt_la-decorators.lo -MD -MP -MF src/resources/$(DEPDIR)/libcsalt_la-decorators.Tpo -c -o src/resources/libcsalt_la-decorators.lo `test -f 'src/resources/decorators.c' || echo '$(srcdir)/'`src/resources/decorators.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) src/resources/$(DEPDIR)/libcsalt_la-decorators.Tpo src/resources/$(DEPDIR)/libcsalt_la-decorators.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='src/resources/decorators.c' object='src/resources/libcsalt_la-decorators.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_libcsalt_la_CFLAGS) $(CFLAGS) -c -o src/resources/libcsalt_la-decorators.lo `test -f 'src/resources/decorators.c' || echo '$(srcdir)/'`src/resources/decorators.c
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1222,6 +1416,13 @@ tests/csalt_resource_use.log: tests/csalt_resource_use$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_store_file_descriptor.log: tests/csalt_store_file_descriptor$(EXEEXT)
+	@p='tests/csalt_store_file_descriptor$(EXEEXT)'; \
+	b='tests/csalt_store_file_descriptor'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
 tests/csalt_memory_resource.log: tests/csalt_memory_resource$(EXEEXT)
 	@p='tests/csalt_memory_resource$(EXEEXT)'; \
 	b='tests/csalt_memory_resource'; \
@@ -1250,9 +1451,37 @@ tests/csalt_file_resource.log: tests/csalt_file_resource$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_store_list.log: tests/csalt_store_list$(EXEEXT)
-	@p='tests/csalt_store_list$(EXEEXT)'; \
-	b='tests/csalt_store_list'; \
+tests/csalt_resource_first.log: tests/csalt_resource_first$(EXEEXT)
+	@p='tests/csalt_resource_first$(EXEEXT)'; \
+	b='tests/csalt_resource_first'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_store_decorator_logger.log: tests/csalt_store_decorator_logger$(EXEEXT)
+	@p='tests/csalt_store_decorator_logger$(EXEEXT)'; \
+	b='tests/csalt_store_decorator_logger'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_decorator_logger.log: tests/csalt_resource_decorator_logger$(EXEEXT)
+	@p='tests/csalt_resource_decorator_logger$(EXEEXT)'; \
+	b='tests/csalt_resource_decorator_logger'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_store_pair.log: tests/csalt_store_pair$(EXEEXT)
+	@p='tests/csalt_store_pair$(EXEEXT)'; \
+	b='tests/csalt_store_pair'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_resource_pair.log: tests/csalt_resource_pair$(EXEEXT)
+	@p='tests/csalt_resource_pair$(EXEEXT)'; \
+	b='tests/csalt_resource_pair'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1264,37 +1493,44 @@ tests/csalt_store_fallback.log: tests/csalt_store_fallback$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_list.log: tests/csalt_resource_list$(EXEEXT)
-	@p='tests/csalt_resource_list$(EXEEXT)'; \
-	b='tests/csalt_resource_list'; \
+tests/csalt_resource_fallback.log: tests/csalt_resource_fallback$(EXEEXT)
+	@p='tests/csalt_resource_fallback$(EXEEXT)'; \
+	b='tests/csalt_resource_fallback'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_first.log: tests/csalt_resource_first$(EXEEXT)
-	@p='tests/csalt_resource_first$(EXEEXT)'; \
-	b='tests/csalt_resource_first'; \
+tests/csalt_resource_decorator_lazy.log: tests/csalt_resource_decorator_lazy$(EXEEXT)
+	@p='tests/csalt_resource_decorator_lazy$(EXEEXT)'; \
+	b='tests/csalt_resource_decorator_lazy'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_network_udp_connected.log: tests/csalt_resource_network_udp_connected$(EXEEXT)
-	@p='tests/csalt_resource_network_udp_connected$(EXEEXT)'; \
-	b='tests/csalt_resource_network_udp_connected'; \
+tests/csalt_store_memory.log: tests/csalt_store_memory$(EXEEXT)
+	@p='tests/csalt_store_memory$(EXEEXT)'; \
+	b='tests/csalt_store_memory'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_network_udp_bound.log: tests/csalt_resource_network_udp_bound$(EXEEXT)
-	@p='tests/csalt_resource_network_udp_bound$(EXEEXT)'; \
-	b='tests/csalt_resource_network_udp_bound'; \
+tests/csalt_resource_vector.log: tests/csalt_resource_vector$(EXEEXT)
+	@p='tests/csalt_resource_vector$(EXEEXT)'; \
+	b='tests/csalt_resource_vector'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-tests/csalt_resource_network_udp_stateless.log: tests/csalt_resource_network_udp_stateless$(EXEEXT)
-	@p='tests/csalt_resource_network_udp_stateless$(EXEEXT)'; \
-	b='tests/csalt_resource_network_udp_stateless'; \
+tests/csalt_store_decorator_mutex.log: tests/csalt_store_decorator_mutex$(EXEEXT)
+	@p='tests/csalt_store_decorator_mutex$(EXEEXT)'; \
+	b='tests/csalt_store_decorator_mutex'; \
+	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
+	--log-file $$b.log --trs-file $$b.trs \
+	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
+	"$$tst" $(AM_TESTS_FD_REDIRECT)
+tests/csalt_store_decorator_rwlock.log: tests/csalt_store_decorator_rwlock$(EXEEXT)
+	@p='tests/csalt_store_decorator_rwlock$(EXEEXT)'; \
+	b='tests/csalt_store_decorator_rwlock'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1536,22 +1772,30 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libLTLIBRARIES \
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
-	-rm -f src/resources/$(DEPDIR)/file.Plo
-	-rm -f src/resources/$(DEPDIR)/network.Plo
-	-rm -f src/resources/$(DEPDIR)/resources.Plo
-	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
-	-rm -f src/stores/$(DEPDIR)/stores.Plo
+		-rm -f src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-decorators.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-file.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-network.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-resources.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-compositestores.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-decorators.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_lazy.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_stateless.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_vector.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_mutex.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_rwlock.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
-	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_file_descriptor.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_memory.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile
@@ -1601,22 +1845,30 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f src/resources/$(DEPDIR)/compositeresources.Plo
-	-rm -f src/resources/$(DEPDIR)/file.Plo
-	-rm -f src/resources/$(DEPDIR)/network.Plo
-	-rm -f src/resources/$(DEPDIR)/resources.Plo
-	-rm -f src/stores/$(DEPDIR)/compositestores.Plo
-	-rm -f src/stores/$(DEPDIR)/stores.Plo
+		-rm -f src/resources/$(DEPDIR)/libcsalt_la-compositeresources.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-decorators.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-file.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-network.Plo
+	-rm -f src/resources/$(DEPDIR)/libcsalt_la-resources.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-compositestores.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-decorators.Plo
+	-rm -f src/stores/$(DEPDIR)/libcsalt_la-stores.Plo
 	-rm -f tests/$(DEPDIR)/csalt_file_resource.Po
 	-rm -f tests/$(DEPDIR)/csalt_memory_resource.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_lazy.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_fallback.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_first.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_list.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_bound.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_connected.Po
-	-rm -f tests/$(DEPDIR)/csalt_resource_network_udp_stateless.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_resource_use.Po
+	-rm -f tests/$(DEPDIR)/csalt_resource_vector.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_logger.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_mutex.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_decorator_rwlock.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_fallback.Po
-	-rm -f tests/$(DEPDIR)/csalt_store_list.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_file_descriptor.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_memory.Po
+	-rm -f tests/$(DEPDIR)/csalt_store_pair.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_split.Po
 	-rm -f tests/$(DEPDIR)/csalt_store_transfer.Po
 	-rm -f Makefile
@@ -1663,6 +1915,11 @@ uninstall-am: uninstall-csaltincludeHEADERS uninstall-dist_docDATA \
 
 .PRECIOUS: Makefile
 
+
+.PHONY: static-check
+
+static-check:
+	cppcheck --cppcheck-build-dir="$(builddir)" "$(top_srcdir)"/src "$(top_srcdir)"/tests
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

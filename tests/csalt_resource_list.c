@@ -21,7 +21,7 @@ int main()
 		csalt_resource(&heap2),
 	};
 
-	csalt_resource_initialized *buffer[2] = { 0 };
+	csalt_store *buffer[2] = { 0 };
 	struct csalt_resource_list list = csalt_resource_list_array(array, buffer);
 
 	csalt_resource_use(csalt_resource(&list), use, 0);

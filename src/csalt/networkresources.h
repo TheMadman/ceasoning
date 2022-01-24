@@ -15,8 +15,7 @@ extern "C" {
  * \brief Provides resources for networking
  */
 
-struct csalt_resource_network_interface;
-typedef struct csalt_resource_network_initialized_interface *csalt_resource_network;
+typedef struct csalt_resource_network_socket_initialized csalt_resource_network;
 
 typedef ssize_t csalt_resource_sendto_fn(
 	csalt_resource_network *network,
@@ -79,7 +78,6 @@ ssize_t csalt_resource_recvfrom(
 );
 
 struct csalt_resource_network_initialized_interface {
-	struct csalt_resource_initialized_interface parent;
 	csalt_resource_sendto_fn *sendto;
 	csalt_resource_recvfrom_fn *recvfrom;
 };
@@ -88,7 +86,8 @@ struct csalt_resource_network_initialized_interface {
  * \brief Represents the common features of each kind of network socket.
  */
 struct csalt_resource_network_socket_initialized {
-	struct csalt_resource_network_initialized_interface *vtable;
+	struct csalt_store_interface *vtable;
+	struct csalt_resource_network_initialized_interface *network_vtable;
 	int fd;
 	int domain;
 	int type;

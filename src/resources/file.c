@@ -7,43 +7,8 @@
 
 struct csalt_resource_interface csalt_resource_file_interface = {
 	csalt_resource_file_init,
-};
-
-struct csalt_resource_initialized_interface csalt_resource_file_initialized_interface = {
-	{
-		csalt_resource_file_read,
-		csalt_resource_file_write,
-		csalt_resource_file_size,
-		csalt_resource_file_split,
-	},
 	csalt_resource_file_deinit,
 };
-
-ssize_t csalt_resource_file_read(const csalt_store *store, void *buffer, size_t size)
-{
-	struct csalt_resource_file_initialized *file = castto(file, store);
-	lseek(file->fd, file->begin, SEEK_SET);
-	ssize_t result = read(file->fd, buffer, size);
-	if (result < 0 && (errno & EWOULDBLOCK | EAGAIN))
-		result = 0;
-	return result;
-}
-
-ssize_t csalt_resource_file_write(csalt_store *store, const void *buffer, size_t size)
-{
-	struct csalt_resource_file_initialized *file = castto(file, store);
-	lseek(file->fd, file->begin, SEEK_SET);
-	ssize_t result = write(file->fd, buffer, size);
-	if (result < 0 && (errno & EWOULDBLOCK | EAGAIN))
-		result = 0;
-	return result;
-}
-
-size_t csalt_resource_file_size(const csalt_store *store)
-{
-	struct csalt_resource_file_initialized *file = castto(file, store);
-	return file->end - file->begin;
-}
 
 int csalt_resource_file_split(
 	csalt_store *store,
@@ -60,32 +25,31 @@ int csalt_resource_file_split(
 	return block(castto(csalt_store *, &result), data);
 }
 
-csalt_resource_initialized *csalt_resource_file_init(csalt_resource *resource)
+csalt_store *csalt_resource_file_init(csalt_resource *resource)
 {
 	struct csalt_resource_file *file = castto(file, resource);
 
 	// Some open flags break the API for reading/writing
-	// int banned_flags = O_APPEND;
 	int banned_flags = O_APPEND;
 
 	// on the other hand, some flags are implied by the
 	// operation of this library, primarily O_NONBLOCK
 	int implied_flags = O_NONBLOCK;
-	file->file.fd = open(file->filename, (implied_flags | file->flags) & ~banned_flags, file->mode);
-	if (file->file.fd > -1) {
-		file->file.end = lseek(file->file.fd, 0, SEEK_END);
-		file->file.begin = lseek(file->file.fd, 0, SEEK_SET);
-		return (csalt_resource_initialized *)&file->file;
+
+	int fd = open(file->filename, (implied_flags | file->flags) & ~banned_flags, file->mode);
+	if (fd > -1) {
+		file->file = csalt_store_file_descriptor(fd);
+		return (csalt_store *)&file->file;
 	} else {
 		return 0;
 	}
 }
 
-void csalt_resource_file_deinit(csalt_resource_initialized *resource)
+void csalt_resource_file_deinit(csalt_resource *resource)
 {
-	struct csalt_resource_file_initialized *file = castto(file, resource);
-	close(file->fd);
-	file->fd = -1;
+	struct csalt_resource_file *file = (struct csalt_resource_file *)resource;
+	close(file->file.fd);
+	file->file.fd = -1;
 }
 
 struct csalt_resource_file csalt_resource_file(const char *path, int flags)
@@ -95,10 +59,7 @@ struct csalt_resource_file csalt_resource_file(const char *path, int flags)
 		path,
 		flags,
 		0,
-		{
-			&csalt_resource_file_initialized_interface,
-			-1,
-		},
+		csalt_store_file_descriptor(-1),
 	};
 	return file;
 }

@@ -3,6 +3,7 @@
 
 #include "baseresources.h"
 #include "compositeresources.h"
+#include "decoratorresources.h"
 #include "fileresource.h"
 #include "networkresources.h"
 

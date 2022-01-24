@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['max_80',['max',['../util_8h.html#affe776513b24d84b39af8ab0930fef7f',1,'util.h']]],
-  ['min_81',['min',['../util_8h.html#ac6afabdc09a49a433ee19d8a9486056d',1,'util.h']]]
+  ['end_115',['end',['../structcsalt__resource__vector__initialized.html#ad6ab3c37b46bba0363c6d37795c9dc63',1,'csalt_resource_vector_initialized']]]
 ];

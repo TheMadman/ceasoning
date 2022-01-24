@@ -19,23 +19,23 @@
 struct csalt_store_interface;
 
 /**
- * Any struct whos first member is a pointer to
+ * \brief Any struct whos first member is a pointer to
  * a csalt_store_interface can be passed with a basic
  * cast to the virtual functions listed here.
  */
-typedef struct csalt_store_interface *csalt_store;
+typedef const struct csalt_store_interface *csalt_store;
 
 /**
- * Function type for reading data from a store into a buffer
+ * \brief Function type for reading data from a store into a buffer
  */
 typedef ssize_t csalt_store_read_fn(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t size
 );
 
 /**
- * Function type for writing data from a buffer into a store
+ * \brief Function type for writing data from a buffer into a store
  */
 typedef ssize_t csalt_store_write_fn(
 	csalt_store *store,
@@ -44,13 +44,13 @@ typedef ssize_t csalt_store_write_fn(
 );
 
 /**
- * Type for a logic block to use inside csalt_store_split_fn
+ * \brief Type for a logic block to use inside csalt_store_split_fn
  * functions.
  */
 typedef int csalt_store_block_fn(csalt_store *store, void *data);
 
 /**
- * Function type for representing a sub-section of an
+ * \brief Function type for representing a sub-section of an
  * existing store as a new store, and performing an
  * action on the result.
  *
@@ -70,13 +70,10 @@ typedef int csalt_store_split_fn(
 );
 
 /**
- * Returns the size of the store, if applicable, or 0
+ * \brief Returns the size of the store, if applicable, or 0
  * if not applicable to this store.
- *
- * Note that any store of size 0 can't be read to or
- * written from.
  */
-typedef size_t csalt_store_size_fn(const csalt_store *store);
+typedef size_t csalt_store_size_fn(csalt_store *store);
 
 struct csalt_store_interface {
 	csalt_store_read_fn *read;
@@ -86,26 +83,45 @@ struct csalt_store_interface {
 };
 
 /**
- * Function for reading from a store into a buffer.
+ * \brief Function for reading from a store into a buffer.
  *
  * Returns the amount of bytes actually read, or -1 on failure.
+ *
+ * \sa csalt_read()
  */
-ssize_t csalt_store_read(const csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
 
 /**
- * Function for writing to a store from a buffer.
+ * \brief Function for writing to a store from a buffer.
  *
  * Returns the amount of bytes actually written, or -1 on failure.
+ *
+ * \sa csalt_write()
  */
 ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
 
 /**
- * Returns the current size of the given store.
+ * \brief Returns the current size of the given store.
+ *
+ * Generally, calling csalt_store_size before calling one of csalt_store_read
+ * or csalt_store_write is racy: this is true of most underlying stores,
+ * including files, shared memory or sockets. Your application can request
+ * the size, then the store's size can be changed without your application
+ * knowing by a write by another process altogether. Therefore, you should only
+ * use this pattern if you have good reason to believe that the store will not
+ * arbitrarily change size - for example, because you control the file or
+ * the endpoint of the network socket.
+ *
+ * The much safer approach is to simply attempt to csalt_store_read or
+ * csalt_store_write from the store and check the return values for amount
+ * read/written and error values. If you are constructing stores from user
+ * input, you should try to formulate your application to use csalt_store_size
+ * as little as possible.
  */
-size_t csalt_store_size(const csalt_store *store);
+size_t csalt_store_size(csalt_store *store);
 
 /**
- * Provides the means to divide a store into a
+ * \brief Provides the means to divide a store into a
  * sub-section and perform an operation on the result.
  *
  * One of the limitations of this function is to prevent
@@ -140,11 +156,12 @@ int csalt_store_split(
 );
 
 /**
- * This structure allows the transfer algorithm to run in
- * a non-blocking fashion. When the remaining is equal to
- * the total, the passed call-back is called, allowing you to
- * perform the same call in a loop (e.g. a render loop or
- * a spin-lock in case you want blocking behaviour).
+ * \brief This structure allows the transfer algorithm to run in
+ * a non-blocking fashion.
+ *
+ * When the remaining is equal to the total, the passed call-back is called,
+ * allowing you to perform the same call in a loop (e.g. a render loop or a 
+ * spin-lock in case you want blocking behaviour).
  *
  * \see csalt_progress()
  */
@@ -154,19 +171,25 @@ struct csalt_progress {
 };
 
 /**
- * Creates a new struct csalt_progress with the total
+ * \brief Creates a new struct csalt_progress with the total
  * set to amount and the remaining set to 0.
  */
 struct csalt_progress csalt_progress(size_t amount);
 
 /**
- * Represents a function passed to csalt_store_transfer
+ * \brief This function returns truthy if progress is finished, false
+ * otherwise
+ */
+int csalt_progress_complete(struct csalt_progress *progress);
+
+/**
+ * \brief Represents a function passed to csalt_store_transfer
  * to perform once the transfer has completed.
  */
 typedef void csalt_transfer_complete_fn(csalt_store *dest);
 
 /**
- * this function provides a convenient means to write data
+ * \brief This function provides a convenient means to write data
  * from one store into another.
  *
  * If the transfer partially completes - for example, on
@@ -177,14 +200,14 @@ typedef void csalt_transfer_complete_fn(csalt_store *dest);
  */
 ssize_t csalt_store_transfer(
 	struct csalt_progress *data,
-	csalt_store *to,
 	csalt_store *from,
+	csalt_store *to,
 	csalt_transfer_complete_fn *callback
 );
 
 // null/noop interface
 ssize_t csalt_store_null_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 );
@@ -196,7 +219,7 @@ ssize_t csalt_store_null_write(
 	size_t size
 );
 
-size_t csalt_store_null_size(const csalt_store *store);
+size_t csalt_store_null_size(csalt_store *store);
 
 int csalt_store_null_split(
 	csalt_store *store,
@@ -207,7 +230,7 @@ int csalt_store_null_split(
 );
 
 /**
- * This interface represents a no-op interface, in the case of
+ * \brief This interface represents a no-op interface, in the case of
  * errors.
  *
  * Reads and writes immediately return error values.
@@ -220,7 +243,7 @@ extern const struct csalt_store_interface *csalt_store_null_implementation;
 // memory interface
 
 ssize_t csalt_memory_read(
-	const csalt_store *from,
+	csalt_store *from,
 	void *to,
 	size_t size
 );
@@ -232,7 +255,7 @@ ssize_t csalt_memory_write(
 	size_t size
 );
 
-size_t csalt_memory_size(const csalt_store *store);
+size_t csalt_memory_size(csalt_store *store);
 
 int csalt_memory_split(
 	csalt_store *store,
@@ -291,9 +314,114 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory);
 #define csalt_store_memory_array(array) (csalt_store_memory_bounds((array), (&array[arrlength(array)])))
 
 /**
- * Convenience macro for castto(csalt_store *, param)
+ * \brief Convenience macro for writing a stack value to a store.
+ *
+ * This macro takes the given value and attempts to write it to the
+ * store, returning the amount written.
+ *
+ * Example usage:
+ *
+ * \code
+ *
+ * int my_func(csalt_store *store, void *param)
+ * {
+ * 	int triangle_points[2][3] = {
+ * 		0, 0,
+ * 		0, 1,
+ * 		1, 1,
+ * 	};
+ *
+ * 	ssize_t written = csalt_write(store, triangle_points);
+ * 	if (written < 0) {
+ * 		// handle error
+ * 	}
+ * 	if (written < sizeof(triangle_points)) {
+ * 		// handle partial write
+ * 	}
+ * }
+ *
+ * \endcode
  */
-#define csalt_store(param) castto(csalt_store *, param)
+#define csalt_write(store, value) \
+	csalt_store_write(csalt_store(store), &value, sizeof(value));
 
+/**
+ * \brief Convenience macro for reading a stack value from a store.
+ *
+ * This macro takes the given value and attempts to read from the given
+ * store into it, returning the amount read.
+ *
+ * Example usage:
+ *
+ * \code
+ *
+ * int my_func(csalt_store *store, void *param)
+ * {
+ * 	char magic_number[8] = { 0 };
+ *
+ * 	ssize_t read = csalt_read(store, magic_number);
+ *
+ * 	if (read < 0) {
+ * 		// handle error
+ * 	}
+ * 	if (read < sizeof(magic_number)) {
+ *		// handle partial read
+ *	}
+ *
+ *	const char expected[] = "\x89" "\x50" "\x4e" "\x47"
+ *		"\x0d" "\x0a" "\x1a" "\x0a";
+ *	if (strncmp(expected, magic_number, sizeof(magic_number))) {
+ *		// handle not PNG file
+ *	}
+ * }
+ *
+ * \endcode
+ */
+#define csalt_read(store, value) \
+	csalt_store_read(csalt_store(store), &value, sizeof(value))
+
+/**
+ * Convenience macro for casting to store pointer
+ */
+#define csalt_store(param) (csalt_store *)(param)
+
+/**
+ * \brief Store representing a file descriptor.
+ *
+ * This store is used for file descriptors which are 
+ * available by default, including stdin, stdout and stderr.
+ *
+ * Also useful for resources which manage file descriptors.
+ */
+struct csalt_store_file_descriptor {
+	struct csalt_store_interface *vtable;
+	int fd;
+	size_t begin;
+	size_t end;
+};
+
+struct csalt_store_file_descriptor csalt_store_file_descriptor(int fd);
+
+ssize_t csalt_store_file_descriptor_read(
+	csalt_store *from,
+	void *to,
+	size_t bytes
+);
+
+ssize_t csalt_store_file_descriptor_write(
+	csalt_store *to,
+	const void *from,
+	size_t bytes
+);
+
+size_t csalt_store_file_descriptor_size(csalt_store *store);
+
+int csalt_store_file_descriptor_split(
+	csalt_store *file,
+	size_t begin,
+	size_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
 
 #endif // CSALTSTORES_H

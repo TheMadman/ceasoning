@@ -25,6 +25,12 @@
  */
 #define arrlength(array) (sizeof(array) / sizeof(array[0]))
 
+/**
+ * Gets a pointer past the end of the array, such that
+ * arrend(array) - array == sizeof(array)
+ */
+#define arrend(array) (&array[arrlength(array)])
+
 #ifdef PAGESIZE
 /**
  * DEFAULT_PAGESIZE represents the size of a page if

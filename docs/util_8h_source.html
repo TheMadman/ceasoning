@@ -78,16 +78,18 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66">   26</a></span>&#160;<span class="preprocessor">#define arrlength(array) (sizeof(array) / sizeof(array[0]))</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifdef PAGESIZE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#define DEFAULT_PAGESIZE PAGESIZE</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#define DEFAULT_PAGESIZE 4096</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif // PAGESIZE</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="util_8h.html#ab43229f6369275dc14bd12743cd82a0c">   45</a></span>&#160;<span class="preprocessor">#define castto(dest, source) ((typeof(dest)) (source))</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#endif // CSALTUTIL_H</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">   32</a></span>&#160;<span class="preprocessor">#define arrend(array) (&amp;array[arrlength(array)])</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifdef PAGESIZE</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define DEFAULT_PAGESIZE PAGESIZE</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define DEFAULT_PAGESIZE 4096</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#endif // PAGESIZE</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="util_8h.html#ab43229f6369275dc14bd12743cd82a0c">   51</a></span>&#160;<span class="preprocessor">#define castto(dest, source) ((typeof(dest)) (source))</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif // CSALTUTIL_H</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

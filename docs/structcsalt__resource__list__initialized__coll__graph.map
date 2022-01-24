@@ -1,6 +1,0 @@
-<map id="csalt_resource_list_initialized" name="csalt_resource_list_initialized">
-<area shape="rect" id="node1" title="This resource allows operations on groups of resources." alt="" coords="82,228,225,269"/>
-<area shape="rect" id="node2" href="$structcsalt__store__list.html" title="Most abstract stores are implemented as csalt_store_lists, with different algorithms for iterating ov..." alt="" coords="5,131,125,158"/>
-<area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="74,5,233,32"/>
-<area shape="rect" id="node4" href="$structcsalt__resource__initialized__interface.html" title="Interface definition for initialized resources." alt="" coords="149,124,336,165"/>
-</map>

@@ -6,8 +6,11 @@ csaltinclude_HEADERS = %reldir%/csalt/util.h\
 		       %reldir%/csalt/basestores.h\
 		       %reldir%/csalt/compositestores.h\
 		       %reldir%/csalt/compositeresources.h\
+		       %reldir%/csalt/networkresources.h\
+		       %reldir%/csalt/decoratorstores.h\
+		       %reldir%/csalt/decoratorresources.h\
 		       %reldir%/platforms/posix/csalt/platform/socket.h\
-		       %reldir%/csalt/networkresources.h
+		       %reldir%/platforms/posix/csalt/platform/threads.h
 
 lib_LTLIBRARIES = %reldir%/libcsalt.la
 
@@ -21,8 +24,13 @@ lib_LTLIBRARIES = %reldir%/libcsalt.la
 	%reldir%/csalt/compositestores.h\
 	%reldir%/resources/compositeresources.c\
 	%reldir%/csalt/compositeresources.h\
-	%reldir%/csalt/impl/list_impl.h\
 	%reldir%/platforms/posix/csalt/platform/socket.h\
 	%reldir%/resources/network.c\
-	%reldir%/csalt/networkresources.h
+	%reldir%/csalt/networkresources.h\
+	%reldir%/stores/decorators.c\
+	%reldir%/csalt/decoratorstores.h\
+	%reldir%/resources/decorators.c\
+	%reldir%/csalt/decoratorresources.h
 
+%canon_reldir%_libcsalt_la_LDFLAGS = -pthread
+%canon_reldir%_libcsalt_la_CFLAGS = -I$(srcdir)/src -I$(srcdir)/src/platforms/posix -pthread

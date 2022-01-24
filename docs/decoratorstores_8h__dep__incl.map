@@ -1,0 +1,10 @@
+<map id="csalt/decoratorstores.h" name="csalt/decoratorstores.h">
+<area shape="rect" id="node1" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="153,5,324,32"/>
+<area shape="rect" id="node2" href="$decoratorresources_8h.html" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="5,229,200,256"/>
+<area shape="rect" id="node4" href="$stores_8h_source.html" title=" " alt="" coords="320,80,429,107"/>
+<area shape="rect" id="node3" href="$resources_8h_source.html" title=" " alt="" coords="309,304,441,331"/>
+<area shape="rect" id="node5" href="$baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="293,155,456,181"/>
+<area shape="rect" id="node7" href="$fileresource_8h.html" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="709,229,854,256"/>
+<area shape="rect" id="node6" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="275,229,475,256"/>
+<area shape="rect" id="node8" href="$networkresources_8h.html" title="Provides resources for networking." alt="" coords="499,229,685,256"/>
+</map>

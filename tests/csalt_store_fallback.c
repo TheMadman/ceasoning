@@ -1,126 +1,272 @@
 #include <csalt/stores.h>
-#include <csalt/resources.h>
-#include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 
 #include "test_macros.h"
 
-#define PART_ONE "Hello"
-#define PART_TWO " World"
-#define SPLIT_BEGIN_OFFSET (sizeof(PART_ONE) - 1)
-#define SPLIT_END_OFFSET (SPLIT_BEGIN_OFFSET + sizeof(PART_TWO))
+#include <stdlib.h>
 
-char memory[20] = { 0 };
-
-int split(csalt_store *fallback_store, void *_)
+int receive_success(csalt_store *store, void *_)
 {
-	return csalt_store_write(fallback_store, PART_TWO, sizeof(PART_TWO));
-}
+	(void)_;
+	struct csalt_store_fallback *fallback = (void *)store;
+	struct csalt_store_stub *first = (void *)fallback->pair.first;
+	struct csalt_store_fallback *second_fallback = (void *)fallback->pair.second;
+	struct csalt_store_stub *second = (void *)second_fallback->pair.first;
 
-int use_heap(csalt_store *heap, void *_)
-{
-	struct csalt_memory global = csalt_store_memory_array(memory);
-
-	ssize_t write_result = csalt_store_write((csalt_store *)&global, PART_ONE, sizeof(PART_ONE));
-	if (write_result < sizeof(PART_ONE)) {
+	if (first->split_begin != 3 || first->split_end != 5) {
 		print_error(
-			"Failed to set up global memory for test\n"
-				"write was: %ld\n"
-				"strerror: %s",
-			write_result,
-			strerror(errno)
+			"Unexpected first split values: %ld -> %ld",
+			first->split_begin,
+			first->split_end
 		);
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 
-
-	csalt_store *stores[] = {
-		heap,
-		(csalt_store *)&global,
-	};
-
-	struct csalt_store_fallback fallback = csalt_store_fallback_array(stores);
-	csalt_store *fallback_store = (csalt_store *)&fallback;
-
-	char buffer[20] = { 0 };
-	ssize_t heap_read_result = csalt_store_read(heap, buffer, sizeof(buffer));
-
-	if (heap_read_result) {
-		print_error("Heap should not have been readable yet");
-		return EXIT_FAILURE;
-	}
-
-	ssize_t fallback_read_result = csalt_store_read(fallback_store, buffer, sizeof(PART_ONE));
-
-	if (fallback_read_result != sizeof(PART_ONE)) {
-		print_error("Unexpected read result from fallback: %ld", fallback_read_result);
-		return EXIT_FAILURE;
-	}
-
-	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
-		print_error("Unexpected buffer contents after read: %s", buffer);
-		return EXIT_FAILURE;
-	}
-
-	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE));
-	if (heap_read_result != sizeof(PART_ONE)) {
+	if (second->split_begin != 3 || second->split_end != 5) {
 		print_error(
-			"Unexpected read result from (expected-written-to) heap: %ld",
-			heap_read_result
+			"Unexpected second split values: %ld -> %ld",
+			second->split_begin,
+			second->split_end
 		);
-		return EXIT_FAILURE;
+		exit(EXIT_FAILURE);
 	}
 
-	if (strncmp(buffer, PART_ONE, sizeof(PART_ONE))) {
-		print_error("Unexpected buffer contents after read: %s", buffer);
-		return EXIT_FAILURE;
-	}
-
-	ssize_t fallback_write_result = csalt_store_split(
-		fallback_store,
-		SPLIT_BEGIN_OFFSET,
-		SPLIT_END_OFFSET,
-		split,
-		0
-	);
-
-	if (fallback_write_result != sizeof(PART_TWO)) {
-		print_error("Unexpected write result to fallback: %ld", fallback_write_result);
-		return EXIT_FAILURE;
-	}
-
-	heap_read_result = csalt_store_read(heap, buffer, sizeof(PART_ONE PART_TWO));
-
-	if (heap_read_result != sizeof(PART_ONE PART_TWO)) {
-		print_error("Unexpected read result from heap: %ld", heap_read_result);
-		return EXIT_FAILURE;
-	}
-
-	if (strncmp(buffer, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
-		print_error("Unexpected buffer contents: %s", buffer);
-		return EXIT_FAILURE;
-	}
-
-	if (strncmp(memory, PART_ONE, sizeof(PART_ONE))) {
-		print_error("memory string changed when it shouldn't have: %s", memory);
-		return EXIT_FAILURE;
-	}
-
-	struct csalt_progress transfers[2] = { 0 };
-	csalt_store_fallback_flush(&fallback, transfers);
-
-	if (strncmp(memory, PART_ONE PART_TWO, sizeof(PART_ONE PART_TWO))) {
-		print_error("memory string wasn't updated: %s", memory);
-		return EXIT_FAILURE;
-	}
-
-	return EXIT_SUCCESS;
+	return 0;
 }
 
 int main()
 {
-	struct csalt_heap heap = csalt_heap(20);
+	{
+		struct csalt_store_stub success = csalt_store_stub(512);
+		struct csalt_store_stub success_2 = csalt_store_stub(1024);
 
-	return csalt_resource_use((csalt_resource *)&heap, use_heap, 0);
+		csalt_store *success_stores[] = {
+			csalt_store(&success),
+			csalt_store(&success_2),
+		};
+
+		struct csalt_store_fallback
+			fallbacks[arrlength(success_stores)] = { 0 };
+
+		csalt_store_fallback_array(success_stores, fallbacks);
+
+		csalt_store *fallback = csalt_store(fallbacks);
+
+		csalt_store_write(fallback, 0, 10);
+
+		if (success.last_write != 10) {
+			print_error(
+				"Unexpected first last_write: %ld",
+				success.last_write
+			);
+			return EXIT_FAILURE;
+		}
+
+		if (success_2.last_write != 0) {
+			print_error(
+				"Unexpected second last_write: %ld",
+				success_2.last_write
+			);
+			return EXIT_FAILURE;
+		}
+
+		csalt_store_read(fallback, 0, 10);
+
+		if (success.last_read != 10) {
+			print_error(
+				"Unexpected first last_read: %ld",
+				success.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		if (success_2.last_read != 0) {
+			print_error(
+				"Unexpected second last_read: %ld",
+				success_2.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		csalt_store_read(fallback, 0, 768);
+
+		if (success.last_read != 512) {
+			print_error(
+				"Unexpected last_read: %ld",
+				success.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		if (success_2.last_read != 256) {
+			print_error(
+				"Unexpected last_read:%ld",
+				success_2.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		size_t size = csalt_store_size(fallback);
+		if (size != success.size) {
+			print_error(
+				"Unexpected size returned: %ld",
+				size
+			);
+			return EXIT_FAILURE;
+		}
+
+		csalt_store_split(
+			fallback,
+			3,
+			5,
+			receive_success,
+			0
+		);
+	}
+
+	{
+		struct csalt_store_stub success = csalt_store_stub(1024);
+		struct csalt_store_stub zero = csalt_store_stub_zero();
+
+		csalt_store *stores[] = {
+			csalt_store(&zero),
+			csalt_store(&success),
+		};
+
+		struct csalt_store_fallback
+			fallbacks[arrlength(stores)] = { 0 };
+
+		csalt_store_fallback_array(stores, fallbacks);
+
+		csalt_store *fallback = (void *)fallbacks;
+
+		const char write_buffer[] = "Test data";
+
+		csalt_store_write(fallback, write_buffer, sizeof(write_buffer));
+
+		if (success.last_write != 0) {
+			print_error("Data was written to second store");
+			return EXIT_FAILURE;
+		}
+
+		char read_buffer[sizeof(write_buffer)] = { 0 };
+
+		csalt_store_read(fallback, read_buffer, sizeof(read_buffer));
+
+		if (success.last_read != sizeof(read_buffer)) {
+			print_error(
+				"Data was incorrectly read from second store: %ld",
+				success.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		size_t size = csalt_store_size(fallback);
+
+		if (size != 0) {
+			print_error(
+				"Unexpected size returned: %ld",
+				size
+			);
+			return EXIT_FAILURE;
+		}
+	}
+
+	{
+		struct csalt_store_stub success = csalt_store_stub(1024);
+		struct csalt_store_stub error = csalt_store_stub_error();
+
+		csalt_store *stores[] = {
+			csalt_store(&error),
+			csalt_store(&success),
+		};
+
+		struct csalt_store_fallback
+			fallbacks[arrlength(stores)] = { 0 };
+
+		csalt_store_fallback_array(stores, fallbacks);
+
+		csalt_store *fallback = (void *)fallbacks;
+
+		ssize_t read_amount = csalt_store_read(
+			fallback,
+			0,
+			10
+		);
+
+		if (read_amount != -1) {
+			print_error(
+				"Unexpected error read: %ld",
+				read_amount
+			);
+			return EXIT_FAILURE;
+		}
+
+		if (success.last_read != 0) {
+			print_error(
+				"Unexpected read of second store: %ld",
+				success.last_read
+			);
+			return EXIT_FAILURE;
+		}
+
+		ssize_t write_amount = csalt_store_write(
+			fallback,
+			0,
+			10
+		);
+
+		if (write_amount != -1) {
+			print_error(
+				"Unexpected error written: %ld",
+				write_amount
+			);
+			return EXIT_FAILURE;
+		}
+
+		if (success.last_write != 0) {
+			print_error(
+				"Unexpected write of second store: %ld",
+				success.last_write
+			);
+			return EXIT_FAILURE;
+		}
+	}
+
+	{
+		struct csalt_store_stub success = csalt_store_stub(1024);
+		struct csalt_store_stub error = csalt_store_stub_error();
+
+		csalt_store *stores[] = {
+			csalt_store(&success),
+			csalt_store(&error),
+		};
+
+		struct csalt_store_fallback
+			fallbacks[arrlength(stores)] = { 0 };
+
+		csalt_store_fallback_array(stores, fallbacks);
+
+		csalt_store *fallback = csalt_store(fallbacks);
+
+		ssize_t read_amount = csalt_store_read(fallback, 0, 10);
+
+		if (read_amount != 10) {
+			print_error(
+				"Unexpected read_amount: %ld",
+				read_amount
+			);
+			return EXIT_FAILURE;
+		}
+
+		read_amount = csalt_store_read(fallback, 0, 1025);
+		if (read_amount != -1) {
+			print_error(
+				"Unexpected read_amount: %ld",
+				read_amount
+			);
+			return EXIT_FAILURE;
+		}
+	}
+
+	return EXIT_SUCCESS;
 }

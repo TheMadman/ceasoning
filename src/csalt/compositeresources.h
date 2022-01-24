@@ -18,168 +18,140 @@
 extern "C" {
 #endif
 
-struct csalt_resource_list;
-struct csalt_resource_list_initialized;
-struct csalt_resource_fallback;
-struct csalt_resource_fallback_initialized;
-struct csalt_resource_first;
-struct csalt_resource_first_initialized;
-
 /**
- * \brief This resource allows operations on groups of resources.
+ * \brief This type allows storing a pair of resources and treating them
+ * 	as a single resource.
  *
- * When this resource is passed to csalt_resource_use,
- * individual resources can be retrieved with
- * csalt_resource_list_get().
+ * This type can be used to represent more complex abstract datatypes; see
+ * the documentation for csalt_store_pair for examples. Either resource may
+ * be null.
  *
- */
-struct csalt_resource_list_initialized {
-	union {
-		struct csalt_resource_initialized_interface *vtable;
-		struct csalt_store_list parent;
-	};
-};
-
-/**
- * \brief This resource allows operations on groups of
+ * Constructors are available for constructing pairs and lists of pairs.
+ *
+ * csalt_resource_init() attempts to initialize the first resource first. If
+ * that fails, the whole resource fails. If it succeeds, the second resource
+ * is attempted. If that fails, the first resource is uninitialized, then the
+ * pair returns failure.
+ *
+ * If both resources succeed in initializing, this pair passes a pointer to a
+ * csalt_store_pair to the callback.
+ *
+ * csalt_resource_deinit() simply calls csalt_resource_deinit() on both
  * resources.
  *
- * When this resource is passed to csalt_resource_init,
- * it attempts to initialize all resources in the order given.
- * If any of them fail, the initialized resources are
- * deinitialized and the list returns a -1 error code.
- *
- * \see csalt_resource_list_array()
- * \see csalt_resource_list_bounds()
+ * \sa csalt_resource_pair()
+ * \sa csalt_resource_pair_list()
+ * \sa csalt_resource_pair_list_bounds()
  */
-struct csalt_resource_list {
+struct csalt_resource_pair {
 	struct csalt_resource_interface *vtable;
-	csalt_resource **begin;
-	csalt_resource **end;
-	struct csalt_resource_list_initialized list;
+	csalt_resource *first;
+	csalt_resource *second;
+	struct csalt_store_pair result;
 };
 
 /**
- * \brief Creates a new csalt_resource_list.
- *
- * This function takes two arrays' boundaries: the first
- * should be an array containing resources to initialize;
- * the second should be an array to write initialized resources
- * into. Both arrays should be the same length.
- *
- * For example:
- * \code
- *
- * 	struct csalt_heap first = csalt_heap(4);
- * 	struct csalt_heap second = csalt_heap(8);
- *
- * 	csalt_resource *resources[] = {
- * 		csalt_resource(&first),
- * 		csalt_resource(&second),
- * 	};
- *
- * 	csalt_resource_initialized *initialized[arrlength(resources)] = { 0 };
- *	struct csalt_resource_list list = csalt_resource_list_bounds(
- *		resources,
- *		&resources[arrlength(resources)],
- *		initialized,
- *		&initialized[arrlength(resources)]
- *	);
- *
- * \endcode
+ * \brief Constructs a csalt_resource_pair.
  */
-struct csalt_resource_list csalt_resource_list_bounds(
-	csalt_resource **begin,
-	csalt_resource **end,
-	csalt_resource_initialized **buffer_begin,
-	csalt_resource_initialized **buffer_end
+struct csalt_resource_pair csalt_resource_pair(
+	csalt_resource *first,
+	csalt_resource *second
 );
 
 /**
- * \brief Convenience macro for initializing a csalt_resource_list
- * from two arrays: one containing the resources to initialize,
- * and one containing a buffer to store the initialized resource
- * pointers.
- */
-#define csalt_resource_list_array(array, buffer) (	\
-	csalt_resource_list_bounds(	\
-		(array),	\
-		&((array)[arrlength(array)]),	\
-		(buffer),	\
-		&((buffer)[arrlength(array)])	\
-	)	\
-)
-
-/**
- * \brief Retrieves the resource from the given list at the
- * corresponding index.
- */
-csalt_resource *csalt_resource_list_get(
-	struct csalt_resource_list_initialized *list,
-	size_t index
-);
-
-/**
- * \brief Returns the number of resources in this resource list.
- */
-size_t csalt_resource_list_length(struct csalt_resource_list_initialized *list);
-
-int csalt_resource_list_split(
-	csalt_store *store,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
-csalt_resource_initialized *csalt_resource_list_init(csalt_resource *resource);
-void csalt_resource_list_deinit(csalt_resource_initialized *resource);
-
-int csalt_resource_list_receive_split(
-	struct csalt_store_list *original,
-	struct csalt_store_list *list,
-	size_t begin,
-	size_t end,
-	csalt_store_block_fn *block,
-	void *data
-);
-
-struct csalt_resource_fallback_initialized {
-	union {
-		struct csalt_resource_initialized_interface *vtable;
-		struct csalt_store_fallback parent;
-	};
-};
-
-/**
- * \brief Implements the csalt_store_fallback algorithms with
- * csalt_resource_list resource management.
+ * \brief Constructs a linked-list-like structure of csalt_resource_pair%s.
  *
- * Since csalt_store_fallback requires all stores to be valid
- * at the time of check, this resource operates on the assumption
- * that all resources must be initialized and valid before
- * read/write/size/split can take place. Similarly to
- * csalt_resource_list, if any resource fails, the entire list fails.
+ * Returns 0 on success or -1 on error. Errors include one of the arrays being
+ * zero-length, one of the arrays being ill-defined, or the output array being
+ * smaller than the input array.
  *
- * For check-then-fall-back mechanisms on the resource initialization
- * and validation itself, use the csalt_resource_first resource.
+ * \sa csalt_resource_pair
+ * \sa csalt_resource_pair_list()
+ */
+int csalt_resource_pair_list_bounds(
+	csalt_resource **resource_begin,
+	csalt_resource **resource_end,
+	struct csalt_resource_pair *out_begin,
+	struct csalt_resource_pair *out_end
+);
+
+/**
+ * \brief Convenience macro for building a linked-list of csalt_resource_pair%s.
+ *
+ * This is the recommended way to construct lists of csalt_resource_pair%s with
+ * arrays whose lengths are known at compile-time. If the arrays are dynamically
+ * allocated, such as with csalt_heap or malloc, you must use
+ * csalt_resource_pair_list_bounds() instead.
+ *
+ * \sa csalt_resource_pair
+ * \sa csalt_resource_pair_list_bounds()
+ */
+#define csalt_resource_pair_list(resources, out) \
+	csalt_resource_pair_list_bounds( \
+		(resources), \
+		arrend(resources), \
+		(out), \
+		arrend(out) \
+	)
+
+csalt_store *csalt_resource_pair_init(csalt_resource *resource);
+void csalt_resource_pair_deinit(csalt_resource *resource);
+
+/**
+ * \brief This type provides a resource which initializes multiple resources,
+ * 	returning a csalt_store_fallback on initialization.
+ *
+ * This resource attempts to initialize all resources, returning 0 if any of
+ * them fail and a pointer to a csalt_store_fallback on success. A 
+ * constructor is available taking two resources, and one is available for
+ * an array of resources.
+ *
+ * \sa csalt_resource_fallback()
+ * \sa csalt_resource_fallback_array()
+ * \sa csalt_resource_fallback_bounds()
  */
 struct csalt_resource_fallback {
 	struct csalt_resource_interface *vtable;
-	csalt_resource **begin;
-	csalt_resource **end;
-	struct csalt_resource_fallback_initialized fallback;
+	struct csalt_resource_pair pair;
+	struct csalt_store_fallback result;
 };
 
-csalt_resource_initialized *csalt_resource_fallback_init(csalt_resource *);
+/**
+ * \brief Constructs a csalt_resource_fallback from two resources.
+ */
+struct csalt_resource_fallback csalt_resource_fallback(
+	csalt_resource *first,
+	csalt_resource *second
+);
 
 /**
- * \brief Sets up and returns a csalt_resource_fallback.
+ * \brief Constructs a csalt_resource_fallback from an array of 
+ * 	csalt_resource%s.
  */
-struct csalt_resource_fallback csalt_resource_fallback_bounds(
-	csalt_resource **begin,
-	csalt_resource **end
+int csalt_resource_fallback_bounds(
+	csalt_resource **resource_begin,
+	csalt_resource **resource_end,
+	struct csalt_resource_fallback *out_begin,
+	struct csalt_resource_fallback *out_end
 );
+
+/**
+ * \brief Convenience macro for constructing a csalt_resource_fallback from
+ * 	two arrays.
+ *
+ * This is the recommended way to construct a csalt_resource_fallback if the
+ * arrays' sizes are known at compile-time.
+ */
+#define csalt_resource_fallback_array(resources, out) \
+	csalt_resource_fallback_bounds( \
+		(resources), \
+		arrend(resources), \
+		(out), \
+		arrend(out) \
+	)
+
+csalt_store *csalt_resource_fallback_init(csalt_resource *resource);
+void csalt_resource_fallback_deinit(csalt_resource *resource);
 
 /**
  * \brief This struct uses the first working resource.
@@ -198,6 +170,7 @@ struct csalt_resource_first {
 	struct csalt_resource_interface *vtable;
 	csalt_resource **begin;
 	csalt_resource **end;
+	csalt_resource *returned;
 };
 
 /**
@@ -214,7 +187,8 @@ struct csalt_resource_first csalt_resource_first_bounds(
  */
 #define csalt_resource_first_array(array) (csalt_resource_first_bounds((array), &((array)[arrlength(array)])))
 
-csalt_resource_initialized *csalt_resource_first_init(csalt_resource *resource);
+csalt_store *csalt_resource_first_init(csalt_resource *resource);
+void csalt_resource_first_deinit(csalt_resource *);
 
 #ifdef __cplusplus
 } // extern "C"

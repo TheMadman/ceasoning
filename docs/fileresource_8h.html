@@ -76,6 +76,7 @@ $(function() {
 <p>Provides a wrapper around on-disk files for use with csalt_resource algorithms.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;sys/types.h&gt;</code><br />
+<code>#include &lt;fcntl.h&gt;</code><br />
 <code>#include &quot;stores.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="baseresources_8h_source.html">baseresources.h</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -83,15 +84,19 @@ Include dependency graph for fileresource.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="fileresource_8h__incl.png" border="0" usemap="#acsalt_2fileresource_8h" alt=""/></div>
 <map name="csalt_2fileresource_8h" id="acsalt_2fileresource_8h">
-<area shape="rect" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="39,5,185,32"/>
+<area shape="rect" title="Provides a wrapper around on&#45;disk files for use with csalt_resource algorithms." alt="" coords="145,5,290,32"/>
 <area shape="rect" title=" " alt="" coords="16,379,112,405"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="77,155,152,181"/>
-<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="149,80,277,107"/>
+<area shape="rect" title=" " alt="" coords="357,80,419,107"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="132,155,207,181"/>
+<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="204,80,332,107"/>
 <area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="153,304,258,331"/>
 <area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores." alt="" coords="43,229,186,256"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="261,229,397,256"/>
 <area shape="rect" href="util_8h.html" title="This file provides macros for common tasks." alt="" coords="148,379,239,405"/>
-<area shape="rect" title=" " alt="" coords="176,155,251,181"/>
-<area shape="rect" title=" " alt="" coords="275,155,349,181"/>
+<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="283,304,461,331"/>
+<area shape="rect" title=" " alt="" coords="330,379,414,405"/>
+<area shape="rect" title=" " alt="" coords="231,155,305,181"/>
+<area shape="rect" title=" " alt="" coords="329,155,404,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -116,24 +121,24 @@ Data Structures</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aad6ed14d46f1d8f7d7ed9672f8df2925"><td class="memItemLeft" align="right" valign="top"><a id="aad6ed14d46f1d8f7d7ed9672f8df2925"></a>
-ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_read</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, void *buffer, size_t size)</td></tr>
-<tr class="separator:aad6ed14d46f1d8f7d7ed9672f8df2925"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18e5ac88d18454091f268b5d959d1f57"><td class="memItemLeft" align="right" valign="top"><a id="a18e5ac88d18454091f268b5d959d1f57"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_read</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, void *buffer, size_t size)</td></tr>
+<tr class="separator:a18e5ac88d18454091f268b5d959d1f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac120659e843423e152e306eaafd56f91"><td class="memItemLeft" align="right" valign="top"><a id="ac120659e843423e152e306eaafd56f91"></a>
-ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_write</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, const void *buffer, size_t size)</td></tr>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_write</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, const void *buffer, size_t size)</td></tr>
 <tr class="separator:ac120659e843423e152e306eaafd56f91"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab415ebc6613de2e3892ef9e315c810a7"><td class="memItemLeft" align="right" valign="top"><a id="ab415ebc6613de2e3892ef9e315c810a7"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_size</b> (const <a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store)</td></tr>
-<tr class="separator:ab415ebc6613de2e3892ef9e315c810a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a884897189df90d056988e5b01d761059"><td class="memItemLeft" align="right" valign="top"><a id="a884897189df90d056988e5b01d761059"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_size</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store)</td></tr>
+<tr class="separator:a884897189df90d056988e5b01d761059"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a942397b98b3b33c25cbe52f2437ce78c"><td class="memItemLeft" align="right" valign="top"><a id="a942397b98b3b33c25cbe52f2437ce78c"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_split</b> (<a class="el" href="basestores_8h.html#ac66e06a1a0ca733fac1fde946e62b399">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_split</b> (<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *data)</td></tr>
 <tr class="separator:a942397b98b3b33c25cbe52f2437ce78c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3cafbfa030febfefc95490ac44419349"><td class="memItemLeft" align="right" valign="top"><a id="a3cafbfa030febfefc95490ac44419349"></a>
-<a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa">csalt_resource_initialized</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
-<tr class="separator:a3cafbfa030febfefc95490ac44419349"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae58e5f4829c6856781d457038d23fdc7"><td class="memItemLeft" align="right" valign="top"><a id="ae58e5f4829c6856781d457038d23fdc7"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_deinit</b> (<a class="el" href="baseresources_8h.html#a02ef3a3148e3127e2632f15f213b08aa">csalt_resource_initialized</a> *resource)</td></tr>
-<tr class="separator:ae58e5f4829c6856781d457038d23fdc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81e83858eb479d528a9ad293f893097c"><td class="memItemLeft" align="right" valign="top"><a id="a81e83858eb479d528a9ad293f893097c"></a>
+<a class="el" href="basestores_8h.html#a60c53cbd53ff536afe98f14f8fe11dd4">csalt_store</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_init</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a81e83858eb479d528a9ad293f893097c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1947c6113b9af83fdf99b8062777572d"><td class="memItemLeft" align="right" valign="top"><a id="a1947c6113b9af83fdf99b8062777572d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_deinit</b> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
+<tr class="separator:a1947c6113b9af83fdf99b8062777572d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__file.html">csalt_resource_file</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">csalt_resource_file</a> (const char *path, int flags)</td></tr>
 <tr class="memdesc:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a file resource with the given path and flags.  <a href="fileresource_8h.html#aa6d6d84e7ab967e17960ac1b739c26a4">More...</a><br /></td></tr>
 <tr class="separator:aa6d6d84e7ab967e17960ac1b739c26a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -180,7 +185,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_file_d
 
 <p>Sets up a file resource for creation and opening. </p>
 <p>Notes:</p><ul>
-<li>creating the file is only attempted once the resource is initialized by being passed to <a class="el" href="baseresources_8h.html#ad5e51c457bf6c96245261d6637804d33" title="Initializes a resource.">csalt_resource_init()</a> or csalt_use().</li>
+<li>creating the file is only attempted once the resource is initialized by being passed to <a class="el" href="baseresources_8h.html#ab955be9e11598372757fe262c869fb0d" title="Initializes a resource.">csalt_resource_init()</a> or csalt_use().</li>
 <li>The O_CREAT flag is implied and needs not be passed into the flags parameter. </li>
 </ul>
 

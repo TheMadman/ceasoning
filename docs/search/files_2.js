@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fileresource_2eh_117',['fileresource.h',['../fileresource_8h.html',1,'']]]
+  ['decoratorresources_2eh_173',['decoratorresources.h',['../decoratorresources_8h.html',1,'']]],
+  ['decoratorstores_2eh_174',['decoratorstores.h',['../decoratorstores_8h.html',1,'']]]
 ];
