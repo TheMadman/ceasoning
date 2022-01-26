@@ -241,18 +241,18 @@ ssize_t csalt_resource_socket_recvfrom(
 /**
  * \brief Initializer implementation for UDP sockets.
  */
-csalt_resource_initialized *csalt_resource_network_udp_connected_init(csalt_resource *resource);
+csalt_store *csalt_resource_network_udp_connected_init(csalt_resource *resource);
 
 /**
  * \brief Deinitializer implementation for UDP sockets.
  */
-void csalt_resource_network_socket_deinit(csalt_resource_initialized *resource);
+void csalt_resource_network_socket_deinit(csalt_resource *resource);
 
 /**
  * \brief Read implementation for sockets.
  */
 ssize_t csalt_resource_network_socket_read(
-	const csalt_store *store,
+	csalt_store *store,
 	void *buffer,
 	size_t amount
 );
