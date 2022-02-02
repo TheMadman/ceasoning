@@ -65,7 +65,7 @@ struct csalt_keystore_interface {
  * \brief This function associates a key with a value in the given keystore.
  *
  * For the built-in keystores, both the key and the value should be totally
- * contained within the store: they SHOULD not contain pointers to external
+ * contained within the store: they should NOT contain pointers to external
  * memory or similar constructs, such as index offsets and the like.
  *
  * If you have a store which contains multiple values, such as an array or
