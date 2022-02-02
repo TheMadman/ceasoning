@@ -85,8 +85,9 @@ int bytewise_copy(csalt_store *store, void *_)
 	 * more generic, allowing it to accept ANY csalt_store_pair of
 	 * two stores.
 	 */
-	csalt_store *first = csalt_store_pair_list_get(pairs, 0);
-	csalt_store *second = csalt_store_pair_list_get(pairs, 1);
+	csalt_store
+		*first = csalt_store_pair_list_get(pairs, 0),
+		*second = csalt_store_pair_list_get(pairs, 1);
 
 	/*
 	 * csalt_progress is a simple struct storing how much data
