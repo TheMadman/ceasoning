@@ -229,12 +229,16 @@ int csalt_resource_vector_split(
 	if (needs_realloc) {
 		size_t size = *allocated_end - *allocated;
 
+		// Value where the size_t would overflow on <<
+		size_t overflow_boundary = (SIZE_MAX >> 1) + 1;
+
 		// I'm almost certain I saw research showing that
 		// something like 1.76 is an "optimal" growth factor,
 		// but I can't find it anymore so I'm using powers 
 		// of 2 for simplicity's sake
-		while (*allocated + size < *allocated + end_index)
+		while (size < end_index && size < overflow_boundary) {
 			size = size << 1;
+		}
 
 		void *reallocated = realloc(*allocated, size);
 		if (reallocated) {
