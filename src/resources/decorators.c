@@ -272,7 +272,7 @@ int csalt_decorator_lazy_split(
 		lazy->result = csalt_resource_init(lazy->resource);
 
 	if (!lazy->result)
-		return block(&csalt_store_null_implementation, param);
+		return block(csalt_store_null, param);
 	return csalt_store_split(lazy->result, begin, end, block, param);
 }
 

@@ -258,6 +258,8 @@ int csalt_store_null_split(
  */
 extern const struct csalt_store_interface *csalt_store_null_implementation;
 
+extern const csalt_store *csalt_store_null;
+
 // memory interface
 
 ssize_t csalt_memory_read(
