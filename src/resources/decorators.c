@@ -308,3 +308,39 @@ void csalt_resource_decorator_lazy_deinit(csalt_resource *resource)
 	}
 }
 
+struct csalt_resource_interface csalt_decorator_mutex_implementation = {
+	csalt_decorator_mutex_init,
+	csalt_decorator_mutex_deinit,
+};
+
+struct csalt_decorator_mutex csalt_decorator_mutex(
+	csalt_store *store,
+	csalt_mutex *mutex
+)
+{
+	return (struct csalt_decorator_mutex){
+		&csalt_decorator_mutex_implementation,
+		csalt_store_decorator_mutex(store, mutex),
+	};
+}
+
+csalt_store *csalt_decorator_mutex_init(csalt_resource *resource)
+{
+	struct csalt_decorator_mutex
+		*mutex = (struct csalt_decorator_mutex*)resource;
+
+	// pthread doesn't error... might change this with new platforms
+	csalt_mutex_init(mutex->decorator.mutex, 0);
+	return (csalt_store *)&mutex->decorator;
+}
+
+void csalt_decorator_mutex_deinit(csalt_resource *resource)
+{
+	struct csalt_decorator_mutex
+		*mutex = (struct csalt_decorator_mutex*)resource;
+
+	// more pthread shenanigans...
+	while(csalt_mutex_deinit(mutex->decorator.mutex))
+		;
+}
+
