@@ -24,7 +24,7 @@
 
 csalt_mutex mutex;
 
-ssize_t csalt_store_mutex_stub_read(
+static ssize_t csalt_store_mutex_stub_read(
 	csalt_store *store,
 	void *buffer,
 	size_t amount
@@ -35,7 +35,7 @@ ssize_t csalt_store_mutex_stub_read(
 	return amount;
 }
 
-ssize_t csalt_store_mutex_stub_write(
+static ssize_t csalt_store_mutex_stub_write(
 	csalt_store *store,
 	const void *buffer,
 	size_t amount
@@ -46,7 +46,7 @@ ssize_t csalt_store_mutex_stub_write(
 	return amount;
 }
 
-int csalt_store_mutex_stub_split(
+static int csalt_store_mutex_stub_split(
 	csalt_store *store,
 	size_t begin,
 	size_t end,
@@ -56,7 +56,7 @@ int csalt_store_mutex_stub_split(
 {
 	if (!csalt_mutex_trylock(&mutex))
 		return -1;
-	return 0;
+	return block(store, param);
 }
 
 struct csalt_store_interface csalt_store_mutex_stub_implementation = {
@@ -65,6 +65,11 @@ struct csalt_store_interface csalt_store_mutex_stub_implementation = {
 	0,
 	csalt_store_mutex_stub_split,
 };
+
+static int receive_split(csalt_store *_, void *__)
+{
+	return 0;
+}
 
 int main()
 {
@@ -132,7 +137,7 @@ int main()
 				&mutex
 			);
 
-		if (csalt_store_split(csalt_store(&decorator), 0, 0, 0, 0)) {
+		if (csalt_store_split(csalt_store(&decorator), 0, 0, receive_split, 0)) {
 			print_error("Mutex was available when it should have been locked");
 			return EXIT_FAILURE;
 		}
