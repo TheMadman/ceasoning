@@ -126,7 +126,7 @@ const struct csalt_store_interface csalt_store_null_interface = {
 };
 
 const struct csalt_store_interface *csalt_store_null_implementation = &csalt_store_null_interface;
-const csalt_store *csalt_store_null = &csalt_store_null_implementation;
+csalt_store *csalt_store_null = &csalt_store_null_implementation;
 
 // memory interface
 
