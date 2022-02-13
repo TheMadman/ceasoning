@@ -14,8 +14,11 @@ add_library(csalt STATIC
 target_link_libraries(csalt PUBLIC Threads::Threads)
 
 target_include_directories(csalt
-	PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/platforms/posix)
+	PUBLIC
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/platforms/posix>
+	$<INSTALL_INTERFACE:include>
+	$<INSTALL_INTERFACE:include/csalt/platforms/posix>)
 
-install(TARGETS csalt DESTINATION lib)
 install(DIRECTORY csalt DESTINATION include)
 install(DIRECTORY platforms/posix/csalt DESTINATION include)
