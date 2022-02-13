@@ -22,6 +22,7 @@
 #include "baseresources.h"
 #include "decoratorstores.h"
 #include "util.h"
+#include "csalt/platform/threads.h"
 
 /**
  * \file
@@ -253,7 +254,7 @@ int csalt_decorator_lazy_split(
  * csalt_store_write(), those functions return -1. If the real resource fails
  * to initialize on csalt_store_size(), \c (size_t)-1 is returned. If the real
  * resource fails to initialize on csalt_store_split(),
- * csalt_store_null_implementation is passed.
+ * csalt_store_null_implementation is passed to the callback.
  *
  * \sa csalt_resource_decorator_lazy()
  * \sa csalt_decorator_lazy
@@ -272,5 +273,26 @@ struct csalt_resource_decorator_lazy csalt_resource_decorator_lazy(
 
 csalt_store *csalt_resource_decorator_lazy_init(csalt_resource *resource);
 void csalt_resource_decorator_lazy_deinit(csalt_resource *resource);
+
+/**
+ * \brief Decorates a store with a resource which manages a mutex for the
+ * 	store.
+ *
+ * init() and deinit() simply initialize and clean up the mutex.
+ *
+ * \sa csalt_decorator_mutex()
+ */
+struct csalt_decorator_mutex {
+	struct csalt_resource_interface *vtable;
+	struct csalt_store_decorator_mutex decorator;
+};
+
+/**
+ * \brief Constructor for a csalt_decorator_mutex.
+ */
+struct csalt_decorator_mutex csalt_decorator_mutex(csalt_store *store, csalt_mutex *mutex);
+
+csalt_store *csalt_decorator_mutex_init(csalt_resource *resource);
+void csalt_decorator_mutex_deinit(csalt_resource *resource);
 
 #endif // DECORATORRESOURCES_H
