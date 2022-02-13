@@ -5,6 +5,14 @@ and now I'm having an identity crisis
 
 \section start Where to Start
 
+To use ceasoning, you should link against the `csalt` library (e.g. `-lcsalt`
+for GCC/Clang) and include definitions from the `csalt` sub-directory. The
+`csalt/stores.h` file includes the interface definition for `store`s and all
+built-in `store` types, while `csalt/resources.h` includes the interface
+definition for `resource`s and the built-in `resource` types.
+
+\section overview Overarching Concepts
+
 This project starts at generalized algorithms, then implements concrete types
 to use within those algorithms. Two examples are:
 
