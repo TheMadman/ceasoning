@@ -1,6 +1,6 @@
 <map id="csalt_resource_pair" name="csalt_resource_pair">
-<area shape="rect" id="node1" title="This type allows storing a pair of resources and treating them as a single resource." alt="" coords="143,243,291,269"/>
-<area shape="rect" id="node2" href="$structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="22,124,147,151"/>
+<area shape="rect" id="node1" title="This type allows storing a pair of resources and treating them as a single resource." alt="" coords="143,213,291,240"/>
+<area shape="rect" id="node2" href="$structcsalt__store__pair.html" title="This type allows storing a pair of stores and interacting with them as though they are a single store..." alt="" coords="22,95,147,121"/>
 <area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
-<area shape="rect" id="node4" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="171,124,353,151"/>
+<area shape="rect" id="node4" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="171,95,353,121"/>
 </map>

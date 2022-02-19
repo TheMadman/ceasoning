@@ -1,6 +1,6 @@
 <map id="csalt_resource_decorator_lazy" name="csalt_resource_decorator_lazy">
-<area shape="rect" id="node1" title="This decorator decorates a resource and only initializes it when an attempt is made to read/write/etc..." alt="" coords="106,199,325,225"/>
-<area shape="rect" id="node2" href="$structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i..." alt="" coords="75,109,231,136"/>
+<area shape="rect" id="node1" title="This decorator decorates a resource and only initializes it when an attempt is made to read/write/etc..." alt="" coords="106,184,325,211"/>
+<area shape="rect" id="node2" href="$structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i..." alt="" coords="75,95,231,121"/>
 <area shape="rect" id="node3" href="$structcsalt__store__interface.html" title=" " alt="" coords="5,5,164,32"/>
 <area shape="rect" id="node4" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="189,5,370,32"/>
 </map>

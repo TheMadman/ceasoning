@@ -1,7 +1,7 @@
 <map id="csalt_decorator_mutex" name="csalt_decorator_mutex">
-<area shape="rect" id="node1" title="Decorates a store with a resource which manages a mutex for the store." alt="" coords="79,303,249,329"/>
-<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,206,187,233"/>
-<area shape="rect" id="node3" href="$structcsalt__store__decorator__mutex.html" title="Provides a means to lock accesses to the store behind a mutex." alt="" coords="211,199,373,240"/>
-<area shape="rect" id="node4" href="$structcsalt__store__decorator.html" title=" " alt="" coords="211,109,373,136"/>
+<area shape="rect" id="node1" title="Decorates a store with a resource which manages a mutex for the store." alt="" coords="79,288,249,315"/>
+<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,191,187,218"/>
+<area shape="rect" id="node3" href="$structcsalt__store__decorator__mutex.html" title="Provides a means to lock accesses to the store behind a mutex." alt="" coords="211,184,373,225"/>
+<area shape="rect" id="node4" href="$structcsalt__store__decorator.html" title=" " alt="" coords="211,95,373,121"/>
 <area shape="rect" id="node5" href="$structcsalt__store__interface.html" title=" " alt="" coords="213,5,371,32"/>
 </map>
