@@ -412,6 +412,8 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory);
  * available by default, including stdin, stdout and stderr.
  *
  * Also useful for resources which manage file descriptors.
+ *
+ * \sa csalt_store_file_descriptor()
  */
 struct csalt_store_file_descriptor {
 	struct csalt_store_interface *vtable;
@@ -420,6 +422,9 @@ struct csalt_store_file_descriptor {
 	size_t end;
 };
 
+/**
+ * \brief Constructor for csalt_store_file_descriptor.
+ */
 struct csalt_store_file_descriptor csalt_store_file_descriptor(int fd);
 
 ssize_t csalt_store_file_descriptor_read(
