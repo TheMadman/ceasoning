@@ -121,7 +121,7 @@ static csalt_store *addrinfo_from_network(struct csalt_resource_network_socket *
 		csalt_resource_use(
 			csalt_resource(&info),
 			use,
-			csalt_store(&udp->udp)
+			&udp->udp
 		) != -1
 	) {
 		return (csalt_store *)&udp->udp;

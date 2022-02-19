@@ -41,7 +41,7 @@ struct csalt_store_interface;
  * a csalt_store_interface can be passed with a basic
  * cast to the virtual functions listed here.
  */
-typedef const struct csalt_store_interface *csalt_store;
+typedef const struct csalt_store_interface * const csalt_store;
 
 /**
  * \brief Function type for reading data from a store into a buffer
