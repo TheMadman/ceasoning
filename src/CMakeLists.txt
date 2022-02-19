@@ -17,8 +17,7 @@ target_include_directories(csalt
 	PUBLIC
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
 	$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/platforms/posix>
-	$<INSTALL_INTERFACE:include>
-	$<INSTALL_INTERFACE:include/csalt/platforms/posix>)
+	$<INSTALL_INTERFACE:include>)
 
 install(DIRECTORY csalt DESTINATION include)
 install(DIRECTORY platforms/posix/csalt DESTINATION include)
