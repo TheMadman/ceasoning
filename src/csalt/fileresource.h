@@ -44,8 +44,8 @@ extern "C" {
 struct csalt_resource_file_initialized {
 	const struct csalt_resource_initialized_interface *vtable;
 	int fd;
-	size_t begin;
-	size_t end;
+	ssize_t begin;
+	ssize_t end;
 };
 
 /**
@@ -70,16 +70,16 @@ struct csalt_resource_file {
 	struct csalt_store_file_descriptor file;
 };
 
-ssize_t csalt_resource_file_read(csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_resource_file_read(csalt_store *store, void *buffer, ssize_t size);
 
-ssize_t csalt_resource_file_write(csalt_store *store, const void *buffer, size_t size);
+ssize_t csalt_resource_file_write(csalt_store *store, const void *buffer, ssize_t size);
 
-size_t csalt_resource_file_size(csalt_store *store);
+ssize_t csalt_resource_file_size(csalt_store *store);
 
 int csalt_resource_file_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );

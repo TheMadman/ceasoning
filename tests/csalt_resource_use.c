@@ -35,7 +35,7 @@ csalt_store *init(csalt_resource *_)
 	return &test_init_ptr;
 }
 
-ssize_t test_read(csalt_store *_, void *__, size_t size)
+ssize_t test_read(csalt_store *_, void *__, ssize_t size)
 {
 	(void)_;
 	(void)__;
@@ -44,7 +44,7 @@ ssize_t test_read(csalt_store *_, void *__, size_t size)
 	return 0;
 }
 
-ssize_t test_write(csalt_store *_, const void *__, size_t size)
+ssize_t test_write(csalt_store *_, const void *__, ssize_t size)
 {
 	(void)_;
 	(void)__;

@@ -75,7 +75,7 @@ int use_udp(csalt_store *store, void *_)
 	}
 
 	char receive[sizeof(buffer)] = { 0 };
-	size_t received = read(sock, receive, sizeof(receive));
+	ssize_t received = read(sock, receive, sizeof(receive));
 
 	if (strcmp(receive, buffer)) {
 		print_error("unexpected receive: \"%s\" (length %ld)", receive, received);

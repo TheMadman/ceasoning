@@ -123,7 +123,7 @@ int main()
 			return EXIT_FAILURE;
 		}
 
-		size_t size = csalt_store_size(fallback);
+		ssize_t size = csalt_store_size(fallback);
 		if (size != success.size) {
 			print_error(
 				"Unexpected size returned: %ld",
@@ -178,7 +178,7 @@ int main()
 			return EXIT_FAILURE;
 		}
 
-		size_t size = csalt_store_size(fallback);
+		ssize_t size = csalt_store_size(fallback);
 
 		if (size != 0) {
 			print_error(

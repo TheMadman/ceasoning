@@ -221,7 +221,7 @@ struct csalt_decorator_lazy csalt_decorator_lazy(csalt_resource *resource)
 ssize_t csalt_decorator_lazy_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_decorator_lazy *lazy = (void *)store;
@@ -236,7 +236,7 @@ ssize_t csalt_decorator_lazy_read(
 ssize_t csalt_decorator_lazy_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_decorator_lazy *lazy = (void *)store;
@@ -248,7 +248,7 @@ ssize_t csalt_decorator_lazy_write(
 	return csalt_store_write(lazy->result, buffer, amount);
 }
 
-size_t csalt_decorator_lazy_size(csalt_store *store)
+ssize_t csalt_decorator_lazy_size(csalt_store *store)
 {
 	struct csalt_decorator_lazy *lazy = (void *)store;
 	if (!lazy->result)
@@ -261,8 +261,8 @@ size_t csalt_decorator_lazy_size(csalt_store *store)
 
 int csalt_decorator_lazy_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )

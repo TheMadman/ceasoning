@@ -29,7 +29,7 @@
 ssize_t csalt_store_decorator_read(
 	csalt_store *store,
 	void *buffer,
-	size_t size
+	ssize_t size
 ) {
 	struct csalt_store_decorator *decorator = (void *)store;
 	return csalt_store_read(decorator->child, buffer, size);
@@ -38,7 +38,7 @@ ssize_t csalt_store_decorator_read(
 ssize_t csalt_store_decorator_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t size
+	ssize_t size
 ) {
 	struct csalt_store_decorator *decorator = (void *)store;
 	return csalt_store_write(decorator->child, buffer, size);
@@ -46,8 +46,8 @@ ssize_t csalt_store_decorator_write(
 
 int csalt_store_decorator_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 ) {
@@ -55,7 +55,7 @@ int csalt_store_decorator_split(
 	return csalt_store_split(decorator->child, begin, end, block, data);
 }
 
-size_t csalt_store_decorator_size(csalt_store *store)
+ssize_t csalt_store_decorator_size(csalt_store *store)
 {
 	struct csalt_store_decorator *decorator = (void *)store;
 	return csalt_store_size(decorator->child);
@@ -200,7 +200,7 @@ static const char *message_for_function(
 
 #define READ_WRITE_FORMAT_STR "%s: %s(%p, %p, %lu) -> %ld\n"
 
-ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size_t bytes)
+ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssize_t bytes)
 {
 	csalt_logger *logger = (csalt_logger *)store;
 	csalt_store *decorated = logger->decorator.child;
@@ -284,7 +284,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size
 	return result;
 }
 
-ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, size_t bytes)
+ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, ssize_t bytes)
 {
 	csalt_logger *logger = (csalt_logger *)store;
 	csalt_store *decorated = logger->decorator.child;
@@ -366,7 +366,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 ssize_t csalt_store_decorator_mutex_read(
 	csalt_store *store,
 	void *buffer,
-	size_t size
+	ssize_t size
 )
 {
 	struct csalt_store_decorator_mutex *mutex = (void *)store;
@@ -382,7 +382,7 @@ ssize_t csalt_store_decorator_mutex_read(
 ssize_t csalt_store_decorator_mutex_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t size
+	ssize_t size
 )
 {
 	struct csalt_store_decorator_mutex *mutex = (void *)store;
@@ -400,7 +400,7 @@ ssize_t csalt_store_decorator_mutex_write(
 	return result;
 }
 
-size_t csalt_store_decorator_mutex_size(csalt_store *store)
+ssize_t csalt_store_decorator_mutex_size(csalt_store *store)
 {
 	struct csalt_store_decorator_mutex *mutex = (void *)store;
 
@@ -426,8 +426,8 @@ static int mutex_receive_split(csalt_store *store, void *param)
 
 int csalt_store_decorator_mutex_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )
@@ -477,7 +477,7 @@ struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
 ssize_t csalt_store_decorator_rwlock_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_store_decorator_rwlock *lock = (void *)store;
@@ -492,7 +492,7 @@ ssize_t csalt_store_decorator_rwlock_read(
 ssize_t csalt_store_decorator_rwlock_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_store_decorator_rwlock *lock = (void *)store;
@@ -504,7 +504,7 @@ ssize_t csalt_store_decorator_rwlock_write(
 	return result;
 }
 
-size_t csalt_store_decorator_rwlock_size(csalt_store *store)
+ssize_t csalt_store_decorator_rwlock_size(csalt_store *store)
 {
 	struct csalt_store_decorator_rwlock *lock = (void *)store;
 
@@ -536,8 +536,8 @@ static int rwlock_receive_split(csalt_store *store, void *param)
 
 int csalt_store_decorator_rwlock_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )

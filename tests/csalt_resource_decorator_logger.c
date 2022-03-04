@@ -53,7 +53,7 @@ int main()
 	);
 
 	csalt_store *result = csalt_resource_init((csalt_resource *)&logger);
-	size_t read_result = read(read_fd, buffer, sizeof(buffer));
+	ssize_t read_result = read(read_fd, buffer, sizeof(buffer));
 
 	if (!strstr(buffer, INIT_FAIL_MESSAGE)) {
 		print_error(

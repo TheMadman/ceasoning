@@ -133,7 +133,7 @@ static csalt_store *addrinfo_from_network(struct csalt_resource_network_socket *
 ssize_t csalt_resource_sendto(
 	csalt_resource_network *network,
 	const void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
@@ -151,7 +151,7 @@ ssize_t csalt_resource_sendto(
 ssize_t csalt_resource_socket_sendto(
 	csalt_resource_network *network,
 	const void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
@@ -170,7 +170,7 @@ ssize_t csalt_resource_socket_sendto(
 ssize_t csalt_resource_recvfrom(
 	csalt_resource_network *network,
 	void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
@@ -188,7 +188,7 @@ ssize_t csalt_resource_recvfrom(
 ssize_t csalt_resource_socket_recvfrom(
 	csalt_resource_network *network,
 	void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
@@ -293,7 +293,7 @@ void csalt_resource_network_socket_deinit(csalt_resource *resource)
 ssize_t csalt_resource_network_socket_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 ) {
 	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	ssize_t result = read(sock->fd, buffer, amount);
@@ -309,7 +309,7 @@ ssize_t csalt_resource_network_socket_read(
 ssize_t csalt_resource_network_socket_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 ) {
 	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	return write(sock->fd, buffer, amount);
@@ -318,8 +318,8 @@ ssize_t csalt_resource_network_socket_write(
 // maybe THIS should be the null_split operation...
 int csalt_resource_network_socket_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 )

@@ -30,8 +30,8 @@ struct csalt_resource_interface csalt_resource_file_interface = {
 
 int csalt_resource_file_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 )

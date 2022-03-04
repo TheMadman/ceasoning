@@ -137,8 +137,8 @@ void csalt_noop_deinit(csalt_resource *_);
 struct csalt_heap_initialized {
 	struct csalt_store_interface *vtable;
 	struct csalt_memory memory;
-	size_t size;
-	size_t amount_written;
+	ssize_t size;
+	ssize_t amount_written;
 };
 
 /**
@@ -160,7 +160,7 @@ struct csalt_heap {
  * memory is allocated but not initialized.
  *
  */
-struct csalt_heap csalt_heap(size_t size);
+struct csalt_heap csalt_heap(ssize_t size);
 
 /**
  * \brief Gives immediate access to the raw pointer.
@@ -209,13 +209,13 @@ struct csalt_resource_vector_initialized {
 	 * \brief Index from original_pointer representing the
 	 * beginning of the split
 	 */
-	size_t begin;
+	ssize_t begin;
 
 	/**
 	 * \brief Index from original_pointer representing the
 	 * end of the split.
 	 */
-	size_t end;
+	ssize_t end;
 
 	/**
 	 * \brief Stores the amount of data written, to prevent
@@ -224,7 +224,7 @@ struct csalt_resource_vector_initialized {
 	 * If you split/write after the beginning, then read from the beginning,
 	 * the memory before your write will be initialized to 0.
 	 */
-	size_t amount_written;
+	ssize_t amount_written;
 };
 
 /**
@@ -236,7 +236,7 @@ struct csalt_resource_vector_initialized {
  */
 struct csalt_resource_vector {
 	struct csalt_resource_interface *vtable;
-	size_t size;
+	ssize_t size;
 	struct csalt_resource_vector_initialized vector;
 };
 
@@ -245,7 +245,7 @@ struct csalt_resource_vector {
  *
  * Passing 0 produces a vector with a default buffer size.
  */
-struct csalt_resource_vector csalt_resource_vector(size_t initial_size);
+struct csalt_resource_vector csalt_resource_vector(ssize_t initial_size);
 
 /**
  * \brief Manages a resource lifecycle and executes the given

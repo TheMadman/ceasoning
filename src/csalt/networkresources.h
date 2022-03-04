@@ -38,7 +38,7 @@ typedef struct csalt_resource_network_socket_initialized csalt_resource_network;
 typedef ssize_t csalt_resource_sendto_fn(
 	csalt_resource_network *network,
 	const void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 
 	// Looks like Windows uses a `struct sockaddr` as well?
@@ -60,7 +60,7 @@ typedef ssize_t csalt_resource_sendto_fn(
 ssize_t csalt_resource_sendto(
 	csalt_resource_network *network,
 	const void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
@@ -69,7 +69,7 @@ ssize_t csalt_resource_sendto(
 typedef ssize_t csalt_resource_recvfrom_fn(
 	csalt_resource_network *network,
 	void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
@@ -89,7 +89,7 @@ typedef ssize_t csalt_resource_recvfrom_fn(
 ssize_t csalt_resource_recvfrom(
 	csalt_resource_network *network,
 	void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
@@ -188,7 +188,7 @@ struct csalt_resource_network_socket csalt_resource_network_udp_stateless();
 ssize_t csalt_resource_socket_sendto(
 	csalt_resource_network *network,
 	const void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
@@ -202,7 +202,7 @@ ssize_t csalt_resource_socket_sendto(
 ssize_t csalt_resource_socket_recvfrom(
 	csalt_resource_network *network,
 	void *buffer,
-	size_t length,
+	ssize_t length,
 	int flags,
 	struct sockaddr *src_addr,
 	socklen_t *addrlen

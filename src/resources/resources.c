@@ -28,7 +28,7 @@
 // Memory resource functions
 static struct csalt_resource_interface heap_implementation;
 
-ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
+ssize_t csalt_heap_write(csalt_store *store, const void *buffer, ssize_t size)
 {
 	struct csalt_heap_initialized *heap = (void *)store;
 	ssize_t written = csalt_memory_write((csalt_store *)&heap->memory, buffer, size);
@@ -38,7 +38,7 @@ ssize_t csalt_heap_write(csalt_store *store, const void *buffer, size_t size)
 	return written;
 }
 
-ssize_t csalt_heap_read(csalt_store *store, void *buffer, size_t size)
+ssize_t csalt_heap_read(csalt_store *store, void *buffer, ssize_t size)
 {
 	struct csalt_heap_initialized *heap = (void *)store;
 	size = min(size, heap->amount_written);
@@ -48,8 +48,8 @@ ssize_t csalt_heap_read(csalt_store *store, void *buffer, size_t size)
 
 int csalt_heap_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 )
@@ -112,7 +112,7 @@ static struct csalt_store_interface initialized_heap_implementation = {
 	csalt_heap_split,
 };
 
-struct csalt_heap csalt_heap(size_t size)
+struct csalt_heap csalt_heap(ssize_t size)
 {
 	struct csalt_heap result = { 0 };
 	result.vtable = &heap_implementation;
@@ -129,27 +129,27 @@ void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap)
 static struct csalt_resource_vector_initialized vector_initialized(
 	void *allocated,
 	void *allocated_end,
-	size_t begin,
-	size_t end,
-	size_t write_amount
+	ssize_t begin,
+	ssize_t end,
+	ssize_t write_amount
 );
 
 ssize_t csalt_resource_vector_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 
-	size_t read_amount = min(amount, vector->amount_written);
+	ssize_t read_amount = min(amount, vector->amount_written);
 	memcpy(buffer, vector->original_pointer + vector->begin, read_amount);
 	return read_amount;
 }
 
 struct vector_write_params {
 	const void *buffer;
-	size_t amount;
+	ssize_t amount;
 
 	ssize_t result;
 };
@@ -178,7 +178,7 @@ int vector_write(csalt_store *store, void *arg)
 ssize_t csalt_resource_vector_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
@@ -201,7 +201,7 @@ ssize_t csalt_resource_vector_write(
 	return params.result;
 }
 
-size_t csalt_resource_vector_size(csalt_store *store)
+ssize_t csalt_resource_vector_size(csalt_store *store)
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 	return vector->end - vector->begin;
@@ -209,16 +209,16 @@ size_t csalt_resource_vector_size(csalt_store *store)
 
 int csalt_resource_vector_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *arg
 )
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 
-	size_t begin_index = vector->begin + begin;
-	size_t end_index = vector->begin + end;
+	ssize_t begin_index = vector->begin + begin;
+	ssize_t end_index = vector->begin + end;
 
 	void **allocated = &vector->original_pointer;
 	void **allocated_end = &vector->original_end;
@@ -227,10 +227,10 @@ int csalt_resource_vector_split(
 		*allocated + end_index > *allocated_end;
 
 	if (needs_realloc) {
-		size_t size = *allocated_end - *allocated;
+		ssize_t size = *allocated_end - *allocated;
 
-		// Value where the size_t would overflow on <<
-		size_t overflow_boundary = (SIZE_MAX >> 1) + 1;
+		// Value where the ssize_t would overflow on <<
+		ssize_t overflow_boundary = (SSIZE_MAX >> 1) + 1;
 
 		// I'm almost certain I saw research showing that
 		// something like 1.76 is an "optimal" growth factor,
@@ -257,7 +257,7 @@ int csalt_resource_vector_split(
 		}
 	}
 
-	size_t written_from_begin = max(vector->amount_written - begin, 0);
+	ssize_t written_from_begin = max(vector->amount_written - begin, 0);
 
 	struct csalt_resource_vector_initialized result = vector_initialized(
 		*allocated,
@@ -270,7 +270,7 @@ int csalt_resource_vector_split(
 	int return_value = block(csalt_store(&result), arg);
 
 	if (result.amount_written > written_from_begin) {
-		size_t delta = result.amount_written - written_from_begin;
+		ssize_t delta = result.amount_written - written_from_begin;
 		vector->amount_written += delta;
 	}
 
@@ -287,9 +287,9 @@ struct csalt_store_interface vector_initialized_implementation = {
 static struct csalt_resource_vector_initialized vector_initialized(
 	void *allocated,
 	void *allocated_end,
-	size_t begin,
-	size_t end,
-	size_t write_amount
+	ssize_t begin,
+	ssize_t end,
+	ssize_t write_amount
 )
 {
 	struct csalt_resource_vector_initialized result = {
@@ -312,7 +312,7 @@ csalt_store *csalt_resource_vector_init(csalt_resource *resource)
 
 	// min size chosen arbitrarily
 	// I should really have better grounding for my decisions but w/e
-	size_t alloc_size = 1 << 5;
+	ssize_t alloc_size = 1 << 5;
 	while (alloc_size < vector_resource->size)
 		alloc_size = alloc_size << 1;
 
@@ -324,7 +324,7 @@ csalt_store *csalt_resource_vector_init(csalt_resource *resource)
 		result,
 		result + alloc_size,
 		0,
-		SIZE_MAX,
+		SSIZE_MAX,
 		0
 	);
 
@@ -345,7 +345,7 @@ struct csalt_resource_interface csalt_resource_vector_implementation = {
 	csalt_resource_vector_deinit,
 };
 
-struct csalt_resource_vector csalt_resource_vector(size_t size)
+struct csalt_resource_vector csalt_resource_vector(ssize_t size)
 {
 	struct csalt_resource_vector result = {
 		&csalt_resource_vector_implementation,

@@ -25,7 +25,7 @@ csalt_rwlock test_lock;
 ssize_t stub_rwlock_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	int lock_failed = csalt_rwlock_tryrdlock(&test_lock);
@@ -41,7 +41,7 @@ ssize_t stub_rwlock_read(
 ssize_t stub_rwlock_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	int lock_failed = csalt_rwlock_trywrlock(&test_lock);
@@ -52,8 +52,8 @@ ssize_t stub_rwlock_write(
 
 int stub_rwlock_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )

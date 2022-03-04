@@ -30,11 +30,11 @@ int split_block(csalt_store *store, void *_);
 
 struct test_struct {
 	struct csalt_store_interface *implementation;
-	size_t begin;
-	size_t end;
+	ssize_t begin;
+	ssize_t end;
 };
 
-ssize_t test_read(csalt_store *store, void *buffer, size_t size)
+ssize_t test_read(csalt_store *store, void *buffer, ssize_t size)
 {
 	(void)store;
 	(void)buffer;
@@ -43,7 +43,7 @@ ssize_t test_read(csalt_store *store, void *buffer, size_t size)
 	return 0;
 }
 
-ssize_t test_write(csalt_store *store, const void *buffer, size_t size)
+ssize_t test_write(csalt_store *store, const void *buffer, ssize_t size)
 {
 	(void)store;
 	(void)buffer;
@@ -52,7 +52,7 @@ ssize_t test_write(csalt_store *store, const void *buffer, size_t size)
 	return 0;
 }
 
-size_t test_size(csalt_store *store)
+ssize_t test_size(csalt_store *store)
 {
 	const struct test_struct *data = (struct test_struct *)store;
 	return data->end - data->begin;
@@ -60,8 +60,8 @@ size_t test_size(csalt_store *store)
 
 int test_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *_
 )

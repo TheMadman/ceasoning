@@ -31,7 +31,7 @@
 
 int split_pipe(csalt_store *fd, void *param)
 {
-	size_t result = csalt_store_size(fd);
+	ssize_t result = csalt_store_size(fd);
 	if (result != 0) {
 		print_error("csalt_store_size() returned unexpected result for split pipe: %ld", result);
 		exit(EXIT_FAILURE);
@@ -41,7 +41,7 @@ int split_pipe(csalt_store *fd, void *param)
 
 int split_file(csalt_store *fd, void *param)
 {
-	size_t result = csalt_store_size(fd);
+	ssize_t result = csalt_store_size(fd);
 	if (result != 5) {
 		print_error("csalt_store_size() returned unexpected result for split pipe: %ld", result);
 		exit(EXIT_FAILURE);
@@ -65,7 +65,7 @@ int main()
 
 	csalt_store_write(write_store, WRITE_BUFFER, sizeof(WRITE_BUFFER));
 
-	size_t read_result = read(pipe_fds[0], buffer, sizeof(buffer));
+	ssize_t read_result = read(pipe_fds[0], buffer, sizeof(buffer));
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
 		print_error("read() doesn't match csalt_store_write(): \"%s\"", buffer);
@@ -77,7 +77,7 @@ int main()
 	struct csalt_store_file_descriptor read_file = csalt_store_file_descriptor(pipe_fds[0]);
 	csalt_store *read_store = (csalt_store *)&read_file;
 
-	size_t write_result = write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
+	ssize_t write_result = write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
 	csalt_store_read(read_store, buffer, sizeof(buffer));
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
@@ -85,7 +85,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	size_t pipe_size = csalt_store_size(read_store);
+	ssize_t pipe_size = csalt_store_size(read_store);
 	if (pipe_size != 0) {
 		print_error("Unexpected csalt_store_size() value for pipe: %ld", pipe_size);
 		return EXIT_FAILURE;
@@ -100,7 +100,7 @@ int main()
 	struct csalt_store_file_descriptor csalt_tmpfile = csalt_store_file_descriptor(real_file_fd);
 	csalt_store *tmpfile_store = (csalt_store *)&csalt_tmpfile;
 
-	size_t real_file_size = csalt_store_size(tmpfile_store);
+	ssize_t real_file_size = csalt_store_size(tmpfile_store);
 	if (real_file_size != 10) {
 		print_error("Unexpected csalt_store_size() value for file: %ld", real_file_size);
 		return EXIT_FAILURE;

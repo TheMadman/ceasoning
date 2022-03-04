@@ -49,7 +49,7 @@ typedef const struct csalt_store_interface * const csalt_store;
 typedef ssize_t csalt_store_read_fn(
 	csalt_store *store,
 	void *buffer,
-	size_t size
+	ssize_t size
 );
 
 /**
@@ -58,7 +58,7 @@ typedef ssize_t csalt_store_read_fn(
 typedef ssize_t csalt_store_write_fn(
 	csalt_store *store,
 	const void *buffer,
-	size_t size
+	ssize_t size
 );
 
 /**
@@ -81,8 +81,8 @@ typedef int csalt_store_block_fn(csalt_store *store, void *data);
  */
 typedef int csalt_store_split_fn(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );
@@ -91,7 +91,7 @@ typedef int csalt_store_split_fn(
  * \brief Returns the size of the store, if applicable, or 0
  * if not applicable to this store.
  */
-typedef size_t csalt_store_size_fn(csalt_store *store);
+typedef ssize_t csalt_store_size_fn(csalt_store *store);
 
 struct csalt_store_interface {
 	csalt_store_read_fn *read;
@@ -107,7 +107,7 @@ struct csalt_store_interface {
  *
  * \sa csalt_read()
  */
-ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
+ssize_t csalt_store_read(csalt_store *store, void *buffer, ssize_t size);
 
 /**
  * \brief Function for writing to a store from a buffer.
@@ -116,7 +116,7 @@ ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size);
  *
  * \sa csalt_write()
  */
-ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
+ssize_t csalt_store_write(csalt_store *store, const void *buffer, ssize_t size);
 
 /**
  * \brief Returns the current size of the given store.
@@ -136,7 +136,7 @@ ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size);
  * input, you should try to formulate your application to use csalt_store_size
  * as little as possible.
  */
-size_t csalt_store_size(csalt_store *store);
+ssize_t csalt_store_size(csalt_store *store);
 
 /**
  * \brief Provides the means to divide a store into a
@@ -167,8 +167,8 @@ size_t csalt_store_size(csalt_store *store);
  */
 int csalt_store_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );
@@ -192,7 +192,7 @@ struct csalt_progress {
  * \brief Creates a new struct csalt_progress with the total
  * set to amount and the remaining set to 0.
  */
-struct csalt_progress csalt_progress(size_t amount);
+struct csalt_progress csalt_progress(ssize_t amount);
 
 /**
  * \brief This function returns truthy if progress is finished, false
@@ -227,22 +227,22 @@ ssize_t csalt_store_transfer(
 ssize_t csalt_store_null_read(
 	csalt_store *from,
 	void *to,
-	size_t size
+	ssize_t size
 );
 
 
 ssize_t csalt_store_null_write(
 	csalt_store *to,
 	const void *from,
-	size_t size
+	ssize_t size
 );
 
-size_t csalt_store_null_size(csalt_store *store);
+ssize_t csalt_store_null_size(csalt_store *store);
 
 int csalt_store_null_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );
@@ -265,22 +265,22 @@ extern csalt_store *csalt_store_null;
 ssize_t csalt_memory_read(
 	csalt_store *from,
 	void *to,
-	size_t size
+	ssize_t size
 );
 
 
 ssize_t csalt_memory_write(
 	csalt_store *to,
 	const void *from,
-	size_t size
+	ssize_t size
 );
 
-size_t csalt_memory_size(csalt_store *store);
+ssize_t csalt_memory_size(csalt_store *store);
 
 int csalt_memory_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );
@@ -418,8 +418,8 @@ void *csalt_store_memory_raw(const struct csalt_memory *memory);
 struct csalt_store_file_descriptor {
 	struct csalt_store_interface *vtable;
 	int fd;
-	size_t begin;
-	size_t end;
+	ssize_t begin;
+	ssize_t end;
 };
 
 /**
@@ -430,21 +430,21 @@ struct csalt_store_file_descriptor csalt_store_file_descriptor(int fd);
 ssize_t csalt_store_file_descriptor_read(
 	csalt_store *from,
 	void *to,
-	size_t bytes
+	ssize_t bytes
 );
 
 ssize_t csalt_store_file_descriptor_write(
 	csalt_store *to,
 	const void *from,
-	size_t bytes
+	ssize_t bytes
 );
 
-size_t csalt_store_file_descriptor_size(csalt_store *store);
+ssize_t csalt_store_file_descriptor_size(csalt_store *store);
 
 int csalt_store_file_descriptor_split(
 	csalt_store *file,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );

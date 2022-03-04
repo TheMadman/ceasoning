@@ -56,7 +56,7 @@
 ssize_t csalt_store_decorator_read(
 	csalt_store *store,
 	void *buffer,
-	size_t size
+	ssize_t size
 );
 
 /**
@@ -66,7 +66,7 @@ ssize_t csalt_store_decorator_read(
 ssize_t csalt_store_decorator_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t size
+	ssize_t size
 );
 
 /**
@@ -75,8 +75,8 @@ ssize_t csalt_store_decorator_write(
  */
 int csalt_store_decorator_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *data
 );
@@ -85,7 +85,7 @@ int csalt_store_decorator_split(
  * \brief A default size decorator, which takes
  * a csalt_store_decorator and forwards the call.
  */
-size_t csalt_store_decorator_size(csalt_store *store);
+ssize_t csalt_store_decorator_size(csalt_store *store);
 
 struct csalt_store_decorator {
 	struct csalt_store_interface *vtable;
@@ -261,12 +261,12 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_zero_bytes_boun
 /**
  * \brief Implementation for logger read function
  */
-ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, size_t bytes);
+ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssize_t bytes);
 
 /**
  * \brief Implementation for logger write function
  */
-ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, size_t bytes);
+ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, ssize_t bytes);
 
 /**
  * \brief Provides a means to lock accesses to the store behind a mutex.
@@ -306,21 +306,21 @@ struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
 ssize_t csalt_store_decorator_mutex_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
 ssize_t csalt_store_decorator_mutex_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
-size_t csalt_store_decorator_mutex_size(csalt_store *store);
+ssize_t csalt_store_decorator_mutex_size(csalt_store *store);
 
 int csalt_store_decorator_mutex_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );
@@ -357,21 +357,21 @@ struct csalt_store_decorator_rwlock csalt_store_decorator_rwlock(
 ssize_t csalt_store_decorator_rwlock_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
 ssize_t csalt_store_decorator_rwlock_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
-size_t csalt_store_decorator_rwlock_size(csalt_store *store);
+ssize_t csalt_store_decorator_rwlock_size(csalt_store *store);
 
 int csalt_store_decorator_rwlock_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );

@@ -29,7 +29,7 @@ csalt_mutex mutex;
 static ssize_t csalt_store_mutex_stub_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	if (!csalt_mutex_trylock(&mutex))
@@ -40,7 +40,7 @@ static ssize_t csalt_store_mutex_stub_read(
 static ssize_t csalt_store_mutex_stub_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	if (!csalt_mutex_trylock(&mutex))
@@ -50,8 +50,8 @@ static ssize_t csalt_store_mutex_stub_write(
 
 static int csalt_store_mutex_stub_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )

@@ -80,13 +80,13 @@ struct csalt_store_pair {
  */
 struct csalt_store_pair csalt_store_pair(csalt_store *first, csalt_store *second);
 
-ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, size_t size);
-ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size);
-size_t csalt_store_pair_size(csalt_store *store);
+ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, ssize_t size);
+ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, ssize_t size);
+ssize_t csalt_store_pair_size(csalt_store *store);
 int csalt_store_pair_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );
@@ -149,7 +149,7 @@ void csalt_store_pair_list_bounds(
  * \brief Allows checking the length of a list of pairs constructed
  * 	by csalt_store_pair_list() or csalt_store_pair_list_bounds().
  */
-size_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
+ssize_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
 
 /**
  * \brief Allows getting the csalt_store object at an offset from a 
@@ -158,7 +158,7 @@ size_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
  */
 csalt_store *csalt_store_pair_list_get(
 	const struct csalt_store_pair *pairs,
-	size_t index
+	ssize_t index
 );
 
 /**
@@ -234,21 +234,21 @@ int csalt_store_fallback_bounds(
 ssize_t csalt_store_fallback_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
 ssize_t csalt_store_fallback_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 );
 
-size_t csalt_store_fallback_size(csalt_store *store);
+ssize_t csalt_store_fallback_size(csalt_store *store);
 
 int csalt_store_fallback_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );

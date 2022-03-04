@@ -224,18 +224,18 @@ struct csalt_decorator_lazy csalt_decorator_lazy(csalt_resource *resource);
 ssize_t csalt_decorator_lazy_read(
 	csalt_store *store,
 	void *buffer,
-	size_t amount
+	ssize_t amount
 );
 ssize_t csalt_decorator_lazy_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 );
-size_t csalt_decorator_lazy_size(csalt_store *store);
+ssize_t csalt_decorator_lazy_size(csalt_store *store);
 int csalt_decorator_lazy_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 );
@@ -252,7 +252,7 @@ int csalt_decorator_lazy_split(
  *
  * If the real resource fails to initialize at csalt_store_read() or
  * csalt_store_write(), those functions return -1. If the real resource fails
- * to initialize on csalt_store_size(), \c (size_t)-1 is returned. If the real
+ * to initialize on csalt_store_size(), \c (ssize_t)-1 is returned. If the real
  * resource fails to initialize on csalt_store_split(),
  * csalt_store_null_implementation is passed to the callback.
  *

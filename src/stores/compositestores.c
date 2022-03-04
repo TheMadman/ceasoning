@@ -64,7 +64,7 @@ void csalt_store_pair_list_bounds(
 	*out_begin = csalt_store_pair(*begin, 0);
 }
 
-ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, size_t size)
+ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, ssize_t size)
 {
 	const struct csalt_store_pair *pair = (void *)store;
 	ssize_t first = 0;
@@ -84,7 +84,7 @@ ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, size_t size)
 	return max(first, second);
 }
 
-ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t size)
+ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, ssize_t size)
 {
 	struct csalt_store_pair *pair = (void *)store;
 	if (!(pair->first || pair->second))
@@ -104,14 +104,14 @@ ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, size_t si
 	return min(first, second);
 }
 
-size_t csalt_store_pair_size(csalt_store *store)
+ssize_t csalt_store_pair_size(csalt_store *store)
 {
 	struct csalt_store_pair *pair = (void *)store;
-	size_t first = 0;
+	ssize_t first = 0;
 	if (pair->first)
 		first = csalt_store_size(pair->first);
 
-	size_t second = first;
+	ssize_t second = first;
 	if (pair->second)
 		second = csalt_store_size(pair->second);
 
@@ -120,8 +120,8 @@ size_t csalt_store_pair_size(csalt_store *store)
 
 struct split_pair_params {
 	csalt_store *store;
-	size_t begin;
-	size_t end;
+	ssize_t begin;
+	ssize_t end;
 	csalt_store_block_fn *block;
 	void *param;
 
@@ -158,8 +158,8 @@ static int split_first(csalt_store *store, void *param)
 
 int csalt_store_pair_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )
@@ -198,21 +198,21 @@ int csalt_store_pair_split(
 }
 
 // A nice, little tail-recursion optimisation
-static size_t real_pair_list_length(const struct csalt_store_pair *pair, size_t accumulator)
+static ssize_t real_pair_list_length(const struct csalt_store_pair *pair, ssize_t accumulator)
 {
 	if (!pair->second)
 		return accumulator + 1;
 	return real_pair_list_length((void *)pair->second, accumulator + 1);
 }
 
-size_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs)
+ssize_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs)
 {
 	return real_pair_list_length(pairs, 0);
 }
 
 csalt_store *csalt_store_pair_list_get(
 	const struct csalt_store_pair *pairs,
-	size_t index
+	ssize_t index
 )
 {
 	if (!pairs)
@@ -273,7 +273,7 @@ int csalt_store_fallback_bounds(
 struct fallback_read_remaining_params {
 	// in parameters
 	void *buffer;
-	size_t remaining;
+	ssize_t remaining;
 
 	// out parameter
 	ssize_t returned;
@@ -304,7 +304,7 @@ static int fallback_read_remaining(csalt_store *store, void *arg)
 ssize_t csalt_store_fallback_read(
 	csalt_store *store,
 	void *buffer,
-	size_t requested_amount
+	ssize_t requested_amount
 )
 {
 	const struct csalt_store_fallback *fallback = (void *)store;
@@ -322,7 +322,7 @@ ssize_t csalt_store_fallback_read(
 		return read_amount;
 
 	if (read_amount < (ssize_t)requested_amount) {
-		size_t remaining_amount = requested_amount - read_amount;
+		ssize_t remaining_amount = requested_amount - read_amount;
 		struct fallback_read_remaining_params params = {
 			buffer + read_amount,
 			remaining_amount,
@@ -349,7 +349,7 @@ ssize_t csalt_store_fallback_read(
 ssize_t csalt_store_fallback_write(
 	csalt_store *store,
 	const void *buffer,
-	size_t amount
+	ssize_t amount
 )
 {
 	struct csalt_store_fallback *fallback = (void *)store;
@@ -360,7 +360,7 @@ ssize_t csalt_store_fallback_write(
 	);
 }
 
-size_t csalt_store_fallback_size(csalt_store *store)
+ssize_t csalt_store_fallback_size(csalt_store *store)
 {
 	struct csalt_store_fallback *fallback = (void *)store;
 	return csalt_store_size((void *)&fallback->pair);
@@ -383,8 +383,8 @@ static int fallback_receive_split_pairs(csalt_store *store, void *param)
 
 int csalt_store_fallback_split(
 	csalt_store *store,
-	size_t begin,
-	size_t end,
+	ssize_t begin,
+	ssize_t end,
 	csalt_store_block_fn *block,
 	void *param
 )

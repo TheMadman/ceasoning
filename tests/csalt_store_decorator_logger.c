@@ -90,7 +90,7 @@ int main()
 
 	csalt_store_read(error_store, 0, 1);
 
-	size_t read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	ssize_t read_len = read(read_fd, buffer, sizeof(buffer) - 1);
 	char *result = strstr(buffer, LOG_LABEL_READ_ERROR);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_READ_ERROR, buffer);
