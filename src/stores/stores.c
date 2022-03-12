@@ -202,6 +202,62 @@ void *csalt_memory_raw(const struct csalt_memory *memory)
 	return memory->begin;
 }
 
+ssize_t csalt_cmemory_read(
+	csalt_store *from,
+	void *to,
+	ssize_t size
+)
+{
+	struct csalt_cmemory
+		*memory = (struct csalt_cmemory *)from;
+
+	if (memory->end - memory->begin < size)
+		return -1;
+
+	memcpy(to, memory->begin, size);
+	return size;
+}
+
+ssize_t csalt_cmemory_size(csalt_store *store)
+{
+	struct csalt_cmemory
+		*memory = (struct csalt_cmemory *)store;
+	return memory->end - memory->begin;
+}
+
+int csalt_cmemory_split(
+	csalt_store *store,
+	ssize_t begin,
+	ssize_t end,
+	csalt_store_block_fn *block,
+	void *data
+)
+{
+	struct csalt_cmemory
+		*memory = (struct csalt_cmemory *)store;
+	struct csalt_cmemory result = csalt_cmemory_bounds(
+		memory->begin + begin,
+		memory->begin + end
+	);
+	return block((csalt_store *)&result, data);
+}
+
+const struct csalt_store_interface csalt_cmemory_implementation = {
+	csalt_cmemory_read,
+	csalt_store_null_write,
+	csalt_cmemory_size,
+	csalt_cmemory_split,
+};
+
+struct csalt_cmemory csalt_cmemory_bounds(const void *begin, const void *end)
+{
+	return (struct csalt_cmemory) {
+		&csalt_cmemory_implementation,
+		begin,
+		end,
+	};
+}
+
 // Transfer algorithmm
 
 struct csalt_progress csalt_progress(ssize_t size)

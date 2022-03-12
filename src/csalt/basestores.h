@@ -294,10 +294,13 @@ extern const struct csalt_store_interface csalt_memory_implementation;
  * For heap memory, csalt_heap provides a resource which can
  * be managed for you by passing it to csalt_resource_use().
  *
- * \see csalt_store_memory_pointer()
- * \see csalt_store_memory_array()
- * \see csalt_store_memory_bounds()
- * \see csalt_heap
+ * For const memory, consider csalt_cmemory instead.
+ *
+ * \sa csalt_cmemory
+ * \sa csalt_memory_pointer()
+ * \sa csalt_memory_array()
+ * \sa csalt_memory_bounds()
+ * \sa csalt_heap
  */
 struct csalt_memory {
 	const struct csalt_store_interface *vtable;
@@ -329,7 +332,62 @@ void *csalt_memory_raw(const struct csalt_memory *memory);
 /**
  * \brief Convenience macro for setting up an array-of-type
  */
-#define csalt_memory_array(array) (csalt_memory_bounds((array), arrend(array)))
+#define csalt_memory_array(array) (csalt_memory_bounds((array), (&array[arrlength(array)])))
+
+ssize_t csalt_cmemory_read(
+	csalt_store *from,
+	void *to,
+	ssize_t size
+);
+
+ssize_t csalt_cmemory_size(csalt_store *store);
+
+int csalt_cmemory_split(
+	csalt_store *store,
+	ssize_t begin,
+	ssize_t end,
+	csalt_store_block_fn *block,
+	void *data
+);
+
+/**
+ * \brief A type representing a continuous block of read-only
+ * 	memory.
+ *
+ * This type is similar to the csalt_memory type, except that it
+ * accepts const-pointers and disables writing.
+ *
+ * \sa csalt_memory
+ * \sa csalt_cmemory_pointer()
+ * \sa csalt_cmemory_array()
+ * \sa csalt_cmemory_bounds()
+ */
+struct csalt_cmemory {
+	const struct csalt_store_interface *vtable;
+	const char *begin;
+	const char *end;
+};
+
+/**
+ * \brief Constructs a csalt_cmemory with write operations
+ * 	disabled.
+ */
+struct csalt_cmemory csalt_cmemory_bounds(const void *begin, const void *end);
+
+/**
+ * \brief Retrieves a raw pointer into a csalt_cmemory.
+ */
+const void *csalt_cmemory_raw(const struct csalt_cmemory *memory);
+
+/**
+ * \brief Convenience macro for setting up a pointer-to-type
+ */
+#define csalt_cmemory_pointer(pointer) (csalt_cmemory_bounds((pointer), (pointer) + 1))
+
+/**
+ * \brief Convenience macro for setting up an array-of-type
+ */
+#define csalt_cmemory_array(array) (csalt_cmemory_bounds((array), arrend(array)))
 
 /**
  * \brief Convenience macro for writing a stack value to a store.
