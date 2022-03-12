@@ -41,13 +41,6 @@
 extern "C" {
 #endif
 
-struct csalt_resource_file_initialized {
-	const struct csalt_resource_initialized_interface *vtable;
-	int fd;
-	ssize_t begin;
-	ssize_t end;
-};
-
 /**
  * \brief Struct representing a file resource supporting lazy-loading.
  *

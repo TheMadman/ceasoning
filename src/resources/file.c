@@ -36,8 +36,8 @@ int csalt_resource_file_split(
 	void *data
 )
 {
-	struct csalt_resource_file_initialized *file = castto(file, store);
-	struct csalt_resource_file_initialized result = *file;
+	struct csalt_store_file_descriptor *file = castto(file, store);
+	struct csalt_store_file_descriptor result = *file;
 	result.end = result.begin + end;
 	result.begin += begin;
 	return block(castto(csalt_store *, &result), data);
