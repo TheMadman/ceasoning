@@ -324,12 +324,12 @@ void *csalt_memory_raw(const struct csalt_memory *memory);
 /**
  * \brief Convenience macro for setting up a pointer-to-type
  */
-#define csalt_memory_pointer(pointer) (csalt_cmemory_bounds((pointer), (pointer) + 1))
+#define csalt_memory_pointer(pointer) (csalt_memory_bounds((pointer), (pointer) + 1))
 
 /**
  * \brief Convenience macro for setting up an array-of-type
  */
-#define csalt_memory_array(array) (csalt_cmemory_bounds((array), arrend(array)))
+#define csalt_memory_array(array) (csalt_memory_bounds((array), arrend(array)))
 
 /**
  * \brief Convenience macro for writing a stack value to a store.
