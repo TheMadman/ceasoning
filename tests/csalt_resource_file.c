@@ -41,7 +41,7 @@ int test_write(csalt_store *resource, void *_)
 	test_write_called = 1;
 	struct csalt_resource_file *file = castto(file, resource);
 	int a = 1;
-	struct csalt_memory A = csalt_store_memory_pointer(&a);
+	struct csalt_memory A = csalt_memory_pointer(&a);
 
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	ssize_t amount_written = csalt_store_transfer(
@@ -70,7 +70,7 @@ int test_read(csalt_store *resource, void *_)
 	test_read_called = 1;
 	struct csalt_resource_file *file = castto(file, resource);
 	int a = 0;
-	struct csalt_memory A = csalt_store_memory_pointer(&a);
+	struct csalt_memory A = csalt_memory_pointer(&a);
 
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	ssize_t amount_read = csalt_store_transfer(

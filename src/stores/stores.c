@@ -173,31 +173,31 @@ int csalt_memory_split(
 )
 {
 	struct csalt_memory *param = (struct csalt_memory *)store;
-	struct csalt_memory result = csalt_store_memory_bounds(
+	struct csalt_memory result = csalt_memory_bounds(
 		param->begin + begin,
 		param->begin + end
 	);
 	return block((csalt_store *)&result, data);
 }
 
-const struct csalt_store_interface csalt_store_memory_implementation = {
+const struct csalt_store_interface csalt_memory_implementation = {
 	csalt_memory_read,
 	csalt_memory_write,
 	csalt_memory_size,
 	csalt_memory_split,
 };
 
-struct csalt_memory csalt_store_memory_bounds(void *begin, void *end)
+struct csalt_memory csalt_memory_bounds(void *begin, void *end)
 {
 	struct csalt_memory result = {
-		&csalt_store_memory_implementation,
+		&csalt_memory_implementation,
 		begin,
 		end
 	};
 	return result;
 }
 
-void *csalt_store_memory_raw(const struct csalt_memory *memory)
+void *csalt_memory_raw(const struct csalt_memory *memory)
 {
 	return memory->begin;
 }

@@ -230,7 +230,6 @@ ssize_t csalt_store_null_read(
 	ssize_t size
 );
 
-
 ssize_t csalt_store_null_write(
 	csalt_store *to,
 	const void *from,
@@ -268,7 +267,6 @@ ssize_t csalt_memory_read(
 	ssize_t size
 );
 
-
 ssize_t csalt_memory_write(
 	csalt_store *to,
 	const void *from,
@@ -285,7 +283,7 @@ int csalt_memory_split(
 	void *data
 );
 
-extern const struct csalt_store_interface csalt_store_memory_implementation;
+extern const struct csalt_store_interface csalt_memory_implementation;
 
 /**
  * \brief A type representing a continuous block of memory.
@@ -308,30 +306,30 @@ struct csalt_memory {
 };
 
 /**
- * Creates a csalt_store_memory struct and sets up its
+ * Creates a csalt_memory struct and sets up its
  * virtual call table.
  *
  * The end parameter should be the address immediately after
  * the last address containing the pointed-to data.
  */
-struct csalt_memory csalt_store_memory_bounds(void *begin, void *end);
+struct csalt_memory csalt_memory_bounds(void *begin, void *end);
 
 /**
  * Retrieves the pointer for direct access.
  * Should primarily be used for reading the data; simple,
  * safe writing is provided by data_store_transfer().
  */
-void *csalt_store_memory_raw(const struct csalt_memory *memory);
+void *csalt_memory_raw(const struct csalt_memory *memory);
 
 /**
- * Convenience macro for setting up a pointer-to-type
+ * \brief Convenience macro for setting up a pointer-to-type
  */
-#define csalt_store_memory_pointer(pointer) (csalt_store_memory_bounds((pointer), ((pointer) + 1)))
+#define csalt_memory_pointer(pointer) (csalt_cmemory_bounds((pointer), (pointer) + 1))
 
 /**
- * Convenience macro for setting up an array-of-type
+ * \brief Convenience macro for setting up an array-of-type
  */
-#define csalt_store_memory_array(array) (csalt_store_memory_bounds((array), (&array[arrlength(array)])))
+#define csalt_memory_array(array) (csalt_cmemory_bounds((array), arrend(array)))
 
 /**
  * \brief Convenience macro for writing a stack value to a store.

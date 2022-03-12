@@ -84,7 +84,7 @@ csalt_store *csalt_heap_init(csalt_resource *resource)
 	struct csalt_heap *memory = castto(memory, resource);
 	char *result = calloc(memory->heap.size, 1);
 	if (result) {
-		memory->heap.memory = csalt_store_memory_bounds(result, result + memory->heap.size);
+		memory->heap.memory = csalt_memory_bounds(result, result + memory->heap.size);
 		return (csalt_store *)&memory->heap;
 	}
 	return 0;
@@ -123,7 +123,7 @@ struct csalt_heap csalt_heap(ssize_t size)
 
 void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap)
 {
-	return csalt_store_memory_raw(&heap->memory);
+	return csalt_memory_raw(&heap->memory);
 }
 
 static struct csalt_resource_vector_initialized vector_initialized(

@@ -31,7 +31,7 @@ int transfer_complete_big_called = 0;
 void transfer_complete_small(csalt_store *destination)
 {
 	struct csalt_memory *memory = castto(memory, destination);
-	int *b = csalt_store_memory_raw(memory);
+	int *b = csalt_memory_raw(memory);
 
 	if (*b) {
 		print_error("b still contained non-zero value: %d\n", *b);
@@ -49,8 +49,9 @@ int main()
 {
 	int a = 0, b = 1;
 
-	struct csalt_memory A = csalt_store_memory_pointer(&a),
-			    B = csalt_store_memory_pointer(&b);
+	struct csalt_memory
+		A = csalt_memory_pointer(&a),
+		B = csalt_memory_pointer(&b);
 
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	csalt_store_transfer(
@@ -64,8 +65,9 @@ int main()
 	memset(c, 1, ARRSIZE);
 	memset(d, 0, ARRSIZE);
 
-	struct csalt_memory C = csalt_store_memory_array(c),
-			    D = csalt_store_memory_array(d);
+	struct csalt_memory
+		C = csalt_memory_array(c),
+		D = csalt_memory_array(d);
 
 	transfer = csalt_progress(ARRSIZE);
 	ssize_t transfer_amount = 0;
