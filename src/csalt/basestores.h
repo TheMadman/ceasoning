@@ -19,7 +19,7 @@
 #ifndef CSALTSTORES_H
 #define CSALTSTORES_H
 
-#include <sys/types.h>
+#include <csalt/platform/init.h>
 
 #include <csalt/util.h>
 

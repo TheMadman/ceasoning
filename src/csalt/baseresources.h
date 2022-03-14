@@ -19,8 +19,7 @@
 #ifndef CSALT_BASERESOURCES_H
 #define CSALT_BASERESOURCES_H
 
-#include <stddef.h>
-#include <unistd.h>
+#include <csalt/platform/init.h>
 
 #include <csalt/stores.h>
 

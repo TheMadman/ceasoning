@@ -19,6 +19,8 @@
 #ifndef DECORATORRESOURCES_H
 #define DECORATORRESOURCES_H
 
+#include <csalt/platform/init.h>
+
 #include "baseresources.h"
 #include "decoratorstores.h"
 #include "util.h"

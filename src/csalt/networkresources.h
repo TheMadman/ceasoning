@@ -19,6 +19,8 @@
 #ifndef CSALT_NETWORKRESOURCES_H
 #define CSALT_NETWORKRESOURCES_H
 
+#include <csalt/platform/init.h>
+
 #include "baseresources.h"
 
 #include <csalt/platform/socket.h>

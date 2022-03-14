@@ -19,6 +19,7 @@
 #ifndef CSALT_RESOURCES_H
 #define CSALT_RESOURCES_H
 
+#include <csalt/platform/init.h>
 #include "baseresources.h"
 #include "compositeresources.h"
 #include "decoratorresources.h"

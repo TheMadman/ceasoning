@@ -19,6 +19,8 @@
 #ifndef CSALT_UTIL_H
 #define CSALT_UTIL_H
 
+#include <csalt/platform/init.h>
+
 /**
  * \file
  * This file provides macros for common tasks
