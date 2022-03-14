@@ -24,7 +24,7 @@
 
 int use(csalt_store *resource, void *param)
 {
-	struct csalt_resource_first_initialized *first = castto(first, resource);
+	struct csalt_resource_first_initialized *first = (void *)resource;
 
 	csalt_store_write(csalt_store(first), "a", 1);
 

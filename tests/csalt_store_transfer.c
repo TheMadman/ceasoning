@@ -30,7 +30,7 @@ int transfer_complete_big_called = 0;
 
 void transfer_complete_small(csalt_store *destination)
 {
-	struct csalt_memory *memory = castto(memory, destination);
+	struct csalt_memory *memory = (void *)destination;
 	int *b = csalt_memory_raw(memory);
 
 	if (*b) {
@@ -56,8 +56,8 @@ int main()
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, &A),
-		castto(csalt_store *, &B),
+		(csalt_store *)&A,
+		(csalt_store *)&B,
 		transfer_complete_small
 	);
 
@@ -73,8 +73,8 @@ int main()
 	ssize_t transfer_amount = 0;
 	while ((transfer_amount = csalt_store_transfer(
 		&transfer,
-		castto(csalt_store *, &C),
-		castto(csalt_store *, &D),
+		(csalt_store *)&C,
+		(csalt_store *)&D,
 		transfer_complete_big
 	)) < ARRSIZE) {
 		switch (transfer_amount) {

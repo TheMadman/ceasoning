@@ -320,7 +320,6 @@ static int receive_split_from(csalt_store *from, void *data_pointer)
 static ssize_t csalt_store_transfer_real(struct transfer_data *data)
 {
 	csalt_store *from = data->from;
-	csalt_store *to = data->to;
 
 	return csalt_store_split(
 		from,
@@ -355,7 +354,7 @@ ssize_t csalt_store_transfer(
 		}
 
 		progress->amount_completed += this_write;
-		if (this_write < sizeof(buffer))
+		if (this_write < (ssize_t)sizeof(buffer))
 			break;
 	}
 

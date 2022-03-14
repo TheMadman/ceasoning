@@ -266,9 +266,9 @@ int csalt_resource_use(
 );
 
 /**
- * Provides a shorthand for castto(csalt_resource *, (param))
+ * Provides a shorthand for ((csalt_resource *)(param))
  */
-#define csalt_resource(param) castto(csalt_resource *, (param))
+#define csalt_resource(param) ((csalt_resource *)(param))
 
 #ifdef __cplusplus
 } // extern "C"

@@ -193,8 +193,8 @@ csalt_store *csalt_resource_first_init(csalt_resource *resource)
 
 	for (
 		csalt_resource
-			**current = castto(current, first->begin),
-			**end = castto(end, first->end);
+			**current = (csalt_resource **)first->begin,
+			**end = (csalt_resource **)first->end;
 		current < end;
 		current++
 	) {
