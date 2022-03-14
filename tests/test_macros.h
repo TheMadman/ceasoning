@@ -98,6 +98,7 @@ ssize_t csalt_store_stub_error_write(csalt_store *_, const void *__, ssize_t ___
 
 ssize_t csalt_store_stub_error_size(csalt_store *_)
 {
+	(void)_;
 	return 0;
 }
 
