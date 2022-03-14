@@ -174,8 +174,8 @@ int csalt_memory_split(
 {
 	struct csalt_memory *param = (struct csalt_memory *)store;
 	struct csalt_memory result = csalt_memory_bounds(
-		param->begin + begin,
-		param->begin + end
+		max(param->begin, min(param->begin + begin, param->end)),
+		max(param->begin, min(param->begin + end, param->end))
 	);
 	return block((csalt_store *)&result, data);
 }
@@ -236,8 +236,8 @@ int csalt_cmemory_split(
 	struct csalt_cmemory
 		*memory = (struct csalt_cmemory *)store;
 	struct csalt_cmemory result = csalt_cmemory_bounds(
-		memory->begin + begin,
-		memory->begin + end
+		max(memory->begin, min(memory->begin + begin, memory->end)),
+		max(memory->begin, min(memory->begin + end, memory->end))
 	);
 	return block((csalt_store *)&result, data);
 }
