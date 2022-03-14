@@ -1,6 +1,3 @@
-#ifndef FILERESOURCE_H
-#define FILERESOURCE_H
-
 /*
  * Ceasoning - Syntactic Sugar for Common C Tasks
  * Copyright (C) 2022   Marcus Harrison
@@ -19,6 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef FILERESOURCE_H
+#define FILERESOURCE_H
 #include <sys/types.h>
 #include <fcntl.h>
 

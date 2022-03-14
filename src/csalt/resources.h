@@ -1,6 +1,3 @@
-#ifndef CSALT_RESOURCES_H
-#define CSALT_RESOURCES_H
-
 /*
  * Ceasoning - Syntactic Sugar for Common C Tasks
  * Copyright (C) 2022   Marcus Harrison
@@ -18,6 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifndef CSALT_RESOURCES_H
+#define CSALT_RESOURCES_H
 
 #include "baseresources.h"
 #include "compositeresources.h"

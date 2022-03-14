@@ -1,6 +1,3 @@
-#ifndef DECORATORSTORES_H
-#define DECORATORSTORES_H
-
 /*
  * Ceasoning - Syntactic Sugar for Common C Tasks
  * Copyright (C) 2022   Marcus Harrison
@@ -19,8 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef DECORATORSTORES_H
+#define DECORATORSTORES_H
+
 #include "basestores.h"
-#include "csalt/platform/threads.h"
+#include <csalt/platform/threads.h>
 
 /**
  * \file

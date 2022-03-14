@@ -1,6 +1,3 @@
-#ifndef CSALT_NETWORKRESOURCES_H
-#define CSALT_NETWORKRESOURCES_H
-
 /*
  * Ceasoning - Syntactic Sugar for Common C Tasks
  * Copyright (C) 2022   Marcus Harrison
@@ -19,9 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef CSALT_NETWORKRESOURCES_H
+#define CSALT_NETWORKRESOURCES_H
+
 #include "baseresources.h"
 
-// Provides platform-specific includes and aliases... hopefully
 #include <csalt/platform/socket.h>
 
 #ifdef __cplusplus

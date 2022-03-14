@@ -1,6 +1,3 @@
-#ifndef CSALTSTORES_H
-#define CSALTSTORES_H
-
 /*
  * Ceasoning - Syntactic Sugar for Common C Tasks
  * Copyright (C) 2022   Marcus Harrison
@@ -18,6 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
+#ifndef CSALTSTORES_H
+#define CSALTSTORES_H
 
 #include <sys/types.h>
 
