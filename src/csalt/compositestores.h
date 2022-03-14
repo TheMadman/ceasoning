@@ -19,8 +19,6 @@
 #ifndef CSALT_COMPOSITESTORES_H
 #define CSALT_COMPOSITESTORES_H
 
-#include <csalt/platform/init.h>
-
 /**
  * \file 
  * \brief This file provides stores which define relationships

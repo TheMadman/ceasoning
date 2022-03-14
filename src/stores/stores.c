@@ -174,8 +174,8 @@ int csalt_memory_split(
 {
 	struct csalt_memory *param = (struct csalt_memory *)store;
 	struct csalt_memory result = csalt_memory_bounds(
-		max(param->begin, min(param->begin + begin, param->end)),
-		max(param->begin, min(param->begin + end, param->end))
+		param->begin + begin,
+		param->begin + end
 	);
 	return block((csalt_store *)&result, data);
 }
@@ -236,8 +236,8 @@ int csalt_cmemory_split(
 	struct csalt_cmemory
 		*memory = (struct csalt_cmemory *)store;
 	struct csalt_cmemory result = csalt_cmemory_bounds(
-		max(memory->begin, min(memory->begin + begin, memory->end)),
-		max(memory->begin, min(memory->begin + end, memory->end))
+		memory->begin + begin,
+		memory->begin + end
 	);
 	return block((csalt_store *)&result, data);
 }
@@ -320,6 +320,7 @@ static int receive_split_from(csalt_store *from, void *data_pointer)
 static ssize_t csalt_store_transfer_real(struct transfer_data *data)
 {
 	csalt_store *from = data->from;
+	csalt_store *to = data->to;
 
 	return csalt_store_split(
 		from,
@@ -354,7 +355,7 @@ ssize_t csalt_store_transfer(
 		}
 
 		progress->amount_completed += this_write;
-		if (this_write < (ssize_t)sizeof(buffer))
+		if (this_write < sizeof(buffer))
 			break;
 	}
 

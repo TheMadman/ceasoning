@@ -18,8 +18,8 @@
 
 #ifndef FILERESOURCE_H
 #define FILERESOURCE_H
-
-#include <csalt/platform/init.h>
+#include <sys/types.h>
+#include <fcntl.h>
 
 #include "stores.h"
 #include "baseresources.h"

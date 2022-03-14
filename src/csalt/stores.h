@@ -19,7 +19,6 @@
 #ifndef CSALT_STORES_H
 #define CSALT_STORES_H
 
-#include <csalt/platform/init.h>
 #include "basestores.h"
 #include "compositestores.h"
 #include "decoratorstores.h"

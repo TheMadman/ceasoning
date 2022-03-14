@@ -58,7 +58,7 @@ struct csalt_addrinfo csalt_addrinfo(
 csalt_store *csalt_addrinfo_init(csalt_resource *resource)
 {
 	// naming things is hard
-	struct csalt_addrinfo *infoinfo = (void *)resource;
+	struct csalt_addrinfo *infoinfo = castto(infoinfo, resource);
 
 	// looks like this call blocks on DNS lookups?
 	// TODO: non-blocking DNS lookup support... somehow
@@ -76,7 +76,7 @@ csalt_store *csalt_addrinfo_init(csalt_resource *resource)
 
 void csalt_addrinfo_deinit(csalt_resource *resource)
 {
-	struct csalt_addrinfo *infoinfo = (void *)resource;
+	struct csalt_addrinfo *infoinfo = castto(infoinfo, resource);
 	freeaddrinfo(infoinfo->addrinfo.result);
 	infoinfo->addrinfo.result = 0;
 }
@@ -119,7 +119,7 @@ static csalt_store *addrinfo_from_network(struct csalt_resource_network_socket *
 
 	if (
 		csalt_resource_use(
-			(csalt_resource *)&info,
+			csalt_resource(&info),
 			use,
 			&udp->udp
 		) != -1
@@ -156,8 +156,7 @@ ssize_t csalt_resource_socket_sendto(
 	const struct sockaddr *dest_addr,
 	socklen_t addr_t
 ) {
-	struct csalt_resource_network_socket_initialized
-		*sock = (void *)network;
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, network);
 	return sendto(
 		sock->fd,
 		buffer,
@@ -194,8 +193,7 @@ ssize_t csalt_resource_socket_recvfrom(
 	struct sockaddr *src_addr,
 	socklen_t *addrlen
 ) {
-	struct csalt_resource_network_socket_initialized
-		*sock = (void *)network;
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, network);
 	ssize_t result = recvfrom(
 		sock->fd,
 		buffer,
@@ -244,10 +242,8 @@ struct csalt_resource_network_socket csalt_resource_network_udp_connected(
 
 int use_csalt_addrinfo_connected(csalt_store *resource, void *store)
 {
-	struct csalt_addrinfo_initialized
-		*addrinfo = (void *)resource;
-	struct csalt_resource_network_socket_initialized
-		*udp = (void *)store;
+	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
+	struct csalt_resource_network_socket_initialized *udp = castto(udp, store);
 
 	struct addrinfo *current;
 	for (
@@ -299,8 +295,7 @@ ssize_t csalt_resource_network_socket_read(
 	void *buffer,
 	ssize_t amount
 ) {
-	struct csalt_resource_network_socket_initialized
-		*sock = (void *)store;
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	ssize_t result = read(sock->fd, buffer, amount);
 	if (result < 0 && (errno == EAGAIN || errno == EWOULDBLOCK))
 		return 0;
@@ -316,8 +311,7 @@ ssize_t csalt_resource_network_socket_write(
 	const void *buffer,
 	ssize_t amount
 ) {
-	struct csalt_resource_network_socket_initialized
-		*sock = (void *)store;
+	struct csalt_resource_network_socket_initialized *sock = castto(sock, store);
 	return write(sock->fd, buffer, amount);
 }
 
@@ -380,10 +374,8 @@ struct csalt_resource_network_socket csalt_resource_network_udp_bound(
 
 int use_csalt_addrinfo_bound(csalt_store *resource, void *store)
 {
-	struct csalt_addrinfo_initialized
-		*addrinfo = (void *)resource;
-	struct csalt_resource_network_socket_initialized
-		*udp = (void *)store;
+	struct csalt_addrinfo_initialized *addrinfo = castto(addrinfo, resource);
+	struct csalt_resource_network_socket_initialized *udp = castto(udp, store);
 
 	struct addrinfo *current;
 	for (

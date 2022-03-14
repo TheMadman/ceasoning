@@ -19,8 +19,6 @@
 #ifndef CSALT_UTIL_H
 #define CSALT_UTIL_H
 
-#include <csalt/platform/init.h>
-
 /**
  * \file
  * This file provides macros for common tasks
@@ -62,5 +60,12 @@
 #else
 #define DEFAULT_PAGESIZE 4096
 #endif // PAGESIZE
+
+/**
+ * castto is a macro allowing you to pass either the type
+ * to cast the source to, or a destination variable whose
+ * type the source should be cast to.
+ */
+#define castto(dest, source) ((typeof(dest)) (source))
 
 #endif // CSALT_UTIL_H

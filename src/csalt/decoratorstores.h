@@ -19,8 +19,6 @@
 #ifndef DECORATORSTORES_H
 #define DECORATORSTORES_H
 
-#include <csalt/platform/init.h>
-
 #include "basestores.h"
 #include <csalt/platform/threads.h>
 

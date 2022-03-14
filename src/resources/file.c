@@ -36,16 +36,16 @@ int csalt_resource_file_split(
 	void *data
 )
 {
-	struct csalt_store_file_descriptor *file = (void *)store;
+	struct csalt_store_file_descriptor *file = castto(file, store);
 	struct csalt_store_file_descriptor result = *file;
 	result.end = result.begin + end;
 	result.begin += begin;
-	return block((csalt_store *)&result, data);
+	return block(castto(csalt_store *, &result), data);
 }
 
 csalt_store *csalt_resource_file_init(csalt_resource *resource)
 {
-	struct csalt_resource_file *file = (void *)resource;
+	struct csalt_resource_file *file = castto(file, resource);
 
 	// Some open flags break the API for reading/writing
 	int banned_flags = O_APPEND;

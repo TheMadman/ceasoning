@@ -33,7 +33,7 @@ struct csalt_resource_pair csalt_resource_pair(
 		&csalt_resource_pair_implementation,
 		first,
 		second,
-		{ 0 }
+		0
 	};
 
 	return result;
@@ -114,7 +114,7 @@ struct csalt_resource_fallback csalt_resource_fallback(
 	struct csalt_resource_fallback result = {
 		&csalt_resource_fallback_implementation,
 		csalt_resource_pair(first, second),
-		{ 0 }
+		0
 	};
 
 	return result;
@@ -193,8 +193,8 @@ csalt_store *csalt_resource_first_init(csalt_resource *resource)
 
 	for (
 		csalt_resource
-			**current = (csalt_resource **)first->begin,
-			**end = (csalt_resource **)first->end;
+			**current = castto(current, first->begin),
+			**end = castto(end, first->end);
 		current < end;
 		current++
 	) {

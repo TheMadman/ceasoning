@@ -19,8 +19,6 @@
 #ifndef CSALT_COMPOSITERESOURCES_H
 #define CSALT_COMPOSITERESOURCES_H
 
-#include <csalt/platform/init.h>
-
 /**
  * \file
  * \brief This file defines abstract resources, which

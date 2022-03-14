@@ -54,7 +54,7 @@ int csalt_heap_split(
 	void *data
 )
 {
-	struct csalt_heap_initialized *heap = (void *)store;
+	struct csalt_heap_initialized *heap = castto(heap, store);
 	if (csalt_store_size(store) < end)
 		return -1;
 
@@ -81,7 +81,7 @@ int csalt_heap_split(
 
 csalt_store *csalt_heap_init(csalt_resource *resource)
 {
-	struct csalt_heap *memory = (void *)resource;
+	struct csalt_heap *memory = castto(memory, resource);
 	char *result = calloc(memory->heap.size, 1);
 	if (result) {
 		memory->heap.memory = csalt_memory_bounds(result, result + memory->heap.size);
