@@ -19,7 +19,7 @@
 #ifndef CSALTSTORES_H
 #define CSALTSTORES_H
 
-#include <sys/types.h>
+#include <csalt/platform/init.h>
 
 #include <csalt/util.h>
 
@@ -470,6 +470,7 @@ const void *csalt_cmemory_raw(const struct csalt_cmemory *memory);
  * Also useful for resources which manage file descriptors.
  *
  * \sa csalt_store_file_descriptor()
+ * \sa csalt_resource_file
  */
 struct csalt_store_file_descriptor {
 	struct csalt_store_interface *vtable;

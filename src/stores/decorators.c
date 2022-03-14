@@ -210,7 +210,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 		const char *custom_message = message_for_function(
 			logger,
 			LOG_TYPE_ERROR,
-			csalt_store_read
+			(void *)csalt_store_read
 		);
 
 		if (!custom_message)
@@ -227,7 +227,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 					"Could not retrieve error string",
 				custom_message,
 				"csalt_store_read",
-				decorated,
+				(void *)decorated,
 				buffer,
 				bytes,
 				result,
@@ -241,7 +241,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 					"Error message: %s\n",
 				custom_message,
 				"csalt_store_read",
-				decorated,
+				(void *)decorated,
 				buffer,
 				bytes,
 				result,
@@ -250,7 +250,12 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 			);
 		}
 	} else if (result > 0) {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_SUCCESS, csalt_store_read);
+		const char
+			*custom_message = message_for_function(
+				logger,
+				LOG_TYPE_SUCCESS,
+				(void *)csalt_store_read
+			);
 		if (!custom_message)
 			return result;
 
@@ -259,13 +264,18 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 			READ_WRITE_FORMAT_STR,
 			custom_message,
 			"csalt_store_read",
-			decorated,
+			(void *)decorated,
 			buffer,
 			bytes,
 			result
 		);
 	} else {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_ZERO_BYTES, csalt_store_read);
+		const char
+			*custom_message = message_for_function(
+				logger,
+				LOG_TYPE_ZERO_BYTES,
+				(void *)csalt_store_read
+			);
 		if (!custom_message)
 			return result;
 
@@ -274,7 +284,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 			READ_WRITE_FORMAT_STR,
 			custom_message,
 			"csalt_store_read",
-			decorated,
+			(void *)decorated,
 			buffer,
 			bytes,
 			result
@@ -291,7 +301,12 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 	ssize_t result = csalt_store_write(decorated, buffer, bytes);
 
 	if (result < 0) {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_ERROR, csalt_store_write);
+		const char
+			*custom_message = message_for_function(
+				logger,
+				LOG_TYPE_ERROR,
+				(void *)csalt_store_write
+			);
 		if (!custom_message)
 			return result;
 
@@ -306,7 +321,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 					"Could not retrieve error string",
 				custom_message,
 				"csalt_store_write",
-				decorated,
+				(void *)decorated,
 				buffer,
 				bytes,
 				result,
@@ -320,7 +335,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 					"Error message: %s\n",
 				custom_message,
 				"csalt_store_write",
-				decorated,
+				(void *)decorated,
 				buffer,
 				bytes,
 				result,
@@ -329,7 +344,12 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			);
 		}
 	} else if (result > 0) {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_SUCCESS, csalt_store_write);
+		const char
+			*custom_message = message_for_function(
+				logger,
+				LOG_TYPE_SUCCESS,
+				(void *)csalt_store_write
+			);
 		if (!custom_message)
 			return result;
 
@@ -338,13 +358,18 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			READ_WRITE_FORMAT_STR,
 			custom_message,
 			"csalt_store_write",
-			decorated,
+			(void *)decorated,
 			buffer,
 			bytes,
 			result
 		);
 	} else {
-		const char *custom_message = message_for_function(logger, LOG_TYPE_ZERO_BYTES, csalt_store_write);
+		const char
+			*custom_message = message_for_function(
+				logger,
+				LOG_TYPE_ZERO_BYTES,
+				(void *)csalt_store_write
+			);
 		if (!custom_message)
 			return result;
 
@@ -353,7 +378,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			READ_WRITE_FORMAT_STR,
 			custom_message,
 			"csalt_store_write",
-			decorated,
+			(void *)decorated,
 			buffer,
 			bytes,
 			result

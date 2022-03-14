@@ -1,6 +1,8 @@
 #ifndef CSALT_PLATFORM_THREADS_H
 #define CSALT_PLATFORM_THREADS_H
 
+#include "init.h"
+
 #include <pthread.h>
 
 #ifdef __cplusplus

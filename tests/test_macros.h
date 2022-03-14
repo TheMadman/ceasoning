@@ -75,7 +75,11 @@ struct csalt_store_stub csalt_store_stub(ssize_t size)
 {
 	struct csalt_store_stub result = {
 		&csalt_store_stub_interface,
-		size
+		size,
+		0,
+		0,
+		0,
+		0,
 	};
 	return result;
 }
@@ -113,6 +117,11 @@ struct csalt_store_stub csalt_store_stub_error()
 {
 	struct csalt_store_stub result = {
 		&csalt_store_stub_error_implementation,
+		0,
+		0,
+		0,
+		0,
+		0,
 	};
 	return result;
 }
@@ -144,6 +153,11 @@ struct csalt_store_stub csalt_store_stub_zero()
 {
 	struct csalt_store_stub result = {
 		&csalt_store_stub_zero_implementation,
+		0,
+		0,
+		0,
+		0,
+		0,
 	};
 	return result;
 }
@@ -193,7 +207,6 @@ struct csalt_resource_stub csalt_resource_stub(ssize_t size)
 	struct csalt_resource_stub result = {
 		&csalt_resource_stub_succeed_implementation,
 		csalt_store_stub(size),
-		0,
 	};
 
 	return result;

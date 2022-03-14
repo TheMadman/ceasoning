@@ -19,8 +19,7 @@
 #ifndef CSALT_BASERESOURCES_H
 #define CSALT_BASERESOURCES_H
 
-#include <stddef.h>
-#include <unistd.h>
+#include <csalt/platform/init.h>
 
 #include <csalt/stores.h>
 
@@ -269,7 +268,7 @@ int csalt_resource_use(
 /**
  * Provides a shorthand for castto(csalt_resource *, (param))
  */
-#define csalt_resource(param) castto(csalt_resource *, (param))
+#define csalt_resource(param) ((csalt_resource *)(param))
 
 #ifdef __cplusplus
 } // extern "C"
