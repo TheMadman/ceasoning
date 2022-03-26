@@ -91,17 +91,17 @@ struct <a class="el" href="structcsalt__store__interface.html">csalt_store_inter
 <tr class="memitem:af735dad667eb06a9c5cd5c96a23c890c"><td class="memItemLeft" align="right" valign="top"><a id="af735dad667eb06a9c5cd5c96a23c890c"></a>
 struct <a class="el" href="structcsalt__memory.html">csalt_memory</a>&#160;</td><td class="memItemRight" valign="bottom"><b>memory</b></td></tr>
 <tr class="separator:af735dad667eb06a9c5cd5c96a23c890c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aafb28a73a808ee5c4c6a7f3bc91941ee"><td class="memItemLeft" align="right" valign="top"><a id="aafb28a73a808ee5c4c6a7f3bc91941ee"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
-<tr class="separator:aafb28a73a808ee5c4c6a7f3bc91941ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad86ca2a7d21f7015095e69a6e4514b13"><td class="memItemLeft" align="right" valign="top"><a id="ad86ca2a7d21f7015095e69a6e4514b13"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>amount_written</b></td></tr>
-<tr class="separator:ad86ca2a7d21f7015095e69a6e4514b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339ddb20f0438f09ea3684f3551e650f"><td class="memItemLeft" align="right" valign="top"><a id="a339ddb20f0438f09ea3684f3551e650f"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+<tr class="separator:a339ddb20f0438f09ea3684f3551e650f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedf902a314e784c83e434a3ca7d99cca"><td class="memItemLeft" align="right" valign="top"><a id="aedf902a314e784c83e434a3ca7d99cca"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>amount_written</b></td></tr>
+<tr class="separator:aedf902a314e784c83e434a3ca7d99cca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a heap memory resource. </p>
 <p>A pointer to this is returned when <a class="el" href="baseresources_8h.html#ab955be9e11598372757fe262c869fb0d" title="Initializes a resource.">csalt_resource_init()</a> is called on a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a>. Use <a class="el" href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13" title="Gives immediate access to the raw pointer.">csalt_resource_heap_raw()</a> to retrieve a raw pointer.</p>
-<p>This struct does not allow reading back more data than has been written to it with <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> or <a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772" title="This function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>. This helps to prevent reading uninitialized memory. It also allows using a heap as a caching element in <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> with ease. </p>
+<p>This struct does not allow reading back more data than has been written to it with <a class="el" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850" title="Function for writing to a store from a buffer.">csalt_store_write()</a> or <a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772" title="This function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>. This helps to prevent reading uninitialized memory. It also allows using a heap as a caching element in <a class="el" href="structcsalt__store__fallback.html" title="This type decorates a pair with fallback/caching logic.">csalt_store_fallback</a> with ease. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="baseresources_8h_source.html">baseresources.h</a></li>
 </ul>

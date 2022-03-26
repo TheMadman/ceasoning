@@ -77,25 +77,26 @@ $(function() {
 
 <p>Provides an interface for resources with lifetimes.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;stddef.h&gt;</code><br />
-<code>#include &lt;unistd.h&gt;</code><br />
+<div class="textblock"><code>#include &lt;csalt/platform/init.h&gt;</code><br />
 <code>#include &lt;csalt/stores.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for baseresources.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="baseresources_8h__incl.png" border="0" usemap="#csalt_2baseresources_8h" alt=""/></div>
 <map name="csalt_2baseresources_8h" id="csalt_2baseresources_8h">
-<area shape="rect" title="Provides an interface for resources with lifetimes." alt="" coords="60,5,223,32"/>
-<area shape="rect" title=" " alt="" coords="5,80,80,107"/>
-<area shape="rect" title=" " alt="" coords="104,80,179,107"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="203,80,312,107"/>
-<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="195,229,301,256"/>
-<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="77,155,219,181"/>
-<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="295,155,431,181"/>
-<area shape="rect" title=" " alt="" coords="65,304,161,331"/>
-<area shape="rect" href="util_8h.html" title=" " alt="" coords="191,304,281,331"/>
-<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="325,229,504,256"/>
-<area shape="rect" title=" " alt="" coords="373,304,457,331"/>
+<area shape="rect" title="Provides an interface for resources with lifetimes." alt="" coords="385,5,548,32"/>
+<area shape="rect" href="init_8h_source.html" title=" " alt="" coords="195,379,346,405"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="299,80,408,107"/>
+<area shape="rect" title=" " alt="" coords="5,453,101,480"/>
+<area shape="rect" title=" " alt="" coords="235,453,306,480"/>
+<area shape="rect" title=" " alt="" coords="330,453,393,480"/>
+<area shape="rect" title=" " alt="" coords="136,453,211,480"/>
+<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="134,229,239,256"/>
+<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="25,155,167,181"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="285,155,421,181"/>
+<area shape="rect" href="util_8h.html" title=" " alt="" coords="117,304,208,331"/>
+<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="264,229,443,256"/>
+<area shape="rect" title=" " alt="" coords="334,304,418,331"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -129,14 +130,14 @@ Data Structures</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A type representing an initialized vector, implementing the csalt_store interface.  <a href="structcsalt__resource__vector__initialized.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages heap memory which can expand with <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls.  <a href="structcsalt__resource__vector.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages heap memory which can expand with <a class="el" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls.  <a href="structcsalt__resource__vector.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
 <tr class="memitem:a646c92cbee29b7f4bbb6d7564df00c8a"><td class="memItemLeft" align="right" valign="top"><a id="a646c92cbee29b7f4bbb6d7564df00c8a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a646c92cbee29b7f4bbb6d7564df00c8a">csalt_resource</a>(param)&#160;&#160;&#160;<a class="el" href="util_8h.html#ab43229f6369275dc14bd12743cd82a0c">castto</a>(<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *, (param))</td></tr>
-<tr class="memdesc:a646c92cbee29b7f4bbb6d7564df00c8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a shorthand for <a class="el" href="util_8h.html#ab43229f6369275dc14bd12743cd82a0c" title="castto is a macro allowing you to pass either the type to cast the source to, or a destination variab...">castto(csalt_resource *, (param))</a> <br /></td></tr>
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a646c92cbee29b7f4bbb6d7564df00c8a">csalt_resource</a>(param)&#160;&#160;&#160;((<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *)(param))</td></tr>
+<tr class="memdesc:a646c92cbee29b7f4bbb6d7564df00c8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides a shorthand for ((csalt_resource *)(param)) <br /></td></tr>
 <tr class="separator:a646c92cbee29b7f4bbb6d7564df00c8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -169,15 +170,15 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a317013d5c8f88f06c7b304e55e1eca06">csalt_noop_deinit</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *_)</td></tr>
 <tr class="memdesc:a317013d5c8f88f06c7b304e55e1eca06"><td class="mdescLeft">&#160;</td><td class="mdescRight">A noop for deinit. <br /></td></tr>
 <tr class="separator:a317013d5c8f88f06c7b304e55e1eca06"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6732704187a5216e60dd478006713ff"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#ac6732704187a5216e60dd478006713ff">csalt_heap</a> (size_t size)</td></tr>
-<tr class="memdesc:ac6732704187a5216e60dd478006713ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> resource.  <a href="baseresources_8h.html#ac6732704187a5216e60dd478006713ff">More...</a><br /></td></tr>
-<tr class="separator:ac6732704187a5216e60dd478006713ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd1ce2c599a4bf56e48bd6bcb2ba4eb6"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#afd1ce2c599a4bf56e48bd6bcb2ba4eb6">csalt_heap</a> (ssize_t size)</td></tr>
+<tr class="memdesc:afd1ce2c599a4bf56e48bd6bcb2ba4eb6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes a <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> resource.  <a href="baseresources_8h.html#afd1ce2c599a4bf56e48bd6bcb2ba4eb6">More...</a><br /></td></tr>
+<tr class="separator:afd1ce2c599a4bf56e48bd6bcb2ba4eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8c9633bb42d267f702f798d5cd087d13"><td class="memItemLeft" align="right" valign="top">void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">csalt_resource_heap_raw</a> (const struct <a class="el" href="structcsalt__heap__initialized.html">csalt_heap_initialized</a> *heap)</td></tr>
 <tr class="memdesc:a8c9633bb42d267f702f798d5cd087d13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives immediate access to the raw pointer.  <a href="baseresources_8h.html#a8c9633bb42d267f702f798d5cd087d13">More...</a><br /></td></tr>
 <tr class="separator:a8c9633bb42d267f702f798d5cd087d13"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac63bec06a19b8197c37d0951bcee2b12"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#ac63bec06a19b8197c37d0951bcee2b12">csalt_resource_vector</a> (size_t initial_size)</td></tr>
-<tr class="memdesc:ac63bec06a19b8197c37d0951bcee2b12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a vector with an initial buffer size.  <a href="baseresources_8h.html#ac63bec06a19b8197c37d0951bcee2b12">More...</a><br /></td></tr>
-<tr class="separator:ac63bec06a19b8197c37d0951bcee2b12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acbb9a20b96cbc151714feec5154892af"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#acbb9a20b96cbc151714feec5154892af">csalt_resource_vector</a> (ssize_t initial_size)</td></tr>
+<tr class="memdesc:acbb9a20b96cbc151714feec5154892af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a vector with an initial buffer size.  <a href="baseresources_8h.html#acbb9a20b96cbc151714feec5154892af">More...</a><br /></td></tr>
+<tr class="separator:acbb9a20b96cbc151714feec5154892af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">csalt_resource_use</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *code_block, void *out)</td></tr>
 <tr class="memdesc:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manages a resource lifecycle and executes the given function.  <a href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21">More...</a><br /></td></tr>
 <tr class="separator:a991bf5e3b35d5b7d355b6fc35f2dab21"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -209,8 +210,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="ac6732704187a5216e60dd478006713ff"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac6732704187a5216e60dd478006713ff">&#9670;&nbsp;</a></span>csalt_heap()</h2>
+<a id="afd1ce2c599a4bf56e48bd6bcb2ba4eb6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afd1ce2c599a4bf56e48bd6bcb2ba4eb6">&#9670;&nbsp;</a></span>csalt_heap()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -218,7 +219,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
         <tr>
           <td class="memname">struct <a class="el" href="structcsalt__heap.html">csalt_heap</a> <a class="el" href="structcsalt__heap.html">csalt_heap</a> </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>size</em></td><td>)</td>
           <td></td>
         </tr>
@@ -268,7 +269,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 </div><div class="memdoc">
 
 <p>Gives immediate access to the raw pointer. </p>
-<p>This function should only really be used for reading data from the resulting pointer. Safe transfer with other stores can be done with <a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772" title="This function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>, and safe copying can be done with <a class="el" href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111" title="Function for reading from a store into a buffer.">csalt_store_read()</a>. </p>
+<p>This function should only really be used for reading data from the resulting pointer. Safe transfer with other stores can be done with <a class="el" href="basestores_8h.html#a20e02a002904116c6cb8f63256675772" title="This function provides a convenient means to write data from one store into another.">csalt_store_transfer()</a>, and safe copying can be done with <a class="el" href="basestores_8h.html#aad90a09c919da5414b7d4c7622a4357f" title="Function for reading from a store into a buffer.">csalt_store_read()</a>. </p>
 
 </div>
 </div>
@@ -310,8 +311,8 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
 
 </div>
 </div>
-<a id="ac63bec06a19b8197c37d0951bcee2b12"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac63bec06a19b8197c37d0951bcee2b12">&#9670;&nbsp;</a></span>csalt_resource_vector()</h2>
+<a id="acbb9a20b96cbc151714feec5154892af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acbb9a20b96cbc151714feec5154892af">&#9670;&nbsp;</a></span>csalt_resource_vector()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +320,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="base
         <tr>
           <td class="memname">struct <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a> <a class="el" href="structcsalt__resource__vector.html">csalt_resource_vector</a> </td>
           <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>initial_size</em></td><td>)</td>
           <td></td>
         </tr>

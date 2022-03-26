@@ -98,11 +98,14 @@ char *&#160;</td><td class="memItemRight" valign="bottom"><b>end</b></td></tr>
 <div class="textblock"><p>A type representing a continuous block of memory. </p>
 <p>Use this store to represent an already-managed block of memory, such as function stack or application-global memory.</p>
 <p>For heap memory, <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> provides a resource which can be managed for you by passing it to <a class="el" href="baseresources_8h.html#a991bf5e3b35d5b7d355b6fc35f2dab21" title="Manages a resource lifecycle and executes the given function.">csalt_resource_use()</a>.</p>
-<dl class="section see"><dt>See also</dt><dd><a class="el" href="basestores_8h.html#ae3963b044b093bfd5993a2effbf213ee" title="Convenience macro for setting up a pointer-to-type.">csalt_store_memory_pointer()</a> </dd>
+<p>For const memory, consider <a class="el" href="structcsalt__cmemory.html" title="A type representing a continuous block of read-only memory.">csalt_cmemory</a> instead.</p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__cmemory.html" title="A type representing a continuous block of read-only memory.">csalt_cmemory</a> </dd>
 <dd>
-<a class="el" href="basestores_8h.html#a91e84246aef7b460f4dddc47704b7257" title="Convenience macro for setting up an array-of-type.">csalt_store_memory_array()</a> </dd>
+<a class="el" href="basestores_8h.html#a09d859b9b804c098ad1ed76858219a07" title="Convenience macro for setting up a pointer-to-type.">csalt_memory_pointer()</a> </dd>
 <dd>
-<a class="el" href="basestores_8h.html#af825a25160b9613d9d88c6f979a6c956" title="Creates a csalt_store_memory struct and sets up its virtual call table.">csalt_store_memory_bounds()</a> </dd>
+<a class="el" href="basestores_8h.html#aa5bd99c0f0449e4c79ff5ac30dfcf509" title="Convenience macro for setting up an array-of-type.">csalt_memory_array()</a> </dd>
+<dd>
+<a class="el" href="basestores_8h.html#afb15b54f830962ae34170d97156931d4" title="Creates a csalt_memory struct and sets up its virtual call table.">csalt_memory_bounds()</a> </dd>
 <dd>
 <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a> </dd></dl>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>

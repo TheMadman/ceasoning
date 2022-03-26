@@ -76,27 +76,30 @@ $(function() {
 
 <p>Provides resources for networking.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="baseresources_8h_source.html">baseresources.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;csalt/platform/init.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="baseresources_8h_source.html">baseresources.h</a>&quot;</code><br />
 <code>#include &lt;csalt/platform/socket.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for networkresources.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="networkresources_8h__incl.png" border="0" usemap="#csalt_2networkresources_8h" alt=""/></div>
 <map name="csalt_2networkresources_8h" id="csalt_2networkresources_8h">
-<area shape="rect" title="Provides resources for networking." alt="" coords="173,5,358,32"/>
-<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="115,80,243,107"/>
-<area shape="rect" href="socket_8h_source.html" title=" " alt="" coords="303,80,473,107"/>
-<area shape="rect" title=" " alt="" coords="5,155,80,181"/>
-<area shape="rect" title=" " alt="" coords="104,155,179,181"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="203,155,312,181"/>
-<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="223,304,329,331"/>
-<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="295,229,438,256"/>
-<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="84,229,220,256"/>
-<area shape="rect" title=" " alt="" coords="369,379,465,405"/>
-<area shape="rect" href="util_8h.html" title=" " alt="" coords="243,379,333,405"/>
-<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="20,304,199,331"/>
-<area shape="rect" title=" " alt="" coords="67,379,151,405"/>
-<area shape="rect" title=" " alt="" coords="337,155,439,181"/>
+<area shape="rect" title="Provides resources for networking." alt="" coords="550,5,735,32"/>
+<area shape="rect" href="init_8h_source.html" title=" " alt="" coords="301,453,451,480"/>
+<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="283,80,411,107"/>
+<area shape="rect" href="socket_8h_source.html" title=" " alt="" coords="680,80,851,107"/>
+<area shape="rect" title=" " alt="" coords="544,528,640,555"/>
+<area shape="rect" title=" " alt="" coords="250,528,321,555"/>
+<area shape="rect" title=" " alt="" coords="345,528,407,555"/>
+<area shape="rect" title=" " alt="" coords="432,528,507,555"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="292,155,401,181"/>
+<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="347,304,453,331"/>
+<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="438,229,581,256"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="227,229,363,256"/>
+<area shape="rect" href="util_8h.html" title=" " alt="" coords="464,379,555,405"/>
+<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="93,304,272,331"/>
+<area shape="rect" title=" " alt="" coords="137,379,221,405"/>
+<area shape="rect" title=" " alt="" coords="731,155,834,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -127,21 +130,21 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a9b2cf104ee996b76cf64e47c380be8cb"><td class="memItemLeft" align="right" valign="top"><a id="a9b2cf104ee996b76cf64e47c380be8cb"></a>
 typedef struct <a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network_socket_initialized</a>&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_network</b></td></tr>
 <tr class="separator:a9b2cf104ee996b76cf64e47c380be8cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bbfaa58688d48b5368245f3ecce68ca"><td class="memItemLeft" align="right" valign="top"><a id="a6bbfaa58688d48b5368245f3ecce68ca"></a>
-typedef ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_sendto_fn</b>(<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
-<tr class="separator:a6bbfaa58688d48b5368245f3ecce68ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06aad0f719c129556f80f24fbbdd1ff9"><td class="memItemLeft" align="right" valign="top"><a id="a06aad0f719c129556f80f24fbbdd1ff9"></a>
-typedef ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_recvfrom_fn</b>(<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, size_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
-<tr class="separator:a06aad0f719c129556f80f24fbbdd1ff9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bc351575569e8355098e99cbca30802"><td class="memItemLeft" align="right" valign="top"><a id="a0bc351575569e8355098e99cbca30802"></a>
+typedef ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_sendto_fn</b>(<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, ssize_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
+<tr class="separator:a0bc351575569e8355098e99cbca30802"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e27457dabe5f762dd9aa0c7b953577f"><td class="memItemLeft" align="right" valign="top"><a id="a3e27457dabe5f762dd9aa0c7b953577f"></a>
+typedef ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_recvfrom_fn</b>(<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, ssize_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
+<tr class="separator:a3e27457dabe5f762dd9aa0c7b953577f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2a47eaad8894c7f07c510149f0629fd0"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a2a47eaad8894c7f07c510149f0629fd0">csalt_resource_sendto</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
-<tr class="memdesc:a2a47eaad8894c7f07c510149f0629fd0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function wrapping the sendto() network socket call.  <a href="networkresources_8h.html#a2a47eaad8894c7f07c510149f0629fd0">More...</a><br /></td></tr>
-<tr class="separator:a2a47eaad8894c7f07c510149f0629fd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a089575679fe09b9c883e705d9d685728"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a089575679fe09b9c883e705d9d685728">csalt_resource_recvfrom</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, size_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
-<tr class="memdesc:a089575679fe09b9c883e705d9d685728"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function wrapping the recvfrom() network socket call.  <a href="networkresources_8h.html#a089575679fe09b9c883e705d9d685728">More...</a><br /></td></tr>
-<tr class="separator:a089575679fe09b9c883e705d9d685728"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98062d84073ecb64bcc69c519f00a1b3"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a98062d84073ecb64bcc69c519f00a1b3">csalt_resource_sendto</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, ssize_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
+<tr class="memdesc:a98062d84073ecb64bcc69c519f00a1b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function wrapping the sendto() network socket call.  <a href="networkresources_8h.html#a98062d84073ecb64bcc69c519f00a1b3">More...</a><br /></td></tr>
+<tr class="separator:a98062d84073ecb64bcc69c519f00a1b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c19e26dcff0f5669bf7595e5db1ae30"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a1c19e26dcff0f5669bf7595e5db1ae30">csalt_resource_recvfrom</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, ssize_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
+<tr class="memdesc:a1c19e26dcff0f5669bf7595e5db1ae30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function wrapping the recvfrom() network socket call.  <a href="networkresources_8h.html#a1c19e26dcff0f5669bf7595e5db1ae30">More...</a><br /></td></tr>
+<tr class="separator:a1c19e26dcff0f5669bf7595e5db1ae30"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a25151eb1a4818659b7f13874958fe56c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a25151eb1a4818659b7f13874958fe56c">csalt_resource_network_udp_connected</a> (const char *node, const char *service)</td></tr>
 <tr class="memdesc:a25151eb1a4818659b7f13874958fe56c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a connected socket, taking the host name/IP address and service name/port number as arguments.  <a href="networkresources_8h.html#a25151eb1a4818659b7f13874958fe56c">More...</a><br /></td></tr>
 <tr class="separator:a25151eb1a4818659b7f13874958fe56c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -151,12 +154,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aaebd1a4ccc40a8239eb17561c658d98c"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__resource__network__socket.html">csalt_resource_network_socket</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#aaebd1a4ccc40a8239eb17561c658d98c">csalt_resource_network_udp_stateless</a> ()</td></tr>
 <tr class="memdesc:aaebd1a4ccc40a8239eb17561c658d98c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a new UDP socket.  <a href="networkresources_8h.html#aaebd1a4ccc40a8239eb17561c658d98c">More...</a><br /></td></tr>
 <tr class="separator:aaebd1a4ccc40a8239eb17561c658d98c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16ed4fa94dbf898d3fe47cd8170b92c7"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a16ed4fa94dbf898d3fe47cd8170b92c7">csalt_resource_socket_sendto</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
-<tr class="memdesc:a16ed4fa94dbf898d3fe47cd8170b92c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of sendto for socket resources.  <a href="networkresources_8h.html#a16ed4fa94dbf898d3fe47cd8170b92c7">More...</a><br /></td></tr>
-<tr class="separator:a16ed4fa94dbf898d3fe47cd8170b92c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5922248dd52e0da2989e913f0e14dbc8"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a5922248dd52e0da2989e913f0e14dbc8">csalt_resource_socket_recvfrom</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, size_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
-<tr class="memdesc:a5922248dd52e0da2989e913f0e14dbc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of recvfrom for socket resources.  <a href="networkresources_8h.html#a5922248dd52e0da2989e913f0e14dbc8">More...</a><br /></td></tr>
-<tr class="separator:a5922248dd52e0da2989e913f0e14dbc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c255c2e6b46474d1dc3cf61c6c5e594"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a3c255c2e6b46474d1dc3cf61c6c5e594">csalt_resource_socket_sendto</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, const void *buffer, ssize_t length, int flags, const struct sockaddr *dest_addr, socklen_t addr_t)</td></tr>
+<tr class="memdesc:a3c255c2e6b46474d1dc3cf61c6c5e594"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of sendto for socket resources.  <a href="networkresources_8h.html#a3c255c2e6b46474d1dc3cf61c6c5e594">More...</a><br /></td></tr>
+<tr class="separator:a3c255c2e6b46474d1dc3cf61c6c5e594"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36c9017f00122e5c8432b25f6ebef528"><td class="memItemLeft" align="right" valign="top">ssize_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="networkresources_8h.html#a36c9017f00122e5c8432b25f6ebef528">csalt_resource_socket_recvfrom</a> (<a class="el" href="structcsalt__resource__network__socket__initialized.html">csalt_resource_network</a> *network, void *buffer, ssize_t length, int flags, struct sockaddr *src_addr, socklen_t *addrlen)</td></tr>
+<tr class="memdesc:a36c9017f00122e5c8432b25f6ebef528"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implementation of recvfrom for socket resources.  <a href="networkresources_8h.html#a36c9017f00122e5c8432b25f6ebef528">More...</a><br /></td></tr>
+<tr class="separator:a36c9017f00122e5c8432b25f6ebef528"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Provides resources for networking. </p>
@@ -244,8 +247,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a089575679fe09b9c883e705d9d685728"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a089575679fe09b9c883e705d9d685728">&#9670;&nbsp;</a></span>csalt_resource_recvfrom()</h2>
+<a id="a1c19e26dcff0f5669bf7595e5db1ae30"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1c19e26dcff0f5669bf7595e5db1ae30">&#9670;&nbsp;</a></span>csalt_resource_recvfrom()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -265,7 +268,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
@@ -300,8 +303,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a2a47eaad8894c7f07c510149f0629fd0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2a47eaad8894c7f07c510149f0629fd0">&#9670;&nbsp;</a></span>csalt_resource_sendto()</h2>
+<a id="a98062d84073ecb64bcc69c519f00a1b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a98062d84073ecb64bcc69c519f00a1b3">&#9670;&nbsp;</a></span>csalt_resource_sendto()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -321,7 +324,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
@@ -356,8 +359,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a5922248dd52e0da2989e913f0e14dbc8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5922248dd52e0da2989e913f0e14dbc8">&#9670;&nbsp;</a></span>csalt_resource_socket_recvfrom()</h2>
+<a id="a36c9017f00122e5c8432b25f6ebef528"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36c9017f00122e5c8432b25f6ebef528">&#9670;&nbsp;</a></span>csalt_resource_socket_recvfrom()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -377,7 +380,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
@@ -407,12 +410,12 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implementation of recvfrom for socket resources. </p>
-<p>You generally should not be calling this directly: use <a class="el" href="networkresources_8h.html#a089575679fe09b9c883e705d9d685728" title="Function wrapping the recvfrom() network socket call.">csalt_resource_recvfrom()</a>. </p>
+<p>You generally should not be calling this directly: use <a class="el" href="networkresources_8h.html#a1c19e26dcff0f5669bf7595e5db1ae30" title="Function wrapping the recvfrom() network socket call.">csalt_resource_recvfrom()</a>. </p>
 
 </div>
 </div>
-<a id="a16ed4fa94dbf898d3fe47cd8170b92c7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16ed4fa94dbf898d3fe47cd8170b92c7">&#9670;&nbsp;</a></span>csalt_resource_socket_sendto()</h2>
+<a id="a3c255c2e6b46474d1dc3cf61c6c5e594"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c255c2e6b46474d1dc3cf61c6c5e594">&#9670;&nbsp;</a></span>csalt_resource_socket_sendto()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -432,7 +435,7 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">size_t&#160;</td>
+          <td class="paramtype">ssize_t&#160;</td>
           <td class="paramname"><em>length</em>, </td>
         </tr>
         <tr>
@@ -462,7 +465,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implementation of sendto for socket resources. </p>
-<p>You generally should not be calling this directly: use <a class="el" href="networkresources_8h.html#a2a47eaad8894c7f07c510149f0629fd0" title="Function wrapping the sendto() network socket call.">csalt_resource_sendto()</a>. </p>
+<p>You generally should not be calling this directly: use <a class="el" href="networkresources_8h.html#a98062d84073ecb64bcc69c519f00a1b3" title="Function wrapping the sendto() network socket call.">csalt_resource_sendto()</a>. </p>
 
 </div>
 </div>

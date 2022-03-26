@@ -68,7 +68,7 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
-<p>Manages heap memory which can expand with <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls.  
+<p>Manages heap memory which can expand with <a class="el" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls.  
  <a href="structcsalt__resource__vector.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="baseresources_8h_source.html">csalt/baseresources.h</a>&gt;</code></p>
@@ -89,15 +89,15 @@ Data Fields</h2></td></tr>
 <tr class="memitem:a500aa0a54630c04e1117aab5ebfcca17"><td class="memItemLeft" align="right" valign="top"><a id="a500aa0a54630c04e1117aab5ebfcca17"></a>
 struct <a class="el" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *&#160;</td><td class="memItemRight" valign="bottom"><b>vtable</b></td></tr>
 <tr class="separator:a500aa0a54630c04e1117aab5ebfcca17"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a23f9f98519bc164fe6acaae4b8e8f6c1"><td class="memItemLeft" align="right" valign="top"><a id="a23f9f98519bc164fe6acaae4b8e8f6c1"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
-<tr class="separator:a23f9f98519bc164fe6acaae4b8e8f6c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52f54357018f98b224665e7ac9ffae28"><td class="memItemLeft" align="right" valign="top"><a id="a52f54357018f98b224665e7ac9ffae28"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>size</b></td></tr>
+<tr class="separator:a52f54357018f98b224665e7ac9ffae28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e6169c0087702d4b40c37fd04af70b7"><td class="memItemLeft" align="right" valign="top"><a id="a0e6169c0087702d4b40c37fd04af70b7"></a>
 struct <a class="el" href="structcsalt__resource__vector__initialized.html">csalt_resource_vector_initialized</a>&#160;</td><td class="memItemRight" valign="bottom"><b>vector</b></td></tr>
 <tr class="separator:a0e6169c0087702d4b40c37fd04af70b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Manages heap memory which can expand with <a class="el" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls. </p>
+<div class="textblock"><p>Manages heap memory which can expand with <a class="el" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850" title="Function for writing to a store from a buffer.">csalt_store_write()</a> calls. </p>
 <p>This type is similar to <a class="el" href="structcsalt__heap.html" title="Represents a heap memory resource.">csalt_heap</a>, except that writing past the end of the heap memory attempts a reallocation and copy. The newly reallocated size attempted is simply twice the previous size. </p>
 </div><hr/>The documentation for this struct was generated from the following file:<ul>
 <li>csalt/<a class="el" href="baseresources_8h_source.html">baseresources.h</a></li>

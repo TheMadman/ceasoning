@@ -76,25 +76,28 @@ $(function() {
 
 <p>This file defines abstract resources, which allow you to define relationships between resources.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="baseresources_8h_source.html">csalt/baseresources.h</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;csalt/platform/init.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="baseresources_8h_source.html">csalt/baseresources.h</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="compositestores_8h_source.html">csalt/compositestores.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for compositeresources.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="compositeresources_8h__incl.png" border="0" usemap="#csalt_2compositeresources_8h" alt=""/></div>
 <map name="csalt_2compositeresources_8h" id="csalt_2compositeresources_8h">
-<area shape="rect" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="149,5,349,32"/>
-<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="109,80,272,107"/>
-<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="290,229,433,256"/>
-<area shape="rect" title=" " alt="" coords="5,155,80,181"/>
-<area shape="rect" title=" " alt="" coords="104,155,179,181"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="203,155,312,181"/>
-<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="209,304,314,331"/>
-<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="79,229,215,256"/>
-<area shape="rect" title=" " alt="" coords="219,379,315,405"/>
-<area shape="rect" href="util_8h.html" title=" " alt="" coords="351,379,441,405"/>
-<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="5,304,184,331"/>
-<area shape="rect" title=" " alt="" coords="53,379,137,405"/>
+<area shape="rect" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="264,5,464,32"/>
+<area shape="rect" href="init_8h_source.html" title=" " alt="" coords="218,453,369,480"/>
+<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="283,80,445,107"/>
+<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="41,229,183,256"/>
+<area shape="rect" title=" " alt="" coords="5,528,101,555"/>
+<area shape="rect" title=" " alt="" coords="355,528,426,555"/>
+<area shape="rect" title=" " alt="" coords="169,528,231,555"/>
+<area shape="rect" title=" " alt="" coords="256,528,331,555"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="272,155,381,181"/>
+<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="150,304,255,331"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="259,229,395,256"/>
+<area shape="rect" href="util_8h.html" title=" " alt="" coords="115,379,205,405"/>
+<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="331,304,509,331"/>
+<area shape="rect" title=" " alt="" coords="382,379,466,405"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -305,7 +308,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_resource_first_
 </div><!-- contents -->
 <div class="ttc" id="acompositeresources_8h_html_a19e9034f320bdebe0f1272fca1e4b6d7"><div class="ttname"><a href="compositeresources_8h.html#a19e9034f320bdebe0f1272fca1e4b6d7">csalt_resource_pair_list_bounds</a></div><div class="ttdeci">int csalt_resource_pair_list_bounds(csalt_resource **resource_begin, csalt_resource **resource_end, struct csalt_resource_pair *out_begin, struct csalt_resource_pair *out_end)</div><div class="ttdoc">Constructs a linked-list-like structure of csalt_resource_pairs.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:42</div></div>
 <div class="ttc" id="acompositeresources_8h_html_adaf1dd0baf330990815109401231f090"><div class="ttname"><a href="compositeresources_8h.html#adaf1dd0baf330990815109401231f090">csalt_resource_fallback_bounds</a></div><div class="ttdeci">int csalt_resource_fallback_bounds(csalt_resource **resource_begin, csalt_resource **resource_end, struct csalt_resource_fallback *out_begin, struct csalt_resource_fallback *out_end)</div><div class="ttdoc">Constructs a csalt_resource_fallback from an array of csalt_resources.</div><div class="ttdef"><b>Definition:</b> compositeresources.c:123</div></div>
-<div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:50</div></div>
+<div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:52</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

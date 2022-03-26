@@ -76,7 +76,8 @@ $(function() {
 
 <p>This file is responsible for providing decorator functions around csalt_resources.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="baseresources_8h_source.html">baseresources.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;csalt/platform/init.h&gt;</code><br />
+<code>#include &quot;<a class="el" href="baseresources_8h_source.html">baseresources.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="decoratorstores_8h_source.html">decoratorstores.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="util_8h_source.html">util.h</a>&quot;</code><br />
 <code>#include &quot;csalt/platform/threads.h&quot;</code><br />
@@ -85,18 +86,20 @@ Include dependency graph for decoratorresources.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="decoratorresources_8h__incl.png" border="0" usemap="#csalt_2decoratorresources_8h" alt=""/></div>
 <map name="csalt_2decoratorresources_8h" id="csalt_2decoratorresources_8h">
-<area shape="rect" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="313,5,508,32"/>
-<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="189,80,317,107"/>
-<area shape="rect" href="util_8h.html" title=" " alt="" coords="197,379,288,405"/>
-<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="264,229,400,256"/>
-<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="475,304,653,331"/>
-<area shape="rect" title=" " alt="" coords="5,155,80,181"/>
-<area shape="rect" title=" " alt="" coords="104,155,179,181"/>
-<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="203,155,312,181"/>
-<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="190,304,295,331"/>
-<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="46,229,189,256"/>
-<area shape="rect" title=" " alt="" coords="65,379,161,405"/>
-<area shape="rect" title=" " alt="" coords="522,379,606,405"/>
+<area shape="rect" title="This file is responsible for providing decorator functions around csalt_resources." alt="" coords="375,5,569,32"/>
+<area shape="rect" href="init_8h_source.html" title=" " alt="" coords="243,453,394,480"/>
+<area shape="rect" href="baseresources_8h.html" title="Provides an interface for resources with lifetimes." alt="" coords="307,80,435,107"/>
+<area shape="rect" href="util_8h.html" title=" " alt="" coords="128,379,219,405"/>
+<area shape="rect" href="decoratorstores_8h.html" title="This file is responsible for providing decorator functions around csalt_stores." alt="" coords="356,229,492,256"/>
+<area shape="rect" href="threads_8h_source.html" title=" " alt="" coords="407,304,585,331"/>
+<area shape="rect" title=" " alt="" coords="5,528,101,555"/>
+<area shape="rect" title=" " alt="" coords="381,528,451,555"/>
+<area shape="rect" title=" " alt="" coords="194,528,257,555"/>
+<area shape="rect" title=" " alt="" coords="281,528,356,555"/>
+<area shape="rect" href="stores_8h_source.html" title=" " alt="" coords="264,155,373,181"/>
+<area shape="rect" href="basestores_8h.html" title="This file defines interfaces for anything which data can be written to or read from." alt="" coords="175,304,281,331"/>
+<area shape="rect" href="compositestores_8h.html" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="74,229,217,256"/>
+<area shape="rect" title=" " alt="" coords="458,379,542,405"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -171,18 +174,18 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="deco
 <tr class="memitem:ad7c4bb87d0d7acc634479136543104c9"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structcsalt__decorator__lazy.html">csalt_decorator_lazy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#ad7c4bb87d0d7acc634479136543104c9">csalt_decorator_lazy</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="memdesc:ad7c4bb87d0d7acc634479136543104c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__decorator__lazy.html" title="This decorator implements the store interface around a resource, and attempts to initialize and use i...">csalt_decorator_lazy</a>, wrapping a resource.  <a href="decoratorresources_8h.html#ad7c4bb87d0d7acc634479136543104c9">More...</a><br /></td></tr>
 <tr class="separator:ad7c4bb87d0d7acc634479136543104c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9d241cc7ad016bc3392b26cbf7dfe724"><td class="memItemLeft" align="right" valign="top"><a id="a9d241cc7ad016bc3392b26cbf7dfe724"></a>
-ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_read</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, void *buffer, size_t amount)</td></tr>
-<tr class="separator:a9d241cc7ad016bc3392b26cbf7dfe724"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa878f7458751c0b5d3f8558aba4e3e01"><td class="memItemLeft" align="right" valign="top"><a id="aa878f7458751c0b5d3f8558aba4e3e01"></a>
-ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_write</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, const void *buffer, size_t amount)</td></tr>
-<tr class="separator:aa878f7458751c0b5d3f8558aba4e3e01"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a574e3df2d44d8250032df6fab37a7b05"><td class="memItemLeft" align="right" valign="top"><a id="a574e3df2d44d8250032df6fab37a7b05"></a>
-size_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_size</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store)</td></tr>
-<tr class="separator:a574e3df2d44d8250032df6fab37a7b05"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0cf4963fd4a3acbc9d15beddf598357b"><td class="memItemLeft" align="right" valign="top"><a id="a0cf4963fd4a3acbc9d15beddf598357b"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_split</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, size_t begin, size_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *param)</td></tr>
-<tr class="separator:a0cf4963fd4a3acbc9d15beddf598357b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1856d9be94bc02ef6d9d3b1902802a46"><td class="memItemLeft" align="right" valign="top"><a id="a1856d9be94bc02ef6d9d3b1902802a46"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_read</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, void *buffer, ssize_t amount)</td></tr>
+<tr class="separator:a1856d9be94bc02ef6d9d3b1902802a46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6fb5a2da793b0a20129919594c65a14e"><td class="memItemLeft" align="right" valign="top"><a id="a6fb5a2da793b0a20129919594c65a14e"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_write</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, const void *buffer, ssize_t amount)</td></tr>
+<tr class="separator:a6fb5a2da793b0a20129919594c65a14e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a652af64b55754f1abe2bdfd667a5d95c"><td class="memItemLeft" align="right" valign="top"><a id="a652af64b55754f1abe2bdfd667a5d95c"></a>
+ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_size</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store)</td></tr>
+<tr class="separator:a652af64b55754f1abe2bdfd667a5d95c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c4e9e950c03d67605c927cda6da9fbb"><td class="memItemLeft" align="right" valign="top"><a id="a9c4e9e950c03d67605c927cda6da9fbb"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_lazy_split</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, ssize_t begin, ssize_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *param)</td></tr>
+<tr class="separator:a9c4e9e950c03d67605c927cda6da9fbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e399a16db2de218380f32081234755c"><td class="memItemLeft" align="right" valign="top"><a id="a6e399a16db2de218380f32081234755c"></a>
 struct <a class="el" href="structcsalt__resource__decorator__lazy.html">csalt_resource_decorator_lazy</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorresources_8h.html#a6e399a16db2de218380f32081234755c">csalt_resource_decorator_lazy</a> (<a class="el" href="baseresources_8h.html#a45c92d03a7f8f9b97793e37b743d0de0">csalt_resource</a> *resource)</td></tr>
 <tr class="memdesc:a6e399a16db2de218380f32081234755c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__resource__decorator__lazy.html" title="This decorator decorates a resource and only initializes it when an attempt is made to read/write/etc...">csalt_resource_decorator_lazy</a>. <br /></td></tr>
@@ -627,10 +630,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_decorator_mutex
 </div>
 </div><!-- contents -->
 <div class="ttc" id="adecoratorresources_8h_html_a85752a5f0d5e1149e8497c44f103a9e6"><div class="ttname"><a href="decoratorresources_8h.html#a85752a5f0d5e1149e8497c44f103a9e6">csalt_resource_decorator_logger_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *errors_begin, const struct csalt_store_log_message *errors_end, const struct csalt_store_log_message *successes_begin, const struct csalt_store_log_message *successes_end, const struct csalt_store_log_message *zero_bytes_begin, const struct csalt_store_log_message *zero_bytes_end)</div><div class="ttdoc">Constructor for csalt_resource_decorator_logger, taking similar arguments to csalt_store_decorator_lo...</div><div class="ttdef"><b>Definition:</b> decorators.c:51</div></div>
-<div class="ttc" id="adecoratorresources_8h_html_a834181f1ce24f3f3b7a185f8b4f678ad"><div class="ttname"><a href="decoratorresources_8h.html#a834181f1ce24f3f3b7a185f8b4f678ad">csalt_resource_decorator_logger_success_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_success_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *successs_begin, const struct csalt_store_log_message *successs_end)</div><div class="ttdoc">A convenience constructor for setting up a success-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:102</div></div>
-<div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:50</div></div>
-<div class="ttc" id="adecoratorresources_8h_html_a50d4479b1f9848b0081b366d02469a99"><div class="ttname"><a href="decoratorresources_8h.html#a50d4479b1f9848b0081b366d02469a99">csalt_resource_decorator_logger_zero_bytes_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_bytes_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *zero_bytess_begin, const struct csalt_store_log_message *zero_bytess_end)</div><div class="ttdoc">A convenience constructor for setting up a zero-bytes-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:120</div></div>
-<div class="ttc" id="adecoratorresources_8h_html_ad0622ecb69e8de4ce0b18512cce46e64"><div class="ttname"><a href="decoratorresources_8h.html#ad0622ecb69e8de4ce0b18512cce46e64">csalt_resource_decorator_logger_error_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_error_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *errors_begin, const struct csalt_store_log_message *errors_end)</div><div class="ttdoc">A convenience constructor for setting up an error-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:84</div></div>
+<div class="ttc" id="adecoratorresources_8h_html_a834181f1ce24f3f3b7a185f8b4f678ad"><div class="ttname"><a href="decoratorresources_8h.html#a834181f1ce24f3f3b7a185f8b4f678ad">csalt_resource_decorator_logger_success_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_success_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *successs_begin, const struct csalt_store_log_message *successs_end)</div><div class="ttdoc">A convenience constructor for setting up a success-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:103</div></div>
+<div class="ttc" id="autil_8h_html_ae97fb3e0c45319bc1fb11adde2d2a1e8"><div class="ttname"><a href="util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8">arrend</a></div><div class="ttdeci">#define arrend(array)</div><div class="ttdoc">Gets a pointer past the end of the array, such that arrend(array) - array == sizeof(array)</div><div class="ttdef"><b>Definition:</b> util.h:52</div></div>
+<div class="ttc" id="adecoratorresources_8h_html_a50d4479b1f9848b0081b366d02469a99"><div class="ttname"><a href="decoratorresources_8h.html#a50d4479b1f9848b0081b366d02469a99">csalt_resource_decorator_logger_zero_bytes_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_bytes_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *zero_bytess_begin, const struct csalt_store_log_message *zero_bytess_end)</div><div class="ttdoc">A convenience constructor for setting up a zero-bytes-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:121</div></div>
+<div class="ttc" id="adecoratorresources_8h_html_ad0622ecb69e8de4ce0b18512cce46e64"><div class="ttname"><a href="decoratorresources_8h.html#ad0622ecb69e8de4ce0b18512cce46e64">csalt_resource_decorator_logger_error_bounds</a></div><div class="ttdeci">struct csalt_resource_decorator_logger csalt_resource_decorator_logger_error_bounds(csalt_resource *child, int file_descriptor, const struct csalt_store_log_message *errors_begin, const struct csalt_store_log_message *errors_end)</div><div class="ttdoc">A convenience constructor for setting up an error-only logger.</div><div class="ttdef"><b>Definition:</b> decorators.c:85</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

@@ -103,20 +103,20 @@ struct <a class="el" href="structcsalt__store__log__message__list.html">csalt_st
 <p>Besides the given <a class="el" href="structcsalt__store__log__message.html" title="A tuple type used by csalt_store_decorator_logger to provide log messages based on the return codes o...">csalt_store_log_message</a> messages, the function name, passed parameters and return values are printed. In the case of errors, the value of errno and its corresponding error string are also printed.</p>
 <p>An example which logs errors to stderr: </p><div class="fragment"><div class="line">   <span class="comment">// csalt_store *file;</span></div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__store__log__message.html">csalt_store_log_message</a> messages[] = {</div>
-<div class="line">   { <a class="code" href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111">csalt_store_read</a>, <span class="stringliteral">&quot;tempfile&quot;</span> },</div>
-<div class="line">   { <a class="code" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a>, <span class="stringliteral">&quot;tempfile&quot;</span> },</div>
+<div class="line">   { <a class="code" href="basestores_8h.html#aad90a09c919da5414b7d4c7622a4357f">csalt_store_read</a>, <span class="stringliteral">&quot;tempfile&quot;</span> },</div>
+<div class="line">   { <a class="code" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850">csalt_store_write</a>, <span class="stringliteral">&quot;tempfile&quot;</span> },</div>
 <div class="line">};</div>
 <div class="line"><span class="keyword">struct </span><a class="code" href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a> logger =</div>
 <div class="line">   csalt_store_decorator_logger_error_array(file, stderr, messages);</div>
 <div class="line"> </div>
 <div class="line"><span class="keyword">const</span> <span class="keywordtype">char</span> data[] = <span class="stringliteral">&quot;Hello, World!&quot;</span>;</div>
-<div class="line">ssize_t write_result = <a class="code" href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a>((<a class="code" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *)&amp;logger, data, <span class="keyword">sizeof</span>(data));</div>
+<div class="line">ssize_t write_result = <a class="code" href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850">csalt_store_write</a>((<a class="code" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *)&amp;logger, data, <span class="keyword">sizeof</span>(data));</div>
 <div class="line"><span class="keywordflow">if</span> (write_result &lt; 0)</div>
 <div class="line">   <span class="comment">// Message was already logged to stderr for us, just return</span></div>
 <div class="line">   <span class="keywordflow">return</span> EXIT_FAILURE;</div>
 <div class="line"> </div>
 <div class="line"><span class="keywordtype">char</span> read_data[<span class="keyword">sizeof</span>(data)] = { 0 };</div>
-<div class="line">ssize_t read_result = <a class="code" href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111">csalt_store_read</a>((<a class="code" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *)&amp;logger, read_data, <span class="keyword">sizeof</span>(read_data));</div>
+<div class="line">ssize_t read_result = <a class="code" href="basestores_8h.html#aad90a09c919da5414b7d4c7622a4357f">csalt_store_read</a>((<a class="code" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *)&amp;logger, read_data, <span class="keyword">sizeof</span>(read_data));</div>
 <div class="line"><span class="keywordflow">if</span> (read_result &lt; 0)</div>
 <div class="line">   <span class="keywordflow">return</span> EXIT_FAILURE;</div>
 </div><!-- fragment --><dl class="section see"><dt>See also</dt><dd>csalt_store_decorator_logger_error_array </dd>
@@ -130,11 +130,11 @@ csalt_store_decorator_logger_arrays </dd></dl>
 <li>csalt/<a class="el" href="decoratorstores_8h_source.html">decoratorstores.h</a></li>
 </ul>
 </div><!-- contents -->
-<div class="ttc" id="abasestores_8h_html_ad9027b06c54fcaf18bb3b9f05f79c111"><div class="ttname"><a href="basestores_8h.html#ad9027b06c54fcaf18bb3b9f05f79c111">csalt_store_read</a></div><div class="ttdeci">ssize_t csalt_store_read(csalt_store *store, void *buffer, size_t size)</div><div class="ttdoc">Function for reading from a store into a buffer.</div><div class="ttdef"><b>Definition:</b> stores.c:30</div></div>
-<div class="ttc" id="astructcsalt__store__log__message_html"><div class="ttname"><a href="structcsalt__store__log__message.html">csalt_store_log_message</a></div><div class="ttdoc">A tuple type used by csalt_store_decorator_logger to provide log messages based on the return codes o...</div><div class="ttdef"><b>Definition:</b> decoratorstores.h:99</div></div>
-<div class="ttc" id="astructcsalt__store__decorator__logger_html"><div class="ttname"><a href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a></div><div class="ttdoc">This object is responsible for wrapping a csalt_store's functions, checking return values and logging...</div><div class="ttdef"><b>Definition:</b> decoratorstores.h:170</div></div>
+<div class="ttc" id="astructcsalt__store__log__message_html"><div class="ttname"><a href="structcsalt__store__log__message.html">csalt_store_log_message</a></div><div class="ttdoc">A tuple type used by csalt_store_decorator_logger to provide log messages based on the return codes o...</div><div class="ttdef"><b>Definition:</b> decoratorstores.h:101</div></div>
+<div class="ttc" id="astructcsalt__store__decorator__logger_html"><div class="ttname"><a href="structcsalt__store__decorator__logger.html">csalt_store_decorator_logger</a></div><div class="ttdoc">This object is responsible for wrapping a csalt_store's functions, checking return values and logging...</div><div class="ttdef"><b>Definition:</b> decoratorstores.h:174</div></div>
+<div class="ttc" id="abasestores_8h_html_a2e65d9064a27dd0382051b323e1c9850"><div class="ttname"><a href="basestores_8h.html#a2e65d9064a27dd0382051b323e1c9850">csalt_store_write</a></div><div class="ttdeci">ssize_t csalt_store_write(csalt_store *store, const void *buffer, ssize_t size)</div><div class="ttdoc">Function for writing to a store from a buffer.</div><div class="ttdef"><b>Definition:</b> stores.c:39</div></div>
+<div class="ttc" id="abasestores_8h_html_aad90a09c919da5414b7d4c7622a4357f"><div class="ttname"><a href="basestores_8h.html#aad90a09c919da5414b7d4c7622a4357f">csalt_store_read</a></div><div class="ttdeci">ssize_t csalt_store_read(csalt_store *store, void *buffer, ssize_t size)</div><div class="ttdoc">Function for reading from a store into a buffer.</div><div class="ttdef"><b>Definition:</b> stores.c:30</div></div>
 <div class="ttc" id="abasestores_8h_html_a5527d266d926778e399f7aec5f5bcaf6"><div class="ttname"><a href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a></div><div class="ttdeci">const struct csalt_store_interface *const csalt_store</div><div class="ttdoc">Any struct whos first member is a pointer to a csalt_store_interface can be passed with a basic cast ...</div><div class="ttdef"><b>Definition:</b> basestores.h:44</div></div>
-<div class="ttc" id="abasestores_8h_html_af08cbcd3a9ab090e7cea564de5374541"><div class="ttname"><a href="basestores_8h.html#af08cbcd3a9ab090e7cea564de5374541">csalt_store_write</a></div><div class="ttdeci">ssize_t csalt_store_write(csalt_store *store, const void *buffer, size_t size)</div><div class="ttdoc">Function for writing to a store from a buffer.</div><div class="ttdef"><b>Definition:</b> stores.c:39</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
