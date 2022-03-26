@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
 
 int bytewise_copy(csalt_store *store, void *_)
 {
+	(void)_;
 	/*
 	 * A resource-pair, when initialized, returns a store-pair.
 	 * We can use this to get our individual file stores to begin
@@ -122,5 +123,6 @@ int bytewise_copy(csalt_store *store, void *_)
 		 */
 		if (csalt_store_transfer(&progress, first, second, 0) < 0)
 			return -1;
+	return 0;
 }
 

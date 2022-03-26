@@ -43,7 +43,7 @@ int main()
 	struct csalt_resource_stub stub_fail = csalt_resource_stub_fail();
 
 	struct csalt_store_log_message messages[] = {
-		{ csalt_resource_init, INIT_FAIL_MESSAGE },
+		csalt_store_log_message(csalt_resource_init, INIT_FAIL_MESSAGE),
 	};
 
 	struct csalt_resource_decorator_logger logger = csalt_resource_decorator_logger_errors(
@@ -52,8 +52,8 @@ int main()
 		messages
 	);
 
-	csalt_store *result = csalt_resource_init((csalt_resource *)&logger);
-	ssize_t read_result = read(read_fd, buffer, sizeof(buffer));
+	(void)csalt_resource_init((csalt_resource *)&logger);
+	read(read_fd, buffer, sizeof(buffer));
 
 	if (!strstr(buffer, INIT_FAIL_MESSAGE)) {
 		print_error(

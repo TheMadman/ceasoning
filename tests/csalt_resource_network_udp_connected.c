@@ -124,7 +124,7 @@ int server_manager(int sock, pid_t client_pid)
 int main()
 {
 	int sock = socket(AF_INET6, SOCK_DGRAM, 0);
-	if (socket < 0) {
+	if (sock < 0) {
 		print_error("socket initialization failed: %s", strerror(errno));
 		return EXIT_TEST_ERROR;
 	}

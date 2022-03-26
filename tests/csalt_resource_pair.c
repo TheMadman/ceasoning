@@ -48,8 +48,8 @@ int main()
 		if ((void *)result->first != &stub.return_value) {
 			print_error(
 				"Unexpected first return value: %p -> %p",
-				result->first,
-				&stub.return_value
+				(void *)result->first,
+				(void *)&stub.return_value
 			);
 			return EXIT_FAILURE;
 		}
@@ -59,8 +59,8 @@ int main()
 		if ((void *)second->first != &stub_2.return_value) {
 			print_error(
 				"Unexpected second return value: %p -> %p",
-				second->first,
-				&stub_2.return_value
+				(void *)second->first,
+				(void *)&stub_2.return_value
 			);
 			return EXIT_FAILURE;
 		}

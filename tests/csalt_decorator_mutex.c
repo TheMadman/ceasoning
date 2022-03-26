@@ -97,6 +97,7 @@ static int test_mutex(csalt_store *store, void *_)
 		print_error("Error splitting store");
 		return -1;
 	}
+	return 0;
 }
 
 int main()

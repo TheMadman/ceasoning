@@ -31,7 +31,7 @@ csalt_store *csalt_resource_decorator_init(csalt_resource *resource)
 void csalt_resource_decorator_deinit(csalt_resource *resource)
 {
 	struct csalt_resource_decorator *decorator = (void *)resource;
-	return csalt_resource_deinit((void *)decorator->child);
+	csalt_resource_deinit((void *)decorator->child);
 }
 
 typedef struct csalt_resource_decorator_logger csalt_logger;
@@ -63,6 +63,7 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_bounds(
 		{
 			&logger_implementation,
 			child,
+			{ 0 },
 	       	},
 		{
 			{
@@ -144,7 +145,7 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *resource)
 	if (!initialized_child) {
 		const char *message = csalt_store_log_message_list_get_message(
 			&logger->store_logger.message_lists[0],
-			csalt_resource_init
+			(void (*)(void))csalt_resource_init
 		);
 		if (!message)
 			goto ERROR_NO_MESSAGE;
@@ -159,7 +160,7 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *resource)
 					"errno: %d\n"
 					"Error message: %s",
 				message,
-				logger->decorator.child,
+				(void *)logger->decorator.child,
 				errno,
 				error_message
 			);
@@ -169,7 +170,7 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *resource)
 					"%s: csalt_resource_init(%p) -> 0\n"
 					"errno: %d",
 				message,
-				logger->decorator.child,
+				(void *)logger->decorator.child,
 				errno
 			);
 
@@ -178,15 +179,15 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *resource)
 
 	const char *message = csalt_store_log_message_list_get_message(
 		&logger->store_logger.message_lists[1],
-		csalt_resource_init
+		(void (*)(void))csalt_resource_init
 	);
 	if (message)
 		dprintf(
 			logger->store_logger.file_descriptor,
 			"%s: csalt_resource_init(%p) -> %p",
 			message,
-			logger->decorator.child,
-			initialized_child
+			(void *)logger->decorator.child,
+			(void *)initialized_child
 		);
 
 	logger->store_logger.decorator.child = (csalt_store *)initialized_child;

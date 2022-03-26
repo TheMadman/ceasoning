@@ -166,7 +166,7 @@ typedef struct csalt_store_decorator_logger csalt_logger;
 
 const char *csalt_store_log_message_list_get_message(
 	const struct csalt_store_log_message_list *list,
-	void *function
+	void (*function)(void)
 )
 {
 	if (!list->begin)
@@ -189,7 +189,7 @@ const char *csalt_store_log_message_list_get_message(
 static const char *message_for_function(
 	const csalt_logger *logger,
 	int log_type,
-	void *function
+	void (*function)(void)
 )
 {
 	return csalt_store_log_message_list_get_message(
@@ -210,7 +210,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 		const char *custom_message = message_for_function(
 			logger,
 			LOG_TYPE_ERROR,
-			(void *)csalt_store_read
+			(void (*)(void))csalt_store_read
 		);
 
 		if (!custom_message)
@@ -254,7 +254,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 			*custom_message = message_for_function(
 				logger,
 				LOG_TYPE_SUCCESS,
-				(void *)csalt_store_read
+				(void (*) (void))csalt_store_read
 			);
 		if (!custom_message)
 			return result;
@@ -274,7 +274,7 @@ ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssiz
 			*custom_message = message_for_function(
 				logger,
 				LOG_TYPE_ZERO_BYTES,
-				(void *)csalt_store_read
+				(void (*) (void))csalt_store_read
 			);
 		if (!custom_message)
 			return result;
@@ -305,7 +305,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			*custom_message = message_for_function(
 				logger,
 				LOG_TYPE_ERROR,
-				(void *)csalt_store_write
+				(void (*) (void))csalt_store_write
 			);
 		if (!custom_message)
 			return result;
@@ -348,7 +348,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			*custom_message = message_for_function(
 				logger,
 				LOG_TYPE_SUCCESS,
-				(void *)csalt_store_write
+				(void (*) (void))csalt_store_write
 			);
 		if (!custom_message)
 			return result;
@@ -368,7 +368,7 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 			*custom_message = message_for_function(
 				logger,
 				LOG_TYPE_ZERO_BYTES,
-				(void *)csalt_store_write
+				(void (*) (void))csalt_store_write
 			);
 		if (!custom_message)
 			return result;

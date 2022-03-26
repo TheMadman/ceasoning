@@ -309,6 +309,7 @@ ssize_t csalt_store_fallback_read(
 {
 	const struct csalt_store_fallback *fallback = (void *)store;
 	ssize_t read_amount = 0;
+	char *buffer_bytes = buffer;
 
 	if (fallback->pair.first) {
 		read_amount = csalt_store_read(
@@ -324,7 +325,7 @@ ssize_t csalt_store_fallback_read(
 	if (read_amount < (ssize_t)requested_amount) {
 		ssize_t remaining_amount = requested_amount - read_amount;
 		struct fallback_read_remaining_params params = {
-			buffer + read_amount,
+			buffer_bytes + read_amount,
 			remaining_amount,
 
 			-1,

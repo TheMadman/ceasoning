@@ -194,7 +194,7 @@ struct csalt_resource_vector_initialized {
 	 * csalt_resource_vector, which will do the initialization and
 	 * clean-up for you when passed to csalt_resource_use().
 	 */
-	void *original_pointer;
+	char *original_pointer;
 
 	/**
 	 * \brief This pointer is the pointer to the end of the initialized
@@ -202,7 +202,7 @@ struct csalt_resource_vector_initialized {
 	 *
 	 * This is the value that's checked for when to expand the vector.
 	 */
-	void *original_end;
+	char *original_end;
 
 	/**
 	 * \brief Index from original_pointer representing the

@@ -42,8 +42,8 @@ int main()
 	if (result->pair.first != (void *)&stub.return_value) {
 		print_error(
 			"Returned first store unexpected value: %p -> %p",
-			result->pair.first,
-			&stub.return_value
+			(void *)result->pair.first,
+			(void *)&stub.return_value
 		);
 		return EXIT_FAILURE;
 	}
@@ -54,8 +54,8 @@ int main()
 	if (second->pair.first != (void *)&stub_2.return_value) {
 		print_error(
 			"Returned second store unexpected value: %p -> %p",
-			second->pair.first,
-			&stub_2.return_value
+			(void *)second->pair.first,
+			(void *)&stub_2.return_value
 		);
 		return EXIT_FAILURE;
 	}

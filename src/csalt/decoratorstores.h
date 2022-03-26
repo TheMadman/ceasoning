@@ -103,7 +103,7 @@ struct csalt_store_log_message {
 	 * \brief Indicates which function should be logged. Must be
 	 * one of csalt_store_read or csalt_store_write.
 	 */
-	void *function;
+	void (*function)(void);
 
 	/**
 	 * \brief  A useful message for identifying the store. The function
@@ -113,12 +113,14 @@ struct csalt_store_log_message {
 	const char *message;
 };
 
+#define csalt_store_log_message(fn, message) ((struct csalt_store_log_message){ (void (*)(void))(fn), (message) })
+
 struct csalt_store_log_message_list {
 	const struct csalt_store_log_message *begin;
 	const struct csalt_store_log_message *end;
 };
 
-#define csalt_store_log_message_list(array) ({ (array), arrend(array) })
+#define csalt_store_log_message_list(array) ((struct csalt_store_log_message_array){ (array), arrend(array) })
 
 /**
  * \brief Searches a list for a given function and returns
@@ -126,7 +128,7 @@ struct csalt_store_log_message_list {
  */
 const char *csalt_store_log_message_list_get_message(
 	const struct csalt_store_log_message_list *list,
-	void *function
+	void (*function)(void)
 );
 
 /**

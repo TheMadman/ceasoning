@@ -158,7 +158,7 @@ int vector_write(csalt_store *store, void *arg)
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 	struct vector_write_params *params = arg;
-	void *write_pointer = vector->original_pointer + vector->begin;
+	char *write_pointer = vector->original_pointer + vector->begin;
 	ssize_t write_amount = min(
 		params->amount,
 		vector->original_end - write_pointer
@@ -181,8 +181,6 @@ ssize_t csalt_resource_vector_write(
 	ssize_t amount
 )
 {
-	struct csalt_resource_vector_initialized *vector = (void *)store;
-
 	struct vector_write_params params = {
 		buffer,
 		amount,
@@ -220,8 +218,8 @@ int csalt_resource_vector_split(
 	ssize_t begin_index = vector->begin + begin;
 	ssize_t end_index = vector->begin + end;
 
-	void **allocated = &vector->original_pointer;
-	void **allocated_end = &vector->original_end;
+	char **allocated = &vector->original_pointer;
+	char **allocated_end = &vector->original_end;
 
 	int needs_realloc = *allocated + begin_index > *allocated_end ||
 		*allocated + end_index > *allocated_end;
@@ -240,7 +238,7 @@ int csalt_resource_vector_split(
 			size = size << 1;
 		}
 
-		void *reallocated = realloc(*allocated, size);
+		char *reallocated = realloc(*allocated, size);
 		if (reallocated) {
 			// sets the values in *vector as well
 			*allocated = reallocated;
@@ -316,7 +314,7 @@ csalt_store *csalt_resource_vector_init(csalt_resource *resource)
 	while (alloc_size < vector_resource->size)
 		alloc_size = alloc_size << 1;
 
-	void *result = calloc(alloc_size, 1);
+	char *result = calloc(alloc_size, 1);
 	if (!result)
 		return 0;
 

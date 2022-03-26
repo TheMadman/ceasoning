@@ -120,14 +120,14 @@ int main()
 		if (pairs[0].second != (csalt_store *)&pairs[1]) {
 			print_error(
 				"First pair's second didn't point to second pair: %p vs. %p",
-				pairs[0].second,
-				&pairs[1]
+				(void *)pairs[0].second,
+				(void *)&pairs[1]
 			);
 			return EXIT_FAILURE;
 		}
 	
 		if (pairs[1].second) {
-			print_error("Last pair had non-null pointer value: %p", pairs[1].second);
+			print_error("Last pair had non-null pointer value: %p", (void *)pairs[1].second);
 			return EXIT_FAILURE;
 		}
 	
@@ -150,7 +150,7 @@ int main()
 			return EXIT_FAILURE;
 		}
 	
-		ssize_t read_amount = csalt_store_read(csalt_store(pairs), data, sizeof(data));
+		csalt_store_read(csalt_store(pairs), data, sizeof(data));
 	
 		if (first.last_read != sizeof(data)) {
 			print_error("Expected data to be read from first store");
@@ -251,6 +251,7 @@ int main()
 
 int receive_split(csalt_store *store, void *data)
 {
+	(void)data;
 	struct csalt_store_pair *first_pair = (void *)store;
 	struct csalt_store_pair *second_pair = (void *)first_pair->second;
 
@@ -286,7 +287,8 @@ int receive_split(csalt_store *store, void *data)
 
 int receive_empty_split(csalt_store *store, void *data)
 {
-	struct csalt_store_pair *pair = (void *)store;
+	(void)store;
+	(void)data;
 	return 0;
 }
 
@@ -297,8 +299,8 @@ int receive_empty_first_pair(csalt_store *store, void *data)
 	if (pair->first || !pair->second) {
 		print_error(
 			"split pair with empty first member has unexpected value: %p -> %p",
-			pair->first,
-			pair->second
+			(void *)pair->first,
+			(void *)pair->second
 		);
 		exit(EXIT_FAILURE);
 	}

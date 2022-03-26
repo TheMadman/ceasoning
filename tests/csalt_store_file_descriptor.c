@@ -31,6 +31,7 @@
 
 int split_pipe(csalt_store *fd, void *param)
 {
+	(void)param;
 	ssize_t result = csalt_store_size(fd);
 	if (result != 0) {
 		print_error("csalt_store_size() returned unexpected result for split pipe: %ld", result);
@@ -41,6 +42,7 @@ int split_pipe(csalt_store *fd, void *param)
 
 int split_file(csalt_store *fd, void *param)
 {
+	(void)param;
 	ssize_t result = csalt_store_size(fd);
 	if (result != 5) {
 		print_error("csalt_store_size() returned unexpected result for split pipe: %ld", result);
@@ -65,7 +67,7 @@ int main()
 
 	csalt_store_write(write_store, WRITE_BUFFER, sizeof(WRITE_BUFFER));
 
-	ssize_t read_result = read(pipe_fds[0], buffer, sizeof(buffer));
+	read(pipe_fds[0], buffer, sizeof(buffer));
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
 		print_error("read() doesn't match csalt_store_write(): \"%s\"", buffer);
@@ -77,7 +79,7 @@ int main()
 	struct csalt_store_file_descriptor read_file = csalt_store_file_descriptor(pipe_fds[0]);
 	csalt_store *read_store = (csalt_store *)&read_file;
 
-	ssize_t write_result = write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
+	write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
 	csalt_store_read(read_store, buffer, sizeof(buffer));
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
@@ -95,7 +97,7 @@ int main()
 
 	FILE *real_file = tmpfile();
 	int real_file_fd = fileno(real_file);
-	int trunc_result = ftruncate(real_file_fd, 10);
+	ftruncate(real_file_fd, 10);
 
 	struct csalt_store_file_descriptor csalt_tmpfile = csalt_store_file_descriptor(real_file_fd);
 	csalt_store *tmpfile_store = (csalt_store *)&csalt_tmpfile;

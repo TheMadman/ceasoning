@@ -28,8 +28,6 @@ int use(csalt_store *resource, void *param)
 
 	csalt_store_write(csalt_store(first), "a", 1);
 
-	char buffer = 0;
-
 	struct csalt_heap **array = param;
 	void
 		*heap1 = array[0]->heap.memory.begin,

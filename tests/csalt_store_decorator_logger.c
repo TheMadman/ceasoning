@@ -51,18 +51,18 @@ int main()
 	struct csalt_store_stub error = csalt_store_stub_error();
 
 	struct csalt_store_log_message errors[] = {
-		{ csalt_store_read, LOG_LABEL_READ_ERROR, },
-		{ csalt_store_write, LOG_LABEL_WRITE_ERROR, },
+		csalt_store_log_message(csalt_store_read, LOG_LABEL_READ_ERROR),
+		csalt_store_log_message(csalt_store_write, LOG_LABEL_WRITE_ERROR),
 	};
 
 	struct csalt_store_log_message successes[] = {
-		{ csalt_store_read, LOG_LABEL_READ_SUCCESS, },
-		{ csalt_store_write, LOG_LABEL_WRITE_SUCCESS, },
+		csalt_store_log_message(csalt_store_read, LOG_LABEL_READ_SUCCESS),
+		csalt_store_log_message(csalt_store_write, LOG_LABEL_WRITE_SUCCESS),
 	};
 
 	struct csalt_store_log_message zero_bytes[] = {
-		{ csalt_store_read, LOG_LABEL_READ_ZERO, },
-		{ csalt_store_write, LOG_LABEL_WRITE_ZERO, },
+		csalt_store_log_message(csalt_store_read, LOG_LABEL_READ_ZERO),
+		csalt_store_log_message(csalt_store_write, LOG_LABEL_WRITE_ZERO),
 	};
 
 	struct csalt_store_decorator_logger
@@ -90,7 +90,7 @@ int main()
 
 	csalt_store_read(error_store, 0, 1);
 
-	ssize_t read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	char *result = strstr(buffer, LOG_LABEL_READ_ERROR);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_READ_ERROR, buffer);
@@ -100,7 +100,7 @@ int main()
 	csalt_store_write(error_store, 0, 1);
 
 	memset(buffer, 0, sizeof(buffer));
-	read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	result = strstr(buffer, LOG_LABEL_WRITE_ERROR);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_WRITE_ERROR, buffer);
@@ -110,7 +110,7 @@ int main()
 	csalt_store_read(store, 0, 10);
 
 	memset(buffer, 0, sizeof(buffer));
-	read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	result = strstr(buffer, LOG_LABEL_READ_SUCCESS);
 
 	if (!result) {
@@ -121,7 +121,7 @@ int main()
 	csalt_store_write(store, 0, 10);
 
 	memset(buffer, 0, sizeof(buffer));
-	read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	result = strstr(buffer, LOG_LABEL_WRITE_SUCCESS);
 
 	if (!result) {
@@ -133,7 +133,7 @@ int main()
 	csalt_store_read(store, 0, 0);
 
 	memset(buffer, 0, sizeof(buffer));
-	read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	result = strstr(buffer, LOG_LABEL_READ_ZERO);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_READ_ZERO, buffer);
@@ -143,7 +143,7 @@ int main()
 	csalt_store_write(store, 0, 0);
 
 	memset(buffer, 0, sizeof(buffer));
-	read_len = read(read_fd, buffer, sizeof(buffer) - 1);
+	read(read_fd, buffer, sizeof(buffer) - 1);
 	result = strstr(buffer, LOG_LABEL_WRITE_ZERO);
 
 	if (!result) {
