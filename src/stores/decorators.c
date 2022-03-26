@@ -388,6 +388,103 @@ ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffe
 	return result;
 }
 
+ssize_t csalt_store_decorator_array_read(
+	csalt_store *store,
+	void *buffer,
+	ssize_t size
+)
+{
+	struct csalt_store_decorator_array *array = (void *)store;
+	return csalt_store_read(
+		array->decorator.child,
+		buffer,
+		size * array->element_size
+	) / array->element_size;
+}
+
+ssize_t csalt_store_decorator_array_write(
+	csalt_store *store,
+	const void *buffer,
+	ssize_t size
+)
+{
+	struct csalt_store_decorator_array *array = (void *)store;
+	return csalt_store_write(
+		array->decorator.child,
+		buffer,
+		size * array->element_size
+	) / array->element_size;
+}
+
+ssize_t csalt_store_decorator_array_size(
+	csalt_store *store
+)
+{
+	struct csalt_store_decorator_array *array = (void *)store;
+	return csalt_store_size(array->decorator.child) / array->element_size;
+}
+
+struct decorator_array_params {
+	ssize_t element_size;
+	csalt_store_block_fn *block;
+	void *param;
+};
+
+static int decorator_array_receive_split(csalt_store *child, void *param)
+{
+	struct decorator_array_params *params = param;
+	struct csalt_store_decorator_array
+		result = csalt_store_decorator_array(
+			child,
+			params->element_size
+		);
+
+	return params->block((csalt_store *)&result, params->param);
+}
+
+int csalt_store_decorator_array_split(
+	csalt_store *store,
+	ssize_t begin,
+	ssize_t end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	struct csalt_store_decorator_array *array = (void *)store;
+	struct decorator_array_params params = {
+		array->element_size,
+		block,
+		param,
+	};
+	return csalt_store_split(
+		array->decorator.child,
+		begin * array->element_size,
+		end * array->element_size,
+		decorator_array_receive_split,
+		&params
+	);
+}
+
+const struct csalt_store_interface
+	csalt_store_decorator_array_implementation = {
+		csalt_store_decorator_array_read,
+		csalt_store_decorator_array_write,
+		csalt_store_decorator_array_size,
+		csalt_store_decorator_array_split,
+	};
+
+struct csalt_store_decorator_array
+	csalt_store_decorator_array(csalt_store *store, ssize_t element_size)
+{
+	return (struct csalt_store_decorator_array){
+		{
+			&csalt_store_decorator_array_implementation,
+			store,
+		},
+		element_size,
+	};
+}
+
 ssize_t csalt_store_decorator_mutex_read(
 	csalt_store *store,
 	void *buffer,
@@ -477,12 +574,13 @@ int csalt_store_decorator_mutex_split(
 	);
 }
 
-struct csalt_store_interface csalt_store_decorator_mutex_implementation = {
-	csalt_store_decorator_mutex_read,
-	csalt_store_decorator_mutex_write,
-	csalt_store_decorator_mutex_size,
-	csalt_store_decorator_mutex_split,
-};
+const struct csalt_store_interface
+	csalt_store_decorator_mutex_implementation = {
+		csalt_store_decorator_mutex_read,
+		csalt_store_decorator_mutex_write,
+		csalt_store_decorator_mutex_size,
+		csalt_store_decorator_mutex_split,
+	};
 
 struct csalt_store_decorator_mutex csalt_store_decorator_mutex(
 	csalt_store *store,

@@ -90,7 +90,7 @@ int csalt_store_decorator_split(
 ssize_t csalt_store_decorator_size(csalt_store *store);
 
 struct csalt_store_decorator {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	csalt_store *child;
 };
 
@@ -265,12 +265,75 @@ struct csalt_store_decorator_logger csalt_store_decorator_logger_zero_bytes_boun
 /**
  * \brief Implementation for logger read function
  */
-ssize_t csalt_store_decorator_logger_read(csalt_store *store, void *buffer, ssize_t bytes);
+ssize_t csalt_store_decorator_logger_read(
+	csalt_store *store,
+	void *buffer,
+	ssize_t bytes
+);
 
 /**
  * \brief Implementation for logger write function
  */
-ssize_t csalt_store_decorator_logger_write(csalt_store *store, const void *buffer, ssize_t bytes);
+ssize_t csalt_store_decorator_logger_write(
+	csalt_store *store,
+	const void *buffer,
+	ssize_t bytes
+);
+
+/**
+ * \brief Converts byte-indexing into array-like-indexing.
+ *
+ * If your store's data represents an array of fixed-length elements,
+ * this decorator scales the traditional "bytes" argument by the size
+ * of each element automatically, similarly to the C array index operator
+ * square brackets.
+ *
+ * For example, for an array of `int`s which are 32 bits (4 bytes) long,
+ * a csalt_store_read(store, buffer, 1) will attempt to read 4 bytes;
+ * a csalt_store_split(store, 3, 5, block, arg) will split beginning at
+ * the 3rd `int` (12 bytes from the beginning) and ending at the 5th `int`
+ * (20 bytes from the beginning), and so on.
+ *
+ * csalt_store_size() returns the original store's size divided by the
+ * element size.
+ * \sa csalt_store_decorator_array()
+ */
+struct csalt_store_decorator_array {
+	struct csalt_store_decorator decorator;
+	ssize_t element_size;
+};
+
+/**
+ * \brief Constructs a csalt_store_decorator_array.
+ *
+ * \sa csalt_store_decorator_array
+ */
+struct csalt_store_decorator_array
+	csalt_store_decorator_array(csalt_store *store, ssize_t element_size);
+
+ssize_t csalt_store_decorator_array_read(
+	csalt_store *store,
+	void *buffer,
+	ssize_t bytes
+);
+
+ssize_t csalt_store_decorator_array_write(
+	csalt_store *store,
+	const void *buffer,
+	ssize_t bytes
+);
+
+ssize_t csalt_store_decorator_array_size(
+	csalt_store *store
+);
+
+int csalt_store_decorator_array_split(
+	csalt_store *store,
+	ssize_t begin,
+	ssize_t end,
+	csalt_store_block_fn *block,
+	void *param
+);
 
 /**
  * \brief Provides a means to lock accesses to the store behind a mutex.
