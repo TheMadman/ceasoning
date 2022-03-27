@@ -310,6 +310,8 @@ ssize_t csalt_store_decorator_logger_write(
  * more flexible.
  *
  * \sa csalt_store_decorator_array()
+ * \sa csalt_store_decorator_array_set()
+ * \sa csalt_store_decorator_array_get()
  */
 struct csalt_store_decorator_array {
 	struct csalt_store_decorator decorator;
