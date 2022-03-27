@@ -296,6 +296,19 @@ ssize_t csalt_store_decorator_logger_write(
  *
  * csalt_store_size() returns the original store's size divided by the
  * element size.
+ *
+ * While csalt_store_split() will split the store at the given elements,
+ * the resulting store returns to byte-indexing operations: this is to
+ * allow using generic csalt_store_block_fn functions. If the resulting
+ * store continued to use array-style indexing, the passed block would
+ * need to know whether the result were byte- or array-index in order
+ * to function correctly.
+ *
+ * If you want to use array-indexing on the passed store, simply wrap
+ * it in an array decorator. This will also allow your function to
+ * work correctly for stores which are not array-indexed, making it
+ * more flexible.
+ *
  * \sa csalt_store_decorator_array()
  */
 struct csalt_store_decorator_array {

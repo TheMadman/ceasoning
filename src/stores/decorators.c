@@ -424,24 +424,6 @@ ssize_t csalt_store_decorator_array_size(
 	return csalt_store_size(array->decorator.child) / array->element_size;
 }
 
-struct decorator_array_params {
-	ssize_t element_size;
-	csalt_store_block_fn *block;
-	void *param;
-};
-
-static int decorator_array_receive_split(csalt_store *child, void *param)
-{
-	struct decorator_array_params *params = param;
-	struct csalt_store_decorator_array
-		result = csalt_store_decorator_array(
-			child,
-			params->element_size
-		);
-
-	return params->block((csalt_store *)&result, params->param);
-}
-
 int csalt_store_decorator_array_split(
 	csalt_store *store,
 	ssize_t begin,
@@ -451,17 +433,12 @@ int csalt_store_decorator_array_split(
 )
 {
 	struct csalt_store_decorator_array *array = (void *)store;
-	struct decorator_array_params params = {
-		array->element_size,
-		block,
-		param,
-	};
 	return csalt_store_split(
 		array->decorator.child,
 		begin * array->element_size,
 		end * array->element_size,
-		decorator_array_receive_split,
-		&params
+		block,
+		param
 	);
 }
 

@@ -138,9 +138,9 @@ int receive_split(csalt_store *store, void *_)
 
 	int numbers[2] = { 1 << 20, 1 << 21 };
 
-	ssize_t write_result = csalt_store_write(store, numbers, 2);
+	ssize_t write_result = csalt_store_write(store, numbers, sizeof(numbers));
 
-	if (write_result != 2) {
+	if (write_result != sizeof(numbers)) {
 		print_error("Unexpected split write value: %ld", write_result);
 		return EXIT_FAILURE;
 	}
