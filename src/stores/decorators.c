@@ -464,7 +464,11 @@ struct csalt_store_decorator_array
 
 static int receive_split_for_get(csalt_store *result, void *param)
 {
-	return !!csalt_store_read(result, param, csalt_store_size(result));
+	struct {
+		void *value;
+		ssize_t size;
+	} *params = param;
+	return !!csalt_store_read(result, params->value, params->size);
 }
 
 int csalt_store_decorator_array_get(
@@ -473,19 +477,26 @@ int csalt_store_decorator_array_get(
 	ssize_t index
 )
 {
+	struct {
+		void *value;
+		ssize_t size;
+	} params = { value, array->element_size };
 	return csalt_store_split(
 		(csalt_store *)array,
 		index,
 		index + 1,
 		receive_split_for_get,
-		value
+		&params
 	);
 }
 
 static int receive_split_for_set(csalt_store *result, void *param)
 {
-	const void **cparam = param;
-	return !!csalt_store_write(result, *cparam, csalt_store_size(result));
+	struct {
+		const void *value;
+		ssize_t size;
+	} *params = param;
+	return !!csalt_store_write(result, params->value, params->size);
 }
 
 int csalt_store_decorator_array_set(
@@ -494,17 +505,16 @@ int csalt_store_decorator_array_set(
 	ssize_t index
 )
 {
+	struct {
+		const void *value;
+		ssize_t size;
+	} params = { value, array->element_size };
 	return csalt_store_split(
 		(csalt_store *)array,
 		index,
 		index + 1,
 		receive_split_for_set,
-
-		// Passing the address of the pointer here
-		// guarantees that the pointed-to value
-		// won't be modified, even by csalt_store_split
-		// (if it has a bug or something)
-		&value
+		&params
 	);
 }
 
