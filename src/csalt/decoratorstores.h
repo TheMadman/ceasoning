@@ -349,6 +349,30 @@ int csalt_store_decorator_array_split(
 );
 
 /**
+ * \brief Convenience function for writing a single value
+ * 	into a given array index.
+ *
+ * returns 1 on success, 0 on failure.
+ */
+int csalt_store_decorator_array_set(
+	struct csalt_store_decorator_array *array,
+	const void *value,
+	ssize_t index
+);
+
+/**
+ * \brief Convenience function for reading a single value
+ * 	out of a given array index.
+ *
+ * returns 1 on success, 0 on failure.
+ */
+int csalt_store_decorator_array_get(
+	struct csalt_store_decorator_array *array,
+	void *value,
+	ssize_t index
+);
+
+/**
  * \brief Provides a means to lock accesses to the store behind a mutex.
  *
  * Use this decorator, or csalt_resource_decorator_mutex, when sharing a store

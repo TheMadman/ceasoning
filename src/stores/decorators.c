@@ -462,6 +462,52 @@ struct csalt_store_decorator_array
 	};
 }
 
+static int receive_split_for_get(csalt_store *result, void *param)
+{
+	return !!csalt_store_read(result, param, csalt_store_size(result));
+}
+
+int csalt_store_decorator_array_get(
+	struct csalt_store_decorator_array *array,
+	void *value,
+	ssize_t index
+)
+{
+	return csalt_store_split(
+		(csalt_store *)array,
+		index,
+		index + 1,
+		receive_split_for_get,
+		value
+	);
+}
+
+static int receive_split_for_set(csalt_store *result, void *param)
+{
+	const void **cparam = param;
+	return !!csalt_store_write(result, *cparam, csalt_store_size(result));
+}
+
+int csalt_store_decorator_array_set(
+	struct csalt_store_decorator_array *array,
+	const void *value,
+	ssize_t index
+)
+{
+	return csalt_store_split(
+		(csalt_store *)array,
+		index,
+		index + 1,
+		receive_split_for_set,
+
+		// Passing the address of the pointer here
+		// guarantees that the pointed-to value
+		// won't be modified, even by csalt_store_split
+		// (if it has a bug or something)
+		&value
+	);
+}
+
 ssize_t csalt_store_decorator_mutex_read(
 	csalt_store *store,
 	void *buffer,

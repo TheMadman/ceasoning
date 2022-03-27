@@ -129,6 +129,56 @@ int main()
 		}
 	}
 
+	{
+		int numbers[5] = { 0 };
+		struct csalt_memory
+			csalt_numbers = csalt_memory_array(numbers);
+
+		struct csalt_store_decorator_array
+			csalt_number_array = csalt_store_decorator_array(
+				(csalt_store *)&csalt_numbers,
+				sizeof(int)
+			);
+
+		int value = 1 << 20;
+		int result = csalt_store_decorator_array_set(&csalt_number_array, &value, 3);
+
+		if (!result) {
+			print_error("Unexpected array_set return value: %d", result);
+			return EXIT_FAILURE;
+		}
+
+		if (numbers[3] != 1 << 20) {
+			print_error("Unexpected value set: expected: %d actual: %d", 1 << 20, numbers[3]);
+			return EXIT_FAILURE;
+		}
+	}
+
+	{
+		int numbers[5] = { 0, 1 << 16, 0 };
+		struct csalt_memory
+			csalt_numbers = csalt_memory_array(numbers);
+
+		struct csalt_store_decorator_array
+			csalt_number_array = csalt_store_decorator_array(
+				(csalt_store *)&csalt_numbers,
+				sizeof(int)
+			);
+
+		int value = 0;
+		int result = csalt_store_decorator_array_get(&csalt_number_array, &value, 1);
+
+		if (!result) {
+			print_error("Unexpected array_get return value: %d", result);
+			return EXIT_FAILURE;
+		}
+
+		if (value != 1 << 16) {
+			print_error("Unexpected value set: expected: %d actual: %d", 1 << 16, value);
+			return EXIT_FAILURE;
+		}
+	}
+
 	return EXIT_SUCCESS;
 }
 
