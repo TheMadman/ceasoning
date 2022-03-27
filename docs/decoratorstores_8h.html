@@ -220,6 +220,12 @@ ssize_t&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_decora
 <tr class="memitem:a7113449549be6d8b3a1dd5505d41e38f"><td class="memItemLeft" align="right" valign="top"><a id="a7113449549be6d8b3a1dd5505d41e38f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_decorator_array_split</b> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, ssize_t begin, ssize_t end, <a class="el" href="basestores_8h.html#a754a0571114d69241e5342689e50f976">csalt_store_block_fn</a> *block, void *param)</td></tr>
 <tr class="separator:a7113449549be6d8b3a1dd5505d41e38f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a231cf6fe7e4c6b8c5a428fbecef912de"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#a231cf6fe7e4c6b8c5a428fbecef912de">csalt_store_decorator_array_set</a> (struct <a class="el" href="structcsalt__store__decorator__array.html">csalt_store_decorator_array</a> *array, const void *value, ssize_t index)</td></tr>
+<tr class="memdesc:a231cf6fe7e4c6b8c5a428fbecef912de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for writing a single value into a given array index.  <a href="decoratorstores_8h.html#a231cf6fe7e4c6b8c5a428fbecef912de">More...</a><br /></td></tr>
+<tr class="separator:a231cf6fe7e4c6b8c5a428fbecef912de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac24ee560b651b6d8b18db3fe87baaa15"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#ac24ee560b651b6d8b18db3fe87baaa15">csalt_store_decorator_array_get</a> (struct <a class="el" href="structcsalt__store__decorator__array.html">csalt_store_decorator_array</a> *array, void *value, ssize_t index)</td></tr>
+<tr class="memdesc:ac24ee560b651b6d8b18db3fe87baaa15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience function for reading a single value out of a given array index.  <a href="decoratorstores_8h.html#ac24ee560b651b6d8b18db3fe87baaa15">More...</a><br /></td></tr>
+<tr class="separator:ac24ee560b651b6d8b18db3fe87baaa15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3162eb6a82e8f8993a7eca2c101f5c1"><td class="memItemLeft" align="right" valign="top"><a id="ae3162eb6a82e8f8993a7eca2c101f5c1"></a>
 struct <a class="el" href="structcsalt__store__decorator__mutex.html">csalt_store_decorator_mutex</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="decoratorstores_8h.html#ae3162eb6a82e8f8993a7eca2c101f5c1">csalt_store_decorator_mutex</a> (<a class="el" href="basestores_8h.html#a5527d266d926778e399f7aec5f5bcaf6">csalt_store</a> *store, csalt_mutex *mutex)</td></tr>
 <tr class="memdesc:ae3162eb6a82e8f8993a7eca2c101f5c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor for a <a class="el" href="structcsalt__store__decorator__mutex.html" title="Provides a means to lock accesses to the store behind a mutex.">csalt_store_decorator_mutex</a>. <br /></td></tr>
@@ -346,6 +352,80 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>csalt_store_decorator_
 
 <p>Constructs a <a class="el" href="structcsalt__store__decorator__array.html" title="Converts byte-indexing into array-like-indexing.">csalt_store_decorator_array</a>. </p>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="structcsalt__store__decorator__array.html" title="Converts byte-indexing into array-like-indexing.">csalt_store_decorator_array</a> </dd></dl>
+
+</div>
+</div>
+<a id="ac24ee560b651b6d8b18db3fe87baaa15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac24ee560b651b6d8b18db3fe87baaa15">&#9670;&nbsp;</a></span>csalt_store_decorator_array_get()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int csalt_store_decorator_array_get </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__store__decorator__array.html">csalt_store_decorator_array</a> *&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ssize_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience function for reading a single value out of a given array index. </p>
+<p>returns 1 on success, 0 on failure. </p>
+
+</div>
+</div>
+<a id="a231cf6fe7e4c6b8c5a428fbecef912de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a231cf6fe7e4c6b8c5a428fbecef912de">&#9670;&nbsp;</a></span>csalt_store_decorator_array_set()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int csalt_store_decorator_array_set </td>
+          <td>(</td>
+          <td class="paramtype">struct <a class="el" href="structcsalt__store__decorator__array.html">csalt_store_decorator_array</a> *&#160;</td>
+          <td class="paramname"><em>array</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const void *&#160;</td>
+          <td class="paramname"><em>value</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ssize_t&#160;</td>
+          <td class="paramname"><em>index</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience function for writing a single value into a given array index. </p>
+<p>returns 1 on success, 0 on failure. </p>
 
 </div>
 </div>

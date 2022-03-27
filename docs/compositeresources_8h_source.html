@@ -100,7 +100,7 @@ $(function() {
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="structcsalt__resource__pair.html">   66</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__pair.html">csalt_resource_pair</a> {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *first;</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *second;</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__store__pair.html">csalt_store_pair</a> result;</div>
@@ -130,7 +130,7 @@ $(function() {
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keywordtype">void</span> csalt_resource_pair_deinit(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
 <div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="structcsalt__resource__fallback.html">  133</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__fallback.html">csalt_resource_fallback</a> {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__pair.html">csalt_resource_pair</a> pair;</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__store__fallback.html">csalt_store_fallback</a> result;</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;};</div>
@@ -159,7 +159,7 @@ $(function() {
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keywordtype">void</span> csalt_resource_fallback_deinit(<a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *resource);</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
 <div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="structcsalt__resource__first.html">  189</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structcsalt__resource__first.html">csalt_resource_first</a> {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">const</span> <span class="keyword">struct </span><a class="code" href="structcsalt__resource__interface.html">csalt_resource_interface</a> *vtable;</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **begin;</div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> **end;</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <a class="code" href="structcsalt__resource__interface.html">csalt_resource</a> *returned;</div>
