@@ -72,7 +72,7 @@ extern "C" {
  * \sa csalt_store_pair_list()
  */
 struct csalt_store_pair {
-	struct csalt_store_interface *interface;
+	const struct csalt_store_interface *interface;
 	csalt_store *first;
 	csalt_store *second;
 };
@@ -187,7 +187,7 @@ csalt_store *csalt_store_pair_list_get(
  * \sa csalt_store_fallback_bounds()
  */
 struct csalt_store_fallback {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	struct csalt_store_pair pair;
 };
 

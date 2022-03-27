@@ -105,7 +105,7 @@ struct csalt_resource_network_initialized_interface {
  * \brief Represents the common features of each kind of network socket.
  */
 struct csalt_resource_network_socket_initialized {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	struct csalt_resource_network_initialized_interface *network_vtable;
 	int fd;
 	int domain;
@@ -143,7 +143,7 @@ struct csalt_resource_network_socket_initialized {
  * \see csalt_resource_network_udp_stateless()
  */
 struct csalt_resource_network_socket {
-	struct csalt_resource_interface *vtable;
+	const struct csalt_resource_interface *vtable;
 	const char *node;
 	const char *service;
 	struct csalt_resource_network_socket_initialized udp;

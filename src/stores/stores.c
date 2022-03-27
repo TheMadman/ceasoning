@@ -382,7 +382,7 @@ ssize_t csalt_store_transfer(
  * since most constructors are just storing the arguments for use
  * in read/write calls.
  */
-struct csalt_store_interface file_descriptor_interface = {
+static const struct csalt_store_interface file_descriptor_interface = {
 	csalt_store_file_descriptor_read,
 	csalt_store_file_descriptor_write,
 	csalt_store_file_descriptor_size,

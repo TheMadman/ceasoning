@@ -36,12 +36,12 @@ void csalt_resource_decorator_deinit(csalt_resource *resource)
 
 typedef struct csalt_resource_decorator_logger csalt_logger;
 
-struct csalt_resource_interface logger_implementation = {
+static const struct csalt_resource_interface logger_implementation = {
 	csalt_resource_decorator_logger_init,
 	csalt_resource_decorator_deinit,
 };
 
-struct csalt_store_interface logger_initialized_implementation = {
+static const struct csalt_store_interface logger_initialized_implementation = {
 	csalt_store_decorator_logger_read,
 	csalt_store_decorator_logger_write,
 	csalt_store_decorator_size,
@@ -309,7 +309,7 @@ void csalt_resource_decorator_lazy_deinit(csalt_resource *resource)
 	}
 }
 
-struct csalt_resource_interface csalt_decorator_mutex_implementation = {
+static const struct csalt_resource_interface csalt_decorator_mutex_implementation = {
 	csalt_decorator_mutex_init,
 	csalt_decorator_mutex_deinit,
 };

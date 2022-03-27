@@ -23,7 +23,7 @@
 #include <csalt/util.h>
 #include <errno.h>
 
-struct csalt_resource_interface csalt_resource_file_interface = {
+static const struct csalt_resource_interface csalt_resource_file_interface = {
 	csalt_resource_file_init,
 	csalt_resource_file_deinit,
 };

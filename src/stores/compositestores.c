@@ -24,7 +24,7 @@
 #include <stdint.h>
 #include <limits.h>
 
-struct csalt_store_interface csalt_store_pair_implementation = {
+static const struct csalt_store_interface csalt_store_pair_implementation = {
 	csalt_store_pair_read,
 	csalt_store_pair_write,
 	csalt_store_pair_size,
@@ -222,7 +222,7 @@ csalt_store *csalt_store_pair_list_get(
 	return csalt_store_pair_list_get((void *)pairs->second, index - 1);
 }
 
-struct csalt_store_interface csalt_store_fallback_implementation = {
+static const struct csalt_store_interface csalt_store_fallback_implementation = {
 	csalt_store_fallback_read,
 	csalt_store_fallback_write,
 	csalt_store_fallback_size,

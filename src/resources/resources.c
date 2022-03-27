@@ -275,7 +275,7 @@ int csalt_resource_vector_split(
 	return return_value;
 }
 
-struct csalt_store_interface vector_initialized_implementation = {
+static const struct csalt_store_interface vector_initialized_implementation = {
 	csalt_resource_vector_read,
 	csalt_resource_vector_write,
 	csalt_resource_vector_size,
@@ -338,7 +338,7 @@ void csalt_resource_vector_deinit(csalt_resource *resource)
 	}
 }
 
-struct csalt_resource_interface csalt_resource_vector_implementation = {
+static const struct csalt_resource_interface csalt_resource_vector_implementation = {
 	csalt_resource_vector_init,
 	csalt_resource_vector_deinit,
 };

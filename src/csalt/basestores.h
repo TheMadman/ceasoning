@@ -472,7 +472,7 @@ const void *csalt_cmemory_raw(const struct csalt_cmemory *memory);
  * \sa csalt_store_file_descriptor()
  */
 struct csalt_store_file_descriptor {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	int fd;
 	ssize_t begin;
 	ssize_t end;

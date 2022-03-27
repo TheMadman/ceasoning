@@ -208,7 +208,7 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *);
  * \sa csalt_decorator_lazy()
  */
 struct csalt_decorator_lazy {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	csalt_resource *resource;
 	csalt_store *result;
 };
@@ -262,7 +262,7 @@ int csalt_decorator_lazy_split(
  * \sa csalt_decorator_lazy
  */
 struct csalt_resource_decorator_lazy {
-	struct csalt_resource_interface *vtable;
+	const struct csalt_resource_interface *vtable;
 	struct csalt_decorator_lazy decorator;
 };
 
@@ -285,7 +285,7 @@ void csalt_resource_decorator_lazy_deinit(csalt_resource *resource);
  * \sa csalt_decorator_mutex()
  */
 struct csalt_decorator_mutex {
-	struct csalt_resource_interface *vtable;
+	const struct csalt_resource_interface *vtable;
 	struct csalt_store_decorator_mutex decorator;
 };
 

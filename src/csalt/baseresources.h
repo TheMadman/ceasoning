@@ -134,7 +134,7 @@ void csalt_noop_deinit(csalt_resource *_);
  * element in csalt_store_fallback with ease.
  */
 struct csalt_heap_initialized {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	struct csalt_memory memory;
 	ssize_t size;
 	ssize_t amount_written;
@@ -150,7 +150,7 @@ struct csalt_heap_initialized {
  * \see csalt_heap()
  */
 struct csalt_heap {
-	struct csalt_resource_interface *vtable;
+	const struct csalt_resource_interface *vtable;
 	struct csalt_heap_initialized heap;
 };
 
@@ -183,7 +183,7 @@ void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
  * the internal pointer yourself, which you should avoid.
  */
 struct csalt_resource_vector_initialized {
-	struct csalt_store_interface *vtable;
+	const struct csalt_store_interface *vtable;
 	
 	/**
 	 * \brief This pointer is the pointer to the initialized heap memory,
@@ -234,7 +234,7 @@ struct csalt_resource_vector_initialized {
  * size attempted is simply twice the previous size.
  */
 struct csalt_resource_vector {
-	struct csalt_resource_interface *vtable;
+	const struct csalt_resource_interface *vtable;
 	ssize_t size;
 	struct csalt_resource_vector_initialized vector;
 };
