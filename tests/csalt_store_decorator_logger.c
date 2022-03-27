@@ -90,7 +90,13 @@ int main()
 
 	csalt_store_read(error_store, 0, 1);
 
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	ssize_t read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	char *result = strstr(buffer, LOG_LABEL_READ_ERROR);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_READ_ERROR, buffer);
@@ -100,7 +106,13 @@ int main()
 	csalt_store_write(error_store, 0, 1);
 
 	memset(buffer, 0, sizeof(buffer));
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	result = strstr(buffer, LOG_LABEL_WRITE_ERROR);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_WRITE_ERROR, buffer);
@@ -110,7 +122,13 @@ int main()
 	csalt_store_read(store, 0, 10);
 
 	memset(buffer, 0, sizeof(buffer));
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	result = strstr(buffer, LOG_LABEL_READ_SUCCESS);
 
 	if (!result) {
@@ -121,7 +139,13 @@ int main()
 	csalt_store_write(store, 0, 10);
 
 	memset(buffer, 0, sizeof(buffer));
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	result = strstr(buffer, LOG_LABEL_WRITE_SUCCESS);
 
 	if (!result) {
@@ -133,7 +157,13 @@ int main()
 	csalt_store_read(store, 0, 0);
 
 	memset(buffer, 0, sizeof(buffer));
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	result = strstr(buffer, LOG_LABEL_READ_ZERO);
 	if (!result) {
 		print_error("\"%s\" was not found in log output: %s", LOG_LABEL_READ_ZERO, buffer);
@@ -143,7 +173,13 @@ int main()
 	csalt_store_write(store, 0, 0);
 
 	memset(buffer, 0, sizeof(buffer));
-	read(read_fd, buffer, sizeof(buffer) - 1);
+	read_result = read(read_fd, buffer, sizeof(buffer) - 1);
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
+
 	result = strstr(buffer, LOG_LABEL_WRITE_ZERO);
 
 	if (!result) {

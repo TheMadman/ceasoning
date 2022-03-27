@@ -67,7 +67,12 @@ int main()
 
 	csalt_store_write(write_store, WRITE_BUFFER, sizeof(WRITE_BUFFER));
 
-	read(pipe_fds[0], buffer, sizeof(buffer));
+	ssize_t read_result = read(pipe_fds[0], buffer, sizeof(buffer));
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
 		print_error("read() doesn't match csalt_store_write(): \"%s\"", buffer);
@@ -79,7 +84,17 @@ int main()
 	struct csalt_store_file_descriptor read_file = csalt_store_file_descriptor(pipe_fds[0]);
 	csalt_store *read_store = (csalt_store *)&read_file;
 
-	write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
+	ssize_t write_result = write(pipe_fds[1], WRITE_BUFFER, sizeof(WRITE_BUFFER));
+
+	if (write_result != sizeof(WRITE_BUFFER)) {
+		print_error(
+			"write() returned unexpected value, expected: %ld actual: %ld",
+			sizeof(WRITE_BUFFER),
+			write_result
+		);
+		return EXIT_TEST_ERROR;
+	}
+
 	csalt_store_read(read_store, buffer, sizeof(buffer));
 
 	if (strcmp(buffer, WRITE_BUFFER)) {
@@ -97,7 +112,12 @@ int main()
 
 	FILE *real_file = tmpfile();
 	int real_file_fd = fileno(real_file);
-	ftruncate(real_file_fd, 10);
+	int ftruncate_result = ftruncate(real_file_fd, 10);
+
+	if (ftruncate_result) {
+		perror("ftruncate");
+		return EXIT_TEST_ERROR;
+	}
 
 	struct csalt_store_file_descriptor csalt_tmpfile = csalt_store_file_descriptor(real_file_fd);
 	csalt_store *tmpfile_store = (csalt_store *)&csalt_tmpfile;

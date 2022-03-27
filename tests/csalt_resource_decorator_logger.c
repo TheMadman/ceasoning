@@ -53,7 +53,12 @@ int main()
 	);
 
 	(void)csalt_resource_init((csalt_resource *)&logger);
-	read(read_fd, buffer, sizeof(buffer));
+	ssize_t read_result = read(read_fd, buffer, sizeof(buffer));
+
+	if (read_result < 0) {
+		perror("read()");
+		return EXIT_TEST_ERROR;
+	}
 
 	if (!strstr(buffer, INIT_FAIL_MESSAGE)) {
 		print_error(
