@@ -78,7 +78,7 @@ struct csalt_memory;
  * a (csalt_resource *) will allow you to use it in those
  * functions.
  */
-typedef struct csalt_resource_interface *csalt_resource;
+typedef const struct csalt_resource_interface * const csalt_resource;
 
 /**
  * Function type for initializing the test on first use,
