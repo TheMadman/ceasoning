@@ -31,7 +31,7 @@
  * require clean-up; a function to manage a resource automatically;
  * and a resource for managing heap memory.
  *
- * Note that resources do not _necessarily_ do bounds checking - 
+ * Note that resources do not _necessarily_ do bounds checking -
  * for some resources, writing beyond the end of them is a valid
  * operation for appending data. The heap resource does a primitive
  * test that the size attribute is smaller than the current heap
@@ -163,7 +163,7 @@ struct csalt_heap csalt_heap(ssize_t size);
 
 /**
  * \brief Gives immediate access to the raw pointer.
- * 
+ *
  * This function should only really be used for reading data from
  * the resulting pointer. Safe transfer with other stores
  * can be done with csalt_store_transfer(), and safe copying
@@ -184,7 +184,7 @@ void *csalt_resource_heap_raw(const struct csalt_heap_initialized *heap);
  */
 struct csalt_resource_vector_initialized {
 	const struct csalt_store_interface *vtable;
-	
+
 	/**
 	 * \brief This pointer is the pointer to the initialized heap memory,
 	 * as returned by malloc() or realloc(), and is the member that
@@ -248,7 +248,7 @@ struct csalt_resource_vector csalt_resource_vector(ssize_t initial_size);
 
 /**
  * \brief Manages a resource lifecycle and executes the given
- * function.
+ * 	function.
  *
  * Takes a pointer to resource struct, a code block and
  * an optional parameter, passes the resource and parameter
@@ -262,8 +262,46 @@ struct csalt_resource_vector csalt_resource_vector(ssize_t initial_size);
 int csalt_resource_use(
 	csalt_resource *resource,
 	csalt_store_block_fn *code_block,
-	void *out
+	void *param
 );
+
+/**
+ * \brief Macro for managing a resource lifecycle, executing the
+ * 	given function.
+ *
+ * return_destination is the name of a variable which will contain
+ * the return value of running generic_function. It is not modified
+ * if the resource initialization failed.
+ * return_destination must be passed, and generic_function must
+ * return a value of the same type as return_destination, even if
+ * it is a dummy/unused value.
+ *
+ * resource is a pointer to a csalt_resource struct to be managed.
+ *
+ * generic_function is a function with an arbitrary return type,
+ * taking as its first argument a pointer to a csalt_store struct,
+ * plus arbitrary additional arguments.
+ * generic_function must return a value of the same type as
+ * return_destination, even if it is a dummy/unused value.
+ *
+ * After generic_function, you may pass any number of arguments,
+ * which will be passed to generic_function after the first
+ * csalt_store pointer argument.
+ */
+#define CSALT_USE(return_destination, resource, generic_function, ...) \
+	do { \
+		csalt_store \
+			*csalt_use_init_r_ = csalt_resource_init( \
+				(csalt_resource *)resource \
+			); \
+		if (!csalt_use_init_r_) \
+			break; \
+		return_destination = generic_function( \
+			csalt_use_init_r_, \
+			__VA_ARGS__ \
+		); \
+		csalt_resource_deinit((csalt_resource *)resource); \
+	} while (0)
 
 /**
  * Provides a shorthand for ((csalt_resource *)(param))
