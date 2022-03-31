@@ -34,8 +34,6 @@
  * frame memory.
  */
 
-struct csalt_store_interface;
-
 /**
  * \brief Any struct whos first member is a pointer to
  * a csalt_store_interface can be passed with a basic

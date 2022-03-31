@@ -42,9 +42,6 @@
 extern "C" {
 #endif
 
-struct csalt_resource_interface;
-struct csalt_memory;
-
 /**
  * \brief Represents a "wish to fulfill" a request for a resource.
  *
