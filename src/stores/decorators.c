@@ -565,18 +565,15 @@ ssize_t csalt_store_decorator_mutex_size(csalt_store *store)
 struct decorator_mutex_split_params {
 	csalt_store_block_fn *block;
 	void *param;
-	csalt_mutex *mutex;
 };
 
 static int mutex_receive_split(csalt_store *store, void *param)
 {
 	struct decorator_mutex_split_params *original_params = param;
-	csalt_mutex_unlock(original_params->mutex);
-
-	struct csalt_store_decorator_mutex
-		result = csalt_store_decorator_mutex(store, original_params->mutex);
-
-	return original_params->block(csalt_store(&result), original_params->param);
+	return original_params->block(
+		store,
+		original_params->param
+	);
 }
 
 int csalt_store_decorator_mutex_split(
@@ -591,20 +588,22 @@ int csalt_store_decorator_mutex_split(
 	struct decorator_mutex_split_params original_params = {
 		block,
 		param,
-		mutex->mutex,
 	};
 
 	int try_lock = csalt_mutex_lock(mutex->mutex);
 	if (try_lock)
 		return -1;
 
-	return csalt_store_split(
+	int result = csalt_store_split(
 		mutex->decorator.child,
 		begin,
 		end,
 		mutex_receive_split,
 		&original_params
 	);
+
+	csalt_mutex_unlock(mutex->mutex);
+	return result;
 }
 
 const struct csalt_store_interface

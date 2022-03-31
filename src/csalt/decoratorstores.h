@@ -387,12 +387,12 @@ int csalt_store_decorator_array_get(
  * The following functions trigger a lock: csalt_store_read(),
  * csalt_store_write() and csalt_store_split(). csalt_store_size() is
  * unsynchronized, as depending on the value of a csalt_store_size() for
- * a call to another function is still a race condition.
+ * a call to another function is still a race condition, unless performed
+ * inside a csalt_store_split() block.
  *
- * csalt_store_split requires a lock, since splitting beyond the end of the
- * store may mutate the store, which may trigger race conditions. Once the
- * split is finished, the mutex is unlocked before being passed to the block
- * parameter, to prevent a deadlock.
+ * During a csalt_store_split(), the entire block is performed under mutex
+ * lock. Therefore, csalt_store_split() can be used as a transactional
+ * interface.
  *
  * This store type can block on calls if other threads have locked the mutex.
  */

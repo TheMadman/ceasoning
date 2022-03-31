@@ -72,6 +72,8 @@ csalt_store csalt_store_mutex_stub = &csalt_store_mutex_stub_implementation;
 
 static int split(csalt_store *__, void *_)
 {
+	if (!csalt_mutex_trylock(&mutex))
+		return -1;
 	return 0;
 }
 
