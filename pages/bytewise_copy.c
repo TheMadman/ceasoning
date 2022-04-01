@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 	);
 
 	if (result < 0)
-		perror("Error opening file");
+		puts("Error transferring data");
 	return result;
 }
 
