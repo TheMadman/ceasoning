@@ -112,19 +112,52 @@ int main()
 
 	FILE *real_file = tmpfile();
 	int real_file_fd = fileno(real_file);
-	int ftruncate_result = ftruncate(real_file_fd, 10);
-
-	if (ftruncate_result) {
-		perror("ftruncate");
-		return EXIT_TEST_ERROR;
-	}
 
 	struct csalt_store_file_descriptor csalt_tmpfile = csalt_store_file_descriptor(real_file_fd);
 	csalt_store *tmpfile_store = (csalt_store *)&csalt_tmpfile;
 
 	ssize_t real_file_size = csalt_store_size(tmpfile_store);
-	if (real_file_size != 10) {
+	if (real_file_size != 0) {
 		print_error("Unexpected csalt_store_size() value for file: %ld", real_file_size);
+		return EXIT_FAILURE;
+	}
+
+	(void)csalt_store_write(
+		tmpfile_store,
+		WRITE_BUFFER,
+		sizeof(WRITE_BUFFER)
+	);
+
+	real_file_size = csalt_store_size(tmpfile_store);
+	if (real_file_size != sizeof(WRITE_BUFFER)) {
+		print_error("Unexpected csalt_store_size() value for file: %ld", real_file_size);
+		return EXIT_FAILURE;
+	}
+
+	// Test if the file is being correctly overwritten
+	// or if it's being appended to because of internal
+	// cursor shenanigans
+	(void)csalt_store_write(
+		tmpfile_store,
+		WRITE_BUFFER,
+		sizeof(WRITE_BUFFER)
+	);
+
+	real_file_size = csalt_store_size(tmpfile_store);
+	if (real_file_size != sizeof(WRITE_BUFFER)) {
+		print_error("Unexpected csalt_store_size() value for file: %ld", real_file_size);
+		return EXIT_FAILURE;
+	}
+
+	memset(buffer, 0, sizeof(buffer));
+	(void)csalt_store_read(
+		tmpfile_store,
+		buffer,
+		sizeof(buffer)
+	);
+
+	if (strcmp(buffer, WRITE_BUFFER)) {
+		print_error("the thing is broke");
 		return EXIT_FAILURE;
 	}
 

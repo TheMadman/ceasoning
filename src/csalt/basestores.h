@@ -472,6 +472,16 @@ const void *csalt_cmemory_raw(const struct csalt_cmemory *memory);
 struct csalt_store_file_descriptor {
 	const struct csalt_store_interface *vtable;
 	int fd;
+	ssize_t (*reader)(
+		struct csalt_store_file_descriptor *,
+		void *,
+		ssize_t
+	);
+	ssize_t (*writer)(
+		struct csalt_store_file_descriptor *,
+		const void *,
+		ssize_t
+	);
 	ssize_t begin;
 	ssize_t end;
 };

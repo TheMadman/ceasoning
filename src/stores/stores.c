@@ -391,15 +391,77 @@ static const struct csalt_store_interface file_descriptor_interface = {
 
 typedef struct csalt_store_file_descriptor csalt_fd;
 
+/*
+ * The first time we read from a fd, we figure out
+ * if it's an fd supporting atomic seek and read with pread()
+ * or if it's a socket/pipe/etc. and set its algorithm
+ * based on the result.
+ *
+ * This way we only check on the first read and re-use the
+ * result.
+ */
+
+ssize_t fd_impl_read(csalt_fd *fd, void *buffer, ssize_t bytes)
+{
+	return read(fd->fd, buffer, bytes);
+}
+
+ssize_t fd_impl_pread(csalt_fd *fd, void *buffer, ssize_t bytes)
+{
+	return pread(fd->fd, buffer, bytes, fd->begin);
+}
+
+ssize_t fd_pick_reader(csalt_fd *fd, void *buffer, ssize_t bytes)
+{
+	ssize_t result = fd_impl_pread(fd, buffer, bytes);
+	if (result >= 0) {
+		fd->reader = fd_impl_pread;
+	} else if (result < 0 && errno == ESPIPE) {
+		result = fd_impl_read(fd, buffer, bytes);
+		fd->reader = fd_impl_read;
+	} // else some other error, try this function again next time
+
+	return result;
+}
+
+/*
+ * Ditto for write
+ */
+
+ssize_t fd_impl_write(csalt_fd *fd, const void *buffer, ssize_t bytes)
+{
+	return write(fd->fd, buffer, bytes);
+}
+
+ssize_t fd_impl_pwrite(csalt_fd *fd, const void *buffer, ssize_t bytes)
+{
+	return pwrite(fd->fd, buffer, bytes, fd->begin);
+}
+
+ssize_t fd_pick_writer(csalt_fd *fd, const void *buffer, ssize_t bytes)
+{
+	ssize_t result = fd_impl_pwrite(fd, buffer, bytes);
+	if (result >= 0) {
+		fd->writer = fd_impl_pwrite;
+	} else if (result < 0 && errno == ESPIPE) {
+		result = fd_impl_write(fd, buffer, bytes);
+		fd->writer = fd_impl_write;
+	} // else some other error, try this function again next time
+
+	return result;
+}
+
 csalt_fd csalt_store_file_descriptor(int fd)
 {
 	off_t seek_end = lseek(fd, 0, SEEK_END);
-	off_t seek_begin = lseek(fd, 0, SEEK_SET);
+	ssize_t end = max(seek_end, 0);
 	csalt_fd result = {
 		&file_descriptor_interface,
 		fd,
-		max(seek_begin, 0),
-		max(seek_end, 0),
+		fd_pick_reader,
+		fd_pick_writer,
+		0,
+		end
 	};
 
 	return result;
@@ -407,8 +469,8 @@ csalt_fd csalt_store_file_descriptor(int fd)
 
 ssize_t csalt_store_file_descriptor_read(csalt_store *store, void *buffer, ssize_t bytes)
 {
-	const csalt_fd *file = (csalt_fd *)store;
-	ssize_t result = read(file->fd, buffer, bytes);
+	csalt_fd *file = (csalt_fd *)store;
+	ssize_t result = file->reader(file, buffer, bytes);
 	if (result < 0 && (errno & (EWOULDBLOCK | EAGAIN))) {
 		result = 0;
 	}
@@ -418,12 +480,12 @@ ssize_t csalt_store_file_descriptor_read(csalt_store *store, void *buffer, ssize
 ssize_t csalt_store_file_descriptor_write(csalt_store *store, const void *buffer, ssize_t bytes)
 {
 	csalt_fd *file = (csalt_fd *)store;
-	ssize_t result = write(file->fd, buffer, bytes);
+	ssize_t result = file->writer(file, buffer, bytes);
 	if (result < 0 && (errno & (EWOULDBLOCK | EAGAIN))) {
 		result = 0;
-	} else if (file->begin + result > file->end) {
-		file->end = max(lseek(file->fd, 0, SEEK_END), 0);
 	}
+	off_t seek_end = lseek(file->fd, 0, SEEK_END);
+	file->end = max(seek_end, 0);
 	return result;
 }
 
@@ -442,23 +504,30 @@ int csalt_store_file_descriptor_split(
 )
 {
 	csalt_fd *fd = (csalt_fd *)store;
-	off_t current = max(lseek(fd->fd, 0, SEEK_CUR), 0);
-	ssize_t new_begin = current + begin;
-	ssize_t new_end = min(new_begin + end, fd->end);
-	max(lseek(fd->fd, new_begin, SEEK_SET), 0);
+	ssize_t new_begin = fd->begin + begin;
+	off_t seek_end = lseek(fd->fd, 0, SEEK_END);
+	ssize_t new_end = max(
+		0,
+		min(
+			seek_end,
+			fd->begin + end
+		)
+	);
 
-	csalt_fd new_fd = { fd->vtable, fd->fd, new_begin, new_end };
+	csalt_fd new_fd = {
+		fd->vtable,
+		fd->fd,
+		fd->reader,
+		fd->writer,
+		new_begin,
+		new_end,
+	};
 	csalt_store *new_store = (csalt_store *)&new_fd;
 
 	int result = block(new_store, param);
 
-	if (new_fd.end > fd->end) {
-		// data written past the previous end of the file,
-		// update current file
-		fd->end = max(lseek(fd->fd, 0, SEEK_END), 0);
-	}
+	fd->end = max(new_fd.end, fd->end);
 
-	lseek(fd->fd, current, SEEK_SET);
 	return result;
 }
 
