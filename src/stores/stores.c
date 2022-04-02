@@ -527,6 +527,8 @@ int csalt_store_file_descriptor_split(
 	int result = block(new_store, param);
 
 	fd->end = max(new_fd.end, fd->end);
+	fd->reader = new_fd.reader;
+	fd->writer = new_fd.writer;
 
 	return result;
 }
