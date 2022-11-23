@@ -31,14 +31,14 @@
  * This macro performs double-evaluation - you should not
  * pass modifications (such as x++) as parameters.
  */
-#define max(a, b) ((a) > (b) ? (a) : (b))
+#define csalt_max(a, b) ((a) > (b) ? (a) : (b))
 
 /**
 * Macro for returning the smallest of two parameters.
 * This macro performs double-evaluation - you should not
 * pass modifications (such as x++) as parameters.
 */
-#define min(a, b) ((a) > (b) ? (b) : (a))
+#define csalt_min(a, b) ((a) > (b) ? (b) : (a))
 
 /**
  * Retrieves the number of elements in a typed array.

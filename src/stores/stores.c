@@ -174,8 +174,8 @@ int csalt_memory_split(
 {
 	struct csalt_memory *param = (struct csalt_memory *)store;
 	struct csalt_memory result = csalt_memory_bounds(
-		max(param->begin, min(param->begin + begin, param->end)),
-		max(param->begin, min(param->begin + end, param->end))
+		csalt_max(param->begin, csalt_min(param->begin + begin, param->end)),
+		csalt_max(param->begin, csalt_min(param->begin + end, param->end))
 	);
 	return block((csalt_store *)&result, data);
 }
@@ -236,8 +236,8 @@ int csalt_cmemory_split(
 	struct csalt_cmemory
 		*memory = (struct csalt_cmemory *)store;
 	struct csalt_cmemory result = csalt_cmemory_bounds(
-		max(memory->begin, min(memory->begin + begin, memory->end)),
-		max(memory->begin, min(memory->begin + end, memory->end))
+		csalt_max(memory->begin, csalt_min(memory->begin + begin, memory->end)),
+		csalt_max(memory->begin, csalt_min(memory->begin + end, memory->end))
 	);
 	return block((csalt_store *)&result, data);
 }
@@ -292,7 +292,7 @@ static int receive_split_to(csalt_store *to, void *data_pointer)
 	if (size == 0)
 		return 0;
 
-	ssize_t transfer_size = min(size, DEFAULT_PAGESIZE);
+	ssize_t transfer_size = csalt_min(size, DEFAULT_PAGESIZE);
 
 	ssize_t read_size = csalt_store_read(from, buffer, transfer_size);
 	if (read_size < 0)
@@ -454,7 +454,7 @@ ssize_t fd_pick_writer(csalt_fd *fd, const void *buffer, ssize_t bytes)
 csalt_fd csalt_store_file_descriptor(int fd)
 {
 	off_t seek_end = lseek(fd, 0, SEEK_END);
-	ssize_t end = max(seek_end, 0);
+	ssize_t end = csalt_max(seek_end, 0);
 	csalt_fd result = {
 		&file_descriptor_interface,
 		fd,
@@ -485,7 +485,7 @@ ssize_t csalt_store_file_descriptor_write(csalt_store *store, const void *buffer
 		result = 0;
 	}
 	off_t seek_end = lseek(file->fd, 0, SEEK_END);
-	file->end = max(seek_end, 0);
+	file->end = csalt_max(seek_end, 0);
 	return result;
 }
 
@@ -506,9 +506,9 @@ int csalt_store_file_descriptor_split(
 	csalt_fd *fd = (csalt_fd *)store;
 	ssize_t new_begin = fd->begin + begin;
 	off_t seek_end = lseek(fd->fd, 0, SEEK_END);
-	ssize_t new_end = max(
+	ssize_t new_end = csalt_max(
 		0,
-		min(
+		csalt_min(
 			seek_end,
 			fd->begin + end
 		)
@@ -526,7 +526,7 @@ int csalt_store_file_descriptor_split(
 
 	int result = block(new_store, param);
 
-	fd->end = max(new_fd.end, fd->end);
+	fd->end = csalt_max(new_fd.end, fd->end);
 	fd->reader = new_fd.reader;
 	fd->writer = new_fd.writer;
 

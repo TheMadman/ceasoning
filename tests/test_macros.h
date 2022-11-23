@@ -29,7 +29,7 @@ ssize_t csalt_store_stub_read(csalt_store *store, void *data, ssize_t amount)
 {
 	(void)data;
 	struct csalt_store_stub *stub = (void *)store;
-	stub->last_read = min((ssize_t)amount, stub->size);
+	stub->last_read = csalt_min((ssize_t)amount, stub->size);
 	return stub->last_read;
 }
 
@@ -37,7 +37,7 @@ ssize_t csalt_store_stub_write(csalt_store *store, const void *data, ssize_t amo
 {
 	(void)data;
 	struct csalt_store_stub *stub = (void *)store;
-	stub->last_write = min((ssize_t)amount, stub->size);
+	stub->last_write = csalt_min((ssize_t)amount, stub->size);
 	return stub->last_write;
 }
 

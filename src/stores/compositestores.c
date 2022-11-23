@@ -81,7 +81,7 @@ ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, ssize_t size)
 	if (second < 0)
 		return second;
 
-	return max(first, second);
+	return csalt_max(first, second);
 }
 
 ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, ssize_t size)
@@ -101,7 +101,7 @@ ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, ssize_t s
 	if (pair->second)
 		second = csalt_store_write(pair->second, buffer, size);
 
-	return min(first, second);
+	return csalt_min(first, second);
 }
 
 ssize_t csalt_store_pair_size(csalt_store *store)
@@ -115,7 +115,7 @@ ssize_t csalt_store_pair_size(csalt_store *store)
 	if (pair->second)
 		second = csalt_store_size(pair->second);
 
-	return min(first, second);
+	return csalt_min(first, second);
 }
 
 struct split_pair_params {

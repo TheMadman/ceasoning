@@ -34,14 +34,14 @@ ssize_t csalt_heap_write(csalt_store *store, const void *buffer, ssize_t size)
 	ssize_t written = csalt_memory_write((csalt_store *)&heap->memory, buffer, size);
 	if (written < 0)
 		return -1;
-	heap->amount_written = max(heap->amount_written, written);
+	heap->amount_written = csalt_max(heap->amount_written, written);
 	return written;
 }
 
 ssize_t csalt_heap_read(csalt_store *store, void *buffer, ssize_t size)
 {
 	struct csalt_heap_initialized *heap = (void *)store;
-	size = min(size, heap->amount_written);
+	size = csalt_min(size, heap->amount_written);
 
 	return csalt_memory_read((csalt_store *)&heap->memory, buffer, size);
 }
@@ -68,14 +68,14 @@ int csalt_heap_split(
 	split.memory.begin = heap->memory.begin + begin;
 	split.memory.end = heap->memory.begin + end;
 
-	ssize_t written_overlap_amount = max(0, min(end, heap->amount_written) - begin);
+	ssize_t written_overlap_amount = csalt_max(0, csalt_min(end, heap->amount_written) - begin);
 	split.amount_written = written_overlap_amount;
 
 	int result = block(csalt_store(&split), data);
 
 	// the whole point of this function - if block appends past current written,
 	// update amount_written
-	heap->amount_written = max(heap->amount_written, begin + split.amount_written);
+	heap->amount_written = csalt_max(heap->amount_written, begin + split.amount_written);
 	return result;
 }
 
@@ -142,7 +142,7 @@ ssize_t csalt_resource_vector_read(
 {
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 
-	ssize_t read_amount = min(amount, vector->amount_written);
+	ssize_t read_amount = csalt_min(amount, vector->amount_written);
 	memcpy(buffer, vector->original_pointer + vector->begin, read_amount);
 	return read_amount;
 }
@@ -159,7 +159,7 @@ int vector_write(csalt_store *store, void *arg)
 	struct csalt_resource_vector_initialized *vector = (void *)store;
 	struct vector_write_params *params = arg;
 	char *write_pointer = vector->original_pointer + vector->begin;
-	ssize_t write_amount = min(
+	ssize_t write_amount = csalt_min(
 		params->amount,
 		vector->original_end - write_pointer
 	);
@@ -244,18 +244,18 @@ int csalt_resource_vector_split(
 			*allocated = reallocated;
 			*allocated_end = reallocated + size;
 		} else {
-			begin_index = min(
+			begin_index = csalt_min(
 				begin_index, 
 				*allocated_end - *allocated
 			);
-			end_index = min(
+			end_index = csalt_min(
 				end_index,
 				*allocated_end - *allocated
 			);
 		}
 	}
 
-	ssize_t written_from_begin = max(vector->amount_written - begin, 0);
+	ssize_t written_from_begin = csalt_max(vector->amount_written - begin, 0);
 
 	struct csalt_resource_vector_initialized result = vector_initialized(
 		*allocated,
