@@ -1,5 +1,5 @@
 <map id="csalt/compositestores.h" name="csalt/compositestores.h">
-<area shape="rect" id="node1" title="This file provides stores which define relationships between stores. Examples include csalt_store_pai..." alt="" coords="153,5,330,32"/>
+<area shape="rect" id="node1" title="This file provides stores which define relationships between stores." alt="" coords="153,5,330,32"/>
 <area shape="rect" id="node2" href="$compositeresources_8h.html" title="This file defines abstract resources, which allow you to define relationships between resources." alt="" coords="5,229,205,256"/>
 <area shape="rect" id="node4" href="$stores_8h_source.html" title=" " alt="" coords="323,80,432,107"/>
 <area shape="rect" id="node3" href="$resources_8h_source.html" title=" " alt="" coords="311,304,443,331"/>

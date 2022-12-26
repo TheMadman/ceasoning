@@ -22,6 +22,7 @@
 #include <csalt/util.h>
 
 #include <stdint.h>
+#include <stdbool.h>
 #include <limits.h>
 
 static const struct csalt_store_interface csalt_store_pair_implementation = {
@@ -128,7 +129,7 @@ struct split_pair_params {
 	csalt_store *pair_first;
 };
 
-static int split_second(csalt_store *store, void *param)
+static int split_receive_second(csalt_store *store, void *param)
 {
 	struct split_pair_params *params = param;
 	struct csalt_store_pair new_pair = csalt_store_pair(params->pair_first, store);
@@ -136,7 +137,7 @@ static int split_second(csalt_store *store, void *param)
 	return params->block((void *)&new_pair, params->param);
 }
 
-static int split_first(csalt_store *store, void *param)
+static int split_receive_first(csalt_store *store, void *param)
 {
 	struct split_pair_params *params = param;
 	struct csalt_store_pair *original = (void *)(params->store);
@@ -151,7 +152,7 @@ static int split_first(csalt_store *store, void *param)
 		original->second,
 		params->begin,
 		params->end,
-		split_second,
+		split_receive_second,
 		params
 	);
 }
@@ -184,7 +185,7 @@ int csalt_store_pair_split(
 			pair->first,
 			begin,
 			end,
-			split_first,
+			split_receive_first,
 			&params
 		);
 	else
@@ -192,7 +193,7 @@ int csalt_store_pair_split(
 			pair->second,
 			begin,
 			end,
-			split_second,
+			split_receive_second,
 			&params
 		);
 }
@@ -216,6 +217,85 @@ csalt_store *csalt_store_pair_list_get(
 		return pairs->first;
 	return csalt_store_pair_list_get((void *)pairs->second, index - 1);
 }
+
+struct csalt_store_multisplit_params {
+	struct csalt_store_pair *list;
+	struct csalt_store_multisplit_split *begin;
+	struct csalt_store_multisplit_split *end;
+	csalt_store_block_fn *block;
+	void *param;
+
+	csalt_store *first;
+};
+
+static int multisplit_receive_second(csalt_store *store, void *param)
+{
+	struct csalt_store_multisplit_params *params = param;
+	struct csalt_store_pair pair = csalt_store_pair(params->first, store);
+	return params->block((csalt_store *)&pair, params->param);
+}
+
+static int multisplit_receive_first(csalt_store *store, void *param)
+{
+	struct csalt_store_multisplit_params *params = param;
+	params->first = store;
+	return csalt_store_pair_list_multisplit_bounds(
+		(struct csalt_store_pair *)params->list->second,
+		params->begin + 1,
+		params->end,
+		multisplit_receive_second,
+		params
+	);
+}
+
+int csalt_store_pair_list_multisplit_bounds(
+	struct csalt_store_pair *list,
+	struct csalt_store_multisplit_split *begin,
+	struct csalt_store_multisplit_split *end,
+	csalt_store_block_fn *block,
+	void *param
+)
+{
+	const bool finished_list = !list;
+	const bool finished_split_array = begin == end;
+	if (
+		finished_list ||
+		finished_split_array
+	)
+		return block((csalt_store *)list, param);
+
+	const bool first = list->first;
+	const bool second = list->second;
+
+	if (!(first || second)) {
+		return block((csalt_store *)list, param);
+	}
+
+	struct csalt_store_multisplit_params params = {
+		list,
+		begin,
+		end,
+		block,
+		param,
+
+		NULL,
+	};
+
+	// (!first && !second) handled above
+	csalt_store *child_store = first? list->first: list->second;
+	csalt_store_block_fn *path = first?
+		multisplit_receive_first:
+		multisplit_receive_second;
+
+	return csalt_store_split(
+		child_store,
+		begin->begin,
+		begin->end,
+		path,
+		&params
+	);
+}
+
 
 static const struct csalt_store_interface csalt_store_fallback_implementation = {
 	csalt_store_fallback_read,

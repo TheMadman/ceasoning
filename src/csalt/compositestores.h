@@ -164,6 +164,107 @@ csalt_store *csalt_store_pair_list_get(
 );
 
 /**
+ * \brief Defines a single split for the csalt_store_pair_list_multisplit()
+ * 	function.
+ *
+ * An array of these is passed to csalt_store_pair_list_multisplit() to define
+ * the bounds of each store to be split.
+ *
+ * \sa csalt_store_pair_list_multisplit_bounds()
+ * \sa csalt_store_pair_list_multisplit()
+ */
+struct csalt_store_multisplit_split {
+	/**
+	 * \brief Where the split should begin. Identical to the
+	 * 	`begin` param in csalt_store_split().
+	 */
+	ssize_t begin;
+
+	/**
+	 * \brief Where the split should end. Identical to the
+	 * 	`end` param in csalt_store_split().
+	 */
+	ssize_t end;
+};
+
+/**
+ * \brief Split multiple stores using different bounds per store.
+ *
+ * This function takes a linked list of stores, as constructed by
+ * csalt_store_pair_list(), an array of csalt_store_multisplit_split
+ * structs defining how to split each item in the list, and finally,
+ * the `block` and `param` parameters identically to csalt_store_split().
+ *
+ * Only `param` may be null; setting any other parameter to null is
+ * undefined.
+ *
+ * The first struct in the csalt_store_multisplit_split array defines
+ * how to split the first store; the second struct, the second store; and
+ * so on.
+ *
+ * If the csalt_store_multisplit_split array is smaller than the list,
+ * only the first elements of the list are split; the rest are appended
+ * as-is. If the csalt_store_multisplit_split array is larger than the
+ * list, the remainders in the array are ignored.
+ *
+ * Once the stores are split, they are wrapped in a new linked list
+ * and passed to `block`.
+ *
+ * Example:
+ *
+ * \code
+ *
+ * 	int my_function(csalt_store *, void *);
+ * 	csalt_store *stores[] = {
+ * 		(csalt_store *)first_store,
+ * 		(csalt_store *)second_store,
+ * 		(csalt_store *)third_store,
+ * 	};
+ *
+ * 	struct csalt_store_pair list[arrlength(stores)] = { 0 };
+ * 	csalt_store_pair_list(stores, list);
+ *
+ * 	struct csalt_store_multisplit_split splits[] = {
+ * 		{ 0, 3 },
+ * 		{ 4, 8 },
+ * 	};
+ *
+ * 	csalt_store_pair_list_multisplit(list, splits, my_function, NULL);
+ *
+ * \endcode
+ *
+ * This will split `first_store` from 0 to 3, `second_store` from 4 to 8,
+ * leave `third_store` as-is, wrap them in a new `csalt_store_pair_list` and
+ * pass the result as `my_function`'s first parameter.
+ *
+ * \sa csalt_store_multisplit_split
+ * \sa csalt_store_pair_list_multisplit()
+ */
+int csalt_store_pair_list_multisplit_bounds(
+	struct csalt_store_pair *list,
+	struct csalt_store_multisplit_split *begin,
+	struct csalt_store_multisplit_split *end,
+	csalt_store_block_fn *block,
+	void *param
+);
+
+/**
+ * \brief Convenience macro for csalt_store_pair_list_multisplit_bounds().
+ *
+ * Takes a static array as the second argument, instead of separate begin/end
+ * pointers.
+ *
+ * \sa csalt_store_pair_list_multisplit_bounds()
+ */
+#define csalt_store_pair_list_multisplit(list, multisplit_split_arr, block, param) \
+	csalt_store_pair_list_multisplit_bounds( \
+		list, \
+		multisplit_split_arr, \
+		arrend(multisplit_split_arr), \
+		block, \
+		param)
+
+/**
  * \brief This type decorates a pair with fallback/caching logic.
  *
  * csalt_store_read() tries reading the first store first. If all the requested
