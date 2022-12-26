@@ -197,17 +197,12 @@ int csalt_store_pair_split(
 		);
 }
 
-// A nice, little tail-recursion optimisation
-static ssize_t real_pair_list_length(const struct csalt_store_pair *pair, ssize_t accumulator)
-{
-	if (!pair->second)
-		return accumulator + 1;
-	return real_pair_list_length((void *)pair->second, accumulator + 1);
-}
-
 ssize_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs)
 {
-	return real_pair_list_length(pairs, 0);
+	ssize_t size = 0;
+	for (; pairs; pairs = (struct csalt_store_pair *)pairs->second)
+		size++;
+	return size;
 }
 
 csalt_store *csalt_store_pair_list_get(

@@ -247,6 +247,31 @@ int main()
 			return EXIT_FAILURE;
 		}
 	}
+
+	{
+		struct csalt_store_stub first = csalt_store_stub(8);
+		struct csalt_store_stub second = csalt_store_stub(8);
+
+		csalt_store *stores[] = {
+			csalt_store(&first),
+			csalt_store(&second),
+		};
+
+		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+
+		csalt_store_pair_list(stores, pairs);
+
+		ssize_t length = csalt_store_pair_list_length(pairs);
+
+		if (length != 2l) {
+			print_error(
+				"Expected: length %ld actual: length %ld",
+				2l,
+				length
+			);
+			return EXIT_FAILURE;
+		}
+	}
 }
 
 int receive_split(csalt_store *store, void *data)
