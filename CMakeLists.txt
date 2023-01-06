@@ -2,6 +2,13 @@ cmake_minimum_required(VERSION 3.21)
 
 project(Ceasoning VERSION 0.1)
 
+if(BUILD_TESTING)
+	# GCC/Clang-specific stuff, don't like
+	# maybe replace with CDash?
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 --coverage")
+	link_libraries("--coverage")
+endif(BUILD_TESTING)
+
 add_subdirectory(src)
 
 ## Refactor this out into a separate file?
@@ -34,6 +41,15 @@ if(BUILD_EXAMPLES)
 endif(BUILD_EXAMPLES)
 
 if(BUILD_TESTING)
+	add_custom_target(coverage
+		COMMAND lcov --capture --directory "${CMAKE_CURRENT_SOURCE_DIR}" --exclude '${CMAKE_CURRENT_SOURCE_DIR}/tests/**' --exclude '${CMAKE_CURRENT_SOURCE_DIR}/pages/**' -o tracefile.info
+		COMMAND genhtml -o htmlcov tracefile.info
+		BYPRODUCTS tracefile.info htmlcov
+	)
+	add_custom_target(coverage_clean
+		COMMAND find "${CMAKE_CURRENT_BINARY_DIR}" -name '*.gcda' -o -name '*.gcno' | xargs rm
+	)
+
 	enable_testing()
 	add_subdirectory(tests)
 endif(BUILD_TESTING)
