@@ -431,4 +431,40 @@ int receive_multisplit_shorter_splits(csalt_store *store, void *data)
 		*second = (void *)csalt_store_pair_list_get(pair, 2);
 	struct csalt_store_stub
 		*third = (void *)csalt_store_pair_list_get(pair, 3);
+
+	if (zeroth->split_begin != 0 || zeroth->split_end != 1) {
+		print_error(
+			"Multisplit resulted in unexpected zeroth store: %ld -> %ld",
+			zeroth->split_begin,
+			zeroth->split_end
+		);
+		abort();
+	}
+
+	if (first->split_begin != 2 || first->split_end != 3) {
+		print_error(
+			"Multisplit resulted in unexpected first store: %ld -> %ld",
+			first->split_begin,
+			first->split_end
+		);
+		abort();
+	}
+
+	if (second->split_begin != 0 || second->split_end != 0) {
+		print_error(
+			"Multisplit resulted in unexpected second store: %ld -> %ld",
+			second->split_begin,
+			second->split_end
+		);
+		abort();
+	}
+
+	if (third->split_begin != 0 || third->split_end != 0) {
+		print_error(
+			"Multisplit resulted in unexpected third store: %ld -> %ld",
+			third->split_begin,
+			third->split_end
+		);
+		abort();
+	}
 }
