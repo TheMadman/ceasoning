@@ -22,11 +22,11 @@
 #include <csalt/platform/init.h>
 
 /**
- * \file 
+ * \file
  * \brief This file provides stores which define relationships
- * between stores. Examples include csalt_store_pair, which can be used 
- * to create pairs, linked-lists or binary trees of stores, and 
- * csalt_store_fallback, which allows you to define stores as a priority 
+ * between stores. Examples include csalt_store_pair, which can be used
+ * to create pairs, linked-lists or binary trees of stores, and
+ * csalt_store_fallback, which allows you to define stores as a priority
  * list where each store is tried in order.
  */
 
@@ -104,12 +104,12 @@ int csalt_store_pair_split(
  * and its second property points to the next pair, and so on.
  * The last pair's second property is set to a null pointer value.
  *
- * Note that this function uses an out-parameter for initializing an 
+ * Note that this function uses an out-parameter for initializing an
  * already-existing array, instead of returning a value.
  *
  * Constructing an array for an existing local array of stores is simple:
  * \code
- * 
+ *
  * 	struct csalt_store_pair list[arrsize(stores)] = { 0 };
  * \endcode
  *
@@ -154,8 +154,8 @@ void csalt_store_pair_list_bounds(
 ssize_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
 
 /**
- * \brief Allows getting the csalt_store object at an offset from a 
- * 	list of pairs constructed by csalt_store_pair_list() or 
+ * \brief Allows getting the csalt_store object at an offset from a
+ * 	list of pairs constructed by csalt_store_pair_list() or
  * 	csalt_store_pair_list_bounds().
  */
 csalt_store *csalt_store_pair_list_get(
@@ -268,8 +268,8 @@ int csalt_store_pair_list_multisplit_bounds(
  * \brief This type decorates a pair with fallback/caching logic.
  *
  * csalt_store_read() tries reading the first store first. If all the requested
- * data are read, it returns immediately. Otherwise, it attempts to read the 
- * remaining data from later stores. If data is read from the later stores 
+ * data are read, it returns immediately. Otherwise, it attempts to read the
+ * remaining data from later stores. If data is read from the later stores
  * successfully, it is written back into earlier stores.
  *
  * If any store returns an error code from csalt_store_read(), the whole
@@ -323,7 +323,7 @@ int csalt_store_fallback_bounds(
  *
  * This is the recommended way to construct csalt_store_fallback%s when the
  * array lengths are known at compile-time.
- * 
+ *
  * \sa csalt_store_fallback_bounds()
  */
 #define csalt_store_fallback_array(store_array, fallback_array) \
