@@ -242,8 +242,8 @@ struct csalt_store_multisplit_split {
  */
 int csalt_store_pair_list_multisplit_bounds(
 	struct csalt_store_pair *list,
-	struct csalt_store_multisplit_split *begin,
-	struct csalt_store_multisplit_split *end,
+	const struct csalt_store_multisplit_split *begin,
+	const struct csalt_store_multisplit_split *end,
 	csalt_store_block_fn *block,
 	void *param
 );
