@@ -72,30 +72,67 @@ extern "C" {
  * \sa csalt_store_pair_list()
  */
 struct csalt_store_pair {
-	const struct csalt_store_interface *interface;
+	const struct csalt_dynamic_store_interface *vtable;
 	csalt_store *first;
 	csalt_store *second;
 };
 
+struct csalt_static_store_pair {
+	const struct csalt_static_store_interface *vtable;
+	csalt_static_store *first;
+	csalt_static_store *second;
+};
+
 /**
+ * \public \memberof csalt_store_pair
  * \brief Constructor for creating a single pair.
  */
 struct csalt_store_pair csalt_store_pair(csalt_store *first, csalt_store *second);
 
-ssize_t csalt_store_pair_read(csalt_store *store, void *buffer, ssize_t size);
-ssize_t csalt_store_pair_write(csalt_store *store, const void *buffer, ssize_t size);
-ssize_t csalt_store_pair_size(csalt_store *store);
+/**
+ * \public \memberof csalt_store_pair
+ * \brief Constructor for creating a static pair.
+ */
+struct csalt_static_store_pair csalt_static_store_pair(
+	csalt_static_store *first,
+	csalt_static_store *second
+);
+
+/**
+ * \public \memberof csalt_store_pair
+ */
+ssize_t csalt_store_pair_read(csalt_static_store *store, void *buffer, ssize_t size);
+
+/**
+ * \public \memberof csalt_store_pair
+ */
+ssize_t csalt_store_pair_write(csalt_static_store *store, const void *buffer, ssize_t size);
+
+/**
+ * \public \memberof csalt_store_pair
+ */
 int csalt_store_pair_split(
-	csalt_store *store,
+	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 );
 
 /**
+ * \public \memberof csalt_store_pair
+ */
+ssize_t csalt_store_pair_size(csalt_store *store);
+
+/**
+ * \public \memberof csalt_store_pair
+ */
+ssize_t csalt_store_pair_resize(csalt_store *store, ssize_t size);
+
+/**
+ * \public \memberof csalt_store_pair
  * \brief Constructor for creating a list of pairs, given
- * 	an array of csalt_store%s to link together.
+ * 	an array of csalt_static_store%s to link together.
  *
  * This function effectively constructs a linked-list from pairs.
  * The first pair's first property points to the first store in
@@ -148,13 +185,15 @@ void csalt_store_pair_list_bounds(
 	)
 
 /**
+ * \public \memberof csalt_store_pair
  * \brief Allows checking the length of a list of pairs constructed
  * 	by csalt_store_pair_list() or csalt_store_pair_list_bounds().
  */
 ssize_t csalt_store_pair_list_length(const struct csalt_store_pair *pairs);
 
 /**
- * \brief Allows getting the csalt_store object at an offset from a
+ * \public \memberof csalt_store_pair
+ * \brief Allows getting the csalt_static_store object at an offset from a
  * 	list of pairs constructed by csalt_store_pair_list() or
  * 	csalt_store_pair_list_bounds().
  */
@@ -214,11 +253,11 @@ struct csalt_store_multisplit_split {
  *
  * \code
  *
- * 	int my_function(csalt_store *, void *);
- * 	csalt_store *stores[] = {
- * 		(csalt_store *)first_store,
- * 		(csalt_store *)second_store,
- * 		(csalt_store *)third_store,
+ * 	int my_function(csalt_static_store *, void *);
+ * 	csalt_static_store *stores[] = {
+ * 		(csalt_static_store *)first_store,
+ * 		(csalt_static_store *)second_store,
+ * 		(csalt_static_store *)third_store,
  * 	};
  *
  * 	struct csalt_store_pair list[arrlength(stores)] = { 0 };
@@ -241,10 +280,10 @@ struct csalt_store_multisplit_split {
  * \sa csalt_store_pair_list_multisplit()
  */
 int csalt_store_pair_list_multisplit_bounds(
-	struct csalt_store_pair *list,
+	struct csalt_static_store_pair *list,
 	const struct csalt_store_multisplit_split *begin,
 	const struct csalt_store_multisplit_split *end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 );
 
@@ -263,98 +302,6 @@ int csalt_store_pair_list_multisplit_bounds(
 		arrend(multisplit_split_arr), \
 		block, \
 		param)
-
-/**
- * \brief This type decorates a pair with fallback/caching logic.
- *
- * csalt_store_read() tries reading the first store first. If all the requested
- * data are read, it returns immediately. Otherwise, it attempts to read the
- * remaining data from later stores. If data is read from the later stores
- * successfully, it is written back into earlier stores.
- *
- * If any store returns an error code from csalt_store_read(), the whole
- * fallback store halts immediately and the contents of *buffer is undefined.
- *
- * csalt_store_write() writes only to the first store in the list. The data
- * can be written out to all stores by calling csalt_store_flush() on the list.
- *
- * csalt_store_size() implements the same logic as for csalt_store_pair.
- *
- * csalt_store_split() behaves similarly to csalt_store_pair, except the
- * result implements the same fallback logic for csalt_store_read() and
- * csalt_store_write().
- *
- * \sa csalt_store_fallback_array()
- * \sa csalt_store_fallback_bounds()
- */
-struct csalt_store_fallback {
-	const struct csalt_store_interface *vtable;
-	struct csalt_store_pair pair;
-};
-
-/**
- * \brief Constructs a csalt_store_fallback from two csalt_store%s.
- */
-struct csalt_store_fallback csalt_store_fallback(
-	csalt_store *first,
-	csalt_store *second
-);
-
-/**
- * \brief This function constructs a list of stores which implements caching
- * 	logic.
- *
- * The arguments should be the same as for the csalt_store_pair_list_bounds(),
- * except taking an out-array of csalt_store_fallback as its last arguments.
- *
- * \sa csalt_store_fallback_array()
- * \sa csalt_store_pair_list_bounds()
- */
-int csalt_store_fallback_bounds(
-	csalt_store **list_begin,
-	csalt_store **list_end,
-	struct csalt_store_fallback *fallback_begin,
-	struct csalt_store_fallback *fallback_end
-);
-
-/**
- * \brief Convenience macro from building csalt_store_fallback%s from two
- * 	arrays.
- *
- * This is the recommended way to construct csalt_store_fallback%s when the
- * array lengths are known at compile-time.
- *
- * \sa csalt_store_fallback_bounds()
- */
-#define csalt_store_fallback_array(store_array, fallback_array) \
-	csalt_store_fallback_bounds( \
-		(store_array), \
-		arrend(store_array), \
-		(fallback_array), \
-		arrend(fallback_array) \
-	)
-
-ssize_t csalt_store_fallback_read(
-	csalt_store *store,
-	void *buffer,
-	ssize_t amount
-);
-
-ssize_t csalt_store_fallback_write(
-	csalt_store *store,
-	const void *buffer,
-	ssize_t amount
-);
-
-ssize_t csalt_store_fallback_size(csalt_store *store);
-
-int csalt_store_fallback_split(
-	csalt_store *store,
-	ssize_t begin,
-	ssize_t end,
-	csalt_store_block_fn *block,
-	void *param
-);
 
 #ifdef __cplusplus
 }

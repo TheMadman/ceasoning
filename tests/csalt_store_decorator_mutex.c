@@ -50,7 +50,7 @@ static int csalt_store_mutex_stub_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 )
 {

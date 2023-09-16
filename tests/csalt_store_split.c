@@ -21,20 +21,20 @@
 
 #include "test_macros.h"
 
-int read_called = 0;
-int write_called = 0;
-int split_begin = 0;
-int split_end = 100;
+ssize_t read_called = 0;
+ssize_t write_called = 0;
+ssize_t split_begin = 0;
+ssize_t split_end = 100;
 
-int split_block(csalt_store *store, void *_);
+int split_block(csalt_static_store *store, void *_);
 
 struct test_struct {
-	struct csalt_store_interface *implementation;
+	struct csalt_static_store_interface *implementation;
 	ssize_t begin;
 	ssize_t end;
 };
 
-ssize_t test_read(csalt_store *store, void *buffer, ssize_t size)
+ssize_t test_read(csalt_static_store *store, void *buffer, ssize_t size)
 {
 	(void)store;
 	(void)buffer;
@@ -43,7 +43,7 @@ ssize_t test_read(csalt_store *store, void *buffer, ssize_t size)
 	return 0;
 }
 
-ssize_t test_write(csalt_store *store, const void *buffer, ssize_t size)
+ssize_t test_write(csalt_static_store *store, const void *buffer, ssize_t size)
 {
 	(void)store;
 	(void)buffer;
@@ -52,37 +52,37 @@ ssize_t test_write(csalt_store *store, const void *buffer, ssize_t size)
 	return 0;
 }
 
-ssize_t test_size(csalt_store *store)
+ssize_t test_size(csalt_static_store *store)
 {
 	const struct test_struct *data = (struct test_struct *)store;
 	return data->end - data->begin;
 }
 
 int test_split(
-	csalt_store *store,
+	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *_
 )
 {
+	(void)_;
 	struct test_struct *data = (struct test_struct *)store;
 	struct test_struct result = {
 		data->implementation,
 		data->begin + begin,
 		data->begin + end
 	};
-	return block((csalt_store *)&result, data);
+	return block((csalt_static_store *)&result, data);
 }
 
-struct csalt_store_interface test_implementation = {
+struct csalt_static_store_interface test_implementation = {
 	test_read,
 	test_write,
-	test_size,
 	test_split,
 };
 
-int split_block(csalt_store *store, void *_)
+int split_block(csalt_static_store *store, void *_)
 {
 	(void)_;
 	struct test_struct *impl = (struct test_struct *)store;
@@ -99,20 +99,20 @@ int main()
 		split_end,
 	};
 
-	csalt_store_read((csalt_store *)&data, 0, 0);
+	csalt_static_store_read((csalt_static_store *)&data, 0, 0);
 	if (!read_called) {
 		print_error("Read call failed");
 		return EXIT_FAILURE;
 	}
 
-	csalt_store_write((csalt_store *)&data, 0, 0);
+	csalt_static_store_write((csalt_static_store *)&data, 0, 0);
 	if (!write_called) {
 		print_error("Write call failed");
 		return EXIT_FAILURE;
 	}
 
-	csalt_store_split(
-		(csalt_store *)&data,
+	csalt_static_store_split(
+		(csalt_static_store *)&data,
 		0,
 		50,
 		split_block,
@@ -120,12 +120,12 @@ int main()
 	);
 
 	if (split_begin != 0 || split_end != 50) {
-		print_error("Split failed, split_begin: %d split_end: %d", split_begin, split_end);
+		print_error("Split failed, split_begin: %ld split_end: %ld", split_begin, split_end);
 		return EXIT_FAILURE;
 	}
 
-	csalt_store_split(
-		(csalt_store *)&data,
+	csalt_static_store_split(
+		(csalt_static_store *)&data,
 		10,
 		20,
 		split_block,
@@ -133,7 +133,7 @@ int main()
 	);
 
 	if (split_begin != 10 || split_end != 20) {
-		print_error("Split failed, split_begin: %d split_end: %d", split_begin, split_end);
+		print_error("Split failed, split_begin: %ld split_end: %ld", split_begin, split_end);
 		return EXIT_FAILURE;
 	}
 

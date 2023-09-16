@@ -21,9 +21,5 @@
 
 #include <csalt/platform/init.h>
 #include "baseresources.h"
-#include "compositeresources.h"
-#include "decoratorresources.h"
-#include "fileresource.h"
-#include "networkresources.h"
 
 #endif // CSALT_RESOURCES_H

@@ -48,7 +48,7 @@ int csalt_store_decorator_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *data
 ) {
 	struct csalt_store_decorator *decorator = (void *)store;
@@ -428,7 +428,7 @@ int csalt_store_decorator_array_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 )
 {
@@ -563,7 +563,7 @@ ssize_t csalt_store_decorator_mutex_size(csalt_store *store)
 }
 
 struct decorator_mutex_split_params {
-	csalt_store_block_fn *block;
+	csalt_store_fn *block;
 	void *param;
 };
 
@@ -580,7 +580,7 @@ int csalt_store_decorator_mutex_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 )
 {
@@ -667,7 +667,7 @@ ssize_t csalt_store_decorator_rwlock_size(csalt_store *store)
 }
 
 struct decorator_rwlock_split_params {
-	csalt_store_block_fn *block;
+	csalt_store_fn *block;
 	void *param;
 	csalt_rwlock *rwlock;
 };
@@ -693,7 +693,7 @@ int csalt_store_decorator_rwlock_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_store_fn *block,
 	void *param
 )
 {
