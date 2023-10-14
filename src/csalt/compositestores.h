@@ -30,7 +30,7 @@
  * list where each store is tried in order.
  */
 
-#include <csalt/basestores.h>
+#include <csalt/stores/base.h>
 #include <csalt/util.h>
 #include <sys/types.h>
 

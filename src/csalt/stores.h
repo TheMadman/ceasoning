@@ -20,8 +20,9 @@
 #define CSALT_STORES_H
 
 #include <csalt/platform/init.h>
-#include "basestores.h"
+#include "stores/base.h"
 #include "compositestores.h"
+#include "stores/noop.h"
 // #include "decoratorstores.h"
 
 #endif // CSALT_STORES_H

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "csalt/basestores.h"
+#include "csalt/stores/base.h"
 
 #include <sys/types.h>
 #include <unistd.h>
