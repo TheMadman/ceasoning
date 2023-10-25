@@ -21,7 +21,7 @@
 
 #include <csalt/platform/init.h>
 #include "stores/base.h"
-#include "compositestores.h"
+#include "stores/pair.h"
 #include "stores/noop.h"
 // #include "decoratorstores.h"
 

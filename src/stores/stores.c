@@ -16,14 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "csalt/stores/base.h"
+#include "csalt/stores/pair.h"
 
 #include <sys/types.h>
 #include <unistd.h>
 #include <string.h>
 #include <errno.h>
 
-#include "csalt/compositestores.h"
+#include "csalt/stores/base.h"
 #include "csalt/util.h"
 
 // virtual call functions

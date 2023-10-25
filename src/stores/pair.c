@@ -16,13 +16,13 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "csalt/compositestores.h"
+#include "csalt/stores/pair.h"
 
 #include <stdint.h>
 #include <stdbool.h>
 #include <limits.h>
 
-#include "csalt/baseresources.h"
+#include "csalt/stores/base.h"
 #include "csalt/util.h"
 
 static const struct csalt_dynamic_store_interface csalt_store_pair_implementation = {

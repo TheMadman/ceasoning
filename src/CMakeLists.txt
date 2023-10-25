@@ -2,7 +2,7 @@ find_package(Threads REQUIRED)
 
 add_library(csalt STATIC
 	stores/stores.c
-	stores/compositestores.c
+	stores/pair.c
 )
 
 target_link_libraries(csalt PUBLIC Threads::Threads)
