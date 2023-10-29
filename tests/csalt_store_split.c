@@ -99,19 +99,19 @@ int main()
 		split_end,
 	};
 
-	csalt_static_store_read((csalt_static_store *)&data, 0, 0);
+	csalt_store_read((csalt_static_store *)&data, 0, 0);
 	if (!read_called) {
 		print_error("Read call failed");
 		return EXIT_FAILURE;
 	}
 
-	csalt_static_store_write((csalt_static_store *)&data, 0, 0);
+	csalt_store_write((csalt_static_store *)&data, 0, 0);
 	if (!write_called) {
 		print_error("Write call failed");
 		return EXIT_FAILURE;
 	}
 
-	csalt_static_store_split(
+	csalt_store_split(
 		(csalt_static_store *)&data,
 		0,
 		50,
@@ -124,7 +124,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	csalt_static_store_split(
+	csalt_store_split(
 		(csalt_static_store *)&data,
 		10,
 		20,

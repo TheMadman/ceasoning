@@ -55,7 +55,7 @@ typedef const struct csalt_dynamic_store_interface * const csalt_store;
 /**
  * \brief Function type for reading data from a store into a buffer
  */
-typedef ssize_t csalt_static_store_read_fn(
+typedef ssize_t csalt_store_read_fn(
 	csalt_static_store *store,
 	void *buffer,
 	ssize_t size
@@ -64,14 +64,14 @@ typedef ssize_t csalt_static_store_read_fn(
 /**
  * \brief Function type for writing data from a buffer into a store
  */
-typedef ssize_t csalt_static_store_write_fn(
+typedef ssize_t csalt_store_write_fn(
 	csalt_static_store *store,
 	const void *buffer,
 	ssize_t size
 );
 
 /**
- * \brief Type for a logic block to use inside csalt_static_store_split_fn
+ * \brief Type for a logic block to use inside csalt_store_split_fn
  * functions.
  */
 typedef int csalt_store_fn(csalt_static_store *store, void *data);
@@ -85,10 +85,10 @@ typedef int csalt_store_fn(csalt_static_store *store, void *data);
  * call to block(result, data) on success, or return an
  * error code on failure.
  *
- * \see csalt_static_store_split
+ * \see csalt_store_split
  *
  */
-typedef int csalt_static_store_split_fn(
+typedef int csalt_store_split_fn(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
@@ -100,7 +100,7 @@ typedef int csalt_static_store_split_fn(
  * \brief Returns the size of the store, if applicable, or 0
  * if not applicable to this store.
  */
-typedef ssize_t csalt_dynamic_store_size_fn(csalt_store *store);
+typedef ssize_t csalt_store_size_fn(csalt_store *store);
 
 /**
  * \brief Attempts to resize the store, then returns the size
@@ -109,21 +109,21 @@ typedef ssize_t csalt_dynamic_store_size_fn(csalt_store *store);
  * Resizing the store can fail, in which case it may return
  * a different size than the one you have passed it.
  */
-typedef ssize_t csalt_dynamic_store_resize_fn(
+typedef ssize_t csalt_store_resize_fn(
 	csalt_store *store,
 	ssize_t new_size
 );
 
 struct csalt_static_store_interface {
-	csalt_static_store_read_fn *read;
-	csalt_static_store_write_fn *write;
-	csalt_static_store_split_fn *split;
+	csalt_store_read_fn *read;
+	csalt_store_write_fn *write;
+	csalt_store_split_fn *split;
 };
 
 struct csalt_dynamic_store_interface {
 	struct csalt_static_store_interface store_interface;
-	csalt_dynamic_store_size_fn *size;
-	csalt_dynamic_store_resize_fn *resize;
+	csalt_store_size_fn *size;
+	csalt_store_resize_fn *resize;
 };
 
 /**
@@ -134,7 +134,7 @@ struct csalt_dynamic_store_interface {
  *
  * \sa csalt_read()
  */
-ssize_t csalt_static_store_read(csalt_static_store *store, void *buffer, ssize_t size);
+ssize_t csalt_store_read(csalt_static_store *store, void *buffer, ssize_t size);
 
 /**
  * \public \memberof csalt_static_store
@@ -144,7 +144,7 @@ ssize_t csalt_static_store_read(csalt_static_store *store, void *buffer, ssize_t
  *
  * \sa csalt_write()
  */
-ssize_t csalt_static_store_write(csalt_static_store *store, const void *buffer, ssize_t size);
+ssize_t csalt_store_write(csalt_static_store *store, const void *buffer, ssize_t size);
 
 /**
  * \public \memberof csalt_static_store
@@ -174,7 +174,7 @@ ssize_t csalt_static_store_write(csalt_static_store *store, const void *buffer, 
  * The return value is the return value of the block parameter
  * and can be used for error handling.
  */
-int csalt_static_store_split(
+int csalt_store_split(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
@@ -186,7 +186,7 @@ int csalt_static_store_split(
  * \public \memberof csalt_store
  * \brief Returns the current size of the given store.
  */
-ssize_t csalt_dynamic_store_size(csalt_store *store);
+ssize_t csalt_store_size(csalt_store *store);
 
 /**
  * \public \memberof csalt_store
@@ -196,7 +196,7 @@ ssize_t csalt_dynamic_store_size(csalt_store *store);
  * Resizing a dynamic store can fail, in which case the returned value can
  * be different from the new_size passed.
  */
-ssize_t csalt_dynamic_store_resize(
+ssize_t csalt_store_resize(
 	csalt_store *store,
 	ssize_t new_size
 );

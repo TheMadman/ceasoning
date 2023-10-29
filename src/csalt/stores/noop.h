@@ -37,8 +37,8 @@ extern "C" {
  * \brief A store representing a no-op interface, useful for
  * 	error cases.
  *
- * csalt_static_store_read() and csalt_static_store_write()
- * return -1. csalt_static_store_split() simply calls the passed
+ * csalt_store_read() and csalt_store_write()
+ * return -1. csalt_store_split() simply calls the passed
  * block with the no-op store. csalt_store_size() and
  * csalt_store_resize() return -1.
  *
@@ -71,17 +71,17 @@ bool csalt_store_error(const csalt_store * const store);
 bool csalt_static_store_error(const csalt_static_store * const store);
 
 /**
- * \brief The implementation of csalt_static_store_read() for no-op stores.
+ * \brief The implementation of csalt_store_read() for no-op stores.
  */
 ssize_t csalt_store_noop_read(csalt_static_store *, void *, ssize_t);
 
 /**
- * \brief The implementation of csalt_static_store_write() for no-op stores.
+ * \brief The implementation of csalt_store_write() for no-op stores.
  */
 ssize_t csalt_store_noop_write(csalt_static_store *, void *, ssize_t);
 
 /**
- * \brief The implementation of csalt_static_store_split() for no-op stores.
+ * \brief The implementation of csalt_store_split() for no-op stores.
  */
 ssize_t csalt_store_noop_split(
 	csalt_static_store *,

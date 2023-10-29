@@ -28,7 +28,7 @@
 
 // virtual call functions
 
-ssize_t csalt_static_store_read(
+ssize_t csalt_store_read(
 	csalt_static_store *from,
 	void *to,
 	ssize_t bytes
@@ -37,7 +37,7 @@ ssize_t csalt_static_store_read(
 	return (*from)->read(from, to, bytes);
 }
 
-ssize_t csalt_static_store_write(
+ssize_t csalt_store_write(
 	csalt_static_store *to,
 	const void *from,
 	ssize_t bytes
@@ -46,7 +46,7 @@ ssize_t csalt_static_store_write(
 	return (*to)->write(to, from, bytes);
 }
 
-int csalt_static_store_split(
+int csalt_store_split(
 	csalt_static_store *store,
 	ssize_t start,
 	ssize_t end,
@@ -57,12 +57,12 @@ int csalt_static_store_split(
 	return (*store)->split(store, start, end, block, data);
 }
 
-ssize_t csalt_dynamic_store_size(csalt_store *store)
+ssize_t csalt_store_size(csalt_store *store)
 {
 	return (*store)->size(store);
 }
 
-ssize_t csalt_dynamic_store_resize(
+ssize_t csalt_store_resize(
 	csalt_store *store,
 	ssize_t new_size
 )
@@ -103,7 +103,7 @@ static int transfer_split(csalt_static_store *store, void *params)
 		csalt_progress_remaining(progress)
 	);
 
-	ssize_t amount_read = csalt_static_store_read(
+	ssize_t amount_read = csalt_store_read(
 		pair->first,
 		buffer,
 		amount
@@ -113,7 +113,7 @@ static int transfer_split(csalt_static_store *store, void *params)
 		return -1;
 	}
 
-	ssize_t amount_write = csalt_static_store_write(
+	ssize_t amount_write = csalt_store_write(
 		pair->second,
 		buffer,
 		csalt_min(amount, amount_read)
@@ -143,7 +143,7 @@ ssize_t csalt_store_transfer(
 		to
 	);
 
-	int attempt = csalt_static_store_split(
+	int attempt = csalt_store_split(
 		(csalt_static_store *)&pair,
 		progress->amount_completed,
 		progress->total,

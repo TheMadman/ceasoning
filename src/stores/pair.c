@@ -85,14 +85,14 @@ ssize_t csalt_store_pair_read(csalt_static_store *store, void *buffer, ssize_t s
 	const struct csalt_static_store_pair *pair = (void *)store;
 	ssize_t first = 0;
 	if (pair->first)
-		first = csalt_static_store_read(pair->first, buffer, size);
+		first = csalt_store_read(pair->first, buffer, size);
 
 	if (first < 0)
 		return first;
 
 	ssize_t second = first;
 	if (first == 0 && pair->second)
-		second = csalt_static_store_read(pair->second, buffer, size);
+		second = csalt_store_read(pair->second, buffer, size);
 
 	if (second < 0)
 		return second;
@@ -108,14 +108,14 @@ ssize_t csalt_store_pair_write(csalt_static_store *store, const void *buffer, ss
 
 	ssize_t first = SSIZE_MAX;
 	if (pair->first)
-		first = csalt_static_store_write(pair->first, buffer, size);
+		first = csalt_store_write(pair->first, buffer, size);
 
 	if (first < 0)
 		return first;
 
 	ssize_t second = first;
 	if (pair->second)
-		second = csalt_static_store_write(pair->second, buffer, size);
+		second = csalt_store_write(pair->second, buffer, size);
 
 	return csalt_min(first, second);
 }
@@ -125,11 +125,11 @@ ssize_t csalt_store_pair_size(csalt_store *store)
 	struct csalt_store_pair *pair = (void *)store;
 	ssize_t first = 0;
 	if (pair->first)
-		first = csalt_dynamic_store_size(pair->first);
+		first = csalt_store_size(pair->first);
 
 	ssize_t second = first;
 	if (pair->second)
-		second = csalt_dynamic_store_size(pair->second);
+		second = csalt_store_size(pair->second);
 
 	return csalt_min(first, second);
 }
@@ -143,11 +143,11 @@ ssize_t csalt_store_pair_resize(csalt_store *store, ssize_t new_size)
 	ssize_t first = new_size;
 
 	if (pair->first)
-		first = csalt_dynamic_store_resize(pair->first, new_size);
+		first = csalt_store_resize(pair->first, new_size);
 
 	ssize_t second = new_size;
 	if (pair->second)
-		second = csalt_dynamic_store_resize(pair->second, new_size);
+		second = csalt_store_resize(pair->second, new_size);
 
 	return csalt_min(first, second);
 }
@@ -183,7 +183,7 @@ static int split_receive_first(csalt_static_store *store, void *param)
 		return params->block((void *)&new_pair, params->param);
 	}
 
-	return csalt_static_store_split(
+	return csalt_store_split(
 		original->second,
 		params->begin,
 		params->end,
@@ -216,7 +216,7 @@ int csalt_store_pair_split(
 	}
 
 	if (pair->first)
-		return csalt_static_store_split(
+		return csalt_store_split(
 			pair->first,
 			begin,
 			end,
@@ -224,7 +224,7 @@ int csalt_store_pair_split(
 			&params
 		);
 	else
-		return csalt_static_store_split(
+		return csalt_store_split(
 			pair->second,
 			begin,
 			end,
@@ -323,7 +323,7 @@ int csalt_store_pair_list_multisplit_bounds(
 		multisplit_receive_first:
 		multisplit_receive_second;
 
-	return csalt_static_store_split(
+	return csalt_store_split(
 		child_store,
 		begin->begin,
 		begin->end,
