@@ -73,8 +73,12 @@ typedef ssize_t csalt_store_write_fn(
 /**
  * \brief Type for a logic block to use inside csalt_store_split_fn
  * functions.
+ *
+ * Note that this callback only receives a csalt_static_store: you
+ * _must not_ call csalt_store_size() or csalt_store_resize() inside
+ * this function.
  */
-typedef int csalt_store_fn(csalt_static_store *store, void *data);
+typedef int csalt_store_block_fn(csalt_static_store *store, void *data);
 
 /**
  * \brief Function type for representing a sub-section of an
@@ -92,7 +96,7 @@ typedef int csalt_store_split_fn(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *data
 );
 
@@ -178,7 +182,7 @@ int csalt_store_split(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *data
 );
 

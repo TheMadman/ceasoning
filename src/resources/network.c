@@ -104,7 +104,7 @@ static struct csalt_store_interface csalt_addrinfo_init_implementation = {
 /*
  * Convenience for creating/using a addrinfo resource from a udp
  */
-static csalt_store *addrinfo_from_network(struct csalt_resource_network_socket *udp, csalt_store_fn *use)
+static csalt_store *addrinfo_from_network(struct csalt_resource_network_socket *udp, csalt_store_block_fn *use)
 {
 	struct addrinfo hints = {
 		.ai_family = AF_UNSPEC,
@@ -326,7 +326,7 @@ int csalt_resource_network_socket_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *data
 )
 {

@@ -62,7 +62,7 @@ int test_split(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *_
 )
 {

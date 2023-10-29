@@ -50,7 +50,7 @@ int csalt_store_split(
 	csalt_static_store *store,
 	ssize_t start,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *data
 )
 {

@@ -39,7 +39,7 @@ void csalt_resource_deinit(csalt_resource *resource)
 
 int csalt_resource_use(
 	csalt_resource *resource,
-	csalt_store_fn *code_block,
+	csalt_store_block_fn *code_block,
 	void *data
 )
 {

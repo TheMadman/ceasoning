@@ -156,7 +156,7 @@ struct split_pair_params {
 	csalt_static_store *store;
 	ssize_t begin;
 	ssize_t end;
-	csalt_store_fn *block;
+	csalt_store_block_fn *block;
 	void *param;
 
 	csalt_static_store *pair_first;
@@ -196,7 +196,7 @@ int csalt_store_pair_split(
 	csalt_static_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *param
 )
 {
@@ -257,7 +257,7 @@ struct csalt_store_multisplit_params {
 	struct csalt_static_store_pair *list;
 	const struct csalt_store_multisplit_split *begin;
 	const struct csalt_store_multisplit_split *end;
-	csalt_store_fn *block;
+	csalt_store_block_fn *block;
 	void *param;
 
 	csalt_static_store *first;
@@ -288,7 +288,7 @@ int csalt_store_pair_list_multisplit_bounds(
 	struct csalt_static_store_pair *list,
 	const struct csalt_store_multisplit_split *begin,
 	const struct csalt_store_multisplit_split *end,
-	csalt_store_fn *block,
+	csalt_store_block_fn *block,
 	void *param
 )
 {
@@ -319,7 +319,7 @@ int csalt_store_pair_list_multisplit_bounds(
 
 	// (!first && !second) handled above
 	csalt_static_store *child_store = first? list->first: list->second;
-	csalt_store_fn *path = first?
+	csalt_store_block_fn *path = first?
 		multisplit_receive_first:
 		multisplit_receive_second;
 
