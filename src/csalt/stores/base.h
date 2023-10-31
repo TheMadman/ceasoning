@@ -135,8 +135,6 @@ struct csalt_dynamic_store_interface {
  * \brief Function for reading from a store into a buffer.
  *
  * Returns the amount of bytes actually read, or -1 on failure.
- *
- * \sa csalt_read()
  */
 ssize_t csalt_store_read(csalt_static_store *store, void *buffer, ssize_t size);
 
@@ -145,8 +143,6 @@ ssize_t csalt_store_read(csalt_static_store *store, void *buffer, ssize_t size);
  * \brief Function for writing to a store from a buffer.
  *
  * Returns the amount of bytes actually written, or -1 on failure.
- *
- * \sa csalt_write()
  */
 ssize_t csalt_store_write(csalt_static_store *store, const void *buffer, ssize_t size);
 
