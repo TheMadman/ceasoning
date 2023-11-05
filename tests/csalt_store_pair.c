@@ -23,18 +23,18 @@
 
 #include <stdlib.h>
 
-int receive_empty_split(csalt_store *store, void *data);
-int receive_empty_first_pair(csalt_store *store, void *data);
-int receive_split(csalt_store *store, void *data);
-int receive_multisplit_standard(csalt_store *store, void *data);
-int receive_multisplit_shorter_splits(csalt_store *store, void *data);
+int receive_empty_split(csalt_static_store *store, void *data);
+int receive_empty_first_pair(csalt_static_store *store, void *data);
+int receive_split(csalt_static_store *store, void *data);
+int receive_multisplit_standard(csalt_static_store *store, void *data);
+int receive_multisplit_shorter_splits(csalt_static_store *store, void *data);
 
 int main()
 {
 	{
 		struct csalt_store_pair pair = csalt_store_pair(0, 0);
 		ssize_t written = csalt_store_write(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10
 		);
@@ -48,7 +48,7 @@ int main()
 		}
 
 		ssize_t read = csalt_store_read(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10
 		);
@@ -62,7 +62,7 @@ int main()
 		}
 
 		csalt_store_split(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10,
 			receive_empty_split,
@@ -71,14 +71,14 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub stub = csalt_store_stub(1024);
+		struct csalt_dynamic_store_stub stub = csalt_dynamic_store_stub(1024);
 		struct csalt_store_pair pair = csalt_store_pair(
 			0,
-			csalt_store(&stub)
+			(csalt_store*)&stub
 		);
 
 		ssize_t written = csalt_store_write(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10
 		);
@@ -88,7 +88,7 @@ int main()
 		}
 
 		ssize_t read = csalt_store_read(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10
 		);
@@ -98,7 +98,7 @@ int main()
 		}
 
 		csalt_store_split(
-			csalt_store(&pair),
+			(csalt_static_store*)&pair,
 			0,
 			10,
 			receive_empty_first_pair,
@@ -107,12 +107,12 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub first = csalt_store_stub(1024);
-		struct csalt_store_stub second = csalt_store_stub(512);
+		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(1024);
+		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(512);
 
 		csalt_store *stores[] = {
-			csalt_store(&first),
-			csalt_store(&second),
+			(csalt_store*)&first,
+			(csalt_store*)&second,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
@@ -135,14 +135,14 @@ int main()
 
 		char data[8] = { 0 };
 
-		ssize_t written_amount = csalt_store_write(csalt_store(pairs), data, sizeof(data));
+		ssize_t written_amount = csalt_store_write((csalt_static_store*)pairs, data, sizeof(data));
 
-		if (first.last_write != sizeof(data)) {
+		if (first.parent.last_write != sizeof(data)) {
 			print_error("Expected data to be written to first store");
 			abort();
 		}
 
-		if (second.last_write != sizeof(data)) {
+		if (second.parent.last_write != sizeof(data)) {
 			print_error("Expected data to be written to second store");
 			abort();
 		}
@@ -152,20 +152,20 @@ int main()
 			abort();
 		}
 
-		csalt_store_read(csalt_store(pairs), data, sizeof(data));
+		csalt_store_read((csalt_static_store*)pairs, data, sizeof(data));
 
-		if (first.last_read != sizeof(data)) {
+		if (first.parent.last_read != sizeof(data)) {
 			print_error("Expected data to be read from first store");
 			abort();
 		}
 
-		if (second.last_read != 0) {
+		if (second.parent.last_read != 0) {
 			print_error("Expected no data to be read from second store");
 			abort();
 		}
 
 		int result = csalt_store_split(
-			csalt_store(pairs),
+			(csalt_static_store*)pairs,
 			5,
 			10,
 			receive_split,
@@ -179,21 +179,21 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub error = csalt_store_stub_error();
-		struct csalt_store_stub success = csalt_store_stub(512);
+		struct csalt_dynamic_store_stub error = csalt_dynamic_store_stub_error();
+		struct csalt_dynamic_store_stub success = csalt_dynamic_store_stub(512);
 
 		csalt_store *stores[] = {
-			csalt_store(&error),
-			csalt_store(&success),
+			(csalt_store*)&error,
+			(csalt_store*)&success,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 
-		csalt_store *store = csalt_store(pairs);
+		csalt_store *store = (csalt_store*)pairs;
 
-		ssize_t read_amount = csalt_store_read(store, 0, 10);
+		ssize_t read_amount = csalt_store_read((csalt_static_store*)store, 0, 10);
 
 		if (read_amount != -1) {
 			print_error(
@@ -203,7 +203,7 @@ int main()
 			abort();
 		}
 
-		ssize_t write_amount = csalt_store_write(store, 0, 10);
+		ssize_t write_amount = csalt_store_write((csalt_static_store*)store, 0, 10);
 
 		if (write_amount != -1) {
 			print_error(
@@ -215,21 +215,21 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub error = csalt_store_stub_error();
-		struct csalt_store_stub zero = csalt_store_stub_zero();
+		struct csalt_dynamic_store_stub error = csalt_dynamic_store_stub_error();
+		struct csalt_dynamic_store_stub zero = csalt_dynamic_store_stub_zero();
 
 		csalt_store *stores[] = {
-			csalt_store(&zero),
-			csalt_store(&error),
+			(csalt_store*)&zero,
+			(csalt_store*)&error,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 
-		csalt_store *store = csalt_store(pairs);
+		csalt_store *store = (csalt_store*)pairs;
 
-		ssize_t read_amount = csalt_store_read(store, 0, 10);
+		ssize_t read_amount = csalt_store_read((csalt_static_store*)store, 0, 10);
 
 		if (read_amount != -1) {
 			print_error(
@@ -239,7 +239,7 @@ int main()
 			abort();
 		}
 
-		ssize_t write_amount = csalt_store_write(store, 0, 10);
+		ssize_t write_amount = csalt_store_write((csalt_static_store*)store, 0, 10);
 
 		if (write_amount != -1) {
 			print_error(
@@ -251,12 +251,12 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub first = csalt_store_stub(8);
-		struct csalt_store_stub second = csalt_store_stub(8);
+		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(8);
+		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(8);
 
 		csalt_store *stores[] = {
-			csalt_store(&first),
-			csalt_store(&second),
+			(csalt_store*)&first,
+			(csalt_store*)&second,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
@@ -276,12 +276,12 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub first = csalt_store_stub(256);
-		struct csalt_store_stub second = csalt_store_stub(256);
+		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(256);
+		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(256);
 
 		csalt_store *stores[] = {
-			csalt_store(&first),
-			csalt_store(&second),
+			(csalt_store*)&first,
+			(csalt_store*)&second,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
@@ -293,8 +293,8 @@ int main()
 			{ 2, 3 },
 		};
 
-		int result = csalt_store_pair_list_multisplit(
-			pairs,
+		csalt_store_pair_list_multisplit(
+			(struct csalt_static_store_pair*)&pairs,
 			splits,
 			receive_multisplit_standard,
 			NULL
@@ -302,16 +302,16 @@ int main()
 	}
 
 	{
-		struct csalt_store_stub first = csalt_store_stub(256);
-		struct csalt_store_stub second = csalt_store_stub(256);
-		struct csalt_store_stub third = csalt_store_stub(256);
-		struct csalt_store_stub fourth = csalt_store_stub(256);
+		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(256);
+		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(256);
+		struct csalt_dynamic_store_stub third = csalt_dynamic_store_stub(256);
+		struct csalt_dynamic_store_stub fourth = csalt_dynamic_store_stub(256);
 
 		csalt_store *stores[] = {
-			csalt_store(&first),
-			csalt_store(&second),
-			csalt_store(&third),
-			csalt_store(&fourth),
+			(csalt_store*)&first,
+			(csalt_store*)&second,
+			(csalt_store*)&third,
+			(csalt_store*)&fourth,
 		};
 
 		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
@@ -323,8 +323,8 @@ int main()
 			{ 2, 3 },
 		};
 
-		int result = csalt_store_pair_list_multisplit(
-			pairs,
+		csalt_store_pair_list_multisplit(
+			(struct csalt_static_store_pair*)&pairs,
 			splits,
 			receive_multisplit_shorter_splits,
 			NULL
@@ -332,35 +332,35 @@ int main()
 	}
 }
 
-int receive_split(csalt_store *store, void *data)
+int receive_split(csalt_static_store *store, void *data)
 {
 	(void)data;
 	struct csalt_store_pair *first_pair = (void *)store;
 	struct csalt_store_pair *second_pair = (void *)first_pair->second;
 
-	struct csalt_store_stub *first_stub = (void *)first_pair->first;
-	struct csalt_store_stub *second_stub = (void *)second_pair->first;
+	struct csalt_dynamic_store_stub *first_stub = (void *)first_pair->first;
+	struct csalt_dynamic_store_stub *second_stub = (void *)second_pair->first;
 
 	if (
-		first_stub->split_begin != 5 ||
-		first_stub->split_end != 10
+		first_stub->parent.split_begin != 5 ||
+		first_stub->parent.split_end != 10
 	) {
 		print_error(
 			"First stub's bounds aren't right: %ld -> %ld",
-			first_stub->split_begin,
-			first_stub->split_end
+			first_stub->parent.split_begin,
+			first_stub->parent.split_end
 		);
 		abort();
 	}
 
 	if (
-		second_stub->split_begin != 5 ||
-		second_stub->split_end != 10
+		second_stub->parent.split_begin != 5 ||
+		second_stub->parent.split_end != 10
 	) {
 		print_error(
 			"Second stub's bounds aren't right: %ld -> %ld",
-			second_stub->split_begin,
-			second_stub->split_end
+			second_stub->parent.split_begin,
+			second_stub->parent.split_end
 		);
 		abort();
 	}
@@ -368,15 +368,16 @@ int receive_split(csalt_store *store, void *data)
 	return EXIT_SUCCESS;
 }
 
-int receive_empty_split(csalt_store *store, void *data)
+int receive_empty_split(csalt_static_store *store, void *data)
 {
 	(void)store;
 	(void)data;
 	return 0;
 }
 
-int receive_empty_first_pair(csalt_store *store, void *data)
+int receive_empty_first_pair(csalt_static_store *store, void *data)
 {
+	(void)data;
 	struct csalt_store_pair *pair = (void *)store;
 
 	if (pair->first || !pair->second) {
@@ -391,80 +392,86 @@ int receive_empty_first_pair(csalt_store *store, void *data)
 	return 0;
 }
 
-int receive_multisplit_standard(csalt_store *store, void *data)
+int receive_multisplit_standard(csalt_static_store *store, void *data)
 {
+	(void)data;
 	struct csalt_store_pair *pair = (struct csalt_store_pair *)store;
 
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*zeroth = (void *)csalt_store_pair_list_get(pair, 0);
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*first = (void *)csalt_store_pair_list_get(pair, 1);
 
-	if (zeroth->split_begin != 0 || zeroth->split_end != 1) {
+	if (zeroth->parent.split_begin != 0 || zeroth->parent.split_end != 1) {
 		print_error(
 			"Multisplit resulted in unexpected zeroth store: %ld -> %ld",
-			zeroth->split_begin,
-			zeroth->split_end
+			zeroth->parent.split_begin,
+			zeroth->parent.split_end
 		);
 		abort();
 	}
 
-	if (first->split_begin != 2 || first->split_end != 3) {
+	if (first->parent.split_begin != 2 || first->parent.split_end != 3) {
 		print_error(
 			"Multisplit resulted in unexpected first store: %ld -> %ld",
-			first->split_begin,
-			first->split_end
+			first->parent.split_begin,
+			first->parent.split_end
 		);
 		abort();
 	}
+
+	return 0;
 }
 
-int receive_multisplit_shorter_splits(csalt_store *store, void *data)
+int receive_multisplit_shorter_splits(csalt_static_store *store, void *data)
 {
+	(void)data;
 	struct csalt_store_pair *pair = (struct csalt_store_pair *)store;
 
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*zeroth = (void *)csalt_store_pair_list_get(pair, 0);
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*first = (void *)csalt_store_pair_list_get(pair, 1);
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*second = (void *)csalt_store_pair_list_get(pair, 2);
-	struct csalt_store_stub
+	struct csalt_dynamic_store_stub
 		*third = (void *)csalt_store_pair_list_get(pair, 3);
 
-	if (zeroth->split_begin != 0 || zeroth->split_end != 1) {
+	if (zeroth->parent.split_begin != 0 || zeroth->parent.split_end != 1) {
 		print_error(
 			"Multisplit resulted in unexpected zeroth store: %ld -> %ld",
-			zeroth->split_begin,
-			zeroth->split_end
+			zeroth->parent.split_begin,
+			zeroth->parent.split_end
 		);
 		abort();
 	}
 
-	if (first->split_begin != 2 || first->split_end != 3) {
+	if (first->parent.split_begin != 2 || first->parent.split_end != 3) {
 		print_error(
 			"Multisplit resulted in unexpected first store: %ld -> %ld",
-			first->split_begin,
-			first->split_end
+			first->parent.split_begin,
+			first->parent.split_end
 		);
 		abort();
 	}
 
-	if (second->split_begin != 0 || second->split_end != 0) {
+	if (second->parent.split_begin != 0 || second->parent.split_end != 0) {
 		print_error(
 			"Multisplit resulted in unexpected second store: %ld -> %ld",
-			second->split_begin,
-			second->split_end
+			second->parent.split_begin,
+			second->parent.split_end
 		);
 		abort();
 	}
 
-	if (third->split_begin != 0 || third->split_end != 0) {
+	if (third->parent.split_begin != 0 || third->parent.split_end != 0) {
 		print_error(
 			"Multisplit resulted in unexpected third store: %ld -> %ld",
-			third->split_begin,
-			third->split_end
+			third->parent.split_begin,
+			third->parent.split_end
 		);
 		abort();
 	}
+
+	return 0;
 }

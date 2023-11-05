@@ -243,7 +243,7 @@ int csalt_progress_complete(const struct csalt_progress *progress);
  *
  * Returns -1 on error.
  */
-ssize_t csalt_static_store_transfer(
+ssize_t csalt_store_transfer(
 	struct csalt_progress *data,
 	csalt_static_store *from,
 	csalt_static_store *to

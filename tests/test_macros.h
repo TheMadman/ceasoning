@@ -151,11 +151,11 @@ struct csalt_static_store_stub csalt_static_store_stub_error()
 	return result;
 }
 
-struct csalt_dynamic_store_stub csalt_dynamic_store_stub_error(ssize_t size)
+struct csalt_dynamic_store_stub csalt_dynamic_store_stub_error()
 {
 	return (struct csalt_dynamic_store_stub) {
 		csalt_static_store_stub_error(),
-		size,
+		0,
 	};
 }
 
@@ -192,11 +192,11 @@ struct csalt_static_store_stub csalt_static_store_stub_zero()
 	};
 }
 
-struct csalt_dynamic_store_stub csalt_dynamic_store_stub_zero(ssize_t size)
+struct csalt_dynamic_store_stub csalt_dynamic_store_stub_zero()
 {
 	return (struct csalt_dynamic_store_stub) {
 		csalt_static_store_stub_zero(),
-		size,
+		0,
 	};
 }
 
