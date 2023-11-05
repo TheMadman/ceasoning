@@ -89,7 +89,7 @@ struct csalt_dynamic_store_interface csalt_dynamic_store_stub_interface = {
 struct csalt_static_store_stub csalt_static_store_stub()
 {
 	return (struct csalt_static_store_stub) {
-		.vtable = &csalt_dynamic_store_stub_interface.store_interface,
+		.vtable = &csalt_dynamic_store_stub_interface.parent,
 	};
 }
 
@@ -146,7 +146,7 @@ struct csalt_dynamic_store_interface csalt_dynamic_store_stub_error_implementati
 struct csalt_static_store_stub csalt_static_store_stub_error()
 {
 	struct csalt_static_store_stub result = {
-		.vtable = &csalt_dynamic_store_stub_error_implementation.store_interface,
+		.vtable = &csalt_dynamic_store_stub_error_implementation.parent,
 	};
 	return result;
 }
@@ -188,7 +188,7 @@ struct csalt_dynamic_store_interface csalt_dynamic_store_stub_zero_implementatio
 struct csalt_static_store_stub csalt_static_store_stub_zero()
 {
 	return (struct csalt_static_store_stub) {
-		.vtable = &csalt_dynamic_store_stub_zero_implementation.store_interface,
+		.vtable = &csalt_dynamic_store_stub_zero_implementation.parent,
 	};
 }
 

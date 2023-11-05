@@ -67,7 +67,7 @@ void deinit(csalt_resource *_)
 	deinit_called++;
 }
 
-const struct csalt_store_interface store_interface = {
+const struct csalt_store_interface parent = {
 	test_read,
 	test_write,
 };

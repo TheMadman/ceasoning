@@ -51,7 +51,7 @@ struct csalt_static_store_pair csalt_static_store_pair(
 )
 {
 	return (struct csalt_static_store_pair) {
-		&csalt_store_pair_implementation.store_interface,
+		&csalt_store_pair_implementation.parent,
 		first,
 		second,
 	};

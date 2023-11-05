@@ -125,7 +125,7 @@ struct csalt_static_store_interface {
 };
 
 struct csalt_dynamic_store_interface {
-	struct csalt_static_store_interface store_interface;
+	struct csalt_static_store_interface parent;
 	csalt_store_size_fn *size;
 	csalt_store_resize_fn *resize;
 };

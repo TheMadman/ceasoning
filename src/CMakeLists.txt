@@ -1,7 +1,7 @@
 find_package(Threads REQUIRED)
 
 add_library(csalt STATIC
-	stores/stores.c
+	stores/base.c
 	stores/pair.c
 )
 
