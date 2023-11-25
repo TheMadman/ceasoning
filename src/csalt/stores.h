@@ -23,6 +23,7 @@
 #include "stores/base.h"
 #include "stores/pair.h"
 #include "stores/noop.h"
+#include "stores/fallback.h"
 // #include "decoratorstores.h"
 
 #endif // CSALT_STORES_H

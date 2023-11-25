@@ -20,18 +20,18 @@ struct csalt_static_store_stub {
 	ssize_t last_write;
 	ssize_t split_begin;
 	ssize_t split_end;
+	ssize_t size;
 };
 
 struct csalt_dynamic_store_stub {
 	struct csalt_static_store_stub parent;
-	ssize_t size;
 };
 
 ssize_t csalt_static_store_stub_read(csalt_static_store *store, void *data, ssize_t amount)
 {
 	(void)data;
 	struct csalt_static_store_stub *stub = (void *)store;
-	stub->last_read = (ssize_t)amount;
+	stub->last_read = csalt_min(amount, stub->size);
 	return stub->last_read;
 }
 
@@ -39,7 +39,7 @@ ssize_t csalt_static_store_stub_write(csalt_static_store *store, const void *dat
 {
 	(void)data;
 	struct csalt_static_store_stub *stub = (void *)store;
-	stub->last_write = (ssize_t)amount;
+	stub->last_write = csalt_min(amount, stub->size);
 	return stub->last_write;
 }
 
@@ -63,7 +63,7 @@ int csalt_static_store_stub_split(
 ssize_t csalt_dynamic_store_stub_size(csalt_store *store)
 {
 	struct csalt_dynamic_store_stub *stub = (void *)store;
-	return stub->size;
+	return stub->parent.size;
 }
 
 ssize_t csalt_dynamic_store_stub_resize(
@@ -72,7 +72,7 @@ ssize_t csalt_dynamic_store_stub_resize(
 )
 {
 	struct csalt_dynamic_store_stub *stub = (void *)store;
-	stub->size = new_size;
+	stub->parent.size = new_size;
 	return new_size;
 }
 
@@ -86,18 +86,18 @@ struct csalt_dynamic_store_interface csalt_dynamic_store_stub_interface = {
 	csalt_dynamic_store_stub_resize,
 };
 
-struct csalt_static_store_stub csalt_static_store_stub()
+struct csalt_static_store_stub csalt_static_store_stub(ssize_t size)
 {
 	return (struct csalt_static_store_stub) {
 		.vtable = &csalt_dynamic_store_stub_interface.parent,
+		.size = size,
 	};
 }
 
 struct csalt_dynamic_store_stub csalt_dynamic_store_stub(ssize_t size)
 {
 	return (struct csalt_dynamic_store_stub) {
-		csalt_static_store_stub(),
-		size,
+		csalt_static_store_stub(size),
 	};
 }
 
@@ -130,7 +130,7 @@ ssize_t csalt_dynamic_store_stub_error_resize(
 {
 	(void)__;
 	struct csalt_dynamic_store_stub *stub = (void *)store;
-	return stub->size;
+	return stub->parent.size;
 }
 
 struct csalt_dynamic_store_interface csalt_dynamic_store_stub_error_implementation = {
@@ -155,7 +155,6 @@ struct csalt_dynamic_store_stub csalt_dynamic_store_stub_error()
 {
 	return (struct csalt_dynamic_store_stub) {
 		csalt_static_store_stub_error(),
-		0,
 	};
 }
 
@@ -196,7 +195,6 @@ struct csalt_dynamic_store_stub csalt_dynamic_store_stub_zero()
 {
 	return (struct csalt_dynamic_store_stub) {
 		csalt_static_store_stub_zero(),
-		0,
 	};
 }
 

@@ -3,6 +3,7 @@ find_package(Threads REQUIRED)
 add_library(csalt STATIC
 	stores/base.c
 	stores/pair.c
+	stores/fallback.c
 )
 
 target_link_libraries(csalt PUBLIC Threads::Threads)

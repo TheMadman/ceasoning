@@ -156,6 +156,8 @@ ssize_t csalt_store_pair_resize(csalt_store *store, ssize_t size);
  *
  * \param begin The beginning of the array of stores
  * \param end The end of the array of stores
+ * \param out_array_begin The beginning of the output array
+ * \param out_array_end The end of the output array
  *
  * \sa csalt_store_pair_list()
  */
