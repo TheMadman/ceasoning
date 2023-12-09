@@ -32,6 +32,11 @@ csalt_store *csalt_resource_init(csalt_resource *resource)
 	return (*resource)->init(resource);
 }
 
+csalt_static_store *csalt_static_resource_init(csalt_static_resource *resource)
+{
+	return (*resource)->init(resource);
+}
+
 void csalt_resource_deinit(csalt_resource *resource)
 {
 	(*resource)->deinit(resource);
@@ -51,4 +56,17 @@ int csalt_resource_use(
 	return result;
 }
 
+int csalt_static_resource_use(
+	csalt_static_resource *resource,
+	csalt_static_store_block_fn *code_block,
+	void *data
+)
+{
+	csalt_static_store *initialized = csalt_static_resource_init(resource);
+	if (!initialized)
+		return -1;
+	int result = code_block(initialized, data);
+	csalt_resource_deinit((csalt_resource *)resource);
+	return result;
+}
 

@@ -26,16 +26,17 @@ int write_called = 0;
 int block_called = 0;
 int deinit_called = 0;
 
-struct csalt_store_interface test_init_interface;
-const struct csalt_store_interface *test_init_ptr = &test_init_interface;
+struct csalt_dynamic_store_interface test_init_interface;
+const struct csalt_dynamic_store_interface *test_init_ptr = &test_init_interface;
 
 csalt_store *init(csalt_resource *_)
 {
+	(void)_;
 	init_called++;
 	return &test_init_ptr;
 }
 
-ssize_t test_read(csalt_store *_, void *__, ssize_t size)
+ssize_t test_read(csalt_static_store *_, void *__, ssize_t size)
 {
 	(void)_;
 	(void)__;
@@ -44,7 +45,7 @@ ssize_t test_read(csalt_store *_, void *__, ssize_t size)
 	return 0;
 }
 
-ssize_t test_write(csalt_store *_, const void *__, ssize_t size)
+ssize_t test_write(csalt_static_store *_, const void *__, ssize_t size)
 {
 	(void)_;
 	(void)__;
@@ -67,9 +68,11 @@ void deinit(csalt_resource *_)
 	deinit_called++;
 }
 
-const struct csalt_store_interface parent = {
-	test_read,
-	test_write,
+const struct csalt_dynamic_store_interface parent = {
+	{
+		test_read,
+		test_write,
+	},
 };
 
 struct csalt_resource_interface test_interface = {

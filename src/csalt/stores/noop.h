@@ -87,7 +87,7 @@ ssize_t csalt_store_noop_split(
 	csalt_static_store *,
 	ssize_t,
 	ssize_t,
-	csalt_store_block_fn*,
+	csalt_static_store_block_fn*,
 	void *
 );
 

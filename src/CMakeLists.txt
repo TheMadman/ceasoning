@@ -4,6 +4,7 @@ add_library(csalt STATIC
 	stores/base.c
 	stores/pair.c
 	stores/fallback.c
+	resources/base.c
 )
 
 target_link_libraries(csalt PUBLIC Threads::Threads)

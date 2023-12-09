@@ -4,11 +4,13 @@
 
 static char use_store(csalt_store *store, char a, char b, char c)
 {
+	(void)store;
 	return a | b | c;
 }
 
 static csalt_store *init(csalt_resource *resource)
 {
+	(void)resource;
 	return (void *)1;
 }
 

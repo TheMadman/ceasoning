@@ -79,7 +79,7 @@ int csalt_store_decorator_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_static_store_block_fn *block,
 	void *data
 );
 
@@ -299,7 +299,7 @@ ssize_t csalt_store_decorator_logger_write(
  *
  * While csalt_store_split() will split the store at the given elements,
  * the resulting store returns to byte-indexing operations: this is to
- * allow using generic csalt_store_block_fn functions. If the resulting
+ * allow using generic csalt_static_store_block_fn functions. If the resulting
  * store continued to use array-style indexing, the passed block would
  * need to know whether the result were byte- or array-index in order
  * to function correctly.
@@ -346,7 +346,7 @@ int csalt_store_decorator_array_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_static_store_block_fn *block,
 	void *param
 );
 
@@ -427,7 +427,7 @@ int csalt_store_decorator_mutex_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_static_store_block_fn *block,
 	void *param
 );
 
@@ -478,7 +478,7 @@ int csalt_store_decorator_rwlock_split(
 	csalt_store *store,
 	ssize_t begin,
 	ssize_t end,
-	csalt_store_block_fn *block,
+	csalt_static_store_block_fn *block,
 	void *param
 );
 

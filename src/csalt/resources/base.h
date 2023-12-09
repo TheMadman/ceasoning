@@ -75,13 +75,28 @@ extern "C" {
  * a (csalt_resource *) will allow you to use it in those
  * functions.
  */
-typedef const struct csalt_resource_interface * const csalt_resource;
+typedef const struct csalt_resource_interface *const csalt_resource;
+
+/**
+ * \brief Identical to a csalt_resource, but returns a static
+ * 	store.
+ *
+ * While it is safe to pass a csalt_resource to csalt_static_resource_init(),
+ * it is **not** safe to pass a csalt_static_resource to csalt_resource_init()
+ * and use the csalt_store_size() or csalt_store_resize() functions on
+ * the returned result.
+ *
+ * \sa csalt_resource
+ */
+typedef const struct csalt_static_resource_interface *const csalt_static_resource;
 
 /**
  * Function type for initializing the test on first use,
  * allows lazy evaluation of resources
  */
 typedef csalt_store *csalt_resource_init_fn(csalt_resource *resource);
+
+typedef csalt_static_store *csalt_static_resource_init_fn(csalt_static_resource *);
 
 typedef void csalt_resource_deinit_fn(csalt_resource *resource);
 
@@ -98,15 +113,37 @@ struct csalt_resource_interface {
 };
 
 /**
- * \brief Initializes a resource
+ * \brief Interface definition for managed resources which
+ * 	return static (non-resizable) stores.
+ *
+ * Structs with a pointer-to-resource-interface
+ * as their first member can be passed to resource
+ * functions with a simple cast.
+ */
+struct csalt_static_resource_interface {
+	csalt_static_resource_init_fn *init;
+	csalt_resource_deinit_fn *deinit;
+};
+
+/**
+ * \brief Initializes a resource, returning a csalt_store.
  */
 csalt_store *csalt_resource_init(csalt_resource *);
 
 /**
+ * \brief Initializes a resource, returning a csalt_static_store.
+ */
+csalt_static_store *csalt_static_resource_init(csalt_static_resource *);
+
+/**
  * \brief Cleans up the resource. The resource is set
  * to an invalid value after run.
+ *
+ * This function is used for csalt_static_resources as well.
  */
 void csalt_resource_deinit(csalt_resource *);
+
+typedef int csalt_store_block_fn(csalt_store *, void *);
 
 /**
  * \brief Manages a resource lifecycle and executes the given
@@ -124,8 +161,12 @@ void csalt_resource_deinit(csalt_resource *);
 int csalt_resource_use(
 	csalt_resource *resource,
 	csalt_store_block_fn *code_block,
-	void *param
-);
+	void *param);
+
+int csalt_static_resource_use(
+	csalt_static_resource *resource,
+	csalt_static_store_block_fn *code_block,
+	void *param);
 
 /**
  * \brief Macro for managing a resource lifecycle, executing the

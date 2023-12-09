@@ -20,6 +20,6 @@
 #define CSALT_RESOURCES_H
 
 #include <csalt/platform/init.h>
-#include "baseresources.h"
+#include "resources/base.h"
 
 #endif // CSALT_RESOURCES_H
