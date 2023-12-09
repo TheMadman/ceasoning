@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_BASERESOURCES_H
-#define CSALT_BASERESOURCES_H
+#ifndef CSALT_RESOURCES_BASE_H
+#define CSALT_RESOURCES_BASE_H
 
 #include <csalt/platform/init.h>
 
@@ -215,4 +215,4 @@ int csalt_static_resource_use(
 } // extern "C"
 #endif
 
-#endif // CSALT_BASERESOURCES_H
+#endif // CSALT_RESOURCES_BASE_H

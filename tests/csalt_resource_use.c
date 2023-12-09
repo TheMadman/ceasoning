@@ -72,7 +72,10 @@ const struct csalt_dynamic_store_interface parent = {
 	{
 		test_read,
 		test_write,
+		NULL,
 	},
+	NULL,
+	NULL
 };
 
 struct csalt_resource_interface test_interface = {

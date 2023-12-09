@@ -1,6 +1,7 @@
 #ifndef TEST_MACROS_H
 #define TEST_MACROS_H
 
+#include <stdlib.h>
 #include <stdio.h>
 
 #define EXIT_SUCCESS 0
@@ -11,6 +12,11 @@
 	fprintf(stderr, "%s:%d: ", __FILE__, __LINE__);	\
 	fprintf(stderr, __VA_ARGS__);	\
 	fprintf(stderr, "\n");	\
+} while (0)
+
+#define print_error_and_exit(...) do { \
+	print_error(__VA_ARGS__); \
+	exit(EXIT_FAILURE); \
 } while (0)
 
 

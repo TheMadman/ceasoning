@@ -21,6 +21,7 @@
 
 #include <csalt/platform/init.h>
 #include "stores/base.h"
+#include "stores/memory.h"
 #include "stores/pair.h"
 #include "stores/noop.h"
 #include "stores/fallback.h"

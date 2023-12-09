@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_BASESTORES_H
-#define CSALT_BASESTORES_H
+#ifndef CSALT_STORES_BASE_H
+#define CSALT_STORES_BASE_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -253,4 +253,4 @@ ssize_t csalt_store_transfer(
 } // extern "C"
 #endif
 
-#endif // CSALT_BASESTORES_H
+#endif // CSALT_STORES_BASE_H
