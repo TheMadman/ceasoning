@@ -24,18 +24,44 @@
 
 int block_called = 0;
 
-int block(csalt_store *_, void *__)
+int block(csalt_store *store, void *__)
 {
-	(void)_;
 	(void)__;
 	block_called++;
+
+	csalt_static_store *s_store = (void*)store;
+
+	{
+		char c = 0;
+		// first read should return 0 as nothing is written
+		ssize_t read = csalt_store_read(s_store, &c, 1);
+		if (read != 0)
+			print_error_and_exit("Weird read: %ld", read);
+	}
+
+	{
+		char c = 9;
+		ssize_t write = csalt_store_write(s_store, &c, 1);
+		if (write != 1)
+			print_error_and_exit("Weird write: %ld", write);
+	}
+
+	{
+		char c = 0;
+		ssize_t read = csalt_store_read(s_store, &c, 1);
+		if (read != 1)
+			print_error_and_exit("Weird read: %ld", read);
+
+		if (c != 9)
+			print_error_and_exit("Unexpected read value: %d", c);
+	}
 	return 0;
 }
 
 int main()
 {
 	// size -1 should cause failure
-	struct csalt_heap failure = csalt_heap(-1);
+	struct csalt_resource_heap failure = csalt_resource_heap(-1);
 
 	csalt_resource_use((csalt_resource *)&failure, block, 0);
 
@@ -44,7 +70,7 @@ int main()
 		return EXIT_FAILURE;
 	}
 
-	struct csalt_heap success = csalt_heap(1);
+	struct csalt_resource_heap success = csalt_resource_heap(1);
 
 	csalt_resource_use((csalt_resource *)&success, block, 0);
 

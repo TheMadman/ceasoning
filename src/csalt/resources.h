@@ -21,5 +21,6 @@
 
 #include <csalt/platform/init.h>
 #include "resources/base.h"
+#include "resources/heap.h"
 
 #endif // CSALT_RESOURCES_H
