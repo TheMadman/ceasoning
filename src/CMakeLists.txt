@@ -5,6 +5,7 @@ add_library(csalt STATIC
 	stores/memory.c
 	stores/pair.c
 	stores/fallback.c
+	stores/decorator.c
 	resources/base.c
 	resources/heap.c
 )
