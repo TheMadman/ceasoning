@@ -51,6 +51,59 @@
  */
 #define arrend(array) (&array[arrlength(array)])
 
+/**
+ * \brief A generic array
+ */
+struct csalt_array {
+	/**
+	 * \brief A pointer to the beginning of the array
+	 */
+	void *begin;
+
+	/**
+	 * \brief A pointer to one element past the end of
+	 * 	the array
+	 */
+	void *end;
+
+	/**
+	 * \brief The size of each member
+	 */
+	size_t size;
+};
+
+/**
+ * \public \memberof csalt_array
+ * \brief Constructs a csalt_array from a C array.
+ */
+#define csalt_array(array) ((struct csalt_array) { \
+	(array), \
+	arrend(array), \
+	sizeof(array[0]), \
+})
+
+/**
+ * \public \memberof csalt_array
+ * \brief Performs a liniar search of the array, without
+ * 	mutating it, similar to standard lfind.
+ */
+inline void *csalt_lfind(
+	const void *key,
+	const struct csalt_array array,
+	int (*comp)(const void *, const void *)
+)
+{
+	for (
+		char *current = array.begin;
+		current <= (char*)array.end;
+		current += array.size
+	) {
+		if (!comp(key, current))
+			return current;
+	}
+	return NULL;
+}
+
 #ifdef PAGESIZE
 /**
  * DEFAULT_PAGESIZE represents the size of a page if

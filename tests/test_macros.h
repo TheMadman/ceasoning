@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "csalt/stores.h"
+
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #define EXIT_TEST_ERROR 99

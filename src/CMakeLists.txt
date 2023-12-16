@@ -8,6 +8,7 @@ add_library(csalt STATIC
 	stores/decorator.c
 	resources/base.c
 	resources/heap.c
+	resources/format.c
 )
 
 target_link_libraries(csalt PUBLIC Threads::Threads)

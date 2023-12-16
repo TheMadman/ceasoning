@@ -16,12 +16,35 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_RESOURCES_H
-#define CSALT_RESOURCES_H
+#include "test_macros.h"
 
-#include <csalt/platform/init.h>
-#include "resources/base.h"
-#include "resources/heap.h"
-#include "resources/format.h"
+#include "csalt/resources.h"
 
-#endif // CSALT_RESOURCES_H
+#include <string.h>
+
+#define MESSAGE "Hello, world!"
+
+int block(csalt_store *, void *);
+
+int main()
+{
+	int result = csalt_use_format(block, NULL, "%s", MESSAGE);
+	if (result != 0)
+		print_error_and_exit("Unexpected result: %d", result);
+
+	return EXIT_SUCCESS;
+}
+
+int block(csalt_store *result, void *_)
+{
+	(void)_;
+	char buffer[sizeof(MESSAGE)] = { 0 };
+	ssize_t read_amount = csalt_store_read((csalt_static_store*)result, buffer, sizeof(buffer));
+	if (read_amount != sizeof(buffer))
+		print_error_and_exit("Unexpected read_amount: %ld", read_amount);
+
+	if (strcmp(buffer, MESSAGE) != 0)
+		print_error_and_exit("Unexpected buffer value: %s", buffer);
+
+	return 0;
+}
