@@ -1,11 +1,13 @@
 find_package(Threads REQUIRED)
 
 add_library(csalt STATIC
+	util.c
 	stores/base.c
 	stores/memory.c
 	stores/pair.c
 	stores/fallback.c
 	stores/decorator.c
+	stores/logger.c
 	resources/base.c
 	resources/heap.c
 	resources/format.c

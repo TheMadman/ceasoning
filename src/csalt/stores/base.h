@@ -217,17 +217,20 @@ struct csalt_progress {
 };
 
 /**
+ * \public \memberof csalt_progress
  * \brief Creates a new struct csalt_progress with the total
  * set to amount and the amount_completed set to 0.
  */
 struct csalt_progress csalt_progress(ssize_t amount);
 
 /**
+ * \public \memberof csalt_progress
  * \brief Returns the remaining amount of data to transfer.
  */
 ssize_t csalt_progress_remaining(const struct csalt_progress *progress);
 
 /**
+ * \public \memberof csalt_progress
  * \brief This function returns truthy if progress is finished, false
  * otherwise
  */

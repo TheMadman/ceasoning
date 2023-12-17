@@ -26,5 +26,6 @@
 #include "stores/noop.h"
 #include "stores/fallback.h"
 #include "stores/decorator.h"
+#include "stores/logger.h"
 
 #endif // CSALT_STORES_H

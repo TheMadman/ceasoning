@@ -94,7 +94,13 @@ int csalt_store_heap_split(
 		csalt_min(heap->begin + begin, heap->end),
 		csalt_min(heap->begin + end, heap->end));
 
-	return block((csalt_static_store*)&tmp, param);
+	tmp.written = csalt_max(heap->written - begin, 0);
+
+	const int result = block((csalt_static_store*)&tmp, param);
+
+	heap->written = begin + tmp.written;
+
+	return result;
 }
 
 ssize_t csalt_store_heap_size(csalt_store *store)
