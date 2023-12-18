@@ -29,8 +29,6 @@ csalt_store *csalt_resource_format_init(csalt_resource *resource)
 		return NULL;
 	}
 
-	attempt->written = needed;
-
 	return (void*)attempt;
 }
 

@@ -32,7 +32,6 @@ static heap_store_t heap_store(void *begin, void *end)
 		&heap_store_impl,
 		begin,
 		end,
-		0,
 	};
 }
 
@@ -53,7 +52,6 @@ void csalt_resource_heap_deinit(csalt_resource *resource)
 	free(heap->store.begin);
 	heap->store.begin = 0;
 	heap->store.end = 0;
-	heap->store.written = 0;
 }
 
 ssize_t csalt_store_heap_read(
@@ -63,7 +61,7 @@ ssize_t csalt_store_heap_read(
 )
 {
 	heap_store_t *heap = (void*)store;
-	size = csalt_min(size, heap->written);
+	size = csalt_min(size, heap->end - heap->begin);
 	memcpy(buffer, heap->begin, (size_t)size);
 	return size;
 }
@@ -77,7 +75,6 @@ ssize_t csalt_store_heap_write(
 	heap_store_t *heap = (void*)store;
 	size = csalt_min(size, heap->end - heap->begin);
 	memcpy(heap->begin, buffer, (size_t)size);
-	heap->written = size;
 	return size;
 }
 
@@ -94,13 +91,7 @@ int csalt_store_heap_split(
 		csalt_min(heap->begin + begin, heap->end),
 		csalt_min(heap->begin + end, heap->end));
 
-	tmp.written = csalt_max(heap->written - begin, 0);
-
-	const int result = block((csalt_static_store*)&tmp, param);
-
-	heap->written = begin + tmp.written;
-
-	return result;
+	return block((csalt_static_store*)&tmp, param);
 }
 
 ssize_t csalt_store_heap_size(csalt_store *store)

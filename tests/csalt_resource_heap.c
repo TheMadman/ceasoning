@@ -32,14 +32,6 @@ int block(csalt_store *store, void *__)
 	csalt_static_store *s_store = (void*)store;
 
 	{
-		char c = 0;
-		// first read should return 0 as nothing is written
-		ssize_t read = csalt_store_read(s_store, &c, 1);
-		if (read != 0)
-			print_error_and_exit("Weird read: %ld", read);
-	}
-
-	{
 		char c = 9;
 		ssize_t write = csalt_store_write(s_store, &c, 1);
 		if (write != 1)

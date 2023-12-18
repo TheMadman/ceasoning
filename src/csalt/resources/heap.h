@@ -37,7 +37,6 @@ struct csalt_store_heap {
 	const struct csalt_dynamic_store_interface *vtable;
 	char *begin;
 	char *end;
-	ssize_t written;
 };
 
 /**
