@@ -8,6 +8,7 @@ add_library(csalt STATIC
 	stores/fallback.c
 	stores/decorator.c
 	stores/logger.c
+	stores/array.c
 	resources/base.c
 	resources/heap.c
 	resources/format.c

@@ -18,7 +18,7 @@
 
 #define print_error_and_exit(...) do { \
 	print_error(__VA_ARGS__); \
-	exit(EXIT_FAILURE); \
+	abort(); \
 } while (0)
 
 
