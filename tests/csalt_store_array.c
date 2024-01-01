@@ -79,6 +79,35 @@ int main()
 		if (buffer[3] != 4)
 			print_error_and_exit("Unexpected value in third position: %d", buffer[3]);
 	}
+
+	{
+		struct csalt_dynamic_store_stub
+			stub = csalt_dynamic_store_stub(4);
+
+		struct csalt_store_array
+			size_array = csalt_store_array((csalt_store*)&stub, 4);
+
+		ssize_t result = csalt_store_size((csalt_store*)&size_array);
+
+		if (result != 1)
+			print_error_and_exit("Unexpected size: %ld", result);
+	}
+
+	{
+		struct csalt_dynamic_store_stub
+			stub = csalt_dynamic_store_stub(8);
+
+		struct csalt_store_array
+			resize_array = csalt_store_array((csalt_store*)&stub, 4);
+
+		ssize_t result = csalt_store_resize((csalt_store*)&resize_array, 2);
+
+		if (result != 2)
+			print_error_and_exit("Unexpected resize: %ld", result);
+
+		if (stub.parent.size != 8)
+			print_error_and_exit("Unexpected actual size: %ld", stub.parent.size);
+	}
 }
 
 static int receive_split(csalt_static_store *store, void *param)
