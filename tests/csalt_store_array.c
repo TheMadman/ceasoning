@@ -108,6 +108,35 @@ int main()
 		if (stub.parent.size != 8)
 			print_error_and_exit("Unexpected actual size: %ld", stub.parent.size);
 	}
+
+	{
+		const int data = 4;
+		ssize_t result = csalt_store_array_set(
+			&array,
+			1,
+			&data);
+
+		if (result != 1)
+			print_error_and_exit("Unexpected set result: %ld", result);
+
+		if (buffer[1] != 4)
+			print_error_and_exit("Unexpected value in buffer: %d", buffer[1]);
+	}
+
+	{
+		int data = -1;
+		buffer[2] = 3;
+		ssize_t result = csalt_store_array_get(
+			&array,
+			2,
+			&data);
+
+		if (result != 1)
+			print_error_and_exit("Unexpected get result: %ld", result);
+
+		if (data != 3)
+			print_error_and_exit("Unexpected value from buffer: %d", data);
+	}
 }
 
 static int receive_split(csalt_static_store *store, void *param)

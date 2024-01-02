@@ -105,16 +105,6 @@ static int receive_for_set(csalt_static_store *store, void *param)
 	return !!set->result;
 }
 
-/**
- * \public \memberof csalt_store_array
- * \brief Writes a single object to the given index of the array.
- *
- * \param array The store to modify
- * \param index The index to write to
- * \param buffer A pointer to the object to write
- *
- * \returns true on success, false on failure.
- */
 bool csalt_store_array_set(
 	struct csalt_store_array *array,
 	ssize_t index,
@@ -162,18 +152,6 @@ static int receive_for_get(csalt_static_store *store, void *param)
 	return !!get->object_size;
 }
 
-/**
- * \public \memberof csalt_store_array
- * \brief Reads a single object from the given index of the array.
- *
- * Note that no checks are done to see if the index is correct or initialized.
- *
- * \param array The store to read
- * \param index The index to read from
- * \param buffer A pointer to the buffer to write to
- *
- * \returns true on success, false on failure.
- */
 bool csalt_store_array_get(
 	const struct csalt_store_array *array,
 	ssize_t index,
