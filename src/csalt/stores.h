@@ -28,5 +28,6 @@
 #include "stores/decorator.h"
 #include "stores/logger.h"
 #include "stores/array.h"
+#include "stores/mutex.h"
 
 #endif // CSALT_STORES_H
