@@ -2,13 +2,6 @@ cmake_minimum_required(VERSION 3.21)
 
 project(Ceasoning VERSION 0.1)
 
-if(BUILD_TESTING)
-	# GCC/Clang-specific stuff, don't like
-	# maybe replace with CDash?
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 --coverage")
-	link_libraries("--coverage")
-endif(BUILD_TESTING)
-
 add_subdirectory(src)
 
 ## Refactor this out into a separate file?

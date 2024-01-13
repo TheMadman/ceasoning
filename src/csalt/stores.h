@@ -29,5 +29,6 @@
 #include "stores/logger.h"
 #include "stores/array.h"
 #include "stores/mutex.h"
+#include "stores/rwlock.h"
 
 #endif // CSALT_STORES_H
