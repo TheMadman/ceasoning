@@ -14,6 +14,7 @@ set(SOURCES
 	resources/base.c
 	resources/heap.c
 	resources/format.c
+	resources/file.c
 )
 
 add_library(csalt SHARED
@@ -25,6 +26,7 @@ add_library(csaltstatic STATIC
 )
 
 target_link_libraries(csalt PUBLIC Threads::Threads)
+target_link_libraries(csaltstatic PUBLIC Threads::Threads)
 
 target_include_directories(csalt
 	PUBLIC

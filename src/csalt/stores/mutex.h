@@ -33,6 +33,7 @@ extern "C" {
  */
 
 /**
+ * \extends csalt_store_decorator
  * \brief Provides a decorator for synchronizing access to a store.
  *
  * Locks are attempted in a non-blocking fashion; if the lock fails,

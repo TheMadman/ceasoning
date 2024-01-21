@@ -1,8 +1,11 @@
 #ifndef TEST_MACROS_H
 #define TEST_MACROS_H
 
+#define _GNU_SOURCE
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <dlfcn.h>
 
 #include "csalt/stores.h"
 
@@ -20,6 +23,29 @@
 	print_error(__VA_ARGS__); \
 	abort(); \
 } while (0)
+
+// Code generation hell incoming
+#define ARG(arg) arg
+#define ARGS(...) __VA_ARGS__
+
+#define CREATE_IMPL_POINTER(ret, name, args) \
+ret (*_##name##_impl)(args) = NULL
+
+#define CALL_IMPL(name, args) \
+_##name##_impl(args)
+
+#define CREATE_IMPL_WRAPPER(ret, name, args, call) \
+ret name(args) \
+{ \
+	return call; \
+}
+
+#define INIT_IMPL(ret, name, args, call_args) \
+	CREATE_IMPL_POINTER(ret, name, ARGS(args)); \
+	CREATE_IMPL_WRAPPER(ret, name, ARGS(args), CALL_IMPL(name, ARGS(call_args)))
+
+#define SET_IMPL(name, function) \
+_##name##_impl = function
 
 
 struct csalt_static_store_stub {

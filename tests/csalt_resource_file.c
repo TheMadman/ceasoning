@@ -16,111 +16,215 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <csalt/fileresource.h>
-
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
-
 #include "test_macros.h"
 
-// Unlinkly to be duplicated by a human by accident
-#define FILENAME "cay+5wGBIpGOM6DXxvAFDmqW"
+#include <csalt/resources/file.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <stdarg.h>
 
-int test_write_called = 0;
-int test_read_called = 0;
+#define FILENAME "./asdfjkl"
 
-void noop(csalt_store *dest)
+INIT_IMPL(
+	int,
+	open,
+	ARGS(const char *file, int oflag, ...),
+	ARGS(file, oflag, 0))
+
+const char *open_file_arg = NULL;
+int open_oflag_arg = -1;
+int open_return_value = -1;
+
+int open_mock(const char *file, int oflag, ...)
 {
-	(void)dest;
+	open_file_arg = file;
+	open_oflag_arg = oflag;
+	return open_return_value;
 }
 
-int test_write(csalt_store *resource, void *filename)
+INIT_IMPL(
+	int,
+	ftruncate,
+	ARGS(int fd, off_t length),
+	ARGS(fd, length));
+
+int ftruncate_fd_arg = -1;
+off_t ftruncate_length_arg = -1;
+int ftruncate_return_value = -1;
+
+int ftruncate_mock(int fd, off_t length)
 {
-	test_write_called = 1;
-	int a = 1;
-	struct csalt_memory A = csalt_memory_pointer(&a);
+	ftruncate_fd_arg = fd;
+	ftruncate_length_arg = length;
+	return ftruncate_return_value;
+}
 
-	struct csalt_progress transfer = csalt_progress(sizeof(a));
-	ssize_t amount_written = csalt_store_transfer(
-		&transfer,
-		(csalt_store *)&A,
-		(csalt_store *)resource,
-		noop
-	);
-	if (amount_written != sizeof(a)) {
-		print_error(
-			"Unexpected number of bytes written, expected: %ld actual: %ld",
-			sizeof(a),
-			amount_written
-		);
+INIT_IMPL(
+	ssize_t,
+	pread,
+	ARGS(int fd, void *buf, size_t count, off_t offset),
+	ARGS(fd, buf, count, offset));
 
-		// this whole function is skipped if the fd is invalid
-		unlink(filename);
-		exit(EXIT_FAILURE);
-	}
+int pread_fd_arg = -1;
+void *pread_buf_arg = NULL;
+size_t pread_count_arg = 0;
+off_t pread_offset_arg = -1;
+ssize_t pread_return_value = -1;
+
+ssize_t pread_mock(int fd, void *buf, size_t count, off_t offset)
+{
+	pread_fd_arg = fd;
+	pread_buf_arg = buf;
+	pread_count_arg = count;
+	pread_offset_arg = offset;
+	return pread_return_value;
+}
+
+INIT_IMPL(
+	ssize_t,
+	pwrite,
+	ARGS(int fd, const void *buf, size_t count, off_t offset),
+	ARGS(fd, buf, count, offset));
+
+int pwrite_fd_arg = -1;
+const void *pwrite_buf_arg = NULL;
+size_t pwrite_count_arg = 0;
+off_t pwrite_offset_arg = -1;
+ssize_t pwrite_return_value = -1;
+
+ssize_t pwrite_mock(int fd, const void *buf, size_t count, off_t offset)
+{
+	pwrite_fd_arg = fd;
+	pwrite_buf_arg = buf;
+	pwrite_count_arg = count;
+	pwrite_offset_arg = offset;
+	return pwrite_return_value;
+}
+
+INIT_IMPL(
+	off_t,
+	lseek,
+	ARGS(int fd, off_t offset, int whence),
+	ARGS(fd, offset, whence));
+
+int lseek_fd_arg = -1;
+off_t lseek_offset_arg = -1;
+int lseek_whence_arg = -1;
+off_t lseek_return_value = -1;
+
+off_t lseek_mock(int fd, off_t offset, int whence)
+{
+	lseek_fd_arg = fd;
+	lseek_offset_arg = offset;
+	lseek_whence_arg = whence;
+	return lseek_return_value;
+}
+
+int test_open(csalt_store *store, void *_)
+{
+	(void)_;
+	if (open_file_arg != FILENAME)
+		print_error_and_exit("Filename was unexpected value: %s", open_file_arg);
+
+	// should be opened non-blocking
+	if (!(open_oflag_arg & O_NONBLOCK))
+		print_error_and_exit("oflag didn't contain O_NONBLOCK flag");
 
 	return 0;
 }
 
-int test_read(csalt_store *resource, void *filename)
+int test_read(csalt_store *store, void *_)
 {
-	test_read_called = 1;
-	int a = 0;
-	struct csalt_memory A = csalt_memory_pointer(&a);
+	(void)_;
+	csalt_static_store *s_store = (csalt_static_store *)store;
 
-	struct csalt_progress transfer = csalt_progress(sizeof(a));
-	ssize_t amount_read = csalt_store_transfer(
-		&transfer,
-		(void *)resource,
-		(void *)&A,
-		noop
-	);
-	if (amount_read != sizeof(a)) {
-		print_error(
-			"Unexpected number of bytes read, "
-			"expected: %ld actual: %ld",
-			sizeof(a),
-			amount_read
-		);
-		unlink(filename);
-		exit(EXIT_FAILURE);
-	}
-	if (!a) {
-		print_error(
-			"Read value didn't match expected value, "
-			"expected: %d actual: %d",
-			1,
-			a
-		);
-		unlink(filename);
-		exit(EXIT_FAILURE);
-	}
+	char buffer[4096] = { 0 };
+	csalt_store_read(s_store, buffer, sizeof(buffer));
+
+	if (pread_buf_arg != &buffer)
+		print_error_and_exit("buffer arg was unexpected value: %p", pread_buf_arg);
+
+	if (pread_count_arg != sizeof(buffer))
+		print_error_and_exit("count arg was unexpected value: %lu", pread_count_arg);
+
+	if (pread_offset_arg != 0)
+		print_error_and_exit("offset arg was unexpected value: %ld", pread_offset_arg);
 	return 0;
+}
+
+int test_write(csalt_store *store, void *_)
+{
+	(void)_;
+	csalt_static_store *s_store = (csalt_static_store *)store;
+
+	char buffer[] = "Hello, world!";
+	ssize_t result = csalt_store_write(s_store, buffer, sizeof(buffer));
+
+	if (result != pwrite_return_value)
+		print_error_and_exit("return value was unexpected value: %ld", result);
+
+	if (pwrite_buf_arg != &buffer)
+		print_error_and_exit("buffer arg was unexpected value: %p", pwrite_buf_arg);
+
+	if (pwrite_count_arg != sizeof(buffer))
+		print_error_and_exit("count arg was unexpected value: %lu", pwrite_count_arg);
+
+	if (pwrite_offset_arg != 0)
+		print_error_and_exit("offset arg was unexpected value: %ld", pwrite_offset_arg);
+
+	return 0;
+}
+
+int test_resize(csalt_store *store, void *_)
+{
+	(void)_;
+
+	const ssize_t size = 10;
+	ftruncate_return_value = 0;
+	ssize_t result = csalt_store_resize(store, size);
+
+	if (result != size)
+		print_error_and_exit("Unexpected return value: %ld", result);
+
+	if (ftruncate_length_arg != size)
+		print_error_and_exit("Unexpected ftruncate length arg: %ld", ftruncate_length_arg);
+
+	ftruncate_return_value = -1;
+	result = csalt_store_resize(store, 0);
+
+	if (result != size)
+		print_error_and_exit("Unexpected return value: %ld", result);
+
+	if (ftruncate_length_arg != 0)
+		print_error_and_exit("Unexpected ftruncate length arg: %ld", ftruncate_length_arg);
 }
 
 int main()
 {
-	// first constructor -- creates file if not exists
-	struct csalt_resource_file file = csalt_resource_create_file("./" FILENAME, O_RDWR, 0600);
-	csalt_resource_use(csalt_resource(&file), test_write, "./" FILENAME);
-	if (!test_write_called) {
-		print_error("Write wasn't called when it should have been");
-		unlink("./" FILENAME);
-		return EXIT_FAILURE;
-	}
+	SET_IMPL(open, open_mock);
+	SET_IMPL(ftruncate, ftruncate_mock);
+	SET_IMPL(pread, pread_mock);
+	SET_IMPL(pwrite, pwrite_mock);
+	SET_IMPL(lseek, lseek_mock);
 
-	// second constructor -- file must exist before init
-	struct csalt_resource_file file2 = csalt_resource_file("./" FILENAME, O_RDONLY);
-	csalt_resource_use(csalt_resource(&file2), test_read, "./" FILENAME);
-	if (!test_read_called) {
-		print_error("Read wasn't called when it should have been");
-		unlink("./" FILENAME);
-		return EXIT_FAILURE;
-	}
+	struct csalt_resource_file
+		file = csalt_resource_file(FILENAME, O_RDWR, 0644);
 
-	unlink("./" FILENAME);
+	csalt_resource *resource = (csalt_resource *)&file;
 
-	return EXIT_SUCCESS;
+	open_return_value = 3;
+
+	if (csalt_resource_use(resource, test_open, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	if (csalt_resource_use(resource, test_read, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	if (csalt_resource_use(resource, test_write, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	if (csalt_resource_use(resource, test_resize, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	SET_IMPL(open, dlsym(RTLD_NEXT, "open"));
 }
-
