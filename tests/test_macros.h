@@ -25,6 +25,7 @@
 } while (0)
 
 // Code generation hell incoming
+// I'm going to hell for this
 #define ARG(arg) arg
 #define ARGS(...) __VA_ARGS__
 

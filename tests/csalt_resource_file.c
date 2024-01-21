@@ -44,6 +44,21 @@ int open_mock(const char *file, int oflag, ...)
 
 INIT_IMPL(
 	int,
+	close,
+	int fd,
+	fd)
+
+int close_fd_arg = -1;
+int close_return_value = -1;
+
+int close_mock(int fd)
+{
+	close_fd_arg = fd;
+	return close_return_value;
+}
+
+INIT_IMPL(
+	int,
 	ftruncate,
 	ARGS(int fd, off_t length),
 	ARGS(fd, length));
@@ -120,6 +135,14 @@ off_t lseek_mock(int fd, off_t offset, int whence)
 	return lseek_return_value;
 }
 
+int test_open_error(csalt_store *store, void *_)
+{
+	(void)store;
+	(void)_;
+	print_error_and_exit("Block was called when it should have failed");
+	return 0;
+}
+
 int test_open(csalt_store *store, void *_)
 {
 	(void)_;
@@ -129,6 +152,30 @@ int test_open(csalt_store *store, void *_)
 	// should be opened non-blocking
 	if (!(open_oflag_arg & O_NONBLOCK))
 		print_error_and_exit("oflag didn't contain O_NONBLOCK flag");
+
+	return 0;
+}
+
+int test_open_create(csalt_store *store, void *_)
+{
+	(void)_;
+	if (open_file_arg != FILENAME)
+		print_error_and_exit("Filename was unexpected value: %s", open_file_arg);
+
+	if (!(open_oflag_arg & O_NONBLOCK && open_oflag_arg & O_EXCL))
+		print_error_and_exit("Flags weren't correct");
+
+	return 0;
+}
+
+int test_open_exists(csalt_store *store, void *_)
+{
+	(void)_;
+	if (open_file_arg != FILENAME)
+		print_error_and_exit("Filename was unexpected value: %s", open_file_arg);
+
+	if (!(open_oflag_arg & O_NONBLOCK && open_oflag_arg ^ O_CREAT))
+		print_error_and_exit("Flags weren't correct");
 
 	return 0;
 }
@@ -199,9 +246,56 @@ int test_resize(csalt_store *store, void *_)
 		print_error_and_exit("Unexpected ftruncate length arg: %ld", ftruncate_length_arg);
 }
 
+int test_size(csalt_store *store, void *_)
+{
+	(void)_;
+
+	lseek_return_value = 10;
+
+	ssize_t result = csalt_store_size(store);
+	if (result != lseek_return_value)
+		print_error_and_exit("Unexpected return value: %ld", result);
+
+	return 0;
+}
+
+int receive_split(csalt_static_store *store, void *_)
+{
+	// pread will just return the value we set, so testing for
+	// csalt_store_read return value is redundant
+
+	csalt_store_read(store, NULL, 5);
+
+	if (pread_count_arg != 5)
+		print_error_and_exit("Unexpected count arg: %lu", pread_count_arg);
+	if (pread_offset_arg != 10)
+		print_error_and_exit("Unexpected offset arg: %ld", pread_offset_arg);
+
+	return 0;
+}
+
+int test_split(csalt_store *store, void *_)
+{
+	(void)_;
+
+	lseek_return_value = 20;
+
+	const int result = csalt_store_split(
+		(csalt_static_store *)store,
+		10,
+		20,
+		receive_split,
+		NULL);
+	if (result != 0)
+		print_error_and_exit("Unexpected split return");
+
+	return 0;
+}
+
 int main()
 {
 	SET_IMPL(open, open_mock);
+	SET_IMPL(close, close_mock);
 	SET_IMPL(ftruncate, ftruncate_mock);
 	SET_IMPL(pread, pread_mock);
 	SET_IMPL(pwrite, pwrite_mock);
@@ -211,6 +305,11 @@ int main()
 		file = csalt_resource_file(FILENAME, O_RDWR, 0644);
 
 	csalt_resource *resource = (csalt_resource *)&file;
+
+	open_return_value = -1;
+
+	if(csalt_resource_use(resource, test_open_error, NULL) == 0)
+		print_error_and_exit("Help I'm confused");
 
 	open_return_value = 3;
 
@@ -226,5 +325,20 @@ int main()
 	if (csalt_resource_use(resource, test_resize, NULL) == -1)
 		print_error_and_exit("Unexpected error from csalt_resource_use");
 
+	if (csalt_resource_use(resource, test_size, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	if (csalt_resource_use(resource, test_split, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	file = csalt_resource_file_new(FILENAME, O_RDWR, 0644);
+	if (csalt_resource_use(resource, test_open_create, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
+	file = csalt_resource_file_open(FILENAME, O_RDWR);
+	if (csalt_resource_use(resource, test_open_exists, NULL) == -1)
+		print_error_and_exit("Unexpected error from csalt_resource_use");
+
 	SET_IMPL(open, dlsym(RTLD_NEXT, "open"));
+	SET_IMPL(close, dlsym(RTLD_NEXT, "close"));
 }
