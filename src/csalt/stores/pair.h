@@ -146,7 +146,6 @@ ssize_t csalt_store_pair_resize(csalt_store *store, ssize_t size);
  *
  * Constructing an array for an existing local array of stores is simple:
  * \code
- *
  * 	struct csalt_store_pair list[arrsize(stores)] = { 0 };
  * \endcode
  *

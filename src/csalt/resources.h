@@ -23,5 +23,6 @@
 #include "resources/base.h"
 #include "resources/heap.h"
 #include "resources/format.h"
+#include "resources/pair.h"
 
 #endif // CSALT_RESOURCES_H

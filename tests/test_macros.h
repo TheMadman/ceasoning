@@ -8,6 +8,7 @@
 #include <dlfcn.h>
 
 #include "csalt/stores.h"
+#include "csalt/resources.h"
 
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
@@ -230,6 +231,49 @@ struct csalt_dynamic_store_stub csalt_dynamic_store_stub_zero()
 {
 	return (struct csalt_dynamic_store_stub) {
 		csalt_static_store_stub_zero(),
+	};
+}
+
+
+struct csalt_resource_stub {
+	const struct csalt_dynamic_resource_interface *vtable;
+	int init_called;
+	int deinit_called;
+	int should_fail;
+
+	struct csalt_dynamic_store_stub return_value;
+};
+
+csalt_store *csalt_resource_stub_init(csalt_resource *resource)
+{
+	struct csalt_resource_stub *stub = (void *)resource;
+
+	stub->init_called++;
+	if (stub->should_fail)
+		return NULL;
+	return (csalt_store *)&stub->return_value;
+}
+
+void csalt_resource_stub_deinit(csalt_resource *resource)
+{
+	struct csalt_resource_stub *stub = (void *)resource;
+
+	stub->deinit_called++;
+}
+
+static struct csalt_dynamic_resource_interface stub_resource_impl = {
+	csalt_resource_stub_init,
+	csalt_resource_stub_deinit,
+};
+
+struct csalt_resource_stub csalt_resource_stub(int should_fail)
+{
+	return (struct csalt_resource_stub) {
+		&stub_resource_impl,
+		0,
+		0,
+		should_fail,
+		csalt_dynamic_store_stub(0),
 	};
 }
 
