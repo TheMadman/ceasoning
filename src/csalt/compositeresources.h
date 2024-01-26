@@ -64,7 +64,7 @@ extern "C" {
  * \sa csalt_resource_pair_list_bounds()
  */
 struct csalt_resource_pair {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	csalt_resource *first;
 	csalt_resource *second;
 	struct csalt_store_pair result;
@@ -131,7 +131,7 @@ void csalt_resource_pair_deinit(csalt_resource *resource);
  * \sa csalt_resource_fallback_bounds()
  */
 struct csalt_resource_fallback {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	struct csalt_resource_pair pair;
 	struct csalt_store_fallback result;
 };
@@ -187,7 +187,7 @@ void csalt_resource_fallback_deinit(csalt_resource *resource);
  * \see csalt_resource_first_bounds()
  */
 struct csalt_resource_first {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	csalt_resource **begin;
 	csalt_resource **end;
 	csalt_resource *returned;

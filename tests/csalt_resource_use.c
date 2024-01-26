@@ -78,7 +78,7 @@ const struct csalt_dynamic_store_interface parent = {
 	NULL
 };
 
-struct csalt_resource_interface test_interface = {
+struct csalt_dynamic_resource_interface test_interface = {
 	init,
 	deinit,
 };

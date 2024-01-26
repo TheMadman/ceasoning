@@ -67,7 +67,7 @@ extern "C" {
  * after.
  *
  * To create custom structs which can manage resources,
- * use a struct csalt_resource_interface* as the first
+ * use a struct csalt_dynamic_resource_interface* as the first
  * member.
  *
  * Functions operating on resources take a csalt_resource
@@ -75,7 +75,7 @@ extern "C" {
  * a (csalt_resource *) will allow you to use it in those
  * functions.
  */
-typedef const struct csalt_resource_interface *const csalt_resource;
+typedef const struct csalt_dynamic_resource_interface *const csalt_resource;
 
 /**
  * \brief Identical to a csalt_resource, but returns a static
@@ -107,7 +107,7 @@ typedef void csalt_resource_deinit_fn(csalt_resource *resource);
  * as their first member can be passed to resource
  * functions with a simple cast.
  */
-struct csalt_resource_interface {
+struct csalt_dynamic_resource_interface {
 	csalt_resource_init_fn *init;
 	csalt_resource_deinit_fn *deinit;
 };

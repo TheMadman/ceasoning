@@ -28,7 +28,7 @@
 typedef struct csalt_resource_file file_t;
 typedef struct csalt_store_file file_store_t;
 
-static const struct csalt_resource_interface impl = {
+static const struct csalt_dynamic_resource_interface impl = {
 	csalt_resource_file_init,
 	csalt_resource_file_deinit,
 };

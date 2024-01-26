@@ -53,7 +53,7 @@ extern "C" {
  * size is returned.
  */
 struct csalt_resource_file {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	const char *path;
 	int flags;
 	int mode;

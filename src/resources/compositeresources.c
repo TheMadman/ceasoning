@@ -19,7 +19,7 @@
 #include <csalt/compositeresources.h>
 #include <csalt/compositestores.h>
 
-static struct csalt_resource_interface csalt_resource_pair_implementation = {
+static struct csalt_dynamic_resource_interface csalt_resource_pair_implementation = {
 	csalt_resource_pair_init,
 	csalt_resource_pair_deinit,
 };
@@ -100,7 +100,7 @@ void csalt_resource_pair_deinit(csalt_resource *resource)
 	}
 }
 
-static struct csalt_resource_interface
+static struct csalt_dynamic_resource_interface
 	csalt_resource_fallback_implementation = {
 	csalt_resource_fallback_init,
 	csalt_resource_fallback_deinit,
@@ -149,7 +149,7 @@ int csalt_resource_fallback_bounds(
 	return 0;
 }
 
-static struct csalt_resource_interface csalt_resource_first_implementation = {
+static struct csalt_dynamic_resource_interface csalt_resource_first_implementation = {
 	csalt_resource_first_init,
 	csalt_resource_first_deinit,
 };

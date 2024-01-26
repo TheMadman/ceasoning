@@ -8,7 +8,7 @@
 typedef struct csalt_resource_heap heap_t;
 typedef struct csalt_store_heap heap_store_t;
 
-struct csalt_resource_interface heap_impl = {
+struct csalt_dynamic_resource_interface heap_impl = {
 	csalt_resource_heap_init,
 	csalt_resource_heap_deinit,
 };

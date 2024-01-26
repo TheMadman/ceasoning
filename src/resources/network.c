@@ -21,7 +21,7 @@
 #include <unistd.h>
 #include <errno.h>
 
-static struct csalt_resource_interface csalt_addrinfo_implementation;
+static struct csalt_dynamic_resource_interface csalt_addrinfo_implementation;
 static struct csalt_store_interface csalt_addrinfo_init_implementation;
 
 struct csalt_addrinfo_initialized {
@@ -33,7 +33,7 @@ struct csalt_addrinfo_initialized {
 };
 
 struct csalt_addrinfo {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	struct csalt_addrinfo_initialized addrinfo;
 };
 
@@ -81,7 +81,7 @@ void csalt_addrinfo_deinit(csalt_resource *resource)
 	infoinfo->addrinfo.result = 0;
 }
 
-static struct csalt_resource_interface csalt_addrinfo_implementation = {
+static struct csalt_dynamic_resource_interface csalt_addrinfo_implementation = {
 	csalt_addrinfo_init,
 	csalt_addrinfo_deinit,
 };
@@ -213,7 +213,7 @@ ssize_t csalt_resource_socket_recvfrom(
 	return result;
 }
 
-static const struct csalt_resource_interface udp_connected_implementation;
+static const struct csalt_dynamic_resource_interface udp_connected_implementation;
 static const struct csalt_store_interface udp_init_connected_implementation;
 struct csalt_resource_network_initialized_interface udp_init_connected_net_implementation;
 
@@ -335,7 +335,7 @@ int csalt_resource_network_socket_split(
 	return block(store, data);
 }
 
-static const struct csalt_resource_interface udp_connected_implementation = {
+static const struct csalt_dynamic_resource_interface udp_connected_implementation = {
 	csalt_resource_network_udp_connected_init,
 	csalt_resource_network_socket_deinit,
 };
@@ -352,7 +352,7 @@ struct csalt_resource_network_initialized_interface csalt_resource_network_udp_i
 	csalt_resource_socket_recvfrom,
 };
 
-static const struct csalt_resource_interface udp_bound_implementation;
+static const struct csalt_dynamic_resource_interface udp_bound_implementation;
 static const struct csalt_store_interface udp_bound_init_implementation;
 struct csalt_resource_network_initialized_interface udp_bound_init_net_implementation;
 
@@ -422,7 +422,7 @@ csalt_store *csalt_resource_network_udp_bound_init(csalt_resource *resource)
 	return addrinfo_from_network(udp, use_csalt_addrinfo_bound);
 }
 
-static const struct csalt_resource_interface udp_bound_implementation = {
+static const struct csalt_dynamic_resource_interface udp_bound_implementation = {
 	csalt_resource_network_udp_bound_init,
 	csalt_resource_network_socket_deinit,
 };
@@ -439,7 +439,7 @@ struct csalt_resource_network_initialized_interface udp_bound_init_net_implement
 	csalt_resource_socket_recvfrom,
 };
 
-static const struct csalt_resource_interface udp_stateless_implementation;
+static const struct csalt_dynamic_resource_interface udp_stateless_implementation;
 static const struct csalt_store_interface udp_stateless_init_implementation;
 struct csalt_resource_network_initialized_interface udp_stateless_init_net_implementation;
 
@@ -473,7 +473,7 @@ csalt_store *csalt_resource_network_udp_stateless_init(csalt_resource *resource)
 	return 0;
 }
 
-static const struct csalt_resource_interface udp_stateless_implementation = {
+static const struct csalt_dynamic_resource_interface udp_stateless_implementation = {
 	csalt_resource_network_udp_stateless_init,
 	csalt_resource_network_socket_deinit,
 };

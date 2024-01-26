@@ -36,7 +36,7 @@ void csalt_resource_decorator_deinit(csalt_resource *resource)
 
 typedef struct csalt_resource_decorator_logger csalt_logger;
 
-static const struct csalt_resource_interface logger_implementation = {
+static const struct csalt_dynamic_resource_interface logger_implementation = {
 	csalt_resource_decorator_logger_init,
 	csalt_resource_decorator_deinit,
 };
@@ -277,7 +277,7 @@ int csalt_decorator_lazy_split(
 	return csalt_store_split(lazy->result, begin, end, block, param);
 }
 
-static struct csalt_resource_interface
+static struct csalt_dynamic_resource_interface
 	csalt_resource_decorator_lazy_implementation = {
 	csalt_resource_decorator_lazy_init,
 	csalt_resource_decorator_lazy_deinit,
@@ -309,7 +309,7 @@ void csalt_resource_decorator_lazy_deinit(csalt_resource *resource)
 	}
 }
 
-static const struct csalt_resource_interface csalt_decorator_mutex_implementation = {
+static const struct csalt_dynamic_resource_interface csalt_decorator_mutex_implementation = {
 	csalt_decorator_mutex_init,
 	csalt_decorator_mutex_deinit,
 };

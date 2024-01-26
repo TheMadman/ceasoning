@@ -39,7 +39,7 @@ void csalt_resource_format_deinit(csalt_resource *resource)
 	va_end(format->args);
 }
 
-static const struct csalt_resource_interface impl = {
+static const struct csalt_dynamic_resource_interface impl = {
 	csalt_resource_format_init,
 	csalt_resource_format_deinit,
 };

@@ -40,7 +40,7 @@ extern "C" {
  * 	a single format string, similar to other resources.
  */
 struct csalt_resource_format {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	const char *format;
 	va_list args;
 	struct csalt_resource_heap heap;

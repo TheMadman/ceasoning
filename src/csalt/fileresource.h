@@ -55,7 +55,7 @@ extern "C" {
  * \see csalt_resource_file()
  */
 struct csalt_resource_file {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	const char *filename;
 	int flags;
 	int mode;

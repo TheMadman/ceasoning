@@ -19,7 +19,7 @@ static void deinit(csalt_resource *resource)
 	(void)resource;
 }
 
-static const struct csalt_resource_interface test_resource_interface = {
+static const struct csalt_dynamic_resource_interface test_resource_interface = {
 	init,
 	deinit,
 };

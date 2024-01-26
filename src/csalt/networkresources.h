@@ -143,7 +143,7 @@ struct csalt_resource_network_socket_initialized {
  * \see csalt_resource_network_udp_stateless()
  */
 struct csalt_resource_network_socket {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	const char *node;
 	const char *service;
 	struct csalt_resource_network_socket_initialized udp;

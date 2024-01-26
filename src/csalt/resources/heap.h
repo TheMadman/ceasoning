@@ -44,7 +44,7 @@ struct csalt_store_heap {
  * \brief Represents a request to allocate heap memory.
  */
 struct csalt_resource_heap {
-	const struct csalt_resource_interface *vtable;
+	const struct csalt_dynamic_resource_interface *vtable;
 	ssize_t size;
 	struct csalt_store_heap store;
 };
