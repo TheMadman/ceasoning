@@ -21,8 +21,8 @@
 
 #include <csalt/platform/init.h>
 
-#include "stores.h"
-#include "baseresources.h"
+#include "resource.h"
+#include "baseresource.h"
 
 /**
  * \file

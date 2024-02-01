@@ -23,23 +23,23 @@
 
 /**
  * \file
- * \brief This file defines abstract resources, which
- * allow you to define relationships between resources.
+ * \brief This file defines abstract resource, which
+ * allow you to define relationships between resource.
  *
  * This includes the csalt_resource_pair resource, which
- * allows you to treat two or more resources as a single
+ * allows you to treat two or more resource as a single
  * resource.
  */
 
-#include <csalt/baseresources.h>
-#include <csalt/compositestores.h>
+#include <csalt/baseresource.h>
+#include <csalt/compositeresource.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
 /**
- * \brief This type allows storing a pair of resources and treating them
+ * \brief This type allows storing a pair of resource and treating them
  * 	as a single resource.
  *
  * This type can be used to represent more complex abstract datatypes; see
@@ -53,11 +53,11 @@ extern "C" {
  * is attempted. If that fails, the first resource is uninitialized, then the
  * pair returns failure.
  *
- * If both resources succeed in initializing, this pair passes a pointer to a
+ * If both resource succeed in initializing, this pair passes a pointer to a
  * csalt_store_pair to the callback.
  *
  * csalt_resource_deinit() simply calls csalt_resource_deinit() on both
- * resources.
+ * resource.
  *
  * \sa csalt_resource_pair()
  * \sa csalt_resource_pair_list()
@@ -106,10 +106,10 @@ int csalt_resource_pair_list_bounds(
  * \sa csalt_resource_pair
  * \sa csalt_resource_pair_list_bounds()
  */
-#define csalt_resource_pair_list(resources, out) \
+#define csalt_resource_pair_list(resource, out) \
 	csalt_resource_pair_list_bounds( \
-		(resources), \
-		arrend(resources), \
+		(resource), \
+		arrend(resource), \
 		(out), \
 		arrend(out) \
 	)
@@ -118,13 +118,13 @@ csalt_store *csalt_resource_pair_init(csalt_resource *resource);
 void csalt_resource_pair_deinit(csalt_resource *resource);
 
 /**
- * \brief This type provides a resource which initializes multiple resources,
+ * \brief This type provides a resource which initializes multiple resource,
  * 	returning a csalt_store_fallback on initialization.
  *
- * This resource attempts to initialize all resources, returning 0 if any of
+ * This resource attempts to initialize all resource, returning 0 if any of
  * them fail and a pointer to a csalt_store_fallback on success. A 
- * constructor is available taking two resources, and one is available for
- * an array of resources.
+ * constructor is available taking two resource, and one is available for
+ * an array of resource.
  *
  * \sa csalt_resource_fallback()
  * \sa csalt_resource_fallback_array()
@@ -137,7 +137,7 @@ struct csalt_resource_fallback {
 };
 
 /**
- * \brief Constructs a csalt_resource_fallback from two resources.
+ * \brief Constructs a csalt_resource_fallback from two resource.
  */
 struct csalt_resource_fallback csalt_resource_fallback(
 	csalt_resource *first,
@@ -162,10 +162,10 @@ int csalt_resource_fallback_bounds(
  * This is the recommended way to construct a csalt_resource_fallback if the
  * arrays' sizes are known at compile-time.
  */
-#define csalt_resource_fallback_array(resources, out) \
+#define csalt_resource_fallback_array(resource, out) \
 	csalt_resource_fallback_bounds( \
-		(resources), \
-		arrend(resources), \
+		(resource), \
+		arrend(resource), \
 		(out), \
 		arrend(out) \
 	)
@@ -180,7 +180,7 @@ void csalt_resource_fallback_deinit(csalt_resource *resource);
  * if that succeeds, it returns that resource. If it fails, this resource
  * moves onto the next and attempts to initialize that.
  *
- * This resource only fails if all resources within it fail
+ * This resource only fails if all resource within it fail
  * to initialize.
  *
  * \see csalt_resource_first_array()

@@ -2,21 +2,21 @@ find_package(Threads REQUIRED)
 
 set(SOURCES
 	util.c
-	stores/base.c
-	stores/memory.c
-	stores/pair.c
-	stores/fallback.c
-	stores/decorator.c
-	stores/logger.c
-	stores/array.c
-	stores/mutex.c
-	stores/rwlock.c
-	resources/base.c
-	resources/heap.c
-	resources/format.c
-	resources/file.c
-	resources/pair.c
-	resources/first.c
+	store/base.c
+	store/memory.c
+	store/pair.c
+	store/fallback.c
+	store/decorator.c
+	store/logger.c
+	store/array.c
+	store/mutex.c
+	store/rwlock.c
+	resource/base.c
+	resource/heap.c
+	resource/format.c
+	resource/file.c
+	resource/pair.c
+	resource/first.c
 )
 
 add_library(csalt SHARED

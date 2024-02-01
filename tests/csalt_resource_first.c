@@ -29,15 +29,15 @@ int main()
 			first = csalt_resource_stub(0),
 			second = csalt_resource_stub(0);
 
-		csalt_resource *resources[] = {
+		csalt_resource *resource[] = {
 			(csalt_resource *)&first,
 			(csalt_resource *)&second,
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resources)] = { 0 };
+			first_list[arrlength(resource)] = { 0 };
 
-		csalt_resource_first_list(resources, first_list);
+		csalt_resource_first_list(resource, first_list);
 
 		csalt_store *result = csalt_resource_init(
 			(csalt_resource *)first_list);
@@ -51,15 +51,15 @@ int main()
 			first = csalt_resource_stub(1),
 			second = csalt_resource_stub(0);
 
-		csalt_resource *resources[] = {
+		csalt_resource *resource[] = {
 			(csalt_resource *)&first,
 			(csalt_resource *)&second,
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resources)] = { 0 };
+			first_list[arrlength(resource)] = { 0 };
 
-		csalt_resource_first_list(resources, first_list);
+		csalt_resource_first_list(resource, first_list);
 
 		csalt_store *result = csalt_resource_init(
 			(csalt_resource *)first_list);
@@ -73,15 +73,15 @@ int main()
 			first = csalt_resource_stub(1),
 			second = csalt_resource_stub(1);
 
-		csalt_resource *resources[] = {
+		csalt_resource *resource[] = {
 			(csalt_resource *)&first,
 			(csalt_resource *)&second,
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resources)] = { 0 };
+			first_list[arrlength(resource)] = { 0 };
 
-		csalt_resource_first_list(resources, first_list);
+		csalt_resource_first_list(resource, first_list);
 
 		csalt_store *result = csalt_resource_init(
 			(csalt_resource *)first_list);

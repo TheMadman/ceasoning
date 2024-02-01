@@ -57,15 +57,15 @@ int main()
 		struct csalt_dynamic_store_stub success = csalt_dynamic_store_stub(512);
 		struct csalt_dynamic_store_stub success_2 = csalt_dynamic_store_stub(1024);
 
-		csalt_store *success_stores[] = {
+		csalt_store *success_store[] = {
 			(csalt_store*)&success,
 			(csalt_store*)&success_2,
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(success_stores)] = { 0 };
+			fallbacks[arrlength(success_store)] = { 0 };
 
-		csalt_store_fallback_array(success_stores, fallbacks);
+		csalt_store_fallback_array(success_store, fallbacks);
 
 		csalt_store *fallback = (csalt_store*)fallbacks;
 		csalt_static_store *fallback_static = (csalt_static_store*)fallback;
@@ -146,15 +146,15 @@ int main()
 		struct csalt_dynamic_store_stub success = csalt_dynamic_store_stub(1024);
 		struct csalt_dynamic_store_stub zero = csalt_dynamic_store_stub_zero();
 
-		csalt_store *stores[] = {
+		csalt_store *store[] = {
 			(csalt_store*)&zero,
 			(csalt_store*)&success,
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(stores)] = { 0 };
+			fallbacks[arrlength(store)] = { 0 };
 
-		csalt_store_fallback_array(stores, fallbacks);
+		csalt_store_fallback_array(store, fallbacks);
 
 		csalt_store *fallback = (void *)fallbacks;
 		csalt_static_store *fallback_static = (csalt_static_store*)fallback;
@@ -195,15 +195,15 @@ int main()
 		struct csalt_dynamic_store_stub success = csalt_dynamic_store_stub(1024);
 		struct csalt_dynamic_store_stub error = csalt_dynamic_store_stub_error();
 
-		csalt_store *stores[] = {
+		csalt_store *store[] = {
 			(csalt_store*)&error,
 			(csalt_store*)&success,
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(stores)] = { 0 };
+			fallbacks[arrlength(store)] = { 0 };
 
-		csalt_store_fallback_array(stores, fallbacks);
+		csalt_store_fallback_array(store, fallbacks);
 
 		csalt_store *fallback = (void *)fallbacks;
 		csalt_static_store *fallback_static = (csalt_static_store*)fallback;
@@ -257,15 +257,15 @@ int main()
 		struct csalt_dynamic_store_stub success = csalt_dynamic_store_stub(1024);
 		struct csalt_dynamic_store_stub error = csalt_dynamic_store_stub_error();
 
-		csalt_store *stores[] = {
+		csalt_store *store[] = {
 			(csalt_store*)&success,
 			(csalt_store*)&error,
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(stores)] = { 0 };
+			fallbacks[arrlength(store)] = { 0 };
 
-		csalt_store_fallback_array(stores, fallbacks);
+		csalt_store_fallback_array(store, fallbacks);
 
 		csalt_store *fallback = (csalt_store*)fallbacks;
 		csalt_static_store *fallback_static = (csalt_static_store*)fallback;

@@ -1,4 +1,4 @@
-#include "csalt/resources.h"
+#include "csalt/stores.h"
 
 #include "test_macros.h"
 

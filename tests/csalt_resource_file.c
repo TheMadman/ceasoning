@@ -18,7 +18,7 @@
 
 #include "test_macros.h"
 
-#include <csalt/resources/file.h>
+#include <csalt/resource/file.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <stdarg.h>

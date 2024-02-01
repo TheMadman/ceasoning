@@ -25,14 +25,14 @@ int main()
 	struct csalt_resource_stub stub = csalt_resource_stub(0);
 	struct csalt_resource_stub stub_2 = csalt_resource_stub(0);
 
-	csalt_resource *resources[] = {
+	csalt_resource *resource[] = {
 		csalt_resource(&stub),
 		csalt_resource(&stub_2),
 	};
 
-	struct csalt_resource_pair pairs[arrlength(resources)] = { 0 };
+	struct csalt_resource_pair pairs[arrlength(resource)] = { 0 };
 
-	csalt_resource_pair_list(resources, pairs);
+	csalt_resource_pair_list(resource, pairs);
 
 	csalt_store
 		*store = csalt_resource_init(csalt_resource(pairs));

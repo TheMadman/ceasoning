@@ -20,15 +20,15 @@
 #define CSALT_STORES_H
 
 #include <csalt/platform/init.h>
-#include "stores/base.h"
-#include "stores/memory.h"
-#include "stores/pair.h"
-#include "stores/noop.h"
-#include "stores/fallback.h"
-#include "stores/decorator.h"
-#include "stores/logger.h"
-#include "stores/array.h"
-#include "stores/mutex.h"
-#include "stores/rwlock.h"
+#include "store/base.h"
+#include "store/memory.h"
+#include "store/pair.h"
+#include "store/noop.h"
+#include "store/fallback.h"
+#include "store/decorator.h"
+#include "store/logger.h"
+#include "store/array.h"
+#include "store/mutex.h"
+#include "store/rwlock.h"
 
 #endif // CSALT_STORES_H

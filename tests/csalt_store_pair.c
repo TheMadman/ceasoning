@@ -110,14 +110,14 @@ int main()
 		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(1024);
 		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(512);
 
-		csalt_store *stores[] = {
+		csalt_store *store[] = {
 			(csalt_store*)&first,
 			(csalt_store*)&second,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[arrlength(store)] = { 0 };
 
-		csalt_store_pair_list(stores, pairs);
+		csalt_store_pair_list(store, pairs);
 
 		if (pairs[0].second != (csalt_store *)&pairs[1]) {
 			print_error(
@@ -254,14 +254,14 @@ int main()
 		struct csalt_dynamic_store_stub first = csalt_dynamic_store_stub(8);
 		struct csalt_dynamic_store_stub second = csalt_dynamic_store_stub(8);
 
-		csalt_store *stores[] = {
+		csalt_store *store[] = {
 			(csalt_store*)&first,
 			(csalt_store*)&second,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[arrlength(store)] = { 0 };
 
-		csalt_store_pair_list(stores, pairs);
+		csalt_store_pair_list(store, pairs);
 
 		ssize_t length = csalt_store_pair_list_length(pairs);
 

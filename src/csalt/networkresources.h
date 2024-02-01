@@ -21,7 +21,7 @@
 
 #include <csalt/platform/init.h>
 
-#include "baseresources.h"
+#include "baseresource.h"
 
 #include <csalt/platform/socket.h>
 
@@ -31,7 +31,7 @@ extern "C" {
 
 /**
  * \file
- * \brief Provides resources for networking
+ * \brief Provides resource for networking
  */
 
 typedef struct csalt_resource_network_socket_initialized csalt_resource_network;
@@ -56,7 +56,7 @@ typedef ssize_t csalt_resource_sendto_fn(
  * Connected UDP sockets, and other kinds of network sockets
  * (including TCP client sockets), should use the generic
  * read/write functions, and can safely be incorporated into
- * composite resources as a consequence.
+ * composite resource as a consequence.
  */
 ssize_t csalt_resource_sendto(
 	csalt_resource_network *network,
@@ -85,7 +85,7 @@ typedef ssize_t csalt_resource_recvfrom_fn(
  * Connected UDP sockets, and other kinds of network sockets
  * (including TCP client sockets), should use the generic
  * read/write functions, and can safely be incorporated into
- * composite resources as a consequence.
+ * composite resource as a consequence.
  */
 ssize_t csalt_resource_recvfrom(
 	csalt_resource_network *network,
@@ -182,7 +182,7 @@ struct csalt_resource_network_socket csalt_resource_network_udp_bound(
 struct csalt_resource_network_socket csalt_resource_network_udp_stateless();
 
 /**
- * \brief Implementation of sendto for socket resources.
+ * \brief Implementation of sendto for socket resource.
  *
  * You generally should not be calling this directly: use csalt_resource_sendto().
  */
@@ -196,7 +196,7 @@ ssize_t csalt_resource_socket_sendto(
 );
 
 /**
- * \brief Implementation of recvfrom for socket resources.
+ * \brief Implementation of recvfrom for socket resource.
  *
  * You generally should not be calling this directly: use csalt_resource_recvfrom().
  */

@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "csalt/resources.h"
+#include "csalt/stores.h"
 
 #include "test_macros.h"
 

@@ -21,8 +21,8 @@
 
 #include <csalt/platform/init.h>
 
-#include "baseresources.h"
-#include "decoratorstores.h"
+#include "baseresource.h"
+#include "decoratorresource.h"
 #include "util.h"
 #include "csalt/platform/threads.h"
 
@@ -201,7 +201,7 @@ csalt_store *csalt_resource_decorator_logger_init(csalt_resource *);
  *
  * The recommended use is through csalt_resource_decorator_lazy, which
  * implements the resource interface and automatically deinitializes these
- * decorated stores when it is deinitialized. Otherwise, you have to test
+ * decorated store when it is deinitialized. Otherwise, you have to test
  * csalt_decorator_lazy.result and call csalt_resource_deinit()
  * on csalt_decorator_lazy.resource manually.
  *
