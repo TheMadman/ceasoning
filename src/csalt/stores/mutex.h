@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_STORE_MUTEX_H
-#define CSALT_STORE_MUTEX_H
+#ifndef CSALT_STORES_MUTEX_H
+#define CSALT_STORES_MUTEX_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -92,4 +92,4 @@ int csalt_store_mutex_split(
 } // extern "C"
 #endif
 
-#endif // CSALT_STORE_MUTEX_H
+#endif // CSALT_STORES_MUTEX_H

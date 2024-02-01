@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_STORE_RWLOCK_H
-#define CSALT_STORE_RWLOCK_H
+#ifndef CSALT_STORES_RWLOCK_H
+#define CSALT_STORES_RWLOCK_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -95,4 +95,4 @@ ssize_t csalt_store_rwlock_resize(
 } // extern "C"
 #endif
 
-#endif // CSALT_STORE_RWLOCK_H
+#endif // CSALT_STORES_RWLOCK_H

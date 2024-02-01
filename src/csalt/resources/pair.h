@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_RESOURCE_PAIR_H
-#define CSALT_RESOURCE_PAIR_H
+#ifndef CSALT_RESOURCES_PAIR_H
+#define CSALT_RESOURCES_PAIR_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -126,4 +126,4 @@ void csalt_resource_pair_deinit(csalt_resource *resource);
 } // extern "C"
 #endif
 
-#endif // CSALT_RESOURCE_PAIR_H
+#endif // CSALT_RESOURCES_PAIR_H
