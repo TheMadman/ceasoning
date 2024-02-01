@@ -32,7 +32,7 @@ int main()
 
 	struct csalt_resource_fallback fallbacks[arrlength(resources)] = { 0 };
 
-	csalt_resource_fallback_array(resources, fallbacks);
+	csalt_resource_fallback_list(resources, fallbacks);
 
 	csalt_resource *fallback = (void *)fallbacks;
 

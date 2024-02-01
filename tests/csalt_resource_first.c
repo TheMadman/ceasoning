@@ -22,51 +22,72 @@
 
 #include "test_macros.h"
 
-int use(csalt_store *resource, void *param)
-{
-	struct csalt_resource_first_initialized *first = (void *)resource;
-
-	csalt_store_write(csalt_store(first), "a", 1);
-
-	struct csalt_heap **array = param;
-	void
-		*heap1 = array[0]->heap.memory.begin,
-		*heap2 = array[1]->heap.memory.begin,
-		*heap3 = array[2]->heap.memory.begin;
-
-	if (heap1) {
-		print_error("heap1 was initialized when it shouldn't have been");
-		return EXIT_FAILURE;
-	}
-
-	if (!heap2) {
-		print_error("heap2 should have been initialized but wasn't");
-		return EXIT_FAILURE;
-	}
-
-	if (heap3) {
-		print_error("heap3 was initialized when it shouldn't have been");
-		return EXIT_FAILURE;
-	}
-
-	return EXIT_SUCCESS;
-}
-
 int main()
 {
-	struct csalt_heap
-		// heap with size -1 should fail
-		heap1 = csalt_heap(-1),
-		heap2 = csalt_heap(1),
-		heap3 = csalt_heap(3);
+	{
+		struct csalt_resource_stub
+			first = csalt_resource_stub(0),
+			second = csalt_resource_stub(0);
 
-	csalt_resource *array[] = {
-		csalt_resource(&heap1),
-		csalt_resource(&heap2),
-		csalt_resource(&heap3),
-	};
+		csalt_resource *resources[] = {
+			(csalt_resource *)&first,
+			(csalt_resource *)&second,
+		};
 
-	struct csalt_resource_first first = csalt_resource_first_array(array);
+		struct csalt_resource_first
+			first_list[arrlength(resources)] = { 0 };
 
-	return csalt_resource_use(csalt_resource(&first), use, array);
+		csalt_resource_first_list(resources, first_list);
+
+		csalt_store *result = csalt_resource_init(
+			(csalt_resource *)first_list);
+
+		if (result != (csalt_store *)&first.return_value)
+			print_error_and_exit("Result was unexpected value, expected: %p actual: %p", &first.return_value, result);
+	}
+
+	{
+		struct csalt_resource_stub
+			first = csalt_resource_stub(1),
+			second = csalt_resource_stub(0);
+
+		csalt_resource *resources[] = {
+			(csalt_resource *)&first,
+			(csalt_resource *)&second,
+		};
+
+		struct csalt_resource_first
+			first_list[arrlength(resources)] = { 0 };
+
+		csalt_resource_first_list(resources, first_list);
+
+		csalt_store *result = csalt_resource_init(
+			(csalt_resource *)first_list);
+
+		if (result != (csalt_store *)&second.return_value)
+			print_error_and_exit("Result was unexpected value, expected: %p actual: %p", &second.return_value, result);
+	}
+
+	{
+		struct csalt_resource_stub
+			first = csalt_resource_stub(1),
+			second = csalt_resource_stub(1);
+
+		csalt_resource *resources[] = {
+			(csalt_resource *)&first,
+			(csalt_resource *)&second,
+		};
+
+		struct csalt_resource_first
+			first_list[arrlength(resources)] = { 0 };
+
+		csalt_resource_first_list(resources, first_list);
+
+		csalt_store *result = csalt_resource_init(
+			(csalt_resource *)first_list);
+
+		if (result != NULL)
+			print_error_and_exit("Result was unexpected value, expected: %p actual: %p", NULL, result);
+	}
 }
+

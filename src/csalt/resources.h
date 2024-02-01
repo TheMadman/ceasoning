@@ -24,5 +24,6 @@
 #include "resources/heap.h"
 #include "resources/format.h"
 #include "resources/pair.h"
+#include "resources/first.h"
 
 #endif // CSALT_RESOURCES_H

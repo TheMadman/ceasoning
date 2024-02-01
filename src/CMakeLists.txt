@@ -16,6 +16,7 @@ set(SOURCES
 	resources/format.c
 	resources/file.c
 	resources/pair.c
+	resources/first.c
 )
 
 add_library(csalt SHARED

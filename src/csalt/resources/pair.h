@@ -52,6 +52,7 @@ struct csalt_resource_pair {
 };
 
 /**
+ * \public \memberof csalt_resource_pair
  * \brief Constructor for a csalt_resource_pair.
  *
  * \param first The first resource
