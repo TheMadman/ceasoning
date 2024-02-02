@@ -22,8 +22,8 @@
 
 int main()
 {
-	struct csalt_resource_stub stub = csalt_resource_stub(1024);
-	struct csalt_resource_stub stub_2 = csalt_resource_stub(512);
+	struct csalt_resource_stub stub = csalt_resource_stub(0);
+	struct csalt_resource_stub stub_2 = csalt_resource_stub(0);
 
 	csalt_resource *resources[] = {
 		csalt_resource(&stub),

@@ -25,5 +25,6 @@
 #include "resource/format.h"
 #include "resource/pair.h"
 #include "resource/first.h"
+#include "resource/fallback.h"
 
 #endif // CSALT_RESOURCES_H
