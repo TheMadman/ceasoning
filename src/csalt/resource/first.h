@@ -16,8 +16,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef CSALT_RESOURCES_FALLBACK_H
-#define CSALT_RESOURCES_FALLBACK_H
+#ifndef CSALT_RESOURCES_FIRST_H
+#define CSALT_RESOURCES_FIRST_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -109,4 +109,4 @@ void csalt_resource_first_deinit(csalt_resource *);
 } // extern "C"
 #endif
 
-#endif // CSALT_RESOURCES_FALLBACK_H
+#endif // CSALT_RESOURCES_FIRST_H
