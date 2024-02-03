@@ -69,7 +69,7 @@ struct csalt_array {
 	/**
 	 * \brief The size of each member
 	 */
-	size_t size;
+	const size_t size;
 };
 
 /**
