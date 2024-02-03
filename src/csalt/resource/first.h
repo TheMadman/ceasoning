@@ -97,9 +97,9 @@ void csalt_resource_first_list_bounds(
 #define csalt_resource_first_list(resource_array, first_array) \
 	csalt_resource_first_list_bounds( \
 		(resource_array), \
-		arrend(resource_array), \
+		csalt_arrend(resource_array), \
 		(first_array), \
-		arrend(first_array) \
+		csalt_arrend(first_array) \
 	)
 
 csalt_store *csalt_resource_first_init(csalt_resource *);

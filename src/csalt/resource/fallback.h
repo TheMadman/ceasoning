@@ -91,9 +91,9 @@ void csalt_resource_fallback_list_bounds(
 #define csalt_resource_fallback_list(resources, fallbacks) \
 	csalt_resource_fallback_list_bounds( \
 		(resources), \
-		arrend(resources), \
+		csalt_arrend(resources), \
 		(fallbacks), \
-		arrend(fallbacks))
+		csalt_arrend(fallbacks))
 
 csalt_store *csalt_resource_fallback_init(csalt_resource *resource);
 void csalt_resource_fallback_deinit(csalt_resource *resource);

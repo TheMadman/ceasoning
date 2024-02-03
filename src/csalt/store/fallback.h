@@ -189,9 +189,9 @@ int csalt_store_fallback_array_bounds(
 #define csalt_store_fallback_array(array, out_array) \
 	csalt_store_fallback_array_bounds( \
 		(array), \
-		arrend(array), \
+		csalt_arrend(array), \
 		(out_array), \
-		arrend(out_array))
+		csalt_arrend(out_array))
 
 #ifdef __cplusplus
 } // extern "C"

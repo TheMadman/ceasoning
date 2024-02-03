@@ -37,19 +37,19 @@ int use_list(csalt_store *store, void *params)
 
 	const char payload[] = "Hello, World!";
 	
-	char recv_result[arrlength(payload)] = { 0 };
+	char recv_result[csalt_arrlength(payload)] = { 0 };
 	struct sockaddr_storage addr_store = { 0 };
 	struct sockaddr *addr = (struct sockaddr *)&addr_store;
 	socklen_t addrlen = sizeof(store);
 
-	csalt_store_write(connected, payload, arrlength(payload));
+	csalt_store_write(connected, payload, csalt_arrlength(payload));
 
 	ssize_t read_amount = 0;
-	while (read_amount < arrlength(payload)) {
+	while (read_amount < csalt_arrlength(payload)) {
 		ssize_t current_read = csalt_resource_recvfrom(
 			bound,
 			recv_result,
-			arrlength(recv_result),
+			csalt_arrlength(recv_result),
 			0,
 			addr,
 			&addrlen
@@ -67,12 +67,12 @@ int use_list(csalt_store *store, void *params)
 	}
 
 	const char response[] = "Hello Client!";
-	char sendto_result[arrlength(response)] = { 0 };
+	char sendto_result[csalt_arrlength(response)] = { 0 };
 
 	ssize_t sendto_amount = csalt_resource_sendto(
 		(csalt_resource_network *)bound,
 		response,
-		arrlength(response),
+		csalt_arrlength(response),
 		0,
 		addr,
 		addrlen
@@ -86,7 +86,7 @@ int use_list(csalt_store *store, void *params)
 	for (
 		ssize_t amount_read = 0;
 		amount_read < 1;
-		amount_read = csalt_store_read(connected, sendto_result, arrlength(sendto_result))
+		amount_read = csalt_store_read(connected, sendto_result, csalt_arrlength(sendto_result))
 	) {
 		if (amount_read < 0) {
 			perror("csalt_store_read");
@@ -112,7 +112,7 @@ int main()
 		(csalt_resource *)&connected,
 	};
 
-	struct csalt_resource_pair pairs[arrlength(array)] = { 0 };
+	struct csalt_resource_pair pairs[csalt_arrlength(array)] = { 0 };
 	int error = csalt_resource_pair_list(array, pairs);
 	if (error) {
 		print_error("Error initializing pair list");

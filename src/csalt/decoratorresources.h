@@ -99,11 +99,11 @@ csalt_resource_decorator_logger_bounds( \
 	(child), \
 	(file_descriptor), \
 	(errors_array), \
-	arrend(errors_array), \
+	csalt_arrend(errors_array), \
 	(successes_array), \
-	arrend(successes_array), \
+	csalt_arrend(successes_array), \
 	(zero_bytes_array), \
-	arrend(zero_bytes_array) \
+	csalt_arrend(zero_bytes_array) \
 )
 
 /**
@@ -130,7 +130,7 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_error_bou
 		(child), \
 		(fd), \
 		(errors_array), \
-		arrend(errors_array) \
+		csalt_arrend(errors_array) \
 	)
 
 /**
@@ -156,7 +156,7 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_success_b
 		(child), \
 		(fd), \
 		(successs_array), \
-		arrend(successs_array) \
+		csalt_arrend(successs_array) \
 	)
 
 /**
@@ -182,7 +182,7 @@ struct csalt_resource_decorator_logger csalt_resource_decorator_logger_zero_byte
 		(child), \
 		(fd), \
 		(successs_array), \
-		arrend(successs_array) \
+		csalt_arrend(successs_array) \
 	)
 
 csalt_store *csalt_resource_decorator_logger_init(csalt_resource *);

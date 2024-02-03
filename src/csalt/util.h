@@ -43,16 +43,19 @@
 /**
  * Retrieves the number of elements in a typed array.
  */
-#define arrlength(array) (sizeof(array) / sizeof(array[0]))
+#define csalt_arrlength(array) (sizeof(array) / sizeof(array[0]))
 
 /**
  * Gets a pointer past the end of the array, such that
- * arrend(array) - array == sizeof(array)
+ * csalt_arrend(array) - array == sizeof(array)
  */
-#define arrend(array) (&array[arrlength(array)])
+#define csalt_arrend(array) (&array[csalt_arrlength(array)])
 
 /**
- * \brief A generic array
+ * \brief A generic array.
+ *
+ * In most cases, this should be passed by-value:
+ * it is, effectively, a pointer type itself.
  */
 struct csalt_array {
 	/**
@@ -78,7 +81,7 @@ struct csalt_array {
  */
 #define csalt_array(array) ((struct csalt_array) { \
 	(array), \
-	arrend(array), \
+	csalt_arrend(array), \
 	sizeof(array[0]), \
 })
 

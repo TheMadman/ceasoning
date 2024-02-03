@@ -52,7 +52,7 @@ int csalt_resource_pair_list_bounds(
 	if (out_begin > out_end)
 		return -1;
 
-	// if (arrlength(resource) > arrlength(out))
+	// if (csalt_arrlength(resource) > csalt_arrlength(out))
 	if (in_end - in_begin > out_end - out_begin)
 		return -1;
 
@@ -133,7 +133,7 @@ int csalt_resource_fallback_bounds(
 	if (out_end <= out_begin)
 		return -1;
 
-	// if (arrlength(in) > arrlength(out))
+	// if (csalt_arrlength(in) > csalt_arrlength(out))
 	if (in_end - in_begin > out_end - out_begin)
 		return -1;
 

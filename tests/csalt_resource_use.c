@@ -106,7 +106,7 @@ int main()
 	for (
 		struct test_var
 			*current = variables_to_test,
-			*end = &variables_to_test[arrlength(variables_to_test)];
+			*end = &variables_to_test[csalt_arrlength(variables_to_test)];
 		current < end;
 		current++
 	) {

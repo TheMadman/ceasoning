@@ -38,7 +38,7 @@ int main()
 	{
 		static const int first_write[2] = { 1, 2 };
 
-		const ssize_t result = csalt_store_write(static_store, first_write, arrlength(first_write));
+		const ssize_t result = csalt_store_write(static_store, first_write, csalt_arrlength(first_write));
 
 		if (result != 2)
 			print_error_and_exit("Unexpected write result: %ld", result);

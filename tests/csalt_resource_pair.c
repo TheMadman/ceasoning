@@ -30,7 +30,7 @@ int main()
 		csalt_resource(&stub_2),
 	};
 
-	struct csalt_resource_pair pairs[arrlength(resource)] = { 0 };
+	struct csalt_resource_pair pairs[csalt_arrlength(resource)] = { 0 };
 
 	csalt_resource_pair_list(resource, pairs);
 

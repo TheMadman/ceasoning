@@ -56,7 +56,7 @@ struct csalt_store_memory csalt_store_memory_bounds(void *begin, void *end);
 #define csalt_store_memory(obj) \
 	csalt_store_memory_bounds(&(obj), &(obj) + 1)
 #define csalt_store_memory_array(array) \
-	csalt_store_memory_bounds((array), arrend(array))
+	csalt_store_memory_bounds((array), csalt_arrend(array))
 
 ssize_t csalt_store_memory_read(
 	csalt_static_store *store,

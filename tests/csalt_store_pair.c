@@ -115,7 +115,7 @@ int main()
 			(csalt_store*)&second,
 		};
 
-		struct csalt_store_pair pairs[arrlength(store)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(store)] = { 0 };
 
 		csalt_store_pair_list(store, pairs);
 
@@ -187,7 +187,7 @@ int main()
 			(csalt_store*)&success,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 
@@ -223,7 +223,7 @@ int main()
 			(csalt_store*)&error,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 
@@ -259,7 +259,7 @@ int main()
 			(csalt_store*)&second,
 		};
 
-		struct csalt_store_pair pairs[arrlength(store)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(store)] = { 0 };
 
 		csalt_store_pair_list(store, pairs);
 
@@ -284,7 +284,7 @@ int main()
 			(csalt_store*)&second,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 
@@ -314,7 +314,7 @@ int main()
 			(csalt_store*)&fourth,
 		};
 
-		struct csalt_store_pair pairs[arrlength(stores)] = { 0 };
+		struct csalt_store_pair pairs[csalt_arrlength(stores)] = { 0 };
 
 		csalt_store_pair_list(stores, pairs);
 

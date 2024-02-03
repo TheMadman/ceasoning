@@ -30,7 +30,7 @@ extern "C" {
  */
 
 #include "decorator.h"
-#include "../util.h"
+#include <csalt/util.h>
 
 /**
  * \brief A tuple type used by csalt_store_decorator_logger

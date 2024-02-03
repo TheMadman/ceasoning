@@ -35,7 +35,7 @@ int main()
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resource)] = { 0 };
+			first_list[csalt_arrlength(resource)] = { 0 };
 
 		csalt_resource_first_list(resource, first_list);
 
@@ -57,7 +57,7 @@ int main()
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resource)] = { 0 };
+			first_list[csalt_arrlength(resource)] = { 0 };
 
 		csalt_resource_first_list(resource, first_list);
 
@@ -79,7 +79,7 @@ int main()
 		};
 
 		struct csalt_resource_first
-			first_list[arrlength(resource)] = { 0 };
+			first_list[csalt_arrlength(resource)] = { 0 };
 
 		csalt_resource_first_list(resource, first_list);
 

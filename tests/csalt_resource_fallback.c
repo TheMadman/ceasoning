@@ -30,7 +30,7 @@ int main()
 		csalt_resource(&stub_2),
 	};
 
-	struct csalt_resource_fallback fallbacks[arrlength(resources)] = { 0 };
+	struct csalt_resource_fallback fallbacks[csalt_arrlength(resources)] = { 0 };
 
 	csalt_resource_fallback_list(resources, fallbacks);
 

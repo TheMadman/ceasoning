@@ -180,9 +180,9 @@ void csalt_store_pair_list_bounds(
 #define csalt_store_pair_list(store_array, out_array) \
 	csalt_store_pair_list_bounds( \
 		(store_array), \
-		arrend(store_array), \
+		csalt_arrend(store_array), \
 		out_array, \
-		arrend(out_array) \
+		csalt_arrend(out_array) \
 	)
 
 /**
@@ -261,7 +261,7 @@ struct csalt_store_multisplit_split {
  * 		(csalt_static_store *)third_store,
  * 	};
  *
- * 	struct csalt_store_pair list[arrlength(store)] = { 0 };
+ * 	struct csalt_store_pair list[csalt_arrlength(store)] = { 0 };
  * 	csalt_store_pair_list(store, list);
  *
  * 	struct csalt_store_multisplit_split splits[] = {
@@ -300,7 +300,7 @@ int csalt_store_pair_list_multisplit_bounds(
 	csalt_store_pair_list_multisplit_bounds( \
 		list, \
 		multisplit_split_arr, \
-		arrend(multisplit_split_arr), \
+		csalt_arrend(multisplit_split_arr), \
 		block, \
 		param)
 

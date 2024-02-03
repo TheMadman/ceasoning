@@ -70,7 +70,7 @@ void csalt_store_pair_list_bounds(
 	if (out_begin >= out_end)
 		return;
 
-	// arrlength(store) > arrlength(out)
+	// csalt_arrlength(store) > csalt_arrlength(out)
 	if (end - begin > out_end - out_begin)
 		return;
 

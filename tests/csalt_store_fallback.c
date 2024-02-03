@@ -63,7 +63,7 @@ int main()
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(success_store)] = { 0 };
+			fallbacks[csalt_arrlength(success_store)] = { 0 };
 
 		csalt_store_fallback_array(success_store, fallbacks);
 
@@ -152,7 +152,7 @@ int main()
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(store)] = { 0 };
+			fallbacks[csalt_arrlength(store)] = { 0 };
 
 		csalt_store_fallback_array(store, fallbacks);
 
@@ -201,7 +201,7 @@ int main()
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(store)] = { 0 };
+			fallbacks[csalt_arrlength(store)] = { 0 };
 
 		csalt_store_fallback_array(store, fallbacks);
 
@@ -263,7 +263,7 @@ int main()
 		};
 
 		struct csalt_store_fallback
-			fallbacks[arrlength(store)] = { 0 };
+			fallbacks[csalt_arrlength(store)] = { 0 };
 
 		csalt_store_fallback_array(store, fallbacks);
 

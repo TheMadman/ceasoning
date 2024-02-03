@@ -114,9 +114,9 @@ void csalt_resource_pair_list_bounds(
 #define csalt_resource_pair_list(resource_array, pair_array) \
 	csalt_resource_pair_list_bounds( \
 		(resource_array), \
-		arrend(resource_array), \
+		csalt_arrend(resource_array), \
 		(pair_array), \
-		arrend(pair_array) \
+		csalt_arrend(pair_array) \
 	)
 
 csalt_store *csalt_resource_pair_init(csalt_resource *resource);
