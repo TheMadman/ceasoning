@@ -31,39 +31,7 @@ extern "C" {
 
 #include "decorator.h"
 #include <csalt/util.h>
-
-/**
- * \brief A tuple type used by csalt_store_decorator_logger
- * 	to provide log messages based on the return codes of
- * 	the given functions.
- */
-struct csalt_store_log_message {
-	/**
-	 * \brief Indicates which function should be logged. Must be
-	 * one of csalt_store_read or csalt_store_write.
-	 */
-	void (*function)(void);
-
-	/**
-	 * \brief  A useful message for identifying the store. The function
-	 * name, passed parameters and return value will automatically
-	 * be included in the log.
-	 */
-	const char *message;
-};
-
-/**
- * \public \memberof csalt_store_log_message
- * \brief Convenience constructor for csalt_store_log_message%s.
- *
- * \param fn The function to log (e.g. csalt_store_read, csalt_store_write,
- * 	csalt_store_resize)
- * \param message A useful message for identifying the store.
- *
- * \returns A constructed csalt_store_log_message.
- */
-#define csalt_store_log_message(fn, message) \
-	((struct csalt_store_log_message){ (void (*)(void))(fn), (message) })
+#include <csalt/log_message.h>
 
 /**
  * \brief This type decorates a store, providing customizable logging
@@ -82,19 +50,19 @@ struct csalt_store_logger {
 
 	struct csalt_array
 		/**
-		 * \brief A csalt_array of csalt_store_log_message%s
+		 * \brief A csalt_array of csalt_log_message%s
 		 * 	for error cases.
 		 */
 		error,
 
 		/**
-		 * \brief A csalt_array of csalt_store_log_message%s
+		 * \brief A csalt_array of csalt_log_message%s
 		 * 	for success cases.
 		 */
 		success,
 
 		/**
-		 * \brief A csalt_array of csalt_store_log_message%s
+		 * \brief A csalt_array of csalt_log_message%s
 		 * 	for read/write calls that return less than the
 		 * 	requested bytes.
 		 */
@@ -136,7 +104,7 @@ struct csalt_store_logger csalt_store_logger_arrays(
 
 /**
  * \public \memberof csalt_store_logger
- * \brief Takes an output store and a C array of csalt_store_log_message%s
+ * \brief Takes an output store and a C array of csalt_log_message%s
  * 	and constructs a new csalt_store_logger.
  */
 #define csalt_store_logger_error(decorated, output, error_array) \
@@ -149,7 +117,7 @@ struct csalt_store_logger csalt_store_logger_arrays(
 
 /**
  * \public \memberof csalt_store_logger
- * \brief Takes an output store and a C array of csalt_store_log_message%s
+ * \brief Takes an output store and a C array of csalt_log_message%s
  * 	and constructs a new csalt_store_logger.
  */
 #define csalt_store_logger_success(decorated, output, success_array) \
@@ -162,7 +130,7 @@ struct csalt_store_logger csalt_store_logger_arrays(
 
 /**
  * \public \memberof csalt_store_logger
- * \brief Takes an output store and a C array of csalt_store_log_message%s
+ * \brief Takes an output store and a C array of csalt_log_message%s
  * 	and constructs a new csalt_store_logger.
  */
 #define csalt_store_logger_partial_success(decorated, output, ps_array) \

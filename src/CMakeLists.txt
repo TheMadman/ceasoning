@@ -2,6 +2,7 @@ find_package(Threads REQUIRED)
 
 set(SOURCES
 	util.c
+	log_message.c
 	store/base.c
 	store/memory.c
 	store/pair.c

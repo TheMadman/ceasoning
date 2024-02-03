@@ -6,7 +6,7 @@
 #include <stdarg.h>
 
 typedef struct csalt_store_logger logger_t;
-typedef struct csalt_store_log_message message_t;
+typedef struct csalt_log_message message_t;
 typedef void void_fn(void);
 
 typedef enum {
@@ -14,13 +14,6 @@ typedef enum {
 	RETURN_SUCCESS,
 	RETURN_PARTIAL_SUCCESS,
 } RETURN_TYPE;
-
-static int compare_messages(const void *a, const void *b)
-{
-	const message_t *const first = a;
-	const message_t *const second = b;
-	return first->function != second->function;
-}
 
 static RETURN_TYPE get_return_type(ssize_t expected, ssize_t actual)
 {
@@ -47,12 +40,7 @@ static const char *get_message_for(
 
 	const struct csalt_array *const current = message_lists[get_return_type(size, result)];
 
-	const message_t key = { fn, NULL };
-	const message_t *const found = csalt_lfind(&key, *current, compare_messages);
-	if (found)
-		return found->message;
-	else
-		return NULL;
+	return csalt_log_message_get(*current, fn);
 }
 
 static int use_format(csalt_store *store, void *param)
@@ -160,15 +148,14 @@ ssize_t csalt_store_logger_resize(
 	const RETURN_TYPE return_type = get_resize_return_type(original, new_size, result);
 	const struct csalt_array *const list = message_lists[return_type];
 
-	const message_t key = { (void_fn*)csalt_store_resize, NULL };
-	const message_t *const found = csalt_lfind(&key, *list, compare_messages);
+	const char *message = csalt_log_message_get(*list, (void_fn*)csalt_store_resize);
 
-	if (found)
+	if (message)
 		csalt_use_format(
 			use_format,
 			&logger->output,
 			"%s: csalt_store_resize(%p, %ld) -> %ld\n",
-			found->message,
+			message,
 			logger->parent.decorated_static,
 			new_size,
 			result);
