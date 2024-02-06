@@ -38,10 +38,10 @@ int main()
 		struct csalt_store_memory memory = csalt_store_memory_array(buffer);
 		stub_t stub = csalt_dynamic_store_stub_error();
 
-		struct csalt_store_log_message messages[] = {
-			csalt_store_log_message(csalt_store_read, "test read"),
-			csalt_store_log_message(csalt_store_write, "test write"),
-			csalt_store_log_message(csalt_store_resize, "test resize"),
+		struct csalt_log_message messages[] = {
+			csalt_log_message(csalt_store_read, "test read"),
+			csalt_log_message(csalt_store_write, "test write"),
+			csalt_log_message(csalt_store_resize, "test resize"),
 		};
 
 		logger_t logger = csalt_store_logger_error(
@@ -75,10 +75,10 @@ int main()
 		struct csalt_store_memory memory = csalt_store_memory_array(buffer);
 		stub_t stub = csalt_dynamic_store_stub(4096);
 
-		struct csalt_store_log_message messages[] = {
-			csalt_store_log_message(csalt_store_read, "test read"),
-			csalt_store_log_message(csalt_store_write, "test write"),
-			csalt_store_log_message(csalt_store_resize, "test resize"),
+		struct csalt_log_message messages[] = {
+			csalt_log_message(csalt_store_read, "test read"),
+			csalt_log_message(csalt_store_write, "test write"),
+			csalt_log_message(csalt_store_resize, "test resize"),
 		};
 
 		logger_t logger = csalt_store_logger_success(
