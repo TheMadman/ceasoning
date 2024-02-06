@@ -69,12 +69,12 @@ int main() {
 	csalt_store_read((csalt_static_store *)failure_store, NULL, 10);
 
 	if (base_failure.init_called != 1)
-		print_error_and_exit("Base init() wasn't correct value: %lu", base_failure.init_called);
+		print_error_and_exit("Base init() wasn't correct value: %d", base_failure.init_called);
 
 	csalt_store_write((csalt_static_store *)failure_store, NULL, 10);
 
 	if (base_failure.init_called != 2)
-		print_error_and_exit("Base init() wasn't correct value: %lu", base_failure.init_called);
+		print_error_and_exit("Base init() wasn't correct value: %d", base_failure.init_called);
 
 	csalt_store_split(
 		(csalt_static_store *)failure_store,
@@ -84,15 +84,15 @@ int main() {
 		NULL);
 
 	if (base_failure.init_called != 3)
-		print_error_and_exit("Base init() wasn't correct value: %lu", base_failure.init_called);
+		print_error_and_exit("Base init() wasn't correct value: %d", base_failure.init_called);
 
 	csalt_store_size(failure_store);
 
 	if (base_failure.init_called != 4)
-		print_error_and_exit("Base init() wasn't correct value: %lu", base_failure.init_called);
+		print_error_and_exit("Base init() wasn't correct value: %d", base_failure.init_called);
 
 	csalt_store_resize(failure_store, 0);
 
 	if (base_failure.init_called != 5)
-		print_error_and_exit("Base init() wasn't correct value: %lu", base_failure.init_called);
+		print_error_and_exit("Base init() wasn't correct value: %d", base_failure.init_called);
 }
