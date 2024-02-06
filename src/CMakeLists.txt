@@ -20,6 +20,7 @@ set(SOURCES
 	resource/first.c
 	resource/fallback.c
 	resource/lazy.c
+	resource/logger.c
 )
 
 add_library(csalt SHARED

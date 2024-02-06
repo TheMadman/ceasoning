@@ -27,5 +27,6 @@
 #include "resource/first.h"
 #include "resource/fallback.h"
 #include "resource/lazy.h"
+#include "resource/logger.h"
 
 #endif // CSALT_RESOURCES_H
