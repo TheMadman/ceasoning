@@ -36,8 +36,9 @@ extern "C" {
 #include "heap.h"
 
 /**
+ * \extends csalt_resource
  * \brief Provides a way to allocate space for, format, then use
- * 	a single format string, similar to other resource.
+ * 	a single format string.
  */
 struct csalt_resource_format {
 	const struct csalt_dynamic_resource_interface *vtable;
