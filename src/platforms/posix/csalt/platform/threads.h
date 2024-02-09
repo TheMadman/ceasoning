@@ -10,6 +10,7 @@ extern "C" {
 #endif
 
 typedef pthread_mutex_t csalt_mutex;
+typedef pthread_mutexattr_t csalt_mutex_params;
 
 // should standardize this
 #define csalt_mutex_init(...) pthread_mutex_init(__VA_ARGS__)
