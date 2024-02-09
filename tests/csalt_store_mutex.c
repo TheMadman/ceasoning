@@ -75,6 +75,9 @@ static int split(csalt_static_store *store, void *param)
 
 int main()
 {
+	if (csalt_mutex_init(&mutex, NULL))
+		return EXIT_FAILURE;
+
 	struct csalt_store_mutex
 		mutex_store = csalt_store_mutex((csalt_store *)&stub, &mutex);
 
@@ -83,4 +86,6 @@ int main()
 	csalt_store_read(store, 0, 0);
 	csalt_store_write(store, 0, 0);
 	csalt_store_split(store, 0, 0, split, 0);
+
+	csalt_mutex_deinit(&mutex);
 }
