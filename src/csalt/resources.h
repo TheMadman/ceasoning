@@ -28,5 +28,6 @@
 #include "resource/fallback.h"
 #include "resource/lazy.h"
 #include "resource/logger.h"
+#include "resource/mutex.h"
 
 #endif // CSALT_RESOURCES_H
