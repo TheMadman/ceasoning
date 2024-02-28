@@ -22,6 +22,7 @@ set(SOURCES
 	resource/lazy.c
 	resource/logger.c
 	resource/mutex.c
+	resource/network.c
 )
 
 add_library(csalt SHARED

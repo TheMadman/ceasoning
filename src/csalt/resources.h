@@ -29,5 +29,6 @@
 #include "resource/lazy.h"
 #include "resource/logger.h"
 #include "resource/mutex.h"
+#include "resource/network.h"
 
 #endif // CSALT_RESOURCES_H
