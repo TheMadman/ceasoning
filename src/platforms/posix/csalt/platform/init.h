@@ -1,5 +1,5 @@
-#ifndef CSALT_PLATFORM_TYPES_H
-#define CSALT_PLATFORM_TYPES_H
+#ifndef CSALT_PLATFORM_INIT_H
+#define CSALT_PLATFORM_INIT_H
 
 #ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 700
@@ -15,4 +15,4 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-#endif // CSALT_PLATFORM_TYPES_H
+#endif // CSALT_PLATFORM_INIT_H

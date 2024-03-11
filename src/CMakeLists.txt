@@ -23,6 +23,7 @@ set(SOURCES
 	resource/logger.c
 	resource/mutex.c
 	resource/network.c
+	resource/network/client.c
 )
 
 add_library(csalt SHARED

@@ -30,6 +30,8 @@ extern "C" {
 #include <sys/socket.h>
 #include <netdb.h>
 
+#include "network/client.h"
+
 /**
  * \file
  * \brief This module contains common networking functionality
