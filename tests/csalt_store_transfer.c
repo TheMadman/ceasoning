@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "csalt/resources.h"
+#include "csalt/stores.h"
 
 #include "test_macros.h"
 #include "csalt/util.h"
@@ -28,54 +28,38 @@
 char c[ARRSIZE], d[ARRSIZE];
 int transfer_complete_big_called = 0;
 
-void transfer_complete_small(csalt_store *destination)
-{
-	struct csalt_memory *memory = (void *)destination;
-	int *b = csalt_memory_raw(memory);
-
-	if (*b) {
-		print_error("b still contained non-zero value: %d\n", *b);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void transfer_complete_big(csalt_store *destination)
-{
-	(void)destination;
-	transfer_complete_big_called++;
-}
-
 int main()
 {
 	int a = 0, b = 1;
 
-	struct csalt_memory
-		A = csalt_memory_pointer(&a),
-		B = csalt_memory_pointer(&b);
+	struct csalt_store_memory
+		A = csalt_store_memory(a),
+		B = csalt_store_memory(b);
 
 	struct csalt_progress transfer = csalt_progress(sizeof(a));
 	csalt_store_transfer(
 		&transfer,
-		(csalt_store *)&A,
-		(csalt_store *)&B,
-		transfer_complete_small
+		(csalt_static_store *)&A,
+		(csalt_static_store *)&B
 	);
+
+	if (a != b)
+		print_error_and_exit("A -> B transfer failed: %d != %d", a, b);
 
 	// test larger-than-page values
 	memset(c, 1, ARRSIZE);
 	memset(d, 0, ARRSIZE);
 
-	struct csalt_memory
-		C = csalt_memory_array(c),
-		D = csalt_memory_array(d);
+	struct csalt_store_memory
+		C = csalt_store_memory_array(c),
+		D = csalt_store_memory_array(d);
 
 	transfer = csalt_progress(ARRSIZE);
 	ssize_t transfer_amount = 0;
 	while ((transfer_amount = csalt_store_transfer(
 		&transfer,
-		(csalt_store *)&C,
-		(csalt_store *)&D,
-		transfer_complete_big
+		(csalt_static_store *)&C,
+		(csalt_static_store *)&D
 	)) < ARRSIZE) {
 		switch (transfer_amount) {
 			case -1:
@@ -87,14 +71,6 @@ int main()
 			case ARRSIZE:
 				break;
 		}
-	}
-
-	if (!transfer_complete_big_called) {
-		print_error(
-			"Transfer completed, but "
-			"callback wasn't called"
-		);
-		return EXIT_FAILURE;
 	}
 
 	for (char *test = d; test < &d[ARRSIZE]; test++) {
