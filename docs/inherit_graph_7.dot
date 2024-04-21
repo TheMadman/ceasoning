@@ -1,0 +1,23 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  rankdir="LR";
+  Node0 [id="Node000000",label="csalt_resource",height=0.2,width=0.4,color="grey60", fillcolor="#E0E0E0", style="filled",tooltip=" "];
+  Node0 -> Node1 [id="edge1_Node000000_Node000001",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node1 [id="Node000001",label="csalt_resource_fallback",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__fallback.html",tooltip="A resource that takes two resources and produces a csalt_store_fallback with the results."];
+  Node0 -> Node2 [id="edge2_Node000000_Node000002",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node2 [id="Node000002",label="csalt_resource_file",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__file.html",tooltip="Represents a file on the file system."];
+  Node0 -> Node3 [id="edge3_Node000000_Node000003",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node3 [id="Node000003",label="csalt_resource_format",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__format.html",tooltip="Provides a way to allocate space for, format, then use a single format string."];
+  Node0 -> Node4 [id="edge4_Node000000_Node000004",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node4 [id="Node000004",label="csalt_resource_heap",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__heap.html",tooltip="Represents a request to allocate heap memory."];
+  Node0 -> Node5 [id="edge5_Node000000_Node000005",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node5 [id="Node000005",label="csalt_resource_lazy",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__lazy.html",tooltip="This resource takes a resource and delays initialization until the store is used."];
+  Node0 -> Node6 [id="edge6_Node000000_Node000006",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node6 [id="Node000006",label="csalt_resource_logger",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__logger.html",tooltip="Decorates a resource with a logger, reporting resource initialization failures."];
+  Node0 -> Node7 [id="edge7_Node000000_Node000007",dir="back",color="steelblue1",style="solid",tooltip=" "];
+  Node7 [id="Node000007",label="csalt_resource_mutex",height=0.2,width=0.4,color="grey40", fillcolor="white", style="filled",URL="$structcsalt__resource__mutex.html",tooltip="Decorates a resource for synchronization with a mutex."];
+}

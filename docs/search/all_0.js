@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['amount_5fwritten_0',['amount_written',['../structcsalt__resource__vector__initialized.html#aaf643d08a15bc5532695623e3d328d92',1,'csalt_resource_vector_initialized']]],
-  ['arrend_1',['arrend',['../util_8h.html#ae97fb3e0c45319bc1fb11adde2d2a1e8',1,'util.h']]],
-  ['arrlength_2',['arrlength',['../util_8h.html#ac8849258b846eb2806e17d5b6c0dfd66',1,'util.h']]]
+  ['array_2eh_0',['array.h',['../array_8h.html',1,'']]],
+  ['array_5fget_1',['array_get',['../structarray__get.html',1,'']]],
+  ['array_5fset_2',['array_set',['../structarray__set.html',1,'']]]
 ];

@@ -1,6 +1,0 @@
-<map id="csalt_resource_vector" name="csalt_resource_vector">
-<area shape="rect" id="node1" title="Manages heap memory which can expand with csalt_store_write() calls." alt="" coords="51,199,215,225"/>
-<area shape="rect" id="node2" href="$structcsalt__resource__interface.html" title="Interface definition for managed resources." alt="" coords="5,102,187,129"/>
-<area shape="rect" id="node3" href="$structcsalt__resource__vector__initialized.html" title="A type representing an initialized vector, implementing the csalt_store interface." alt="" coords="211,95,375,136"/>
-<area shape="rect" id="node4" href="$structcsalt__store__interface.html" title=" " alt="" coords="214,5,373,32"/>
-</map>

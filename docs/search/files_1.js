@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['compositeresources_2eh_187',['compositeresources.h',['../compositeresources_8h.html',1,'']]],
-  ['compositestores_2eh_188',['compositestores.h',['../compositestores_8h.html',1,'']]]
+  ['base_2eh_0',['base.h',['../resource_2base_8h.html',1,'(Global Namespace)'],['../store_2base_8h.html',1,'(Global Namespace)']]]
 ];

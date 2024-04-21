@@ -131,7 +131,6 @@ struct csalt_dynamic_store_interface {
 };
 
 /**
- * \public \memberof csalt_static_store
  * \brief Function for reading from a store into a buffer.
  *
  * Returns the amount of bytes actually read, or -1 on failure.
@@ -139,7 +138,6 @@ struct csalt_dynamic_store_interface {
 ssize_t csalt_store_read(csalt_static_store *store, void *buffer, ssize_t size);
 
 /**
- * \public \memberof csalt_static_store
  * \brief Function for writing to a store from a buffer.
  *
  * Returns the amount of bytes actually written, or -1 on failure.
@@ -147,7 +145,6 @@ ssize_t csalt_store_read(csalt_static_store *store, void *buffer, ssize_t size);
 ssize_t csalt_store_write(csalt_static_store *store, const void *buffer, ssize_t size);
 
 /**
- * \public \memberof csalt_static_store
  * \brief Provides the means to divide a store into a
  * sub-section and perform an operation on the result.
  *
@@ -183,13 +180,11 @@ int csalt_store_split(
 );
 
 /**
- * \public \memberof csalt_store
  * \brief Returns the current size of the given store.
  */
 ssize_t csalt_store_size(csalt_store *store);
 
 /**
- * \public \memberof csalt_store
  * \brief Attempts to resize the store to the given new_size, then returns
  * the size of the store once the operation is completed.
  *

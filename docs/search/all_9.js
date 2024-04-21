@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['split_5fpair_5fparams_138',['split_pair_params',['../structsplit__pair__params.html',1,'']]],
-  ['syntactic_20sugar_20for_20common_20c_20tasks_139',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]]
+  ['output_0',['output',['../structcsalt__store__logger.html#a9dda23b3b3ee28f5bed45e50b36384bb',1,'csalt_store_logger']]],
+  ['overarching_20concepts_1',['Overarching Concepts',['../index.html#overview',1,'']]]
 ];

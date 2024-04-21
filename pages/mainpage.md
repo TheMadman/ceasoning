@@ -13,34 +13,29 @@ definition for `resource`s and the built-in `resource` types.
 
 \section overview Overarching Concepts
 
-This project starts at generalized algorithms, then implements concrete types
-to use within those algorithms. Two examples are:
+The two main types are:
 
-- csalt_store_transfer() - Non-blocking transfer of data between any two points
-- csalt_resource_use() - Initialize, test, use and free a system resource
+- `store`s - Represents locations that can be read, written to, or "split" (more
+on that later). Used in csalt_store_transfer().
+- `resource`s - Represents a resource that must be requested from the operating
+system; may be rejected; and if accepted, must be freed after use. Used in
+csalt_resource_use().
 
-Concrete stores and resources represent real resources, such as memory and disk
-space:
+The default csalt_store is a dynamic store - meaning, it has a size which
+can be queried and changed. A csalt_static_store, however, has a static
+size, or no size. csalt_resource%s return csalt_store%s, and csalt_static_resource%s
+return csalt_static_store%s. csalt_store can be safely cast down to a csalt_static_store,
+but not the other way around.
 
-- csalt_memory - represents a block of unmanaged memory, such as a stack member
-  or a global variable
-- csalt_heap - represents a heap memory allocation request, which can be managed
-  automatically with csalt_resource_use()
-- csalt_resource_vector - represents heap-allocated memory which can expand
-  to accommodate large csalt_store_write and csalt_store_split calls
-- csalt_resource_file - represents a file, opened by a path
+csalt_store_read() and csalt_store_write() always act on the beginning of a store.
+To read or write from other locations, use csalt_store_split() to first split
+the store. This creates a new csalt_static_store and passes it to your callback,
+allowing you to write to an arbitrary location, and avoid writing more data
+than intended.
 
-Composite stores provide simple means to operate on multiple stores:
-
-- csalt_store_pair - treats multiple stores as if they are a single store
-- csalt_store_fallback - uses stores as a priority list, where later stores are
-  only checked if earlier stores don't contain the requested data
-- csalt_resource_first - attempts to initialize resources in the order they're
-  given, returning the first successfuly-initialized resource
-
-Concrete and composite stores may be combined in any way, allowing simple
-expression of complex relationships - for example, a csalt_store_fallback may
-contain a csalt_heap and a csalt_resource_pair list of csalt_resource_file%s.
+csalt_store_size() reports the size of a csalt_store. csalt_store_resize() attempts
+to change the size of a csalt_store, returning the result. It is not safe to pass
+csalt_static_store%s to these functions.
 
 \section example1 Simple bytewise-copy example
 
@@ -53,9 +48,9 @@ A few things to note:
 - We never need to call open/close on the file descriptors for us - we don't
   need to write the logic of making sure every file descriptor opens, and
   cleaning up the file descriptors that don't. This is handled by
-  csalt_resource_pair when we call csalt_resource_use.
+  csalt_resource_pair when we call csalt_resource_use().
 - We never have to close the file descriptors - once the bytewise_copy function
-  finishes, csalt_resource_use will clean up for us.
+  finishes, csalt_resource_use() will clean up for us.
 - The bytewise_copy function is very generic - if we want to re-use it for,
   say, a network socket transferring bytes into heap memory, no modifications
   are necessary. We can just pass a list containing those two stores.

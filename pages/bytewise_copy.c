@@ -19,8 +19,8 @@ int main(int argc, char *argv[])
 	 * later.
 	 */
 	struct csalt_resource_file
-		input = csalt_resource_file(argv[1], O_RDONLY),
-		output = csalt_resource_create_file(argv[2], O_WRONLY, 0644);
+		input = csalt_resource_file_open(argv[1], O_RDONLY),
+		output = csalt_resource_file(argv[2], O_WRONLY, 0644);
 
 	/*
 	 * Add them to an array - this will be used to initialize a list
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
 	/*
 	 * Create an array of resource pairs, which will store our list
 	 */
-	struct csalt_resource_pair list[arrlength(resources)] = { 0 };
+	struct csalt_resource_pair list[csalt_arrlength(resources)] = { 0 };
 
 	/*
 	 * This macro wraps a function, taking two in-place arrays and
@@ -91,6 +91,17 @@ int bytewise_copy(csalt_store *store, void *_)
 		*second = csalt_store_pair_list_get(pairs, 1);
 
 	/*
+	 * For safety, ceasoning doesn't allow reading/writing from
+	 * csalt_stores that aren't large enough for the data requested.
+	 *
+	 * This includes files. While normal FILE*s or file descriptors
+	 * will allow you to write past the end to append data,
+	 * ceasoning enforces that you must resize the file first, then
+	 * append.
+	 */
+	csalt_store_resize(second, csalt_store_size(first));
+
+	/*
 	 * csalt_progress is a simple struct storing how much data
 	 * has been transferred, vs. how much we expected.
 	 */
@@ -121,7 +132,11 @@ int bytewise_copy(csalt_store *store, void *_)
 		 * returns the total amount copied across all calls, or -1 if
 		 * there is an error.
 		 */
-		if (csalt_store_transfer(&progress, first, second, 0) < 0)
+		if (csalt_store_transfer(
+			&progress,
+			(csalt_static_store*)first,
+			(csalt_static_store*)second
+		) < 0)
 			return -1;
 	return 0;
 }

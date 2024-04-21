@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['syntactic_20sugar_20for_20common_20c_20tasks_304',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]]
+  ['c_20tasks_0',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]],
+  ['common_20c_20tasks_1',['Syntactic sugar for Common C Tasks',['../index.html',1,'']]]
 ];

@@ -1,0 +1,14 @@
+digraph "csalt_resource_network_socket"
+{
+ // LATEX_PDF_SIZE
+  bgcolor="transparent";
+  edge [fontname=Helvetica,fontsize=10,labelfontname=Helvetica,labelfontsize=10];
+  node [fontname=Helvetica,fontsize=10,shape=box,height=0.2,width=0.4];
+  Node1 [id="Node000001",label="csalt_resource_network\l_socket",height=0.2,width=0.4,color="gray40", fillcolor="grey60", style="filled", fontcolor="black",tooltip="This structure represents a UDP socket."];
+  Node2 -> Node1 [id="edge1_Node000001_Node000002",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" vtable",fontcolor="grey" ];
+  Node2 [id="Node000002",label="csalt_dynamic_resource\l_interface",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$structcsalt__dynamic__resource__interface.html",tooltip="Interface definition for managed resource."];
+  Node3 -> Node1 [id="edge2_Node000001_Node000003",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" udp",fontcolor="grey" ];
+  Node3 [id="Node000003",label="csalt_resource_network\l_socket_initialized",height=0.2,width=0.4,color="gray40", fillcolor="white", style="filled",URL="$structcsalt__resource__network__socket__initialized.html",tooltip="Represents the common features of each kind of network socket."];
+  Node4 -> Node3 [id="edge3_Node000003_Node000004",dir="back",color="darkorchid3",style="dashed",tooltip=" ",label=" network_vtable",fontcolor="grey" ];
+  Node4 [id="Node000004",label="csalt_resource_network\l_initialized_interface",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",URL="$structcsalt__resource__network__initialized__interface.html",tooltip=" "];
+}

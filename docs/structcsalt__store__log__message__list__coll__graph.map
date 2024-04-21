@@ -1,4 +1,0 @@
-<map id="csalt_store_log_message_list" name="csalt_store_log_message_list">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,219,136"/>
-<area shape="rect" id="node2" href="$structcsalt__store__log__message.html" title="A tuple type used by csalt_store_decorator_logger to provide log messages based on the return codes o..." alt="" coords="19,5,205,32"/>
-</map>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['message_265',['message',['../structcsalt__store__log__message.html#ac4584235d590d6cc9c1f54a4e7ccf5c9',1,'csalt_store_log_message']]]
+  ['output_0',['output',['../structcsalt__store__logger.html#a9dda23b3b3ee28f5bed45e50b36384bb',1,'csalt_store_logger']]]
 ];
