@@ -30,5 +30,6 @@
 #include "resource/logger.h"
 #include "resource/mutex.h"
 #include "resource/network.h"
+#include "resource/file.h"
 
 #endif // CSALT_RESOURCES_H

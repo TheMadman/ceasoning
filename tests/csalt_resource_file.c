@@ -250,8 +250,6 @@ int test_size(csalt_store *store, void *_)
 {
 	(void)_;
 
-	lseek_return_value = 10;
-
 	ssize_t result = csalt_store_size(store);
 	if (result != lseek_return_value)
 		print_error_and_exit("Unexpected return value: %ld", result);
@@ -278,8 +276,6 @@ int test_split(csalt_store *store, void *_)
 {
 	(void)_;
 
-	lseek_return_value = 20;
-
 	const int result = csalt_store_split(
 		(csalt_static_store *)store,
 		10,
@@ -300,6 +296,8 @@ int main()
 	SET_IMPL(pread, pread_mock);
 	SET_IMPL(pwrite, pwrite_mock);
 	SET_IMPL(lseek, lseek_mock);
+
+	lseek_return_value = 1 << 20;
 
 	struct csalt_resource_file
 		file = csalt_resource_file(FILENAME, O_RDWR, 0644);

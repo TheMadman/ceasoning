@@ -115,7 +115,7 @@ ssize_t csalt_store_file_read(
 )
 {
 	file_store_t *file = (file_store_t *)store;
-	amount = csalt_max(
+	amount = csalt_min(
 		amount,
 		file->end - file->begin);
 	return pread(
@@ -132,7 +132,7 @@ ssize_t csalt_store_file_write(
 )
 {
 	file_store_t *file = (file_store_t *)store;
-	amount = csalt_max(
+	amount = csalt_min(
 		amount,
 		file->end - file->begin);
 	return pwrite(
@@ -171,7 +171,7 @@ int csalt_store_file_split(
 ssize_t csalt_store_file_size(csalt_store *store)
 {
 	file_store_t *file = (file_store_t *)store;
-	lseek(file->fd, 0, SEEK_END);
+	file->end = lseek(file->fd, 0, SEEK_END);
 	return file->end - file->begin;
 }
 
